@@ -5,3 +5,80 @@
 .song-clip{
 	margin-bottom: 5px;
 }
+
+.songs-details {
+	margin-bottom: 40px;
+}
+
+.main-play-btn {
+	position: relative;
+	width: 80px;
+	height: 42px;
+	background-image: url('/assets/play_main_btn.png');
+}
+
+.main-play-btn.paused {
+	background-image: url('/assets/pause_main_btn.png');
+}
+
+.clips {
+	width: 100px;
+	display: inline-block;
+}
+
+.clips.playing {
+	background-color: black;
+}
+
+.clip {
+	position: relative;
+	width: 100px;
+	height: 44px;
+	margin-bottom: 3px;
+    margin-right: 3px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.clip.bordered {
+	border: 2px solid white;
+	border-radius: 5px;
+	background-image: none !important;
+}
+
+.clip.paused {
+	background-image: url ('');
+}
+
+.opaque-gray {
+	width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 5px;
+    display: none;
+	pointer-events: none;
+}
+
+.clip.muted .opaque-gray {
+	display: block;
+}
+
+.play-btn {
+	position: absolute;
+    top: 50%;
+    left: 0px;
+    width: 35px;
+    height: 18px;
+    margin-top: -9px;
+	background-image: url('/assets/play_small.png');
+	display: none;
+}
+
+.play-btn.paused {
+	background-image: url('/assets/pause_small.png');
+}
+
+#song-clips .clips.playing .play-btn {
+	display: block;
+}
