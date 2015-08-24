@@ -14,19 +14,26 @@
 <div id="song-clips" class="row">
     <div class="row" style="margin-bottom: 30px;">
     <center>
+    <% leftLevels = %w(Vox Bass Drums Inst Rmx1 Rmx2 Rmx3 Rmx4) %>
+    <% bottomLevels = %w(intro Verse1 Inst Chorus1 Breakdown Verse2 Verse3 Outro) %>
     <% for r in 1..8 %>
         <div id="clips-<%=r%>" class="clips <%='playing' if r == 1 %>">
+            <div class="part-play-btn"></div>
             <% for c in 1..8 %>
                 <% if c == 5%>
                     <div class="clip bordered">
                         <div class="play-btn"></div>
                     </div>
                 <% end %>
+                <% if r == 1 %>
+                  <div class="level left"><%=leftLevels[c-1]%></div>
+                <% end %>
                 <div id="clip-part-<%=r%>-<%=c%>" class="clip" data-row="<%=r%>" data-column="<%=c%>" style="background-image: url('/assets/<%=c%>.png')">
                     <div class="opaque-gray"></div>
                     <div class="play-btn"></div>
                 </div>
             <% end %>
+            <div class="level"><%=bottomLevels[r - 1]%></div>
         </div>
     <% end %>
     </center>
@@ -89,17 +96,17 @@
      }
 
      $(document).ready(function(){
-        $(".main-play-btn").click(function(event){
+        $(".part-play-btn").click(function(event){
             event.stopPropagation();
             if (!$("#clips-"+(index+1)).hasClass('playing')) {
               $("#clips-"+(index+1)).addClass('playing');
             };
 
             // Play or Paused Sound Clips
-            $(event.target).toggleClass('paused');
+            $(event.target).toggleClass('playing');
             for (var i = 1; i <= 8; i++) {
                 var sound = sounds[index][i];
-                if ($(event.target).hasClass('paused')) {
+                if ($(event.target).hasClass('playing')) {
                     sound.play();
                 } else {
                     sound.pause();

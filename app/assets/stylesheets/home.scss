@@ -22,12 +22,30 @@
 }
 
 .clips {
+	position: relative;
 	width: 100px;
 	display: inline-block;
+	border-radius: 6px;
 }
 
 .clips.playing {
 	background-color: black;
+}
+
+.level {
+	position: relative;
+	width: 100px;
+	margin-bottom: 3px;
+    display: inline-block;
+    color: white;
+}
+
+.level.left {
+	height: 44px;
+	line-height: 44px;
+	position: absolute;
+    left: -100px;
+    font-size: 18px;
 }
 
 .clip {
@@ -54,10 +72,10 @@
 .opaque-gray {
 	width: 100%;
     height: 100%;
-    background-color: lightgray;
     border-radius: 5px;
     display: none;
 	pointer-events: none;
+	background-image: url('/assets/clip_muted.png');
 }
 
 .clip.muted .opaque-gray {
@@ -81,4 +99,26 @@
 
 #song-clips .clips.playing .play-btn {
 	display: block;
+}
+
+.part-play-btn {
+	position: relative;
+	width: 100px;
+	height: 44px;
+	margin-bottom: 3px;
+    margin-right: 3px;
+    display: inline-block;
+    cursor: pointer;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: center 6px;
+}
+
+#song-clips .clips.playing .part-play-btn {
+	background-image: url('/assets/play_medium.png');
+    pointer-events: all;
+}
+
+#song-clips .clips.playing .part-play-btn.playing {
+	background-image: url('/assets/pause_medium.png');
 }
