@@ -18,7 +18,7 @@
     <% bottomLevels = %w(intro Verse1 Inst Chorus1 Breakdown Verse2 Verse3 Outro) %>
     <% for r in 1..8 %>
         <div id="clips-<%=r%>" class="clips <%='playing' if r == 1 %>">
-            <div class="part-play-btn"></div>
+            <div class="part-play-btn" data-row="<%=r%>"></div>
             <% for c in 1..8 %>
                 <% if c == 5%>
                     <div class="clip bordered">
@@ -83,14 +83,15 @@
             $("#clips-"+index).removeClass("playing");
             if (index >= 8) { 
               index = 0;
-              return 
+              $("#clips-"+(index+1)).addClass('playing');
+              $('.part-play-btn').removeClass('playing');
+              return; 
             };
 
             playNext();
             if (!$("#clips-"+(index+1)).hasClass('playing')) {
               $("#clips-"+(index+1)).addClass('playing');
             };
-            $("#clips-"+(index+1)).addClass("playing");
             for (var i = 1; i <= 8; i++) {
                 var sound = sounds[index][i];
                 sound.play();
@@ -104,8 +105,12 @@
      $(document).ready(function(){
         $(".part-play-btn").click(function(event){
             event.stopPropagation();
-            if (!$("#clips-"+(index+1)).hasClass('playing')) {
-              $("#clips-"+(index+1)).addClass('playing');
+            var row = $(event.target).data('row');
+            if (row != index + 1) { return };
+
+            // Add playing if not already
+            if (!$(event.target).parent().hasClass('playing')) {
+              $(event.target).parent().addClass('playing');
             };
 
             // Play or Paused Sound Clips
