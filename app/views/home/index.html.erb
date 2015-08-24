@@ -28,12 +28,12 @@
                 <% if r == 1 %>
                   <div class="level left"><%=leftLevels[c-1]%></div>
                 <% end %>
-                <div id="clip-part-<%=r%>-<%=c%>" class="clip" data-row="<%=r%>" data-column="<%=c%>" style="background-image: url('/assets/<%=c%>.png')">
+                <div id="clip-part-<%=r%>-<%=c%>" class="clip clip-<%=c%>" data-row="<%=r%>" data-column="<%=c%>">
                     <div class="opaque-gray"></div>
                     <div class="play-btn"></div>
                 </div>
             <% end %>
-            <div class="level"><%=bottomLevels[r - 1]%></div>
+            <div class="level"><%=bottomLevels[r-1]%></div>
         </div>
     <% end %>
     </center>
@@ -87,6 +87,9 @@
             };
 
             playNext();
+            if (!$("#clips-"+(index+1)).hasClass('playing')) {
+              $("#clips-"+(index+1)).addClass('playing');
+            };
             $("#clips-"+(index+1)).addClass("playing");
             for (var i = 1; i <= 8; i++) {
                 var sound = sounds[index][i];
@@ -94,6 +97,9 @@
             };
         });  
      }
+
+     // Intialize all sound clips for play
+     intializeSoundClips();
 
      $(document).ready(function(){
         $(".part-play-btn").click(function(event){
@@ -103,7 +109,7 @@
             };
 
             // Play or Paused Sound Clips
-            $(event.target).toggleClass('playing');
+            $('.part-play-btn').toggleClass('playing');
             for (var i = 1; i <= 8; i++) {
                 var sound = sounds[index][i];
                 if ($(event.target).hasClass('playing')) {
@@ -137,8 +143,5 @@
             console.log("Play Button Clicked : ", row, column);
 
         });
-
-        // Intialize all sound clips for play
-        intializeSoundClips();
      });
  </script>
