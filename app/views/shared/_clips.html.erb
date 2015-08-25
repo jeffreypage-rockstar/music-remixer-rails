@@ -31,7 +31,7 @@
     <div class="row">
         <% bottomLevels = %w(intro Verse1 Inst Chorus1 Breakdown Verse2 Verse3 Outro) %>
         <% clips = @song.read_zip_file %>
-        <% clips.each_with_index do |(key, value), r| %>
+        <% clips && clips.each_with_index do |(key, value), r| %>
             <div id="clips-<%=r+1%>" class="clips <%='playing' if r + 1 == currentIndex %>">
                 <div class="part-play-btn" data-row="<%=r+1%>"></div>
                 <% value.each_with_index do |clip, c| %>

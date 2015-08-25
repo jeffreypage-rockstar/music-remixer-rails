@@ -8,11 +8,16 @@ class Song < ActiveRecord::Base
 	
 	def read_zip_file
 		return nil if self.zipfile.blank?
+		return nil unless self.zipfile.url.include?("zip")
+
 
 		# Folder and Zip file path
 		fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
 		dirPath = "#{Rails.root}/public#{fileUploadPath}"
 		folder = "#{Rails.root}/public#{self.zipfile}"
+
+		# If valid zip file
+		return nil unless Song.valid_zip?(folder)
 
 		# Extract file in same folder
 		clips = Hash.new
@@ -39,5 +44,14 @@ class Song < ActiveRecord::Base
 			end
 		end
 		clips
+	end
+
+	def self.valid_zip?(file)
+		zip = Zip::File.open(file)
+		  true
+		rescue StandardError
+		  false
+		ensure
+		  zip.close if zip
 	end
 end
