@@ -11,9 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818064255) do
+ActiveRecord::Schema.define(version: 20150825110235) do
 
   create_table "songs", force: :cascade do |t|
+    t.string   "name"
+    t.float    "duration"
+    t.text     "zipfile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
