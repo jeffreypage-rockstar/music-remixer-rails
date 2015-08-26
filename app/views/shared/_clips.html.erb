@@ -14,8 +14,7 @@
 
 <!-- Songs Segment Area Start -->
 <% currentIndex = 1 %>
-
-<div id="song-clips" class="row">
+<div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
     <!-- Songs Details Area Start -->
     <div class="row" style="margin-bottom: 50px;">
         <div class="col-md-4">
@@ -30,26 +29,33 @@
     <!-- Songs Details Area End -->
     <div class="row">
         <% bottomLevels = %w(intro Verse1 Inst Chorus1 Breakdown Verse2 Verse3 Outro) %>
-        <% clips = @song.read_zip_file %>
-        <% clips && clips.each_with_index do |(key, value), r| %>
-            <div id="clips-<%=r+1%>" class="clips <%='playing' if r + 1 == currentIndex %>">
-                <div class="part-play-btn" data-row="<%=r+1%>"></div>
-                <% value.each_with_index do |clip, c| %>
-                    <% if c == 4 %>
-                        <div class="clip bordered">
+        <% clips = @song.readZipFile %>
+        <% unless clips %>
+            <h2>Please upload proper ZIP File</h2>
+        <% else %>
+            <% clips.each_with_index do |(key, value), r| %>
+                <% r += 1 %>
+                <div id="clips-<%=r%>" class="clips<%=' focus' if r == currentIndex %>">
+                    <div class="part-play-btn" data-row="<%=r%>"></div>
+                    <% value.each_with_index do |clip, c| %>
+                        <% c += 1 %>
+                        <% if c == 5 %>
+                            <div class="clip bordered">
+                                <div class="play-btn"></div>
+                            </div>
+                        <% end %>
+                        <% if r == 1 %>
+                          <div class="level left"><%=clip[:level]%></div>
+                        <% end %>
+                        <% clipSate = @song.clipState(r, c) %>
+                        <div id="clip-part-<%=r%>-<%=c%>" class="clip clip-<%=c%><%=' muted' unless clipSate%>" data-row="<%=r%>" data-column="<%=c%>" data-path="<%=clip[:filePath]%>" data-state="<%=clipSate%>">
+                            <div class="opaque-gray"></div>
                             <div class="play-btn"></div>
                         </div>
                     <% end %>
-                    <% if r == 0 %>
-                      <div class="level left"><%=clip[:level]%></div>
-                    <% end %>
-                    <div id="clip-part-<%=r+1%>-<%=c+1%>" class="clip clip-<%=c+1%>" data-row="<%=r+1%>" data-column="<%=c+1%>" data-path="<%=clip[:filePath]%>">
-                        <div class="opaque-gray"></div>
-                        <div class="play-btn"></div>
-                    </div>
-                <% end %>
-                <div class="level"><%=bottomLevels[r]%></div>
-            </div>
+                    <div class="level"><%=bottomLevels[r]%></div>
+                </div>
+            <% end %>
         <% end %>
     </div>
 </div>
@@ -63,46 +69,47 @@
         $(".clips").each(function(){
           sounds[i] = {};
           j = 1
-          $(this).children('.clip').each(function(){
+          $(this).find('.clip').each(function(){
             if ($(this).hasClass('bordered')) { return };
             sound = new Audio($(this).data('path'));       
             sounds[i][j] = sound;
             sounds[i][j].buffered;
+            if (!$(this).data('state')) {
+                sounds[i][j].volume = 0;
+            };
             sounds[i][j].addEventListener('loadedmetadata', function() {
                 // console.log("Playing " + this.src + ", for: " + this.duration + "seconds.");
             });
             j++;
           })
           i++;
-        })
-
+        });
         playNext();
      }
 
      function playNext() {
         console.log("Index =>", index);
         if (index > $(".clips").length) { return };
-        sounds[index][8].addEventListener("ended", function() {
-            console.log(index+ " Clip ended !!!");
-            $("#clips-"+index).removeClass("playing");
-            
-            index++; 
-            if (index > 8) { 
-              index = 1;
-              $("#clips-"+index).addClass('playing');
-              $('.part-play-btn').removeClass('playing');
-              return; 
-            };
+        sounds[index][8].addEventListener("ended", clipEndedCallback);  
+     }
 
-            playNext();
-            if (!$("#clips-"+index).hasClass('playing')) {
-              $("#clips-"+index).addClass('playing');
-            };
-            for (var i = 1; i <= 8; i++) {
-                var sound = sounds[index][i];
-                sound.play();
-            };
-        });  
+     function clipEndedCallback() {
+        console.log(index+ " Clip ended !!!");
+        $("#clips-"+index).removeClass('focus').removeClass('playing');
+        
+        index++; 
+        if (index > 8) { 
+          index = 1;
+          $("#clips-"+index).addClass('focus').removeClass('playing');
+          return; 
+        };
+
+        playNext();
+        $("#clips-"+index).addClass('focus playing');
+        for (var i = 1; i <= 8; i++) {
+            var sound = sounds[index][i];
+            sound.play();
+        };
      }
 
      // Intialize all sound clips for play
@@ -114,16 +121,15 @@
             var row = $(event.target).data('row');
             if (row != index) { return };
 
-            // Add playing if not already
-            if (!$(event.target).parent().hasClass('playing')) {
-              $(event.target).parent().addClass('playing');
-            };
+            // Stop any signle player
+            stopSinglePlayer(true);
 
+            // Add playing if not already
+            $(event.target).parent().toggleClass('playing');
             // Play or Paused Sound Clips
-            $('.part-play-btn').toggleClass('playing');
             for (var i = 1; i <= 8; i++) {
                 var sound = sounds[index][i];
-                if ($(event.target).hasClass('playing')) {
+                if ($(event.target).parent().hasClass('playing')) {
                     sound.play();
                 } else {
                     sound.pause();
@@ -135,25 +141,76 @@
             event.stopPropagation();
             var row = $(event.target).data('row');
             var column = $(event.target).data('column');
-            console.log("Clip Clicked : ", row, column);
             $(event.target).toggleClass('muted');
-            if (sounds[row]) {
-               var sound = sounds[row][column];
-                if(sound.volume == 0) {
-                    sound.volume = 1;
-                } else {
-                    sound.volume = 0;
-                } 
-            }
+            var sound = sounds[row][column];
+            if(sound.volume == 0) {
+                sound.volume = 1;
+            } else {
+                sound.volume = 0;
+            } 
+            var song_id = $(event.target).parents(".song-clips").data('id');
+            var state_url = "/songs/"+song_id+"/clips/state"
+            $.post(state_url,{ clip: { row: row, column: column, state: sound.volume } } );
         });
 
+        var singleSound = false;
+        var singleSoundRow = 0;
+        var singleSoundColumn = 0;
         $(".clip .play-btn").click(function(event){
             event.stopPropagation();
             var row = $(event.target).parent().data('row');
             var column = $(event.target).parent().data('column');
             console.log("Play Button Clicked : ", row, column);
+            $(event.target).toggleClass('paused');
+            if (singleSoundRow == row && singleSoundColumn == column) {
+                if (singleSound.paused) {
+                    singleSound.play();
+                } else {
+                    singleSound.pause();    
+                }
+                return;
+            };
 
+            sounds[index][8].removeEventListener("ended", clipEndedCallback); 
+            $(".clips.playing").removeClass('playing');
+            for (var i = 1; i <= 8; i++) {
+                var sound = sounds[index][i];
+                if (sound.duration > 0) { sound.currentTime = 0; };
+                if (!sound.paused) { sound.pause(); };
+            }; 
+
+            singleSoundRow = row;
+            singleSoundColumn = column;
+            stopSinglePlayer(false);
+
+            $(event.target).addClass('paused');
+            singleSound = sounds[row][column];
+            singleSound.currentTime = 0;
+            singleSound.play();
+            singleSound.addEventListener("ended", singleClipEndedCallback); 
         });
+
+        function singleClipEndedCallback() {
+            singleSound.currentTime = 0;
+            singleSound.pause();
+            $(".play-btn").removeClass("paused");
+        }
+
+        function stopSinglePlayer(reset) {
+            if (singleSound) {
+                if (singleSound.duration > 0) singleSound.currentTime = 0;
+                if (!singleSound.paused) {
+                    singleSound.pause();
+                    $(".play-btn").removeClass("paused");
+                };
+                singleSound.removeEventListener("ended", singleClipEndedCallback); 
+                if (reset && singleSoundRow != 0) {
+                    singleSoundRow = singleSoundColumn= 0;
+                    playNext();
+                }
+                singleSound = false;
+            };
+        }
      });
  </script>
  <% end %>

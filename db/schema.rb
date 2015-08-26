@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825110235) do
+ActiveRecord::Schema.define(version: 20150826052325) do
+
+  create_table "clips", force: :cascade do |t|
+    t.integer  "song_id"
+    t.string   "name"
+    t.integer  "row"
+    t.integer  "column"
+    t.float    "duration"
+    t.boolean  "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "songs", force: :cascade do |t|
     t.string   "name"

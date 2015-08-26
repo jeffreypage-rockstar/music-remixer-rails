@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  resources :songs
+  resources :songs do
+    resources :clips do
+      collection do
+        post :state
+      end
+    end
+  end
   get 'home/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
