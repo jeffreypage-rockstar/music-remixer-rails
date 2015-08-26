@@ -1,19 +1,9 @@
 <% unless @song %>
     <h2 style="text-align: center;">No Segmented Audio Zip File Found </h2>
 <% else %>
-<!-- Main player Area Start -->
-<div class="row songs-details">
-    <div class="col-md-4"></div>
-    <div class="col-md-8">
-        <div class="row">
-            <div class="main-play-btn"></div>
-        </div>
-    </div>
-</div>
-<!-- Main player Area End -->
 
 <!-- Songs Segment Area Start -->
-<% currentIndex = 1 %>
+<% currentIndex = 8 %>
 <div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
     <!-- Songs Details Area Start -->
     <div class="row" style="margin-bottom: 50px;">
@@ -28,6 +18,7 @@
     </div>
     <!-- Songs Details Area End -->
     <div class="row">
+        <div class="col-md-9">
         <% bottomLevels = %w(intro Verse1 Inst Chorus1 Breakdown Verse2 Verse3 Outro) %>
         <% clips = @song.readZipFile %>
         <% unless clips %>
@@ -57,15 +48,25 @@
                 </div>
             <% end %>
         <% end %>
+        </div>
+        <div class="col-md-3">
+            <div class="iPhone">
+                <div class="mic"></div>
+                <div class="speaker"></div>
+                <div class="home-btn"></div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- Songs Segment Area End -->
 
 <script type="text/javascript">
-     var index = <%= currentIndex %>, sounds = {};
+     var index = <%= currentIndex %>; 
+     console.log("index ", index);
+     window.sounds = sounds = {};
      function intializeSoundClips() {
         var i = 1;
-        var sound = null;
+        sound = null;
         $(".clips").each(function(){
           sounds[i] = {};
           j = 1
@@ -84,31 +85,45 @@
           })
           i++;
         });
+        window.sounds = sounds;
         playNext();
      }
 
-     function playNext() {
-        console.log("Index =>", index);
+     playNext = function() {
         if (index > $(".clips").length) { return };
         sounds[index][8].addEventListener("ended", clipEndedCallback);  
      }
 
-     function clipEndedCallback() {
-        console.log(index+ " Clip ended !!!");
+     clipEndedCallback = function() {
+        console.log(index+ " part's clip ended. Playing next !!!");
         $("#clips-"+index).removeClass('focus').removeClass('playing');
         
         index++; 
         if (index > 8) { 
           index = 1;
+          $(".full-play-btn").removeClass('playing');
           $("#clips-"+index).addClass('focus').removeClass('playing');
+          playNext();    
           return; 
         };
 
         playNext();
-        $("#clips-"+index).addClass('focus playing');
+        $("#clips-"+index).addClass('focus');
         for (var i = 1; i <= 8; i++) {
             var sound = sounds[index][i];
             sound.play();
+        };
+     }
+
+     partClipEndedCallback = function() {
+        console.log(index+ " Part's clip ended !!!");
+        $("#clips-"+index).removeClass('playing');
+        sounds[index][8].removeEventListener("ended", partClipEndedCallback);  
+        window.isPartPlayerStarted = false;
+        for (var i = 1; i <= 8; i++) {
+            var sound = sounds[index][i];
+            if (!sound.paused) sound.pause();
+            sound.currentTime = 0;
         };
      }
 
@@ -124,16 +139,29 @@
             // Stop any signle player
             stopSinglePlayer(true);
 
-            // Add playing if not already
-            $(event.target).parent().toggleClass('playing');
             // Play or Paused Sound Clips
             for (var i = 1; i <= 8; i++) {
                 var sound = sounds[index][i];
-                if ($(event.target).parent().hasClass('playing')) {
+                if (!window.isPartPlayerStarted) {
+                    sound.currentTime = 0;
+                    sound.pause();
+                };
+
+                if (sound.paused) {
+                    $(event.target).parent().addClass('playing');
                     sound.play();
                 } else {
+                    $(event.target).parent().removeClass('playing');
                     sound.pause();
                 }
+            };
+
+            // If playing or not played yet from main player
+            if (!window.isPartPlayerStarted) {
+                $(".full-play-btn").removeClass('playing');
+                sounds[index][8].removeEventListener("ended", clipEndedCallback); 
+                sounds[index][8].addEventListener("ended", partClipEndedCallback);  
+                window.isPartPlayerStarted = true;
             };
         });
 
@@ -160,12 +188,12 @@
             event.stopPropagation();
             var row = $(event.target).parent().data('row');
             var column = $(event.target).parent().data('column');
-            console.log("Play Button Clicked : ", row, column);
-            $(event.target).toggleClass('paused');
             if (singleSoundRow == row && singleSoundColumn == column) {
                 if (singleSound.paused) {
+                    $(event.target).addClass('paused');
                     singleSound.play();
                 } else {
+                    $(event.target).removeClass('paused');
                     singleSound.pause();    
                 }
                 return;
@@ -188,21 +216,20 @@
             singleSound.currentTime = 0;
             singleSound.play();
             singleSound.addEventListener("ended", singleClipEndedCallback); 
+            window.isPartPlayerStarted = false;
         });
 
-        function singleClipEndedCallback() {
+        singleClipEndedCallback = function() {
             singleSound.currentTime = 0;
             singleSound.pause();
             $(".play-btn").removeClass("paused");
         }
 
-        function stopSinglePlayer(reset) {
+        stopSinglePlayer = function(reset) {
             if (singleSound) {
+                $(".play-btn").removeClass("paused");
                 if (singleSound.duration > 0) singleSound.currentTime = 0;
-                if (!singleSound.paused) {
-                    singleSound.pause();
-                    $(".play-btn").removeClass("paused");
-                };
+                if (!singleSound.paused) singleSound.pause();
                 singleSound.removeEventListener("ended", singleClipEndedCallback); 
                 if (reset && singleSoundRow != 0) {
                     singleSoundRow = singleSoundColumn= 0;

@@ -21,6 +21,11 @@
  	color: white;
  }
 
+ .row {
+ 	margin-left: 0px;
+    margin-right: 0px;
+ }
+
  input {
  	color: black;
  }
@@ -30,18 +35,19 @@
 	margin-bottom: 5px;
 }
 
-.songs-details {
+.main-player-area {
+	height: 162px;
 	margin-bottom: 40px;
 }
 
-.main-play-btn {
+.full-play-btn {
 	position: relative;
 	width: 80px;
 	height: 42px;
 	background-image: image-url('play_main_btn.png');
 }
 
-.main-play-btn.paused {
+.full-play-btn.playing {
 	background-image: image-url('pause_main_btn.png');
 }
 
@@ -148,12 +154,16 @@
 .play-btn {
 	position: absolute;
     top: 50%;
-    left: 0px;
-    width: 35px;
+    left: 5px;
+    width: 19px;
     height: 18px;
     margin-top: -9px;
 	background-image: image-url('play_small.png');
 	display: none;
+}
+
+.clip.bordered .play-btn {
+	left: 3px;
 }
 
 .play-btn.paused {
@@ -182,4 +192,53 @@
 
 #song-clips .clips.focus.playing .part-play-btn {
 	background-image: image-url('pause_medium.png');
+}
+
+.iPhone {
+	position: relative;
+    display: none;
+	width: 220px;
+    height: 380px;
+    border-top: 55px solid black;
+    border-bottom: 55px solid black;
+    border-left: 10px solid black;
+    border-right: 10px solid black;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.iPhone .mic {
+	position: absolute;
+	width: 10px;
+    height: 10px;
+    top: -35px;
+    left: 50%;
+    margin-left: -5px;
+    box-shadow: inset 0px -3px 12px -5px #C1A3A3;
+    border-radius: 25px;
+}
+
+.iPhone .speaker {
+	position: absolute;
+    width: 60px;
+    height: 10px;
+    top: -20px;
+    left: 50%;
+    margin-left: -30px;
+    box-shadow: inset 0px -1px 16px -4px #827A7A;
+    border-radius: 25px;
+}
+
+.iPhone .home-btn {
+	width: 35px;
+    height: 35px;
+    position: absolute;
+    background-color: #23211E;
+    border-radius: 25px;
+    bottom: -44px;
+    left: 50%;
+    margin-left: -17.5px;
+    box-shadow: inset 0px -3px 12px -5px #C1A3A3;
 }
