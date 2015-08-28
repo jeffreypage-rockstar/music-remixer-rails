@@ -55,3 +55,6 @@ end
 group :production do
 	gem 'pg'
 end
+
+gem 'taglib-ruby', '~> 0.7.0'
+

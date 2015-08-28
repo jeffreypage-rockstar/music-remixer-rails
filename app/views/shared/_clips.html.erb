@@ -3,14 +3,14 @@
 <% else %>
 
 <!-- Songs Segment Area Start -->
-<% currentIndex = 8 %>
+<% currentIndex = 1 %>
 <div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
     <!-- Songs Details Area Start -->
     <div class="row" style="margin-bottom: 50px;">
         <div class="col-md-4">
             <p>Song Configuration</p>
             <p>Name: <%= @song.name %></p>
-            <p>Time: <%= @song.duration %></p>
+            <p>Time: <%= Time.at(@song.duration).utc.strftime("%M:%S") %></p>
         </div>
         <div class="col-md-8">
             <p>Part Configuration</p>
