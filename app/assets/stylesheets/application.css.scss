@@ -31,7 +31,7 @@
  }
 
 
-.song-clip{
+.song-clip {
 	margin-bottom: 5px;
 }
 
@@ -52,7 +52,7 @@
 }
 
 #song-clips {
-	margin: 0 78px;
+	margin: 0 78px 35px;
 }
 
 .clips {
@@ -138,6 +138,10 @@
 	background-image: image-url ('');
 }
 
+.clip wave {
+    pointer-events: none;
+}
+
 .opaque-gray {
 	width: 100%;
     height: 100%;
@@ -145,6 +149,8 @@
     display: none;
 	pointer-events: none;
 	background-image: image-url('clip_muted.png');
+    position: absolute;
+    z-index: 99;
 }
 
 .clip.muted .opaque-gray {
@@ -160,6 +166,7 @@
     margin-top: -9px;
 	background-image: image-url('play_small.png');
 	display: none;
+    z-index: 100;
 }
 
 .clip.bordered .play-btn {

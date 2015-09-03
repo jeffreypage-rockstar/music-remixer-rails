@@ -44,7 +44,7 @@
                             <div class="play-btn"></div>
                         </div>
                     <% end %>
-                    <div class="level"><%=bottomLevels[r]%></div>
+                    <div class="level"><%=bottomLevels[r-1]%></div>
                 </div>
             <% end %>
         <% end %>
@@ -64,15 +64,17 @@
      var index = <%= currentIndex %>; 
      console.log("index ", index);
      window.sounds = sounds = {};
+     window.wavesurfers = wavesurfers = {};
      function intializeSoundClips() {
         var i = 1;
-        sound = null;
+        var sound = wavesurfer = null;
         $(".clips").each(function(){
-          sounds[i] = {};
+          sounds[i] = wavesurfers[i] = {};
           j = 1
           $(this).find('.clip').each(function(){
             if ($(this).hasClass('bordered')) { return };
-            sound = new Audio($(this).data('path'));       
+            sound = new Audio($(this).data('path')); 
+            sound.container = this;     
             sounds[i][j] = sound;
             sounds[i][j].buffered;
             if (!$(this).data('state')) {
@@ -80,7 +82,9 @@
             };
             sounds[i][j].addEventListener('loadedmetadata', function() {
                 // console.log("Playing " + this.src + ", for: " + this.duration + "seconds.");
+                showWaveForm(this);
             });
+
             j++;
           })
           i++;
@@ -88,6 +92,22 @@
         window.sounds = sounds;
         playNext();
      }
+
+     function showWaveForm(sound) {
+        var wavesurfer = Object.create(WaveSurfer);
+        wavesurfer.init({
+            container: sound.container,
+            fillParent: true,
+            height: 17,
+            waveColor: 'black',
+            progressColor: 'purple',
+            splitChannels: true
+        });
+        // wavesurfer.on('ready', function () {
+        //     wavesurfer.play();
+        // });
+        wavesurfer.load(sound.src);
+    }
 
      playNext = function() {
         if (index > $(".clips").length) { return };
@@ -128,9 +148,12 @@
      }
 
      // Intialize all sound clips for play
-     intializeSoundClips();
+     // intializeSoundClips();
 
      $(document).ready(function(){
+        // Intialize all sound clips for play
+        intializeSoundClips();
+
         $(".part-play-btn").click(function(event){
             event.stopPropagation();
             var row = $(event.target).data('row');
@@ -188,6 +211,9 @@
             event.stopPropagation();
             var row = $(event.target).parent().data('row');
             var column = $(event.target).parent().data('column');
+            if (!row || !column) { return };
+
+            // If already playing same audio file
             if (singleSoundRow == row && singleSoundColumn == column) {
                 if (singleSound.paused) {
                     $(event.target).addClass('paused');

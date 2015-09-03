@@ -50,6 +50,15 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-ext',     require: false
+  gem 'capistrano-faster-assets', '~> 1.0.2'
+  # gem 'capistrano-unicorn', '~> 0.2.0'
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :production do
@@ -57,4 +66,4 @@ group :production do
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
-
+gem 'wavesurfer', '~> 0.0.1'
