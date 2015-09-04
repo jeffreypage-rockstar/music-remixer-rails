@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '162.243.147.223', user: 'rails', roles: %w{app db web}
+server '162.243.147.223', user: 'deploy', roles: %w{app db web}
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
@@ -30,7 +30,7 @@ server '162.243.147.223', user: 'rails', roles: %w{app db web}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-set :deploy_to, '/var/www/akashic'
+set :deploy_to, '/home/deploy/akashic'
 set :bundle_env_variables, { 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1 }
 set :rvm_ruby_string, 'ruby 2.2.1p85'
 set :rvm_type, :system
@@ -50,7 +50,7 @@ set :rails_env, "production"
 # --------------
  set :ssh_options, {
    keys: %w(~/.ssh/id_rsa),
-   forward_agent: false,
+   forward_agent: true,
    auth_methods: %w(password)
  }
 #
