@@ -30,8 +30,8 @@ server '162.243.147.223', user: 'deploy', roles: %w{app db web}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-set :deploy_to, '/home/deploy/akashic'
-set :bundle_env_variables, { 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1 }
+set :deploy_to, '/var/deploy/akashic'
+# set :bundle_env_variables, { 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1 }
 set :rvm_ruby_string, 'ruby 2.2.1p85'
 set :rvm_type, :system
 # set :rvm_custom_path, '/home/ubuntu/.rvm'  # only needed if not detected

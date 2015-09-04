@@ -2,14 +2,17 @@
 lock '3.4.0'
 
 set :application, 'akashic'
-set :repo_url, 'https://astha_jaitly@bitbucket.org/8stem/akashic-nga.git'
+
+set :repo_url, 'git@bitbucket.org:8stem/akashic-nga.git'
 set :deploy_via, :remote_cache
+# set :branch, "master"
+set :branch, "capistrano"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/deploy/akashic'
+set :deploy_to, '/var/deploy/akashic'
 
 # Default value for :scm is :git
 # set :scm, :git
