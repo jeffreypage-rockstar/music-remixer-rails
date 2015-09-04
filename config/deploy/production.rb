@@ -50,7 +50,7 @@ set :rails_env, "production"
 # --------------
  set :ssh_options, {
    verbose: :debug,
-   keys: %w(~/.ssh/id_rsa),
+   keys: %w(~/.ssh/id_rsa.pub),
    forward_agent: true,
    auth_methods: %w(password)
  }
