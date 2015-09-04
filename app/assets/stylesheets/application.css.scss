@@ -249,3 +249,48 @@
     margin-left: -17.5px;
     box-shadow: inset 0px -3px 12px -5px #C1A3A3;
 }
+
+ul#song-info {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul#song-info li {
+    height: 30px;
+    line-height: 30px;
+}
+
+.name-editor {
+    height: 30px;
+    line-height: 30px;
+}
+
+.name-editor > .name {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;  
+}
+
+.name-editor label {
+    display: block;
+    float: left;
+    font-weight: normal;
+    margin: 0;
+}
+
+.name-editor #song_name {
+    line-height: 17px;
+}
+
+.name-editor > .edit, .name-editor.editing > span {
+    display: none;
+}
+
+.name-editor.editing > .edit {
+    display: block;
+}
