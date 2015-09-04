@@ -5,8 +5,8 @@ set :application, 'akashic'
 
 set :repo_url, 'git@bitbucket.org:8stem/akashic-nga.git'
 set :deploy_via, :remote_cache
-# set :branch, "master"
-set :branch, "capistrano"
+set :branch, "master"
+# set :branch, "capistrano"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
