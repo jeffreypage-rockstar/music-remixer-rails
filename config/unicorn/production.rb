@@ -1,6 +1,6 @@
-root = "/var/deploy/akashic/current"
+root = "/var/deploy/akashic"
 shared_dir = "#{root}/shared"
-working_directory root
+working_directory "#{root}/current"
 
 pid "#{shared_dir}/tmp/pids/unicorn.pid"
 
