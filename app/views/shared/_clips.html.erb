@@ -59,6 +59,68 @@
     </div>
 </div>
 <!-- Songs Segment Area End -->
+<script>
+    // create WebAudio API context
+    var context = new AudioContext();
+
+    // Create lineOut
+    var lineOut = new WebAudiox.LineOut(context)
+
+    var clipBuffer;
+    window.source = null;
+    var startPosition;
+    var lastPlay;
+    // load a sound and play it immediatly
+    WebAudiox.loadBuffer(context, '/uploads/songs/33/jai_ambe/O-Vocals_1h.m4a', function(buffer){
+        // init AudioBufferSourceNode
+        clipBuffer = buffer;
+
+        startPosition = 0;
+        lastPlay = context.currentTime;
+        console.log("............");
+    });
+
+    function createSource() {
+        var source = context.createBufferSource();
+        source.buffer = clipBuffer;
+        source.connect(lineOut.destination);
+        return source;
+    }
+
+    window.playAudio = function(start, end) {
+        window.source = createSource();
+        
+        var adjustedTime = seekTo(start, end);
+
+        start = adjustedTime.start;
+        end = adjustedTime.end;
+
+        console.log("Start : ", start, " End : ", end);
+        source.start(0, start, end - start);
+    }
+
+    function seekTo(start, end) {
+        if (start == null) {
+            start =  startPosition + (context.currentTime - lastPlay) * 1;
+            if (start >= clipBuffer.duration) {
+                start = 0;
+            }
+        }
+        if (end == null) {
+            end = clipBuffer.duration;
+        }
+
+        startPosition = start;
+        lastPlay = context.currentTime;
+
+        return { start: start, end: end };
+    }
+
+    window.pauseAudio = function() {
+        startPosition += (context.currentTime - lastPlay) * 1;
+        window.source && window.source.stop(0);
+    }
+</script>
 
 <script type="text/javascript">
      var index = <%= currentIndex %>; 
