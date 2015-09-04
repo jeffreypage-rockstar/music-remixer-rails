@@ -9,7 +9,7 @@ set :deploy_via, :remote_cache
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/var/www/akashic'
+set :deploy_to, '/home/deploy/akashic'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -38,14 +38,14 @@ after 'deploy', 'deploy:cleanup'
 
 namespace :deploy do
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
+  # after :restart, :clear_cache do
+  #   on roles(:web), in: :groups, limit: 3, wait: 10 do
+  #     # Here we can do anything such as:
+  #     # within release_path do
+  #     #   execute :rake, 'cache:clear'
+  #     # end
+  #   end
+  # end
 
   after 'deploy:publishing', 'deploy:restart'
   namespace :deploy do
