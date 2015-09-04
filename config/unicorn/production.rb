@@ -1,8 +1,10 @@
 root = "/var/deploy/akashic"
+current_dir = "#{root}/current"
 shared_dir = "#{root}/shared"
-working_directory "#{root}/current"
 
-pid "#{shared_dir}/tmp/pids/unicorn.pid"
+working_directory current_dir
+
+pid "#{current_dir}/tmp/pids/unicorn.pid"
 
 stderr_path "#{shared_dir}/log/unicorn.error.log"
 stdout_path "#{shared_dir}/log/unicorn.access.log"
@@ -15,7 +17,7 @@ listen '/tmp/unicorn.akashic.sock', backlog: 64
 
 # use correct Gemfile on restarts
 before_exec do |server|
-  ENV['BUNDLE_GEMFILE'] = "#{root}/current/Gemfile"
+  ENV['BUNDLE_GEMFILE'] = "#{current_dir}/Gemfile"
 end
 
 # preload
