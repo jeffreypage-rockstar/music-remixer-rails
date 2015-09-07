@@ -69,69 +69,6 @@
     </div>
 </div>
 <!-- Songs Segment Area End -->
-<script>
-    // create WebAudio API context
-    var context = new AudioContext();
-
-    // Create lineOut
-    var lineOut = new WebAudiox.LineOut(context)
-
-    var clipBuffer;
-    window.source = null;
-    var startPosition;
-    var lastPlay;
-    // load a sound and play it immediatly
-    WebAudiox.loadBuffer(context, '/uploads/songs/33/jai_ambe/O-Vocals_1h.m4a', function(buffer){
-        // init AudioBufferSourceNode
-        clipBuffer = buffer;
-
-        startPosition = 0;
-        lastPlay = context.currentTime;
-        console.log("............");
-    });
-
-    function createSource() {
-        var source = context.createBufferSource();
-        source.buffer = clipBuffer;
-        source.connect(lineOut.destination);
-        return source;
-    }
-
-    window.playAudio = function(start, end) {
-        window.source = createSource();
-        
-        var adjustedTime = seekTo(start, end);
-
-        start = adjustedTime.start;
-        end = adjustedTime.end;
-
-        console.log("Start : ", start, " End : ", end);
-        source.start(0, start, end - start);
-    }
-
-    function seekTo(start, end) {
-        if (start == null) {
-            start =  startPosition + (context.currentTime - lastPlay) * 1;
-            if (start >= clipBuffer.duration) {
-                start = 0;
-            }
-        }
-        if (end == null) {
-            end = clipBuffer.duration;
-        }
-
-        startPosition = start;
-        lastPlay = context.currentTime;
-
-        return { start: start, end: end };
-    }
-
-    window.pauseAudio = function() {
-        startPosition += (context.currentTime - lastPlay) * 1;
-        window.source && window.source.stop(0);
-    }
-</script>
-
 <script type="text/javascript">
      var index = <%= currentIndex %>; 
      console.log("index ", index);
@@ -145,18 +82,7 @@
           j = 1
           $(this).find('.clip').each(function(){
             if ($(this).hasClass('bordered')) { return };
-            sound = new Audio($(this).data('path')); 
-            sound.container = this;     
-            sounds[i][j] = sound;
-            sounds[i][j].buffered;
-            if (!$(this).data('state')) {
-                sounds[i][j].volume = 0;
-            };
-            sounds[i][j].addEventListener('loadedmetadata', function() {
-                // console.log("Playing " + this.src + ", for: " + this.duration + "seconds.");
-                showWaveForm(this);
-            });
-
+            wavesurferPlayer(this, $(this).data('path'), $(this).data('state'), i, j);
             j++;
           })
           i++;
@@ -165,25 +91,46 @@
         // playNext();
      }
 
-     function showWaveForm(sound) {
+     function wavesurferPlayer(container, src, mute, row, column) {
         var wavesurfer = Object.create(WaveSurfer);
+        wavesurfer.row = row;
+        wavesurfer.column = column;
         wavesurfer.init({
-            container: sound.container,
+            container: container,
             fillParent: true,
             height: 17,
             waveColor: 'black',
             progressColor: 'purple',
+            // cursorColor: 'rgba(255,255,255,0.5)',
             splitChannels: true
         });
-        // wavesurfer.on('ready', function () {
-        //     wavesurfer.play();
-        // });
-        wavesurfer.load(sound.src);
-    }
+        wavesurfer.on('ready', function () {
+            console.log("row :", this.row, "column : ", this.column);
+        });
+        wavesurfer.load(src);
+        wavesurfers[row][column] = wavesurfer;
+     }
 
      playNext = function() {
         if (index > $(".clips").length) { return };
-        sounds[index][8].addEventListener("ended", clipEndedCallback);  
+        addRemoveEventListener(true, true, false);
+        // sounds[index][8].addEventListener("ended", clipEndedCallback);  
+     }
+
+     function addRemoveEventListener(addListener, fullPlayCallback, column) {
+        var c = 8;
+        if (column) { c = column};
+        var wavesurfer = wavesurfers[index][c];
+        wavesurfer.unAll();
+        if (addListener) {
+            if (fullPlayCallback) {
+                wavesurfer.on('finish', clipEndedCallback);
+            } else {
+                wavesurfer.on('finish', partClipEndedCallback);
+            }
+        } else {
+            // wavesurfer.on('finish', function(){});
+        }
      }
 
      clipEndedCallback = function() {
@@ -202,8 +149,8 @@
         playNext();
         $("#clips-"+index).addClass('focus');
         for (var i = 1; i <= 8; i++) {
-            var sound = sounds[index][i];
-            sound.play();
+            var wavesurfer = wavesurfers[index][i];
+            wavesurfers.play();
         };
      }
 
@@ -213,9 +160,9 @@
         sounds[index][8].removeEventListener("ended", partClipEndedCallback);  
         window.isPartPlayerStarted = false;
         for (var i = 1; i <= 8; i++) {
-            var sound = sounds[index][i];
-            if (!sound.paused) sound.pause();
-            sound.currentTime = 0;
+            var wavesurfer = wavesurfers[index][i];
+            if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
+            // sound.currentTime = 0;
         };
      }
 
@@ -271,26 +218,27 @@
 
             // Play or Paused Sound Clips
             for (var i = 1; i <= 8; i++) {
-                var sound = sounds[index][i];
+                var wavesurfer = wavesurfers[index][i];
                 if (!window.isPartPlayerStarted) {
-                    sound.currentTime = 0;
-                    sound.pause();
+                    wavesurfer.seekTo(0);
+                    if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
                 };
 
-                if (sound.paused) {
+                if (wavesurfer.backend.isPaused()) {
                     $(event.target).parent().addClass('playing');
-                    sound.play();
+                    wavesurfer.play();
                 } else {
                     $(event.target).parent().removeClass('playing');
-                    sound.pause();
+                    wavesurfer.pause();
                 }
             };
 
             // If playing or not played yet from main player
             if (!window.isPartPlayerStarted) {
                 $(".full-play-btn").removeClass('playing');
-                sounds[index][8].removeEventListener("ended", clipEndedCallback); 
-                sounds[index][8].addEventListener("ended", partClipEndedCallback);  
+                addRemoveEventListener(true, false, false);
+                // sounds[index][8].removeEventListener("ended", clipEndedCallback); 
+                // sounds[index][8].addEventListener("ended", partClipEndedCallback);  
                 window.isPartPlayerStarted = true;
             };
         });
@@ -301,14 +249,13 @@
             var column = $(event.target).data('column');
             $(event.target).toggleClass('muted');
             var sound = sounds[row][column];
-            if(sound.volume == 0) {
-                sound.volume = 1;
-            } else {
-                sound.volume = 0;
-            } 
+            var wavesurfer = wavesurfers[row][column];
+            wavesurfer.toggleMute();
+            var volume = wavesurfer.isMuted ? 1 : 0;
+            console.log("Volume : ", volume);
             var song_id = $(event.target).parents(".song-clips").data('id');
             var state_url = "/songs/"+song_id+"/clips/state"
-            $.post(state_url,{ clip: { row: row, column: column, state: sound.volume } } );
+            $.post(state_url,{ clip: { row: row, column: column, state: volume } } );
         });
 
         var singleSound = false;
@@ -322,7 +269,7 @@
 
             // If already playing same audio file
             if (singleSoundRow == row && singleSoundColumn == column) {
-                if (singleSound.paused) {
+                if (singleSound.backend.isPaused()) {
                     $(event.target).addClass('paused');
                     singleSound.play();
                 } else {
@@ -332,12 +279,13 @@
                 return;
             };
 
-            sounds[index][8].removeEventListener("ended", clipEndedCallback); 
+            addRemoveEventListener(false, false, false);
+            // sounds[index][8].removeEventListener("ended", clipEndedCallback); 
             $(".clips.playing").removeClass('playing');
             for (var i = 1; i <= 8; i++) {
-                var sound = sounds[index][i];
-                if (sound.duration > 0) { sound.currentTime = 0; };
-                if (!sound.paused) { sound.pause(); };
+                var wavesurfer = wavesurfers[index][i];
+                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
+                wavesurfer.seekTo(0);
             }; 
 
             singleSoundRow = row;
@@ -345,25 +293,28 @@
             stopSinglePlayer(false);
 
             $(event.target).addClass('paused');
-            singleSound = sounds[row][column];
-            singleSound.currentTime = 0;
+            singleSound = wavesurfers[row][column];
+            singleSound.seekTo(0);
             singleSound.play();
-            singleSound.addEventListener("ended", singleClipEndedCallback); 
+            singleSound.on('finish', singleClipEndedCallback);
+            // singleSound.addEventListener("ended", singleClipEndedCallback); 
             window.isPartPlayerStarted = false;
         });
 
         singleClipEndedCallback = function() {
-            singleSound.currentTime = 0;
-            singleSound.pause();
-            $(".play-btn").removeClass("paused");
+            if (singleSound) {
+                singleSound.seekTo(0);
+                if (!singleSound.backend.isPaused()) singleSound.pause();
+                $(".play-btn").removeClass("paused");
+            };
         }
 
         stopSinglePlayer = function(reset) {
             if (singleSound) {
                 $(".play-btn").removeClass("paused");
-                if (singleSound.duration > 0) singleSound.currentTime = 0;
-                if (!singleSound.paused) singleSound.pause();
-                singleSound.removeEventListener("ended", singleClipEndedCallback); 
+                singleSound.seekTo(0);
+                if (!singleSound.backend.isPaused()) singleSound.pause();
+                singleSound.un('finish', singleClipEndedCallback);
                 if (reset && singleSoundRow != 0) {
                     singleSoundRow = singleSoundColumn= 0;
                     playNext();
