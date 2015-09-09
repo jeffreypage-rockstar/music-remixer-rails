@@ -54,7 +54,7 @@
                             <div class="play-btn"></div>
                         </div>
                     <% end %>
-                    <div class="level"><%=bottomLevels[r-1]%></div>
+                    <div class="level column" data-row="<%=r%>"><%=bottomLevels[r-1]%></div>
                 </div>
             <% end %>
         <% end %>
@@ -100,12 +100,13 @@
             fillParent: true,
             height: 17,
             waveColor: 'black',
-            progressColor: 'purple',
+            progressColor: 'black',
             // cursorColor: 'rgba(255,255,255,0.5)',
             splitChannels: true
         });
-        wavesurfer.on('ready', function () {
-            console.log("row :", this.row, "column : ", this.column);
+        wavesurfer.on('ready', function (_this) {
+            // console.log("row :", _this.row, "column : ", _this.column);
+            $("#clip-part-"+_this.row+"-"+_this.column).addClass('loaded');
         });
         wavesurfer.load(src);
         wavesurfers[row][column] = wavesurfer;
@@ -114,7 +115,6 @@
      playNext = function() {
         if (index > $(".clips").length) { return };
         addRemoveEventListener(true, true, false);
-        // sounds[index][8].addEventListener("ended", clipEndedCallback);  
      }
 
      function addRemoveEventListener(addListener, fullPlayCallback, column) {
@@ -123,46 +123,34 @@
         var wavesurfer = wavesurfers[index][c];
         wavesurfer.unAll();
         if (addListener) {
-            if (fullPlayCallback) {
-                wavesurfer.on('finish', clipEndedCallback);
-            } else {
-                wavesurfer.on('finish', partClipEndedCallback);
-            }
-        } else {
-            // wavesurfer.on('finish', function(){});
+            wavesurfer.on('finish', clipEndedCallback);
         }
      }
 
      clipEndedCallback = function() {
         console.log(index+ " part's clip ended. Playing next !!!");
-        $("#clips-"+index).removeClass('focus').removeClass('playing');
-        
-        index++; 
-        if (index > 8) { 
-          index = 1;
-          $(".full-play-btn").removeClass('playing');
-          $("#clips-"+index).addClass('focus').removeClass('playing');
-          playNext();    
-          return; 
+        if (index == 8) { 
+            $("#clips-"+index).removeClass('playing');
+            resetAllPlayer(true);
+            return; 
         };
 
+        $("#clips-"+index).removeClass('focus').removeClass('playing');
+        if (index < 8) index++; 
+        $("#clips-"+index).addClass('focus').addClass('playing');
         playNext();
-        $("#clips-"+index).addClass('focus');
+        
         for (var i = 1; i <= 8; i++) {
             var wavesurfer = wavesurfers[index][i];
-            wavesurfers.play();
+            wavesurfer.play();
         };
      }
 
-     partClipEndedCallback = function() {
-        console.log(index+ " Part's clip ended !!!");
-        $("#clips-"+index).removeClass('playing');
-        sounds[index][8].removeEventListener("ended", partClipEndedCallback);  
-        window.isPartPlayerStarted = false;
+     resetAllPlayer = function(seek) {
         for (var i = 1; i <= 8; i++) {
             var wavesurfer = wavesurfers[index][i];
+            if (seek) wavesurfer.seekTo(0);
             if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
-            // sound.currentTime = 0;
         };
      }
 
@@ -207,9 +195,26 @@
 
         // Intialize all sound clips for play
         intializeSoundClips();
-
-        $(".part-play-btn").click(function(event){
+        $(".clips .level.column").click(function(event){
             event.stopPropagation();
+            var row = $(event.target).data('row');
+            if (row == index) { return };
+
+            // Paused Sound Clips
+            resetAllPlayer(true);
+
+            $("#clips-"+index).removeClass('focus').removeClass('playing');
+            index = row;
+            $(event.target).parent().addClass('focus');
+            playNext();
+        });
+
+        $(".clips .part-play-btn").click(function(event){
+            event.stopPropagation();
+            if ($("#clips-"+index+" .clip.loaded").length != 8) {
+                return;
+            };
+
             var row = $(event.target).data('row');
             if (row != index) { return };
 
@@ -219,11 +224,6 @@
             // Play or Paused Sound Clips
             for (var i = 1; i <= 8; i++) {
                 var wavesurfer = wavesurfers[index][i];
-                if (!window.isPartPlayerStarted) {
-                    wavesurfer.seekTo(0);
-                    if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
-                };
-
                 if (wavesurfer.backend.isPaused()) {
                     $(event.target).parent().addClass('playing');
                     wavesurfer.play();
@@ -232,15 +232,6 @@
                     wavesurfer.pause();
                 }
             };
-
-            // If playing or not played yet from main player
-            if (!window.isPartPlayerStarted) {
-                $(".full-play-btn").removeClass('playing');
-                addRemoveEventListener(true, false, false);
-                // sounds[index][8].removeEventListener("ended", clipEndedCallback); 
-                // sounds[index][8].addEventListener("ended", partClipEndedCallback);  
-                window.isPartPlayerStarted = true;
-            };
         });
 
         $(".clip").click(function(event){
@@ -248,11 +239,12 @@
             var row = $(event.target).data('row');
             var column = $(event.target).data('column');
             $(event.target).toggleClass('muted');
+
             var sound = sounds[row][column];
             var wavesurfer = wavesurfers[row][column];
             wavesurfer.toggleMute();
-            var volume = wavesurfer.isMuted ? 1 : 0;
-            console.log("Volume : ", volume);
+
+            var volume = wavesurfer.isMuted ? 0 : 1;
             var song_id = $(event.target).parents(".song-clips").data('id');
             var state_url = "/songs/"+song_id+"/clips/state"
             $.post(state_url,{ clip: { row: row, column: column, state: volume } } );
@@ -280,13 +272,8 @@
             };
 
             addRemoveEventListener(false, false, false);
-            // sounds[index][8].removeEventListener("ended", clipEndedCallback); 
             $(".clips.playing").removeClass('playing');
-            for (var i = 1; i <= 8; i++) {
-                var wavesurfer = wavesurfers[index][i];
-                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
-                wavesurfer.seekTo(0);
-            }; 
+            resetAllPlayer(true);
 
             singleSoundRow = row;
             singleSoundColumn = column;
@@ -297,7 +284,6 @@
             singleSound.seekTo(0);
             singleSound.play();
             singleSound.on('finish', singleClipEndedCallback);
-            // singleSound.addEventListener("ended", singleClipEndedCallback); 
             window.isPartPlayerStarted = false;
         });
 

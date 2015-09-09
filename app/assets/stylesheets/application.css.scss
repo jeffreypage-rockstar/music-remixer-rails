@@ -85,6 +85,11 @@
     text-align: right;
 }
 
+.level.column {
+    cursor: pointer;    
+}
+
+
 .clip {
 	position: relative;
 	width: 78px;
@@ -177,7 +182,7 @@
 	background-image: image-url('pause_small.png');
 }
 
-#song-clips .clips.focus .play-btn {
+#song-clips .clips.focus .loaded .play-btn {
 	display: block;
 }
 

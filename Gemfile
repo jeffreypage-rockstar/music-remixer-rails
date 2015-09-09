@@ -67,4 +67,4 @@ group :production do
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
-gem 'wavesurfer', '~> 0.0.1'
+# gem 'wavesurfer', '~> 0.0.1'
