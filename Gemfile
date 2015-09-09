@@ -36,7 +36,7 @@ gem 'bootstrap-sass', '~> 3.3.1'
 gem 'autoprefixer-rails'
 
 # Table generator
-gem 'simple_table_for'
+# gem 'simple_table_for'
 
 # Upload file
 gem 'carrierwave'
@@ -70,4 +70,4 @@ group :production do
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
-gem 'wavesurfer', '~> 0.0.1'
+# gem 'wavesurfer', '~> 0.0.1'
