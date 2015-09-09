@@ -34,3 +34,6 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+# ignore IDEA files
+.idea
