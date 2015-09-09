@@ -11,15 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826052325) do
+ActiveRecord::Schema.define(version: 20150909092216) do
 
   create_table "clips", force: :cascade do |t|
     t.integer  "song_id"
     t.string   "name"
-    t.integer  "row"
-    t.integer  "column"
+    t.string   "row"
+    t.string   "column"
     t.float    "duration"
     t.boolean  "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "part_id"
+    t.text     "file"
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.integer  "song_id"
+    t.string   "name"
+    t.float    "duration"
+    t.string   "column"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

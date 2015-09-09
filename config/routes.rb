@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :songs do
+    resources :parts
     resources :clips do
       collection do
         post :state
