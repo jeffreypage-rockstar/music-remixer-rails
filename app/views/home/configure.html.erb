@@ -1,0 +1,44 @@
+<!-- Main player Area Start -->
+<div class="row main-player-area">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="full-play-btn"></div>
+        </div>
+    </div>
+</div>
+<!-- Main player Area End -->
+
+<%= render 'shared/clips' %>
+
+<script type="text/javascript">
+	$(".full-play-btn").click(function(event){
+        event.stopPropagation();
+        
+        // Stop any signle player
+        stopSinglePlayer(true);
+
+        // Play or Paused Sound Clips
+        for (var i = 1; i <= 8; i++) {
+            var sound = window.sounds[index][i];
+            if (window.isPartPlayerStarted) {
+                sound.currentTime = 0;
+                sound.pause();
+            };
+            if (sound.paused) {
+                $(event.target).addClass('playing');
+                sound.play();
+            } else {
+                $(event.target).removeClass('playing');
+                sound.pause();
+            }
+        };
+
+        if (window.isPartPlayerStarted) {
+            $(".clips").removeClass('playing');
+            sounds[index][8].removeEventListener("ended", partClipEndedCallback); 
+            playNext();    
+            window.isPartPlayerStarted = false;
+        };
+    });
+</script>

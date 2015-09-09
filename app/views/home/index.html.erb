@@ -1,44 +1,14 @@
-<!-- Main player Area Start -->
-<div class="row main-player-area">
-    <div class="col-md-4"></div>
-    <div class="col-md-8">
-        <div class="row">
-            <div class="full-play-btn"></div>
-        </div>
+<h1>
+    Songs
+    <div class="pull-right upload-btn">
+        <%= link_to "Upload Music", '/songs/new', class: "btn btn-primary btn-md" %>
     </div>
+</h1>
+<div class="songs">
+    <%= simple_table_for @songs, ['Name', 'Duration', 'Upload date', 'Last Updated'], class: 'table' do |song| %>
+        <%= field link_to song.name, configurator_url(song.id) %>
+        <%= field song.name %>
+        <%= field l(song.created_at, format: '%Y/%m/%d %H:%M %p') %>
+        <%= field l(song.updated_at, format: '%Y/%m/%d %H:%M %p') %>
+    <% end %>
 </div>
-<!-- Main player Area End -->
-
-<%= render 'shared/clips' %>
-
-<script type="text/javascript">
-	$(".full-play-btn").click(function(event){
-        event.stopPropagation();
-        
-        // Stop any signle player
-        stopSinglePlayer(true);
-
-        // Play or Paused Sound Clips
-        for (var i = 1; i <= 8; i++) {
-            var sound = window.sounds[index][i];
-            if (window.isPartPlayerStarted) {
-                sound.currentTime = 0;
-                sound.pause();
-            };
-            if (sound.paused) {
-                $(event.target).addClass('playing');
-                sound.play();
-            } else {
-                $(event.target).removeClass('playing');
-                sound.pause();
-            }
-        };
-
-        if (window.isPartPlayerStarted) {
-            $(".clips").removeClass('playing');
-            sounds[index][8].removeEventListener("ended", partClipEndedCallback); 
-            playNext();    
-            window.isPartPlayerStarted = false;
-        };
-    });
-</script>

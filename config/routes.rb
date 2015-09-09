@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  get '/configure/:id' => 'home#configure', as: :configurator
   get 'home/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
