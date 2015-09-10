@@ -19,6 +19,17 @@
 <body>
 	<%= render 'shared/navigation_bar' %>
 	<div class='container' style="margin-top: 60px;">
+		<% [:notice, :error, :alert, :success].each do |level| %>
+		   <% unless flash[level].blank? %>
+		     <div class="<%= flash_class(level) %> alert-dismissible" role="alert">
+		      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		       <%= content_tag :p, :style => "margin: 0;" do %>
+		       		<%= flash[level] %> 
+		       <% end %>
+		       <% flash[level] = nil %> 
+		     </div>     
+		   <% end %>
+		<% end %>
 		<%= yield %>
 	</div>
 </body>

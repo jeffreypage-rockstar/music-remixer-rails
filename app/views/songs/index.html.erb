@@ -1,31 +1,31 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Songs</h1>
-
-<table>
+<h1>
+    Songs
+    <div class="pull-right upload-btn">
+        <%= link_to "Upload Music", new_song_path, class: "btn btn-primary btn-md" %>
+    </div>
+</h1>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
       <th>Duration</th>
-      <th>Zipfile</th>
-      <th colspan="3"></th>
+      <th>Upload date</th>
+      <th>Last Updated</th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @songs.each do |song| %>
       <tr>
-        <td><%= song.name %></td>
-        <td><%= song.duration %></td>
-        <td><%= song.zipfile %></td>
-        <td><%= link_to 'Show', song %></td>
-        <td><%= link_to 'Edit', edit_song_path(song) %></td>
+        <td><%=link_to song.name, configure_song_path(song) %></td>
+        <td><%= Time.at(song.duration).utc.strftime("%M:%S") %></td>
+        <td><%= Time.at(song.created_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>
+        <td><%= Time.at(song.updated_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>
         <td><%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Song', new_song_path %>

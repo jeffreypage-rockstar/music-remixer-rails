@@ -1,7 +1,3 @@
-<% unless @song %>
-    <h2 style="text-align: center;">No Segmented Audio Zip File Found </h2>
-<% else %>
-
 <!-- Songs Segment Area Start -->
 <% currentIndex = 1 %>
 <div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
@@ -194,7 +190,10 @@
         });
 
         // Intialize all sound clips for play
-        intializeSoundClips();
+        setTimeout(function(){
+            intializeSoundClips();    
+        }, 600);
+        
         $(".clips .level.column").click(function(event){
             event.stopPropagation();
             var row = $(event.target).data('row');
@@ -329,4 +328,3 @@
         }
      });
  </script>
- <% end %>

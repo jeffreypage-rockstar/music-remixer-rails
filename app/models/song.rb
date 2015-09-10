@@ -6,12 +6,48 @@ require 'zip'
 require 'taglib'
 
 class Song < ActiveRecord::Base
-	mount_uploader :zipfile, AudioUploader
-	
 	has_many :parts, dependent: :delete_all
 	has_many :clips, dependent: :delete_all
+	mount_uploader :zipfile, AudioUploader
+
+	validates :name, :zipfile, presence: true
+	validate :validate_zip_file
 
 	after_save :read_song_details
+
+	def validate_zip_file
+		if self.zipfile.blank? or !self.zipfile.url.include?(".zip")
+			errors.add(:zipfile, "Not a valid zip file.")
+		elsif 
+			# Check for valid zip file
+			folder = "#{Rails.root}/public#{self.zipfile.url}"
+			errors.add(:zipfile, "Not a valid zip file.") unless Song.valid_zip?(folder)
+
+			# Folder and Zip file path
+			fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
+			dirPath = "#{Rails.root}/public#{fileUploadPath}"
+
+			# Open Zip file and read audio clips
+			fileCount = 0
+			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".wav", ".flac", ".act", ".3gp", ".mp4"]
+			Zip::File.open(folder) do |zipfile|
+			    # Read File details
+				zipfile.each do |file|
+					filePath = File.join(dirPath, file.name)
+					if !File.directory?(filePath) && !filePath.include?("MACOSX") && !filePath.include?(".DS_Store")
+						fileExtension = File.extname(filePath)
+						if accepted_formats.include? fileExtension
+							fileCount += 1	
+						end
+					end
+				end
+			end
+
+			unless fileCount == 64
+				errors.add(:zipfile, "Zip file does not contains 64 audio clips.")
+			end
+		end
+	end
 
 	def clipState(row = 0, column = 0)
 		clip = self.clips.detect {|clip| clip.row == row and clip.column == column }

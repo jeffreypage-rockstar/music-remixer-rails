@@ -10,12 +10,12 @@
         <th>Name</th>
         <th>Duration</th>
         <th>Upload date</th>
-        <th></th>
+        <th>Last Updated</th>
       </tr>
      
     <% @songs.each do |song| %>
       <tr>
-        <td><%=link_to song.name, configurator_url(song.id) %></td>
+        <td><%=link_to song.name, configure_song_path(song) %></td>
         <td><%= Time.at(song.duration).utc.strftime("%M:%S") %></td>
         <td><%= Time.at(song.created_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>
         <td><%= Time.at(song.updated_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>

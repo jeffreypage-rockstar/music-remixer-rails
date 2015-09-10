@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :songs do
+    member do
+      get :configure
+    end
+
     resources :parts
     resources :clips do
       collection do
@@ -7,7 +11,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  get '/configure/:id' => 'home#configure', as: :configurator
+  # get '/configure/:id' => 'home#configure', as: :configurator
   get 'home/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

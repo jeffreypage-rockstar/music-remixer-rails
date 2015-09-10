@@ -1,5 +1,5 @@
 class SongsController < ApplicationController
-  before_action :set_song, only: [:show, :edit, :update, :destroy]
+  before_action :set_song, only: [:show, :edit, :update, :configure, :destroy]
 
   # GET /songs
   # GET /songs.json
@@ -49,6 +49,9 @@ class SongsController < ApplicationController
         format.json { render json: @song.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def configure
   end
 
   # DELETE /songs/1
