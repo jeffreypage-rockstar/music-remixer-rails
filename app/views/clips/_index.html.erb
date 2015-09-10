@@ -38,7 +38,6 @@
     <!-- Songs Details Area End -->
     <div class="row">
         <div class="col-md-9">
-        <% bottomLevels = %w(intro Verse1 Inst Chorus1 Breakdown Verse2 Verse3 Outro) %>
         <% @song.parts.each_with_index do |part, r| %>
             <div id="clips-<%=part.column%>" class="clips<%=' focus' if part.column.to_i == currentIndex %>" data-column="<%=part.column%>">
                 <div class="part-play-btn" data-row="<%=part.column%>"></div>
