@@ -5,15 +5,5 @@
 class HomeController < ApplicationController
 	def index
         @songs = Song.all
-		if @songs.blank?
-		   return redirect_to new_song_path
-		end
-	end
-
-	def configure
-		@song = Song.includes(:parts => [:clips]).all.last
-		if @song.blank?
-		   return redirect_to new_song_path
-		end
 	end
 end

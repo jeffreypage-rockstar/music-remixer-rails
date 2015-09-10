@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909092216) do
+ActiveRecord::Schema.define(version: 20150910122401) do
 
   create_table "clips", force: :cascade do |t|
     t.integer  "song_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150909092216) do
     t.text     "zipfile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "mixed_file"
   end
 
 end

@@ -3,6 +3,7 @@ class Clip < ActiveRecord::Base
 
 	belongs_to :song
 	belongs_to :part
+	
 	scope :exist, ->(row, column) { where(row: row, column: column) }
 
 	def level_name

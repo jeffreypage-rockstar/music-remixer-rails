@@ -38,16 +38,16 @@
     <!-- Songs Details Area End -->
     <div class="row">
         <div class="col-md-9">
-        <% @song.parts.each_with_index do |part, r| %>
+        <% @song.parts.each_with_index do |part, c| %>
             <div id="clips-<%=part.column%>" class="clips<%=' focus' if part.column.to_i == currentIndex %>" data-column="<%=part.column%>">
                 <div class="part-play-btn" data-row="<%=part.column%>"></div>
-                <% part.clips.each_with_index do |clip, c| %>
-                    <% if c + 1 == 5 %>
+                <% part.clips.each_with_index do |clip, r| %>
+                    <% if r + 1 == 5 %>
                         <div class="clip bordered">
                             <div class="play-btn"></div>
                         </div>
                     <% end %>
-                    <% if r == 0 %>
+                    <% if c == 0 %>
                       <div class="level left"><%=clip.level_name%></div>
                     <% end %>
                     <div id="clip-part-<%=part.column%><%=clip.row%>" class="clip clip-<%=clip.row%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=clip.row%>" data-path="<%=clip.file%>" data-state="<%=clip.state%>">

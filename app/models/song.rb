@@ -49,25 +49,11 @@ class Song < ActiveRecord::Base
 		end
 	end
 
-	def clipState(row = 0, column = 0)
-		clip = self.clips.detect {|clip| clip.row == row and clip.column == column }
-		return true if !clip or clip.state
-		return false
-	end
-
-	def concatanate
-		# Folder and Zip file path
-		fileUploadPath = self.zipfile.url.gsub(".zip","")
-		dirPath = "#{Rails.root}/public#{fileUploadPath}"
-		puts dirPath
-
-		result = system "cd #{dirPath} && ffmpeg -i O-Bass_1a.m4a -i O-Crash_1b.m4a -i O-Dive_1c.m4a -i O-Drums_1d.m4a -i O-DT-Perc_1e.m4a -i O-Inst_1f.m4a -i 'O-Up Perc_1g.m4a' -i O-Vocals_1h.m4a -filter_complex amix=inputs=8:duration=longest:dropout_transition=3 -y ../ringtone.m4a"
-		if result.nil?
-		  puts "Error was #{$?}"
-		elsif result
-		  puts "You made it!"
-		end
-	end
+	# def clipState(row = 0, column = 0)
+	# 	clip = self.clips.detect {|clip| clip.row == row and clip.column == column }
+	# 	return true if !clip or clip.state
+	# 	return false
+	# end
 
 	def self.valid_zip?(file)
 		zip = Zip::File.open(file)
@@ -76,6 +62,76 @@ class Song < ActiveRecord::Base
 		  false
 		ensure
 		  zip.close if zip
+	end
+
+	def create_mixed_audio
+		# Folder and Zip file path
+		fileUploadPath = self.zipfile.url.gsub(".zip","")
+		dirPath = "#{Rails.root}/public#{fileUploadPath}"
+
+		commands = []
+		outputs = []
+		fileExtension = ""
+		ffmpegcmd = "cd #{dirPath} && ffmpeg"
+		@parts = self.parts
+		@parts.each_with_index do |part, c|
+			command = ""
+			count = 0
+			clips = part.clips
+			clips.each_with_index do |clip, r|
+				filePath = File.join(dirPath, clip.file)
+				fileExtension = File.extname(filePath)
+
+				fileName = clip.file.split("/").last
+				unless clip.state
+					command += " -i '#{fileName}'" 
+					count += 1
+				end
+			end
+
+			# If at least a single clip is not mute
+			output = "mix_audio_part_#{part.column}#{fileExtension}"
+			if command.present?
+				command += " -filter_complex amix=inputs=#{count}:duration=longest:dropout_transition=3 -y ../#{output}"
+				command = ffmpegcmd + command
+			# If all clips are muted, Create a blank audio
+			else
+				command = ffmpegcmd + " -filter_complex aevalsrc=0 -t #{part.duration+1} -y ../#{output}"
+			end
+			outputs.push(output)
+			commands.push(command)
+		end
+
+		result = []
+		commands.each_with_index do |command, index|
+			puts command
+			result[index] = system command
+			if result[index].nil?
+			  puts "Error was #{$?}"
+			elsif result[index]
+			  puts "===================== You made it! #{index + 1}"
+			end
+		end
+
+		# File Upload path
+		fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
+		dirPath = "#{Rails.root}/public#{fileUploadPath}"
+
+		command = ""
+		ffmpegcmd = "cd #{dirPath} && ffmpeg"
+		output = "mix_audio#{fileExtension}"
+		outputs.each_with_index do |output, index|
+			command += " -i #{output}"
+		end
+		command = ffmpegcmd + command + " -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y #{output}"
+
+		result = system command
+		if result.nil?
+		  puts "Error was #{$?}"
+		elsif result
+		  self.mixed_file = "#{fileUploadPath}#{output}"
+		  self.save!
+		end
 	end
 
 	private
@@ -136,12 +192,14 @@ class Song < ActiveRecord::Base
 							    properties = fileref.audio_properties
 							    duration += properties.length
 								@part = Part.find_or_create_by(song_id: self.id, name: "Part #{column}", duration: properties.length, column: column)
+								@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)
 								clips[column] = "added"
 							  end
 							end  # File is automatically closed at block end
+						else
+							@part = Part.find_by(song_id: self.id, column: column)
+							@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)	
 						end
-						@part = Part.find_by(song_id: self.id, column: column)
-						@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)
 					end
 				end
 			end

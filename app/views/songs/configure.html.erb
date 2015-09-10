@@ -2,8 +2,9 @@
 <div class="row main-player-area">
     <div class="col-md-4"></div>
     <div class="col-md-8">
-        <div class="row">
+        <div id="main-player" class="row" data-path="<%=@song.mixed_file%>">
             <div class="full-play-btn"></div>
+            <div class="full-waveform"></div>
         </div>
     </div>
 </div>
@@ -12,35 +13,38 @@
 <%= render 'clips/index' %>
 
 <script type="text/javascript">
-    /*
-	$(".full-play-btn").click(function(event){
-        event.stopPropagation();
-        
-        // Stop any signle player
-        stopSinglePlayer(true);
 
-        // Play or Paused Sound Clips
-        for (var i = 1; i <= 8; i++) {
-            var sound = window.sounds[index][i];
-            if (window.isPartPlayerStarted) {
-                sound.currentTime = 0;
-                sound.pause();
+    $(document).ready(function(){
+        var mixedFilePath = $("#main-player").data('path') + "?t="+Date.now();
+        window.topWavesurfer = Object.create(WaveSurfer);
+        window.topWavesurfer.init({
+            container: '.full-waveform',
+            fillParent: true,
+            height: 42,
+            waveColor: 'white',
+            progressColor: 'white',
+            cursorColor: 'white'
+        });
+        window.topWavesurfer.on('ready', function (_this) {
+            console.log("Loaded!");
+        });
+        window.topWavesurfer.load(mixedFilePath);
+
+        $(".full-play-btn").click(function(event){
+            event.stopPropagation();
+            for (var i = 65; i <= 72; i++) {
+                var column = String.fromCharCode(i).toLowerCase()
+                var wavesurfer = window.wavesurfers[index][column];
+                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
             };
-            if (sound.paused) {
+
+            if (window.topWavesurfer.backend.isPaused()) {
                 $(event.target).addClass('playing');
-                sound.play();
+                window.topWavesurfer.play();
             } else {
                 $(event.target).removeClass('playing');
-                sound.pause();
+                window.topWavesurfer.pause();    
             }
-        };
-
-        if (window.isPartPlayerStarted) {
-            $(".clips").removeClass('playing');
-            sounds[index][8].removeEventListener("ended", partClipEndedCallback); 
-            playNext();    
-            window.isPartPlayerStarted = false;
-        };
+        });
     });
-    */
 </script>

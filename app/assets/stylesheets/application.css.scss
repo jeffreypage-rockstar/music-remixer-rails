@@ -40,15 +40,27 @@
 	margin-bottom: 40px;
 }
 
+#main-player {
+    position: relative;
+}
+
 .full-play-btn {
-	position: relative;
+	position: absolute;
 	width: 80px;
 	height: 42px;
+    left: -90px;
 	background-image: image-url('play_main_btn.png');
 }
 
 .full-play-btn.playing {
 	background-image: image-url('pause_main_btn.png');
+}
+
+.full-waveform {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 42px;
 }
 
 #song-clips {
