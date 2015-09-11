@@ -42,6 +42,8 @@ gem 'autoprefixer-rails'
 gem 'carrierwave'
 
 group :development, :test do
+  gem 'puma'
+  
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
 
@@ -60,7 +62,6 @@ group :development, :test do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-ext',     require: false
   gem 'capistrano-faster-assets', '~> 1.0.2'
-  # gem 'capistrano-unicorn', '~> 0.2.0'
   gem 'capistrano3-unicorn', require: false
 end
 

@@ -182,7 +182,7 @@ var WaveSurfer = {
     onProgress: function(a) {
         if (a.lengthComputable) var b = a.loaded / a.total;
         else b = a.loaded / (a.loaded + 1e6);
-        this.fireEvent("loading", Math.round(100 * b), a.target)
+        this.fireEvent("loading", this, Math.round(100 * b), a.target)
     },
     exportPCM: function(a, b, c) {
         a = a || 1024, b = b || 1e4, c = c || !1;

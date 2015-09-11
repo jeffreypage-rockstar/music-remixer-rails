@@ -4,7 +4,9 @@
     <div class="col-md-8">
         <div id="main-player" class="row" data-path="<%=@song.mixed_file%>">
             <div class="full-play-btn"></div>
-            <div class="full-waveform"></div>
+            <div class="full-waveform">
+                <div class="progress"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -13,9 +15,7 @@
 <%= render 'clips/index' %>
 
 <script type="text/javascript">
-
-    $(document).ready(function(){
-        var mixedFilePath = $("#main-player").data('path') + "?t="+Date.now();
+    function topPlayer(mixedFilePath) {
         window.topWavesurfer = Object.create(WaveSurfer);
         window.topWavesurfer.init({
             container: '.full-waveform',
@@ -26,17 +26,39 @@
             cursorColor: 'white'
         });
         window.topWavesurfer.on('ready', function (_this) {
-            console.log("Loaded!");
+            // console.log("Loaded!");
+        });
+
+        window.topWavesurfer.on('loading', function (_this, progress) {
+            $(_this.container).children(".progress").css("left", progress+"%");
         });
         window.topWavesurfer.load(mixedFilePath);
+    }
 
+    function stopMainPlayer() {
+        if (window.topWavesurfer) {
+            if (!window.topWavesurfer.backend.isPaused()) {
+                window.topWavesurfer.pause();
+                $(".full-play-btn").removeClass('playing');
+            }    
+        };
+    }
+
+    $(document).ready(function(){
+        if ($("#main-player").data('path') != "") {
+            var mixedFilePath = $("#main-player").data('path') + "?t="+Date.now();
+            topPlayer(mixedFilePath);
+        };
+        
         $(".full-play-btn").click(function(event){
             event.stopPropagation();
-            for (var i = 65; i <= 72; i++) {
-                var column = String.fromCharCode(i).toLowerCase()
-                var wavesurfer = window.wavesurfers[index][column];
-                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
+            if (!window.topWavesurfer) {
+                return alert("Top player is not ready. Please try later.")
             };
+
+            // Pause other players i.e. part player, clip preview player
+            pauseClipPreviewPlayer();
+            pausePartPlayer();
 
             if (window.topWavesurfer.backend.isPaused()) {
                 $(event.target).addClass('playing');

@@ -103,7 +103,7 @@
 }
 
 
-.clip {
+.clip, .blank {
 	position: relative;
 	width: 78px;
     height: 34px;
@@ -113,39 +113,39 @@
     margin: 0 auto 4px;
 }
 
-.clip.clip-a {
+.clip.clip-a, .clip.clip-1 {
 	background-image: image-url('1.png');
 }
 
-.clip.clip-b {
+.clip.clip-b, .clip.clip-2 {
 	background-image: image-url('2.png');
 }
 
-.clip.clip-c {
+.clip.clip-c, .clip.clip-3 {
 	background-image: image-url('3.png');
 }
 
-.clip.clip-d {
+.clip.clip-d, .clip.clip-4 {
 	background-image: image-url('4.png');
 }
 
-.clip.clip-e {
+.clip.clip-e, .clip.clip-5 {
 	background-image: image-url('5.png');
 }
 
-.clip.clip-f {
+.clip.clip-f, .clip.clip-6 {
 	background-image: image-url('6.png');
 }
 
-.clip.clip-g {
+.clip.clip-g, .clip.clip-7 {
 	background-image: image-url('7.png');
 }
 
-.clip.clip-h {
+.clip.clip-h, .clip.clip-8 {
 	background-image: image-url('8.png');
 }
 
-.clip.bordered {
+.blank {
 	border: 2px solid white;
 	border-radius: 5px;
 	margin: 2px auto;
@@ -175,6 +175,16 @@
 	display: block;
 }
 
+.progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    background-color: rgba(130, 84, 103, 0.5);
+}
+
 .play-btn {
 	position: absolute;
     top: 50%;
@@ -183,8 +193,16 @@
     height: 18px;
     margin-top: -9px;
 	background-image: image-url('play_small.png');
-	display: none;
     z-index: 100;
+    display: none;
+}
+
+.clips.focus .loaded .play-btn {
+    display: block;
+}
+
+.clips.focus.playing .loaded .play-btn {
+    display: none;
 }
 
 .clip.bordered .play-btn {
@@ -193,10 +211,6 @@
 
 .play-btn.paused {
 	background-image: image-url('pause_small.png');
-}
-
-#song-clips .clips.focus .loaded .play-btn {
-	display: block;
 }
 
 .part-play-btn {

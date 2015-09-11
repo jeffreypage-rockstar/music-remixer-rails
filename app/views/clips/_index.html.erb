@@ -39,23 +39,26 @@
     <div class="row">
         <div class="col-md-9">
         <% @song.parts.each_with_index do |part, c| %>
-            <div id="clips-<%=part.column%>" class="clips<%=' focus' if part.column.to_i == currentIndex %>" data-column="<%=part.column%>">
-                <div class="part-play-btn" data-row="<%=part.column%>"></div>
+            <% c += 1 %>
+            <div id="clips-<%=c%>" class="clips<%=' focus' if c == currentIndex %>" data-column="<%=c%>">
+                <div class="part-play-btn" data-row="<%=c%>"></div>
                 <% part.clips.each_with_index do |clip, r| %>
-                    <% if r + 1 == 5 %>
-                        <div class="clip bordered">
+                    <% r += 1 %>
+                    <% if r == 5 %>
+                        <div class="blank">
                             <div class="play-btn"></div>
                         </div>
                     <% end %>
-                    <% if c == 0 %>
+                    <% if c == 1 %>
                       <div class="level left"><%=clip.level_name%></div>
                     <% end %>
-                    <div id="clip-part-<%=part.column%><%=clip.row%>" class="clip clip-<%=clip.row%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=clip.row%>" data-path="<%=clip.file%>" data-state="<%=clip.state%>">
+                    <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip.state%>">
+                        <div class="progress"></div>
                         <div class="opaque-gray"></div>
                         <div class="play-btn"></div>
                     </div>
                 <% end %>
-                <div class="level column" data-id="<%=part.id%>" data-row="<%=part.column%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>"><%=part.name%></div>
+                <div class="level column" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>"><%=part.name%></div>
             </div>
         <% end %>
         </div>
@@ -70,22 +73,26 @@
 </div>
 <!-- Songs Segment Area End -->
 <script type="text/javascript">
-     var index = <%= currentIndex %>; 
-     window.wavesurfers = wavesurfers = {};
-     function intializeSoundClips() {
-        var sound = wavesurfer = null;
-        $(".clips").each(function(){
-          var column = $(this).attr('data-column');
-          wavesurfers[column] = {};
-          $(this).find('.clip').each(function(){
-            if ($(this).hasClass('bordered')) { return };
-            var row = $(this).attr('data-row');
-            wavesurferPlayer(this, $(this).data('path'), $(this).data('state'), column, row);
-          })
-        });
-     }
+    // Predefined Varibales
+    var index = <%= currentIndex %>;
+    var clipPreviewPlayer = false;
+    var clipPreviewPlayerRow = 0;
+    var clipPreviewPlayerColumn = 0;
 
-     function wavesurferPlayer(container, src, mute, column, row) {
+    function intializeAllPartClips() {
+        var wavesurfer = null;
+        $(".clips").each(function(){
+            var column = $(this).attr('data-column');
+            wavesurfers[column] = {};
+            $(this).find('.clip').each(function(){
+                if ($(this).hasClass('bordered')) { return };
+                var row = $(this).attr('data-row');
+                wavesurferPlayer(this, $(this).data('path'), $(this).data('state'), column, row);
+            })
+        });
+    }
+
+    function wavesurferPlayer(container, src, mute, column, row) {
         var wavesurfer = Object.create(WaveSurfer);
         wavesurfer.row = row;
         wavesurfer.column = column;
@@ -95,69 +102,122 @@
             height: 17,
             waveColor: 'black',
             progressColor: 'black',
-            // cursorColor: 'rgba(255,255,255,0.5)',
             splitChannels: true
         });
         wavesurfer.on('ready', function (_this) {
-            // console.log("row :", _this.row, "column : ", _this.column);
-            $("#clip-part-"+_this.column + _this.row).addClass('loaded');
+            $(_this.container).addClass('loaded');
+            if ($(_this.container).data('state')) {
+                _this.toggleMute();
+            };
         });
+
+        wavesurfer.on('loading', function (_this, progress) {
+            $(_this.container).children(".progress").css("left", progress+"%");
+        });
+
         wavesurfer.load(src);
         wavesurfers[column][row] = wavesurfer;
-     }
+    }
 
-     playNext = function() {
+    playNext = function() {
         if (index > $(".clips").length) { return };
         addRemoveEventListener(true);
-     }
+    }
 
-     function addRemoveEventListener(addListener) {
-        var wavesurfer = wavesurfers[index]['h'];
+    function addRemoveEventListener(addListener) {
+        var wavesurfer = wavesurfers[index]['8'];
         wavesurfer.unAll();
         if (addListener) {
             wavesurfer.on('finish', clipEndedCallback);
         }
-     }
+    }
 
-     clipEndedCallback = function() {
-        console.log(index+ " part's clip ended. Playing next !!!");
+    clipEndedCallback = function() {
         if (index == 8) { 
+            console.log(index+ " part's clip ended.");
             $("#clips-"+index).removeClass('playing');
-            resetAllPlayer(true);
+            stopPartPlayers(true);
             return; 
         };
+        console.log(index+ " part's clip ended. Playing next !!!");
 
         $("#clips-"+index).removeClass('focus').removeClass('playing');
         if (index < 8) index++; 
         $("#clips-"+index).addClass('focus').addClass('playing');
+        showCurrentPartDetails();
         playNext();
         
-        for (var i = 65; i <= 72; i++) {
-            var column = String.fromCharCode(i).toLowerCase()
-            var wavesurfer = wavesurfers[index][column];
+        for (var i = 1; i <= 8; i++) {
+            var wavesurfer = wavesurfers[index][i];
             wavesurfer.play();
         };
-     }
+    }
 
-     resetAllPlayer = function(seek) {
-        for (var i = 65; i <= 72; i++) {
-            var column = String.fromCharCode(i).toLowerCase()
-            var wavesurfer = wavesurfers[index][column];
-            if (seek) wavesurfer.seekTo(0);
+    pausePartPlayer = function() {
+        $(".clips.focus").removeClass('playing');
+        for (var i = 1; i <= 8; i++) {
+            var wavesurfer = wavesurfers[index][i];
             if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
         };
-     }
+    }
+
+    stopPartPlayers = function(seek) {
+        for (var i = 1; i <= 8; i++) {
+            var wavesurfer = wavesurfers[index][i];
+            if (wavesurfer) wavesurfer.stop();
+        };
+    }
 
      // Intialize all sound clips for play
      // intializeSoundClips();
 
-     function saveSongInfo(event, name) {
+    function updateSongInfo(event, name) {
         $(".name-editor > .name")
             .text("Name: "+$(event.target).val())
             .attr('data-name',$(event.target).val());
-     }
+    }
 
-     $(document).ready(function(){
+    function showCurrentPartDetails() {
+        var partElement = $("#clips-"+index).children(".level.column");
+        $("#part-time").html("Time: "+partElement.data('time'));
+        $("#part-info .name")
+            .attr('data-name', partElement.data('name'))
+            .text("Name: "+partElement.data('name'))
+    }
+
+    singleClipEndedCallback = function() {
+        if (clipPreviewPlayer) {
+            clipPreviewPlayer.seekTo(0);
+            if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
+            $(".play-btn").removeClass("paused");
+        };
+    }
+
+    pauseClipPreviewPlayer = function() {
+        if (clipPreviewPlayer) {
+            $(".play-btn").removeClass("paused");
+            if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
+        }
+    }
+
+    stopClipPreviewPlayer = function(reset) {
+        if (clipPreviewPlayer) {
+            $(".play-btn").removeClass("paused");
+            clipPreviewPlayer.seekTo(0);
+            if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
+            clipPreviewPlayer.un('finish', singleClipEndedCallback);
+            if (reset && clipPreviewPlayerRow != 0) {
+                clipPreviewPlayerRow = clipPreviewPlayerColumn= 0;
+                playNext();
+            }
+            clipPreviewPlayer = false;
+        };
+    }
+
+    $(document).on('ready page:load', function () { 
+        window.wavesurfers = wavesurfers = {};
+        console.log("ready page:load called ================");
+
         $(".name-editor > .name").click(function(event){
             event.stopPropagation();
             if ($(event.target).parent().attr('type') == "part-name") { return };
@@ -172,7 +232,7 @@
         $(".name-editor input[type='text']").on('blur',function(event){
             event.stopPropagation();
             $(event.target).parents('.name-editor').removeClass('editing');
-            saveSongInfo(event, $(event.target).val());
+            updateSongInfo(event, $(event.target).val());
             
             // Update song name
             $.ajax({
@@ -183,31 +243,28 @@
                 data: JSON.stringify({name: $(event.target).val() })
             }).done(function( song ){
                 if (song && song.name) {
-                    saveSongInfo(event, song.name);    
+                    updateSongInfo(event, song.name);    
                 };
             });
         });
 
         // Intialize all sound clips for play
         setTimeout(function(){
-            intializeSoundClips();    
-        }, 600);
+            intializeAllPartClips();    
+        }, 700);
         
         $(".clips .level.column").click(function(event){
             event.stopPropagation();
-            var row = $(event.target).data('row');
-            if (row == index) { return };
+            var column = $(event.target).parent().data('column');
+            if (column == index) { return };
 
             // Paused Sound Clips
-            resetAllPlayer(true);
+            stopPartPlayers(true);
 
             $("#clips-"+index).removeClass('focus').removeClass('playing');
-            index = row;
+            index = column;
 
-            $("#part-time").html("Time: "+$(event.target).data('time'));
-            $("#part-info .name")
-                .attr('data-name', $(event.target).data('name'))
-                .text("Name: "+$(event.target).data('name'))
+            showCurrentPartDetails();
             $(event.target).parent().addClass('focus');
             playNext();
         });
@@ -222,15 +279,15 @@
             if (row != index) { return };
 
             // Stop any signle player
-            stopSinglePlayer(true);
+            stopMainPlayer();
+            stopClipPreviewPlayer(true);
 
             // Attach Listener
             addRemoveEventListener(true);
 
             // Play or Paused Sound Clips
-            for (var i = 65; i <= 72; i++) {
-                var column = String.fromCharCode(i).toLowerCase()
-                var wavesurfer = wavesurfers[index][column];
+            for (var i = 1; i <= 8; i++) {
+                var wavesurfer = wavesurfers[index][i];
                 if (wavesurfer.backend.isPaused()) {
                     $(event.target).parent().addClass('playing');
                     wavesurfer.play();
@@ -267,63 +324,45 @@
             });
         });
 
-        var singleSound = false;
-        var singleSoundRow = 0;
-        var singleSoundColumn = 0;
         $(".clip .play-btn").click(function(event){
             event.stopPropagation();
             var row = $(event.target).parents('.clip').data('row');
             var column = $(event.target).parents('.clips').data('column');
             if (!row || !column) { return };
 
+            stopMainPlayer();
+            
             // If already playing same audio file
-            if (singleSoundRow == row && singleSoundColumn == column) {
-                if (singleSound.backend.isPaused()) {
+            if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {
+                if (clipPreviewPlayer.backend.isPaused()) {
                     $(event.target).addClass('paused');
-                    singleSound.play();
+                    clipPreviewPlayer.play();
                 } else {
                     $(event.target).removeClass('paused');
-                    singleSound.pause();    
+                    clipPreviewPlayer.pause();    
                 }
                 return;
             };
 
             addRemoveEventListener(false);
             $(".clips.playing").removeClass('playing');
-            resetAllPlayer(true);
+            stopPartPlayers(true);
 
-            singleSoundRow = row;
-            singleSoundColumn = column;
-            stopSinglePlayer(false);
+            clipPreviewPlayerRow = row;
+            clipPreviewPlayerColumn = column;
+            stopClipPreviewPlayer(false);
 
             $(event.target).addClass('paused');
-            singleSound = wavesurfers[column][row];
-            singleSound.seekTo(0);
-            singleSound.play();
-            singleSound.on('finish', singleClipEndedCallback);
+            clipPreviewPlayer = wavesurfers[column][row];
+            clipPreviewPlayer.seekTo(0);
+            clipPreviewPlayer.play();
+            clipPreviewPlayer.on('finish', singleClipEndedCallback);
             window.isPartPlayerStarted = false;
         });
+    });
 
-        singleClipEndedCallback = function() {
-            if (singleSound) {
-                singleSound.seekTo(0);
-                if (!singleSound.backend.isPaused()) singleSound.pause();
-                $(".play-btn").removeClass("paused");
-            };
-        }
-
-        stopSinglePlayer = function(reset) {
-            if (singleSound) {
-                $(".play-btn").removeClass("paused");
-                singleSound.seekTo(0);
-                if (!singleSound.backend.isPaused()) singleSound.pause();
-                singleSound.un('finish', singleClipEndedCallback);
-                if (reset && singleSoundRow != 0) {
-                    singleSoundRow = singleSoundColumn= 0;
-                    playNext();
-                }
-                singleSound = false;
-            };
-        }
-     });
+    $(document).on('page:before-change', function () {
+      // Actions to do
+      console.log("page:before-change called ================");
+    });
  </script>
