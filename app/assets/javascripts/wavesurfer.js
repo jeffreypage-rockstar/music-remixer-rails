@@ -2,6 +2,8 @@
  * https://github.com/katspaugh/wavesurfer.js
  * @license CC-BY-3.0 */
 
+ /* Update BY Lalit Kumar Maurya */
+
 "use strict";
 var WaveSurfer = {
     defaultParams: {
@@ -155,7 +157,7 @@ var WaveSurfer = {
     },
     loadMediaElement: function(a, b) {
         this.empty(), this.backend.load(a, this.mediaContainer, b), this.tmpEvents.push(this.backend.once("canplay", function() {
-            this.drawBuffer(), this.fireEvent("ready")
+            this.drawBuffer(), this.fireEvent("ready", this)
         }.bind(this)), this.backend.once("error", function(a) {
             this.fireEvent("error", a)
         }.bind(this))), !b && this.backend.supportsWebAudio() && this.getArrayBuffer(a, function(a) {
