@@ -42,6 +42,7 @@
 
 #main-player {
     position: relative;
+    margin-bottom: 10px;
 }
 
 .full-play-btn {
@@ -50,6 +51,11 @@
 	height: 42px;
     left: -90px;
 	background-image: image-url('play_main_btn.png');
+}
+
+.full-play-btn.disabled, .part-play-btn.disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .full-play-btn.playing {
@@ -62,6 +68,10 @@
     width: 100%;
     height: 42px;
 }
+
+#updatesong i, #updatesong span {
+    pointer-events: none;
+} 
 
 #song-clips {
 	margin: 0 78px 35px;
@@ -101,7 +111,6 @@
 .level.column {
     cursor: pointer;    
 }
-
 
 .clip, .blank {
 	position: relative;
@@ -183,6 +192,8 @@
     pointer-events: none;
     z-index: 100;
     background-color: rgba(130, 84, 103, 0.5);
+    border-radius: 0px;
+    box-shadow: none;
 }
 
 .play-btn {

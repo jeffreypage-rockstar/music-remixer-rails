@@ -4,6 +4,7 @@
 # Author: @Ravi Prakash Singh :: Email - raviprakash.singh@newgenapps.com 
 require 'zip'
 require 'taglib'
+require 'digest/md5'
 
 class Song < ActiveRecord::Base
 	has_many :parts, dependent: :delete_all
@@ -29,7 +30,7 @@ class Song < ActiveRecord::Base
 
 			# Open Zip file and read audio clips
 			fileCount = 0
-			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".wav", ".flac", ".act", ".3gp", ".mp4"]
+			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".oga", ".wav", ".flac", ".act", ".3gp", ".mp4"]
 			Zip::File.open(folder) do |zipfile|
 			    # Read File details
 				zipfile.each do |file|
@@ -92,7 +93,7 @@ class Song < ActiveRecord::Base
 			# If at least a single clip is not mute
 			output = "mix_audio_part_#{part.column}#{fileExtension}"
 			if command.present?
-				command += " -filter_complex amix=inputs=#{count}:duration=longest:dropout_transition=3 -y ../#{output}"
+				command += " -filter_complex amix=inputs=#{count}:duration=longest:dropout_transition=3,volume=#{count} -y ../#{output}"
 				command = ffmpegcmd + command
 			# If all clips are muted, Create a blank audio
 			else
@@ -116,10 +117,11 @@ class Song < ActiveRecord::Base
 		# File Upload path
 		fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
 		dirPath = "#{Rails.root}/public#{fileUploadPath}"
-
+		
 		command = ""
 		ffmpegcmd = "cd #{dirPath} && ffmpeg"
-		output = "mix_audio#{fileExtension}"
+		digest = Digest::MD5.hexdigest("#{Time.now}")
+		output = "mix_audio_#{digest}#{fileExtension}"
 		outputs.each_with_index do |output, index|
 			command += " -i #{output}"
 		end
@@ -129,8 +131,12 @@ class Song < ActiveRecord::Base
 		if result.nil?
 		  puts "Error was #{$?}"
 		elsif result
+		  oldmixedfile = self.mixed_file.split("/").last if self.mixed_file.present?
 		  self.mixed_file = "#{fileUploadPath}#{output}"
-		  self.save!
+		  isSaved = self.save
+		  system "cd #{dirPath} && rm #{oldmixedfile}" if isSaved && oldmixedfile	
+		  system "cd #{dirPath} && rm mix_audio_part_*#{fileExtension}"	
+		  return isSaved
 		end
 	end
 
@@ -204,6 +210,6 @@ class Song < ActiveRecord::Base
 				end
 			end
 			self.duration = duration
-			self.save!
+			self.save
 		end
 end

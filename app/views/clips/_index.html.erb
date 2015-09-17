@@ -41,7 +41,7 @@
         <% @song.parts.each_with_index do |part, c| %>
             <% c += 1 %>
             <div id="clips-<%=c%>" class="clips<%=' focus' if c == currentIndex %>" data-column="<%=c%>">
-                <div class="part-play-btn" data-row="<%=c%>"></div>
+                <div class="part-play-btn<%=' disabled' if c == currentIndex %>"></div>
                 <% part.clips.each_with_index do |clip, r| %>
                     <% r += 1 %>
                     <% if r == 5 %>
@@ -109,6 +109,11 @@
             if ($(_this.container).data('state')) {
                 _this.toggleMute();
             };
+
+            var clipColumn = $("#clips-"+index)
+            if (clipColumn.children(".clip.loaded").length == 8) {
+                clipColumn.children(".part-play-btn").removeClass('disabled');
+            };
         });
 
         wavesurfer.on('loading', function (_this, progress) {
@@ -164,7 +169,8 @@
     stopPartPlayers = function(seek) {
         for (var i = 1; i <= 8; i++) {
             var wavesurfer = wavesurfers[index][i];
-            if (wavesurfer) wavesurfer.stop();
+            wavesurfer.seekTo(0);
+            if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
         };
     }
 
@@ -271,12 +277,8 @@
 
         $(".clips .part-play-btn").click(function(event){
             event.stopPropagation();
-            if ($("#clips-"+index+" .clip.loaded").length != 8) {
-                return;
-            };
-
-            var row = $(event.target).data('row');
-            if (row != index) { return };
+            var column = $(event.target).parent().data('column');
+            if (column != index) { return };
 
             // Stop any signle player
             stopMainPlayer();

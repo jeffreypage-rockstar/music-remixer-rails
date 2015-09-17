@@ -29,7 +29,7 @@ class SongsController < ApplicationController
     respond_to do |format|
       if @song.save
         format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully created.' }
-        # format.json { render :show, status: :created, location: @song }
+        format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
         format.json { render json: @song.errors, status: :unprocessable_entity }
@@ -40,9 +40,11 @@ class SongsController < ApplicationController
   # PATCH/PUT /songs/1
   # PATCH/PUT /songs/1.json
   def update
+    isSaved = @song.create_mixed_audio if params[:merge]
+    isSaved = @song.update(song_params) unless params[:merge]
     respond_to do |format|
-      if @song.update(song_params)
-        format.html { redirect_to root_path, notice: 'Song was successfully updated.' }
+      if isSaved
+        format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render :show, status: :ok, location: @song }
       else
         format.html { render :edit }

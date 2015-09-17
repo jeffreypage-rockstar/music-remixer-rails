@@ -1,0 +1,28 @@
+<div id="main-player" class="row" data-path='<%="#{@song.mixed_file}"%>'>
+    <div class="full-play-btn disabled"></div>
+    <div class="full-waveform">
+        <div class="progress"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#top-player .full-play-btn").on('click', function(event){
+            event.stopPropagation();
+            if (!window.topWavesurfer) {
+                return alert("Top player is not ready. Please try later.")
+            };
+
+            // Pause other players i.e. part player, clip preview player
+            pauseClipPreviewPlayer();
+            pausePartPlayer();
+
+            if (window.topWavesurfer.backend.isPaused()) {
+                $(event.target).addClass('playing');
+                window.topWavesurfer.play();
+            } else {
+                $(event.target).removeClass('playing');
+                window.topWavesurfer.pause();    
+            }
+        });
+    });
+</script>

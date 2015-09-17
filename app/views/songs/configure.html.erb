@@ -1,13 +1,17 @@
 <!-- Main player Area Start -->
 <div class="row main-player-area">
-    <div class="col-md-4"></div>
-    <div class="col-md-8">
-        <div id="main-player" class="row" data-path="<%=@song.mixed_file%>">
-            <div class="full-play-btn"></div>
-            <div class="full-waveform">
-                <div class="progress"></div>
-            </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div id="top-player" class="col-md-8">
+            <%= render 'top_player' %>
         </div>
+    </div>
+    <div class="row">
+        <button id="updatesong" type="button" class="btn btn-primary start pull-right" data-action="/songs/<%=@song.id%>"
+                data-loading-text="<i class='icon-spinner icon-spin icon-large'></i> Creating Mix Audio...">
+            <i class="icon-upload icon-large"></i>
+            <span>Create Mix Audio</span>
+        </button>
     </div>
 </div>
 <!-- Main player Area End -->
@@ -27,10 +31,15 @@
         });
         window.topWavesurfer.on('ready', function (_this) {
             // console.log("Loaded!");
+            $(".full-play-btn").removeClass('disabled');
         });
 
         window.topWavesurfer.on('loading', function (_this, progress) {
             $(_this.container).children(".progress").css("left", progress+"%");
+        });
+
+        window.topWavesurfer.on('finish', function () {
+            $(".full-play-btn").removeClass('playing');
         });
         window.topWavesurfer.load(mixedFilePath);
     }
@@ -46,27 +55,32 @@
 
     $(document).ready(function(){
         if ($("#main-player").data('path') != "") {
-            var mixedFilePath = $("#main-player").data('path') + "?t="+Date.now();
-            topPlayer(mixedFilePath);
-        };
-        
-        $(".full-play-btn").click(function(event){
+            topPlayer($("#main-player").data('path'));
+        } else {
+            $("#main-player").hide();
+        }
+
+        $("#updatesong").on('click', function(event){
             event.stopPropagation();
-            if (!window.topWavesurfer) {
-                return alert("Top player is not ready. Please try later.")
-            };
-
-            // Pause other players i.e. part player, clip preview player
-            pauseClipPreviewPlayer();
-            pausePartPlayer();
-
-            if (window.topWavesurfer.backend.isPaused()) {
-                $(event.target).addClass('playing');
-                window.topWavesurfer.play();
-            } else {
-                $(event.target).removeClass('playing');
-                window.topWavesurfer.pause();    
-            }
+            $(event.target).button('loading')
+            // Update song name
+            $.ajax({
+                type: "PUT",
+                dataType: "json",
+                url: $(event.target).attr('data-action'),
+                contentType: 'application/json',
+                data: JSON.stringify({merge: true })
+            }).done(function( song ){
+                console.log("Song : ", song);
+                if (song && song.mixed_file) {
+                    $("#top-player").html("<%=j render :partial=>"top_player"%>");
+                    stopMainPlayer();
+                    topPlayer(song.mixed_file);
+                };
+                $(event.target).button('reset');
+            }).fail(function(){
+                $(event.target).button('reset');
+            });
         });
     });
 </script>
