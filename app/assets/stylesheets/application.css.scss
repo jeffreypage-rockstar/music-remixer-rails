@@ -53,7 +53,7 @@
 	background-image: image-url('play_main_btn.png');
 }
 
-.full-play-btn.disabled, .part-play-btn.disabled {
+.full-play-btn.disabled {
     pointer-events: none;
     opacity: 0.5;
 }
@@ -238,6 +238,11 @@
 #song-clips .clips.focus .part-play-btn {
 	background-image: image-url('play_medium.png');
     pointer-events: all;
+}
+
+#song-clips .clips.focus .part-play-btn.disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 #song-clips .clips.focus.playing .part-play-btn {

@@ -1,12 +1,32 @@
-<div id="main-player" class="row" data-path='<%="#{@song.mixed_file}"%>'>
-    <div class="full-play-btn disabled"></div>
-    <div class="full-waveform">
-        <div class="progress"></div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div id="main-player" class="row" data-path='<%="#{@song.mixed_file}"%>'>
+            <div class="full-play-btn disabled"></div>
+            <div class="full-waveform">
+                <div class="progress"></div>
+            </div>
+        </div>
     </div>
+</div>
+<div class="row">
+    <% word = "Create" %>
+    <% word = "Updat" if @song.mixed_file.present? %>
+    <button id="updatesong" type="button" class="btn btn-primary start pull-right disabled" data-action="/songs/<%=@song.id%>"
+            data-loading-text="<i class='icon-spinner icon-spin icon-large'></i> <%=word%>ing Mix Audio...">
+        <i class="icon-upload icon-large"></i>
+        <span><%=word%>e Mix Audio</span>
+    </button>
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#top-player .full-play-btn").on('click', function(event){
+        $("#updatesong").on('click', function(event){
+            event.stopPropagation();
+            $(event.target).button('loading')
+            updateMixAudio(event);
+        });
+
+        $(".full-play-btn").on('click', function(event){
             event.stopPropagation();
             if (!window.topWavesurfer) {
                 return alert("Top player is not ready. Please try later.")

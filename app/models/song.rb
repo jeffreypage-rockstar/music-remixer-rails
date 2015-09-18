@@ -50,12 +50,6 @@ class Song < ActiveRecord::Base
 		end
 	end
 
-	# def clipState(row = 0, column = 0)
-	# 	clip = self.clips.detect {|clip| clip.row == row and clip.column == column }
-	# 	return true if !clip or clip.state
-	# 	return false
-	# end
-
 	def self.valid_zip?(file)
 		zip = Zip::File.open(file)
 		  true
@@ -97,7 +91,7 @@ class Song < ActiveRecord::Base
 				command = ffmpegcmd + command
 			# If all clips are muted, Create a blank audio
 			else
-				command = ffmpegcmd + " -filter_complex aevalsrc=0 -t #{part.duration+1} -y ../#{output}"
+				command = "#{ffmpegcmd} -filter_complex aevalsrc=0 -t #{part.duration+1} -y ../#{output}"
 			end
 			outputs.push(output)
 			commands.push(command)
@@ -121,16 +115,17 @@ class Song < ActiveRecord::Base
 		command = ""
 		ffmpegcmd = "cd #{dirPath} && ffmpeg"
 		digest = Digest::MD5.hexdigest("#{Time.now}")
-		output = "mix_audio_#{digest}#{fileExtension}"
+		output = "mix-audio-#{digest}#{fileExtension}"
 		outputs.each_with_index do |output, index|
 			command += " -i #{output}"
 		end
-		command = ffmpegcmd + command + " -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y #{output}"
+		command = "#{ffmpegcmd} #{command} -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y #{output}"
 
 		result = system command
 		if result.nil?
 		  puts "Error was #{$?}"
 		elsif result
+		  oldmixedfile = false
 		  oldmixedfile = self.mixed_file.split("/").last if self.mixed_file.present?
 		  self.mixed_file = "#{fileUploadPath}#{output}"
 		  isSaved = self.save
@@ -158,6 +153,7 @@ class Song < ActiveRecord::Base
 			clips = Hash.new
 			fileCount = 0
 			duration = 0
+			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".oga", ".wav", ".flac", ".act", ".3gp", ".mp4"]
 			Zip::File.open(folder) do |zipfile|
 			    # Read File details
 				zipfile.each do |file|
@@ -168,43 +164,46 @@ class Song < ActiveRecord::Base
 
 			    	clipFilePath = ""
 					if !File.directory?(filePath) && !filePath.include?("MACOSX") && !filePath.include?(".DS_Store")
-				    	# Collect File info
-						fileCount += 1
-						fileName = file.name.to_s.split("/").last
-						if fileName[0] =~ /[0-9]/
-							column = fileName[0]
-							# clips[column] = Array.new if clips[column].blank?
-							levelType = fileName.split(".").first.gsub(/\d|O-/,"").gsub("-"," ")
-							clipFilePath = "#{fileUploadPath}#{file.name.to_s}"
-							# data = {level: levelType, filePath: "#{fileUploadPath}#{file.name.to_s}"}
-							# clips[column].push(data)
-						else 
-							levelType = fileName.split("_").first.gsub('O-','').gsub('-',' ')
-							rowColumnExtension = fileName.split("_").last
-							if rowColumnExtension
-								rowColumnValue = rowColumnExtension.split(".").first
-								column = rowColumnValue[0]
-								row = rowColumnValue[1]
+						fileExtension = File.extname(filePath)
+						if accepted_formats.include? fileExtension
+							# Collect File info
+							fileCount += 1
+							fileName = file.name.to_s.split("/").last
+							if fileName[0] =~ /[0-9]/
+								column = fileName[0]
 								# clips[column] = Array.new if clips[column].blank?
+								levelType = fileName.split(".").first.gsub(/\d|O-/,"").gsub("-"," ")
 								clipFilePath = "#{fileUploadPath}#{file.name.to_s}"
 								# data = {level: levelType, filePath: "#{fileUploadPath}#{file.name.to_s}"}
 								# clips[column].push(data)
+							else 
+								levelType = fileName.split("_").first.gsub('O-','').gsub('-',' ')
+								rowColumnExtension = fileName.split("_").last
+								if rowColumnExtension
+									rowColumnValue = rowColumnExtension.split(".").first
+									column = rowColumnValue[0]
+									row = rowColumnValue[1]
+									# clips[column] = Array.new if clips[column].blank?
+									clipFilePath = "#{fileUploadPath}#{file.name.to_s}"
+									# data = {level: levelType, filePath: "#{fileUploadPath}#{file.name.to_s}"}
+									# clips[column].push(data)
+								end
 							end
-						end
 
-						if clips[column].blank?
-							TagLib::FileRef.open(filePath) do |fileref|
-							  unless fileref.null?
-							    properties = fileref.audio_properties
-							    duration += properties.length
-								@part = Part.find_or_create_by(song_id: self.id, name: "Part #{column}", duration: properties.length, column: column)
-								@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)
-								clips[column] = "added"
-							  end
-							end  # File is automatically closed at block end
-						else
-							@part = Part.find_by(song_id: self.id, column: column)
-							@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)	
+							if clips[column].blank?
+								TagLib::FileRef.open(filePath) do |fileref|
+								  unless fileref.null?
+								    properties = fileref.audio_properties
+								    duration += properties.length
+									@part = Part.find_or_create_by(song_id: self.id, name: "Part #{column}", duration: properties.length, column: column)
+									@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)
+									clips[column] = "added"
+								  end
+								end  # File is automatically closed at block end
+							else
+								@part = Part.find_by(song_id: self.id, column: column)
+								@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)	
+							end
 						end
 					end
 				end

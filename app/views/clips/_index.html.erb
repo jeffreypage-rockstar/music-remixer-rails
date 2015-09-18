@@ -281,7 +281,7 @@
             if (column != index) { return };
 
             // Stop any signle player
-            stopMainPlayer();
+            stopTopPlayer();
             stopClipPreviewPlayer(true);
 
             // Attach Listener
@@ -332,7 +332,7 @@
             var column = $(event.target).parents('.clips').data('column');
             if (!row || !column) { return };
 
-            stopMainPlayer();
+            stopTopPlayer();
             
             // If already playing same audio file
             if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {

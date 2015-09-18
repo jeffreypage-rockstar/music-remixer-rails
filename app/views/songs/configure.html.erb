@@ -1,25 +1,13 @@
 <!-- Main player Area Start -->
-<div class="row main-player-area">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div id="top-player" class="col-md-8">
-            <%= render 'top_player' %>
-        </div>
-    </div>
-    <div class="row">
-        <button id="updatesong" type="button" class="btn btn-primary start pull-right" data-action="/songs/<%=@song.id%>"
-                data-loading-text="<i class='icon-spinner icon-spin icon-large'></i> Creating Mix Audio...">
-            <i class="icon-upload icon-large"></i>
-            <span>Create Mix Audio</span>
-        </button>
-    </div>
+<div id="top-player" class="row main-player-area">
+    <%= render 'top_player' %>
 </div>
 <!-- Main player Area End -->
 
 <%= render 'clips/index' %>
 
 <script type="text/javascript">
-    function topPlayer(mixedFilePath) {
+    initializeTopPlayer = function(mixedFilePath) {
         window.topWavesurfer = Object.create(WaveSurfer);
         window.topWavesurfer.init({
             container: '.full-waveform',
@@ -31,7 +19,7 @@
         });
         window.topWavesurfer.on('ready', function (_this) {
             // console.log("Loaded!");
-            $(".full-play-btn").removeClass('disabled');
+            $(".full-play-btn, #updatesong").removeClass('disabled');
         });
 
         window.topWavesurfer.on('loading', function (_this, progress) {
@@ -44,7 +32,7 @@
         window.topWavesurfer.load(mixedFilePath);
     }
 
-    function stopMainPlayer() {
+    stopTopPlayer = function() {
         if (window.topWavesurfer) {
             if (!window.topWavesurfer.backend.isPaused()) {
                 window.topWavesurfer.pause();
@@ -53,34 +41,32 @@
         };
     }
 
+    updateMixAudio = function(event) {
+        // Update song name
+        $.ajax({
+            type: "PUT",
+            dataType: "json",
+            url: $(event.target).attr('data-action'),
+            contentType: 'application/json',
+            data: JSON.stringify({merge: true })
+        }).done(function( song ){
+            console.log("Song : ", song);
+            if (song && song.mixed_file) {
+                $("#top-player").html("<%=j render :partial=>"top_player"%>");
+                stopTopPlayer();
+                initializeTopPlayer(song.mixed_file);
+            };
+            $(event.target).button('reset');
+        }).fail(function(){
+            $(event.target).button('reset');
+        }); 
+    }
+
     $(document).ready(function(){
         if ($("#main-player").data('path') != "") {
-            topPlayer($("#main-player").data('path'));
+            initializeTopPlayer($("#main-player").data('path'));
         } else {
             $("#main-player").hide();
         }
-
-        $("#updatesong").on('click', function(event){
-            event.stopPropagation();
-            $(event.target).button('loading')
-            // Update song name
-            $.ajax({
-                type: "PUT",
-                dataType: "json",
-                url: $(event.target).attr('data-action'),
-                contentType: 'application/json',
-                data: JSON.stringify({merge: true })
-            }).done(function( song ){
-                console.log("Song : ", song);
-                if (song && song.mixed_file) {
-                    $("#top-player").html("<%=j render :partial=>"top_player"%>");
-                    stopMainPlayer();
-                    topPlayer(song.mixed_file);
-                };
-                $(event.target).button('reset');
-            }).fail(function(){
-                $(event.target).button('reset');
-            });
-        });
     });
 </script>
