@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <ul id="song-info">
                 <li><p>Song Configuration</p></li>
-                <li class="name-editor" type="song-name">
+                <li class="name-editor" type="song">
                     <span class="name" data-name="<%= @song.name %>" title="Click to edit...">Name: <%= @song.name %></span>
                     <div class="edit"> 
                         <%= form_for(@song, :remote => true, method: :put) do |f| %>
@@ -22,12 +22,12 @@
             <ul id="part-info">
                 <li><p>Part Configuration</p></li>
                 <% @part = @song.parts.first%>
-                <li class="name-editor" type="part-name">
+                <li class="name-editor" type="part">
                     <span class="name" data-name="<%= @part.name %>" title="Click to edit...">Name: <%= @part.name %></span>
                     <div class="edit"> 
                         <%= form_for([@song, @part], :remote => true, method: :put) do |f| %>
                             <label for="part_name">Name:</label>
-                            <%= f.text_field :name, required: true %>
+                            <%= f.text_field :name, required: true, maxlength: 10 %>
                         <% end %>
                     </div>
                 </li>
@@ -41,7 +41,7 @@
         <% @song.parts.each_with_index do |part, c| %>
             <% c += 1 %>
             <div id="clips-<%=c%>" class="clips<%=' focus' if c == currentIndex %>" data-column="<%=c%>">
-                <div class="part-play-btn<%=' disabled' if c == currentIndex %>"></div>
+                <div class="part-play-btn disabled"></div>
                 <% part.clips.each_with_index do |clip, r| %>
                     <% r += 1 %>
                     <% if r == 5 %>
@@ -86,8 +86,7 @@
             wavesurfers[column] = {};
             $(this).find('.clip').each(function(){
                 if ($(this).hasClass('bordered')) { return };
-                var row = $(this).attr('data-row');
-                wavesurferPlayer(this, $(this).data('path'), $(this).data('state'), column, row);
+                wavesurferPlayer(this, $(this).data('path'), $(this).data('state'), column, $(this).attr('data-row'));
             })
         });
     }
@@ -109,11 +108,7 @@
             if ($(_this.container).data('state')) {
                 _this.toggleMute();
             };
-
-            var clipColumn = $("#clips-"+index)
-            if (clipColumn.children(".clip.loaded").length == 8) {
-                clipColumn.children(".part-play-btn").removeClass('disabled');
-            };
+            isPartPlayerReady(_this.column);
         });
 
         wavesurfer.on('loading', function (_this, progress) {
@@ -124,17 +119,27 @@
         wavesurfers[column][row] = wavesurfer;
     }
 
+    isPartPlayerReady = function(column) {
+        var clipColumn = $("#clips-"+column)
+        if (clipColumn.children(".clip.loaded").length == 8) {
+            console.log("Part player is ready!");
+            clipColumn.children(".part-play-btn").removeClass('disabled');
+        };
+    }
+
     playNext = function() {
         if (index > $(".clips").length) { return };
         addRemoveEventListener(true);
     }
 
     function addRemoveEventListener(addListener) {
-        var wavesurfer = wavesurfers[index]['8'];
-        wavesurfer.unAll();
-        if (addListener) {
-            wavesurfer.on('finish', clipEndedCallback);
-        }
+        var wavesurfer = wavesurfers[index]['1'];
+        if (wavesurfer) {
+            wavesurfer.unAll();
+            if (addListener) {
+                wavesurfer.on('finish', clipEndedCallback);
+            } 
+        };
     }
 
     clipEndedCallback = function() {
@@ -154,7 +159,9 @@
         
         for (var i = 1; i <= 8; i++) {
             var wavesurfer = wavesurfers[index][i];
-            wavesurfer.play();
+            if (wavesurfer) {
+                wavesurfer.play();    
+            }
         };
     }
 
@@ -162,25 +169,35 @@
         $(".clips.focus").removeClass('playing');
         for (var i = 1; i <= 8; i++) {
             var wavesurfer = wavesurfers[index][i];
-            if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
+            if (wavesurfer) {
+                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
+            };
         };
     }
 
     stopPartPlayers = function(seek) {
         for (var i = 1; i <= 8; i++) {
             var wavesurfer = wavesurfers[index][i];
-            wavesurfer.seekTo(0);
-            if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
+            if (wavesurfer) {
+                wavesurfer.seekTo(0);
+                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
+            };
         };
     }
 
      // Intialize all sound clips for play
      // intializeSoundClips();
 
-    function updateSongInfo(event, name) {
-        $(".name-editor > .name")
+    function updateName(type, event, name) {
+        $(".name-editor[type='"+type+"'] > .name")
             .text("Name: "+$(event.target).val())
             .attr('data-name',$(event.target).val());
+
+        if (type == 'part') {
+            $("#clips-"+index).children(".level.column")
+                .attr('data-name', name)
+                .text(name);
+        };
     }
 
     function showCurrentPartDetails() {
@@ -189,6 +206,9 @@
         $("#part-info .name")
             .attr('data-name', partElement.data('name'))
             .text("Name: "+partElement.data('name'))
+        var songID = $("#song-clips").data('id');
+        var partID = partElement.data('id');
+        $("#part-info form").attr('action', "/songs/"+songID+"/parts/"+partID);
     }
 
     singleClipEndedCallback = function() {
@@ -222,11 +242,8 @@
 
     $(document).on('ready page:load', function () { 
         window.wavesurfers = wavesurfers = {};
-        console.log("ready page:load called ================");
-
         $(".name-editor > .name").click(function(event){
             event.stopPropagation();
-            if ($(event.target).parent().attr('type') == "part-name") { return };
             $(event.target).parent().addClass('editing');
             $(event.target).parents('.name-editor').find('input').focus().val($(event.target).attr('data-name'))
         });
@@ -235,23 +252,47 @@
             if (event.keyCode == 13) { event.target.blur(); };
         });
 
+        $('form').on('submit', function(){
+            return false;
+        });
+
         $(".name-editor input[type='text']").on('blur',function(event){
             event.stopPropagation();
             $(event.target).parents('.name-editor').removeClass('editing');
-            updateSongInfo(event, $(event.target).val());
-            
-            // Update song name
-            $.ajax({
-                type: "PUT",
-                dataType: "json",
-                url: $(event.target).parent().attr('action'),
-                contentType: 'application/json',
-                data: JSON.stringify({name: $(event.target).val() })
-            }).done(function( song ){
-                if (song && song.name) {
-                    updateSongInfo(event, song.name);    
-                };
-            });
+            if ($.trim($(event.target).val()) == "") {
+                return alert("Name can not be empty.");
+            };
+
+            var type = $(event.target).parents('.name-editor').attr('type');
+            if (type == "song") {
+                updateName(type, event, $(event.target).val());
+                // Update song name
+                $.ajax({
+                    type: "PUT",
+                    dataType: "json",
+                    url: $(event.target).parent().attr('action'),
+                    contentType: 'application/json',
+                    data: JSON.stringify({name: $(event.target).val() })
+                }).done(function( song ){
+                    if (song && song.name) {
+                        updateName(type, event, song.name);    
+                    };
+                }); 
+            } else {
+                // Update part name
+                updateName(type, event, $(event.target).val());
+                $.ajax({
+                    type: "PUT",
+                    dataType: "json",
+                    url: $(event.target).parent().attr('action'),
+                    contentType: 'application/json',
+                    data: JSON.stringify({name: $(event.target).val() })
+                }).done(function(part){
+                    if (part && part.name) {
+                        updateName(type, event, part.name);    
+                    };
+                }); 
+            }
         });
 
         // Intialize all sound clips for play
@@ -270,6 +311,7 @@
             $("#clips-"+index).removeClass('focus').removeClass('playing');
             index = column;
 
+            isPartPlayerReady(column);
             showCurrentPartDetails();
             $(event.target).parent().addClass('focus');
             playNext();
@@ -304,9 +346,11 @@
             event.stopPropagation();
             var row = $(event.target).data('row');
             var column = $(event.target).parent().data('column');
-            $(event.target).toggleClass('muted');
 
             var wavesurfer = wavesurfers[column][row];
+            if (!wavesurfer) { return };
+
+            $(event.target).toggleClass('muted');
             wavesurfer.toggleMute();
 
             var volume = wavesurfer.isMuted ? 1 : 0;

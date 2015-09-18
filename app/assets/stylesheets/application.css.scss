@@ -240,7 +240,7 @@
     pointer-events: all;
 }
 
-#song-clips .clips.focus .part-play-btn.disabled {
+#song-clips .clips.focus .part-play-btn.disabled, #updatesong.disabled {
     pointer-events: none;
     opacity: 0.5;
 }
@@ -331,7 +331,8 @@ ul#song-info li, ul#part-info li {
     margin: 0;
 }
 
-.name-editor #song_name {
+.name-editor #song_name,
+.name-editor #part_name {
     line-height: 17px;
 }
 

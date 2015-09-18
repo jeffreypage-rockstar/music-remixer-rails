@@ -12,7 +12,7 @@
 <div class="row">
     <% word = "Create" %>
     <% word = "Updat" if @song.mixed_file.present? %>
-    <button id="updatesong" type="button" class="btn btn-primary start pull-right disabled" data-action="/songs/<%=@song.id%>"
+    <button id="updatesong" type="button" class="btn btn-primary start pull-right<%=" disabled" if @song.mixed_file.present? %>" data-action="/songs/<%=@song.id%>"
             data-loading-text="<i class='icon-spinner icon-spin icon-large'></i> <%=word%>ing Mix Audio...">
         <i class="icon-upload icon-large"></i>
         <span><%=word%>e Mix Audio</span>

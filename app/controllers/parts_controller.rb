@@ -1,4 +1,6 @@
 class PartsController < ApplicationController
+  before_action :set_part, only: [:show, :edit, :update, :destroy]
+
 	def new
   end
 
@@ -11,10 +13,10 @@ class PartsController < ApplicationController
   def update
     respond_to do |format|
       if @part.update(part_params)
-        format.html { redirect_to @part, notice: 'Part was successfully updated.' }
-        format.json { render :show, status: :ok, location: @part }
+        # format.html { redirect_to [@song, @part], notice: 'Part was successfully updated.' }
+        format.json { render json: @part}
       else
-        format.html { render :edit }
+        # format.html { render :edit }
         format.json { render json: @part.errors, status: :unprocessable_entity }
       end
     end
@@ -23,7 +25,8 @@ class PartsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_part
-      @part = part.find(params[:id])
+      @song = Song.find(params[:song_id])
+      @part = Part.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -18,7 +18,7 @@
             cursorColor: 'white'
         });
         window.topWavesurfer.on('ready', function (_this) {
-            // console.log("Loaded!");
+            console.log("Top player is ready!");
             $(".full-play-btn, #updatesong").removeClass('disabled');
         });
 
@@ -28,6 +28,7 @@
 
         window.topWavesurfer.on('finish', function () {
             $(".full-play-btn").removeClass('playing');
+            window.topWavesurfer.seekTo(0);
         });
         window.topWavesurfer.load(mixedFilePath);
     }
