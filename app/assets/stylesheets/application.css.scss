@@ -13,8 +13,10 @@
  *= require_tree .
  *= require_self
  */
+ 
  @import "bootstrap-sprockets";
  @import "bootstrap";
+ @import "font-awesome";
 
  body {
  	background-color: #333;
@@ -47,10 +49,10 @@
 
 .full-play-btn {
 	position: absolute;
-	width: 80px;
+	width: 43px;
 	height: 42px;
-    left: -90px;
-	background-image: image-url('play_main_btn.png');
+    left: -50px;
+	background-image: image-url('play.png');
 }
 
 .full-play-btn.disabled {
@@ -59,7 +61,7 @@
 }
 
 .full-play-btn.playing {
-	background-image: image-url('pause_main_btn.png');
+	background-image: image-url('pause.png');
 }
 
 .full-waveform {
@@ -342,4 +344,8 @@ ul#song-info li, ul#part-info li {
 
 .name-editor.editing > .edit {
     display: block;
+}
+
+.btn.loading * {
+   pointer-events: none; 
 }

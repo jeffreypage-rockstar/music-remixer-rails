@@ -1,5 +1,6 @@
 class SongsController < ApplicationController
-  before_action :set_song, only: [:show, :edit, :update, :configure, :destroy]
+  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :destroy]
+  before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
   # GET /songs.json
@@ -37,15 +38,16 @@ class SongsController < ApplicationController
     end
   end
 
+  def configure
+  end
+
   # PATCH/PUT /songs/1
   # PATCH/PUT /songs/1.json
   def update
-    isSaved = @song.create_mixed_audio if params[:merge]
-    isSaved = @song.update(song_params) unless params[:merge]
     respond_to do |format|
-      if isSaved
+      if @song.update(song_params)
         format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully updated.' }
-        format.json { render :show, status: :ok, location: @song }
+        format.json { render json: @song }
       else
         format.html { render :edit }
         format.json { render json: @song.errors, status: :unprocessable_entity }
@@ -53,7 +55,24 @@ class SongsController < ApplicationController
     end
   end
 
-  def configure
+  def mixaudio
+    respond_to do |format|
+      if @song.create_mixed_audio(params[:configuration])
+        @mixaudio = @song.mixaudio
+        if @configuration == 'style-up'
+          @mixaudio = @song.mixaudio2
+        elsif @configuration == 'style-down'
+          @mixaudio = @song.mixaudio3
+        end
+        # format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully updated.' }
+        format.js {}
+        # format.json { render json: { song: @song, mixaudio: @mixaudio, state: @state} }
+      else
+        # format.html { render :edit }
+        format.js {}
+        # format.json { render json: @song.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # DELETE /songs/1
@@ -70,6 +89,23 @@ class SongsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_song
       @song = Song.find(params[:id])
+    end
+
+    def set_configuration
+      @configuration = 'source'
+      if params[:configuration].present?
+        @configuration = params[:configuration]
+      end
+
+      @mixaudio = @song.mixaudio
+      @state = 'state'
+      if @configuration == 'style-up'
+        @mixaudio = @song.mixaudio2
+        @state = 'state2'
+      elsif @configuration == 'style-down'
+        @mixaudio = @song.mixaudio3
+        @state = 'state3'
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

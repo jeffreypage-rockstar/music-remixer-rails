@@ -1,12 +1,29 @@
+<div class="row">
+    <div class="btn-group" role="group" aria-label="...">
+        <a href="/songs/<%=@song.id%>/configure?configuration=style-up" class="btn btn-primary loading configuration<%=' disabled' if @configuration == 'style-up'%>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Loading">
+            <span>Style</span>
+            <i class="fa fa-chevron-circle-up"></i>
+        </a>
+        <a href="/songs/<%=@song.id%>/configure?configuration=source" class="btn btn-primary loading configuration<%=' disabled' if @configuration == 'source'%>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Loading">
+            <span>Source</span>
+        </a>
+        <a href="/songs/<%=@song.id%>/configure?configuration=style-down" class="btn btn-primary loading configuration<%=' disabled' if @configuration == 'style-down'%>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Loading">
+            <span>Style</span>
+            <i class="fa fa-chevron-circle-down"></i>
+        </a>
+    </div>
+</div>
+
 <!-- Main player Area Start -->
-<div id="top-player" class="row main-player-area">
-    <%= render 'top_player' %>
+<div id="mixaudioplayer" class="row main-player-area">
+    <%= render 'mixaudioplayer', song: @song, mixaudio: @mixaudio %>
 </div>
 <!-- Main player Area End -->
 
 <%= render 'clips/index' %>
 
 <script type="text/javascript">
+    var configuration = "<%=@configuration%>";
     initializeTopPlayer = function(mixedFilePath) {
         window.topWavesurfer = Object.create(WaveSurfer);
         window.topWavesurfer.init({
@@ -18,8 +35,8 @@
             cursorColor: 'white'
         });
         window.topWavesurfer.on('ready', function (_this) {
-            console.log("Top player is ready!");
-            $(".full-play-btn, #updatesong").removeClass('disabled');
+            console.log("Mix Audio player is ready!");
+            $(".full-play-btn, #mixaudio").removeClass('disabled');
         });
 
         window.topWavesurfer.on('loading', function (_this, progress) {
@@ -42,32 +59,15 @@
         };
     }
 
-    updateMixAudio = function(event) {
-        // Update song name
-        $.ajax({
-            type: "PUT",
-            dataType: "json",
-            url: $(event.target).attr('data-action'),
-            contentType: 'application/json',
-            data: JSON.stringify({merge: true })
-        }).done(function( song ){
-            console.log("Song : ", song);
-            if (song && song.mixed_file) {
-                $("#top-player").html("<%=j render :partial=>"top_player"%>");
-                stopTopPlayer();
-                initializeTopPlayer(song.mixed_file);
-            };
-            $(event.target).button('reset');
-        }).fail(function(){
-            $(event.target).button('reset');
-        }); 
-    }
-
     $(document).ready(function(){
-        if ($("#main-player").data('path') != "") {
-            initializeTopPlayer($("#main-player").data('path'));
-        } else {
-            $("#main-player").hide();
-        }
+        <% if @mixaudio.present? %>
+        initializeTopPlayer("<%=@mixaudio%>");
+        <% end %>
+        $(".configuration").on('click', function(event){
+            event.stopPropagation();
+            $(event.target).button('loading');
+            $(".configuration").removeClass("disabled");
+            $(event.target).addClass("disabled");
+        });
     });
 </script>

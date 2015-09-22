@@ -37,7 +37,7 @@
     </div>
     <!-- Songs Details Area End -->
     <div class="row">
-        <div class="col-md-9">
+        <div id="audio-clips" class="col-md-9">
         <% @song.parts.each_with_index do |part, c| %>
             <% c += 1 %>
             <div id="clips-<%=c%>" class="clips<%=' focus' if c == currentIndex %>" data-column="<%=c%>">
@@ -52,7 +52,7 @@
                     <% if c == 1 %>
                       <div class="level left"><%=clip.level_name%></div>
                     <% end %>
-                    <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip.state%>">
+                    <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip[@state]%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip[@state]%>">
                         <div class="progress"></div>
                         <div class="opaque-gray"></div>
                         <div class="play-btn"></div>
@@ -359,6 +359,11 @@
 
             // Update song name
             var clip = { clip: { state: volume } };
+            if (configuration == 'style-up') {
+              clip = { clip: { state2: volume } };
+            } else if (configuration == 'style-down') {
+              clip = { clip: { state3: volume } };
+            }
             $.ajax({
                 type: "PUT",
                 dataType: "json",

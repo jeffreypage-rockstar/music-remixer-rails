@@ -28,6 +28,6 @@ class ClipsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def clip_params
-      params.require(:clip).permit(:name, :row, :column, :state)
+      params.require(:clip).permit(:name, :row, :column, :state, :state2, :state3)
     end
 end

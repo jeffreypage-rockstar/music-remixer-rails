@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :songs do
     member do
       get :configure
+      get :mixaudio
     end
 
     resources :parts

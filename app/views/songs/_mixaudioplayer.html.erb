@@ -1,35 +1,34 @@
 <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-8">
-        <div id="main-player" class="row" data-path='<%="#{@song.mixed_file}"%>'>
+        <div id="main-player" class="row<%=" hide" if mixaudio.blank? %>" data-path='<%="#{mixaudio}"%>'>
             <div class="full-play-btn disabled"></div>
             <div class="full-waveform">
-                <div class="progress"></div>
+                <div class="progress<%=" hide" if mixaudio.blank? %>"></div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <% word = "Create" %>
-    <% word = "Updat" if @song.mixed_file.present? %>
-    <button id="updatesong" type="button" class="btn btn-primary start pull-right<%=" disabled" if @song.mixed_file.present? %>" data-action="/songs/<%=@song.id%>"
-            data-loading-text="<i class='icon-spinner icon-spin icon-large'></i> <%=word%>ing Mix Audio...">
-        <i class="icon-upload icon-large"></i>
-        <span><%=word%>e Mix Audio</span>
-    </button>
+    <div class="col-md-12 col-lg-12">
+        <% word = "Creat" %>
+        <% word = "Updat" if mixaudio.present? %>
+        <a id="mixaudio" data-remote="true" href="/songs/<%=@song.id%>/mixaudio?configuration=<%=@configuration%>&merge=true" class="btn btn-primary loading pull-right<%=" disabled" if mixaudio.present? %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=word%>ing Mix Audio">
+            <span><%=word%>e Mix Audio</span>
+        </a>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#updatesong").on('click', function(event){
-            event.stopPropagation();
-            $(event.target).button('loading')
-            updateMixAudio(event);
+        $("#mixaudio").on('click', function(event){
+            $(event.target).addClass("disabled");
+            $("#mixaudio").button('loading');
         });
 
         $(".full-play-btn").on('click', function(event){
             event.stopPropagation();
             if (!window.topWavesurfer) {
-                return alert("Top player is not ready. Please try later.")
+                return alert("Mix Audio player is not ready. Please try later.")
             };
 
             // Pause other players i.e. part player, clip preview player

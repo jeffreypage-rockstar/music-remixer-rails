@@ -59,7 +59,7 @@ class Song < ActiveRecord::Base
 		  zip.close if zip
 	end
 
-	def create_mixed_audio
+	def create_mixed_audio configuration = 'source'
 		# Folder and Zip file path
 		fileUploadPath = self.zipfile.url.gsub(".zip","")
 		dirPath = "#{Rails.root}/public#{fileUploadPath}"
@@ -126,8 +126,16 @@ class Song < ActiveRecord::Base
 		  puts "Error was #{$?}"
 		elsif result
 		  oldmixedfile = false
-		  oldmixedfile = self.mixed_file.split("/").last if self.mixed_file.present?
-		  self.mixed_file = "#{fileUploadPath}#{output}"
+	      if configuration == 'style-up'
+	      	oldmixedfile = self.mixaudio2.split("/").last if self.mixaudio2.present?
+	      	self.mixaudio2 = "#{fileUploadPath}#{output}"
+	      elsif configuration == 'style-down'
+	      	oldmixedfile = self.mixaudio3.split("/").last if self.mixaudio3.present?
+	      	self.mixaudio3 = "#{fileUploadPath}#{output}"
+	      else 
+	      	oldmixedfile = self.mixaudio.split("/").last if self.mixaudio.present?
+	      	self.mixaudio = "#{fileUploadPath}#{output}"
+	      end
 		  isSaved = self.save
 		  system "cd #{dirPath} && rm #{oldmixedfile}" if isSaved && oldmixedfile	
 		  system "cd #{dirPath} && rm mix_audio_part_*#{fileExtension}"	

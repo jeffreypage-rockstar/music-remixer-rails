@@ -33,6 +33,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Bootsrap for user interface
 gem 'bootstrap-sass', '~> 3.3.1'
+gem 'font-awesome-rails', '~> 4.4.0.0'
 gem 'autoprefixer-rails'
 
 # Table generator
