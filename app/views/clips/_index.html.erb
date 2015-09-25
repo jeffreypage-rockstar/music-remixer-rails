@@ -61,6 +61,14 @@
                 _this.toggleMute();
             };
             isPartPlayerReady(_this.column);
+            if (isAllClipsLoadedOfThisPart(_this.column)) {
+                console.log(_this.column+" Part player is ready!");
+                if (index == _this.column) addRemoveEventListener(true);
+                if (loadColumn <= 7) {
+                    loadColumn++;
+                    loadPartClips();
+                };
+            };
         });
 
         wavesurfer.on('loading', function (_this, progress) {
@@ -71,17 +79,16 @@
         wavesurfers[column][row] = wavesurfer;
     }
 
-    isPartPlayerReady = function(column) {
+    isAllClipsLoadedOfThisPart = function(column) {
         var clipColumn = $("#clips-"+column)
-        if (clipColumn.children(".clip.loaded").length == 8) {
-            console.log(column+" Part player is ready!");
-            clipColumn.children(".part-play-btn").removeClass('disabled');
-            if (index == column) addRemoveEventListener(true);
-            if (loadColumn <= 7) {
-                loadColumn++;
-                loadPartClips();
-            };
-        };
+        if (clipColumn.children(".clip.loaded").length == 8) return true;
+        return false;
+    }
+
+    isPartPlayerReady = function(column) {
+        if (isAllClipsLoadedOfThisPart(column)) {
+            $("#clips-"+column).children(".part-play-btn").removeClass('disabled');
+        }
     }
 
     playNext = function() {
