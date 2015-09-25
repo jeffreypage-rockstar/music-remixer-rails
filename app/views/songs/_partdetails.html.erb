@@ -14,12 +14,12 @@
     <li><p id="part-time">Time: <%= Time.at(@part.duration).utc.strftime("%M:%S") %></p></li>
 </ul>
 <script type="text/javascript">
-    function updatePartName(event, name) {
+    function updatePartName(column, event, name) {
         $("#part-info .name-editor > .name")
             .text("Name: "+$(event.target).val())
             .attr('data-name',$(event.target).val());
 
-        $("#clips-"+index).children(".level.column")
+        $("#clips-"+column).children(".level.column")
             .attr('data-name', name)
             .text(name);
     }
@@ -47,7 +47,8 @@
             };
 
             // Update part name
-            updatePartName(event, $(event.target).val());
+            var column = index;
+            updatePartName(column, event, $(event.target).val());
             $.ajax({
                 type: "PUT",
                 dataType: "json",
@@ -55,9 +56,9 @@
                 contentType: 'application/json',
                 data: JSON.stringify({name: $(event.target).val() })
             }).done(function(part){
-                if (part && part.name) {
-                    updatePartName(event, part.name);    
-                };
+                // if (part && part.name) {
+                    // updatePartName(column, event, part.name);    
+                // };
             }); 
         });
     });

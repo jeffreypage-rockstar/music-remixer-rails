@@ -1,5 +1,13 @@
 <% currentIndex = 1 %>
 <!-- Clips Segment Area Start -->
+<div class="levels">
+    <% @song.clip_types.each_with_index do |clip_type, c| %>
+        <% if c == 4 %>
+        <div class="level left"></div>
+        <% end %>
+        <div class="level left"><%=clip_type.name%></div>
+    <% end %>
+</div>
 <% @song.parts.each_with_index do |part, c| %>
     <% c += 1 %>
     <div id="clips-<%=c%>" class="clips<%=' focus' if c == currentIndex %>" data-column="<%=c%>">
@@ -10,9 +18,6 @@
                 <div class="blank">
                     <div class="play-btn"></div>
                 </div>
-            <% end %>
-            <% if c == 1 %>
-              <div class="level left"><%=clip.level_name%></div>
             <% end %>
             <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip[@state]%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip[@state]%>">
                 <div class="progress"></div>

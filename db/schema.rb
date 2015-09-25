@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150921081300) do
+ActiveRecord::Schema.define(version: 20150925101655) do
 
   create_table "_songs_old_20150921", force: :cascade do |t|
     t.string   "name"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(version: 20150921081300) do
     t.text     "mixaudio"
     t.text     "mixaudio2"
     t.text     "mixaudio3"
+  end
+
+  create_table "clip_types", force: :cascade do |t|
+    t.integer  "song_id"
+    t.string   "name"
+    t.integer  "row"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "clips", force: :cascade do |t|

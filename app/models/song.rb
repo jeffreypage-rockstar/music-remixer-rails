@@ -9,6 +9,7 @@ require 'digest/md5'
 class Song < ActiveRecord::Base
 	has_many :parts, dependent: :delete_all
 	has_many :clips, dependent: :delete_all
+	has_many :clip_types, dependent: :delete_all
 	mount_uploader :zipfile, AudioUploader
 
 	validates :name, :zipfile, presence: true
@@ -170,6 +171,7 @@ class Song < ActiveRecord::Base
 			clips = Hash.new
 			fileCount = 0
 			duration = 0
+			clipTypes = []
 			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".oga", ".wav", ".flac", ".act", ".3gp", ".mp4"]
 			Zip::File.open(folder) do |zipfile|
 			    # Read File details
@@ -207,19 +209,24 @@ class Song < ActiveRecord::Base
 								end
 							end
 
+							unless clipTypes.include? levelType
+								clipTypes.push(levelType)
+								clipType = ClipType.find_or_create_by(song_id: self.id, name:levelType, row: clipTypes.length)
+							end
+
 							if clips[column].blank?
 								TagLib::FileRef.open(filePath) do |fileref|
 								  unless fileref.null?
 								    properties = fileref.audio_properties
 								    duration += properties.length
-									@part = Part.find_or_create_by(song_id: self.id, name: "Part #{column}", duration: properties.length, column: column)
-									@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)
+									part = Part.find_or_create_by(song_id: self.id, name: "Part #{column}", duration: properties.length, column: column)
+									clip = Clip.find_or_create_by(song_id: self.id, part_id: part.id, row: row, column: column, file: clipFilePath, state: 0)
 									clips[column] = "added"
 								  end
 								end  # File is automatically closed at block end
 							else
-								@part = Part.find_by(song_id: self.id, column: column)
-								@clip = Clip.find_or_create_by(song_id: self.id, part_id: @part.id, row: row, column: column, file: clipFilePath, state: 0)	
+								part = Part.find_by(song_id: self.id, column: column)
+								clip = Clip.find_or_create_by(song_id: self.id, part_id: part.id, row: row, column: column, file: clipFilePath, state: 0)	
 							end
 						end
 					end

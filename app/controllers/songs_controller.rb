@@ -88,7 +88,11 @@ class SongsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_song
-      @song = Song.find(params[:id])
+      if action_name == 'configure' || action_name == 'mixaudio'
+        @song = Song.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
+      else 
+        @song = Song.find(params[:id])
+      end
     end
 
     def set_configuration

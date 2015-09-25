@@ -23,6 +23,10 @@
  	color: white;
  }
 
+ body .container {
+    width: 1170px !important;
+ }
+
  .row, [class*="col-"] {
  	margin-left: 0px;
     margin-right: 0px;
@@ -78,13 +82,17 @@
 	margin: 0 78px 35px;
 }
 
-.clips {
+.clips, .levels {
 	position: relative;
     width: 12.5%;
     display: block;
     border-radius: 6px;
     float: left;
     padding-top: 4px;
+}
+
+.levels {
+    margin-left: -95px;
 }
 
 .main-player-clips .clips {
@@ -107,11 +115,14 @@
 .level.left {
 	height: 34px;
 	line-height: 34px;
-	position: absolute;
-    left: -90px;
     font-size: 18px;
     text-align: right;
     pointer-events: none;
+    float: left;
+}
+
+.level.left:first-child {
+    margin-top: 2px;
 }
 
 .level.column {
@@ -169,6 +180,11 @@
 	border-radius: 5px;
 	margin: 2px auto;
 	background-image: none !important;
+}
+
+.levels .blank {
+    float: left;
+    border: none;
 }
 
 .clip.paused {
@@ -368,7 +384,8 @@ ul#song-info li, ul#part-info li {
     margin-right: 15px;
 }
 
-.mixaudio, .mixaudio:hover, .mixaudio:active {
+.mixaudio, .mixaudio:hover, 
+.mixaudio:active, .mixaudio:focus {
     text-decoration: none;
 }
 
