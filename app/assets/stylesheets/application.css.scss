@@ -74,10 +74,6 @@
     height: 34px;
 }
 
-#updatesong i, #updatesong span {
-    pointer-events: none;
-} 
-
 #song-clips {
 	margin: 0 78px 35px;
 }
@@ -255,7 +251,7 @@
     pointer-events: all;
 }
 
-#song-clips .clips.focus .part-play-btn.disabled, #updatesong.disabled {
+#song-clips .clips.focus .part-play-btn.disabled, #mixaudio.disabled {
     pointer-events: none;
     opacity: 0.5;
 }
@@ -359,7 +355,7 @@ ul#song-info li, ul#part-info li {
     display: block;
 }
 
-.btn.loading * {
+.btn.loading *, a.loading * {
    pointer-events: none; 
 }
 
@@ -374,6 +370,10 @@ ul#song-info li, ul#part-info li {
 
 .mixaudio, .mixaudio:hover, .mixaudio:active {
     text-decoration: none;
+}
+
+#mixaudio i, #mixaudio span, #mixaudio * {
+    pointer-events: none;
 }
 
 .main-player-bg {

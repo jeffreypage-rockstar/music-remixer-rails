@@ -250,6 +250,7 @@
             var row = $(event.target).data('row');
             var column = $(event.target).parent().data('column');
             if (!row || !column) { return };
+            if (!wavesurfers[column]) { return };
 
             var wavesurfer = wavesurfers[column][row];
             if (!wavesurfer) { return };
