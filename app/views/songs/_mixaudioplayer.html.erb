@@ -1,21 +1,27 @@
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-8">
-        <div id="main-player" class="row<%=" hide" if mixaudio.blank? %>" data-path='<%="#{mixaudio}"%>'>
-            <div class="full-play-btn disabled"></div>
-            <div class="full-waveform">
-                <div class="progress<%=" hide" if mixaudio.blank? %>"></div>
-            </div>
-        </div>
+<!-- Main player Area Start -->
+<div class="col-md-9">
+    <div class="col-md-12 col-lg-12">
+        <% word = "creat" %>
+        <% word = "updat" if mixaudio.present? %>
+        <a id="mixaudio" data-remote="true" href="/songs/<%=@song.id%>/mixaudio?configuration=<%=@configuration%>" class="mixaudio loading pull-right<%=" disabled" if mixaudio.present? %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=word%>ing mix">
+            <span><%=word%>e mix</span>
+        </a>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 col-lg-12">
-        <% word = "Creat" %>
-        <% word = "Updat" if mixaudio.present? %>
-        <a id="mixaudio" data-remote="true" href="/songs/<%=@song.id%>/mixaudio?configuration=<%=@configuration%>&merge=true" class="btn btn-primary loading pull-right<%=" disabled" if mixaudio.present? %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=word%>ing Mix Audio">
-            <span><%=word%>e Mix Audio</span>
-        </a>
+<div class="col-md-9">
+    <div class="main-player-bg"></div>
+    <div class="main-player-clips">
+        <% (1..8).each_with_index do |c, index| %>
+            <div class="clips">
+                <div class="clip clip-0"> </div>
+            </div>
+        <% end %>
+    </div>
+    <div id="main-player" class="row<%=" hide" if mixaudio.blank? %>" data-path='<%="#{mixaudio}"%>'>
+        <div class="full-play-btn disabled"></div>
+        <div class="full-waveform">
+            <div class="progress<%=" hide" if mixaudio.blank? %>"></div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -45,3 +51,4 @@
         });
     });
 </script>
+<!-- Main player Area End -->

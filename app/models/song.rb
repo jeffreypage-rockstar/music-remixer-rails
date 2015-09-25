@@ -78,7 +78,16 @@ class Song < ActiveRecord::Base
 				fileExtension = File.extname(filePath)
 
 				fileName = clip.file.split("/").last
-				unless clip.state
+
+				state = nil
+				if configuration == 'style-up'
+					state = clip.state2
+			    elsif configuration == 'style-down'
+			    	state = clip.state3
+			    else 
+			    	state = clip.state
+			    end
+				unless state
 					command += " -i '#{fileName}'" 
 					count += 1
 				end

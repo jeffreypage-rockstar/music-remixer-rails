@@ -1,26 +1,32 @@
-<div class="row">
-    <div class="btn-group" role="group" aria-label="...">
-        <a href="/songs/<%=@song.id%>/configure?configuration=style-up" class="btn btn-primary loading configuration<%=' disabled' if @configuration == 'style-up'%>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Loading">
-            <span>Style</span>
-            <i class="fa fa-chevron-circle-up"></i>
-        </a>
-        <a href="/songs/<%=@song.id%>/configure?configuration=source" class="btn btn-primary loading configuration<%=' disabled' if @configuration == 'source'%>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Loading">
-            <span>Source</span>
-        </a>
-        <a href="/songs/<%=@song.id%>/configure?configuration=style-down" class="btn btn-primary loading configuration<%=' disabled' if @configuration == 'style-down'%>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Loading">
-            <span>Style</span>
-            <i class="fa fa-chevron-circle-down"></i>
-        </a>
+<div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
+    <div class="row" style="margin-bottom: 15px;">
+        <div class="col-md-9" style="height: 90px;">
+            <div class="col-md-4">
+                 <%= render 'songdetails' %>          
+            </div>
+            <div class="col-md-3">
+                <%= render 'partdetails' %>          
+            </div>
+            <div class="col-md-5" style="height: 100%;">
+                <%= render 'configurationbtn' %>          
+            </div>
+        </div>
+    </div>
+
+    <div id="mixaudioplayer" class="row main-player-area">
+        <%= render 'mixaudioplayer', song: @song, mixaudio: @mixaudio %>
+    </div>
+
+    <div class="row">
+        <div id="audio-clips" class="col-md-9">
+            <div class="audio-clips-bg"></div>
+            <%= render 'clips/index' %>            
+        </div>
+        <div id="preview" class="col-md-3">
+            <%= render 'preview' %>
+        </div>
     </div>
 </div>
-
-<!-- Main player Area Start -->
-<div id="mixaudioplayer" class="row main-player-area">
-    <%= render 'mixaudioplayer', song: @song, mixaudio: @mixaudio %>
-</div>
-<!-- Main player Area End -->
-
-<%= render 'clips/index' %>
 
 <script type="text/javascript">
     var configuration = "<%=@configuration%>";
@@ -29,7 +35,7 @@
         window.topWavesurfer.init({
             container: '.full-waveform',
             fillParent: true,
-            height: 42,
+            height: 34,
             waveColor: 'white',
             progressColor: 'white',
             cursorColor: 'white'
@@ -58,16 +64,9 @@
             }    
         };
     }
-
+    <% if @mixaudio.present? %>
     $(document).ready(function(){
-        <% if @mixaudio.present? %>
         initializeTopPlayer("<%=@mixaudio%>");
-        <% end %>
-        $(".configuration").on('click', function(event){
-            event.stopPropagation();
-            $(event.target).button('loading');
-            $(".configuration").removeClass("disabled");
-            $(event.target).addClass("disabled");
-        });
     });
+    <% end %>
 </script>

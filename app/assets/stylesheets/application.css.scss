@@ -23,9 +23,11 @@
  	color: white;
  }
 
- .row {
+ .row, [class*="col-"] {
  	margin-left: 0px;
     margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
  }
 
  input {
@@ -38,21 +40,22 @@
 }
 
 .main-player-area {
-	height: 162px;
-	margin-bottom: 40px;
+	/*height: 162px;
+	margin-bottom: 40px;*/
 }
 
 #main-player {
-    position: relative;
-    margin-bottom: 10px;
+    position: absolute;
+    width: 100%;
 }
 
 .full-play-btn {
 	position: absolute;
-	width: 43px;
-	height: 42px;
-    left: -50px;
+	width: 33px;
+    height: 32px;
+    left: -42px;
 	background-image: image-url('play.png');
+    background-size: contain;
 }
 
 .full-play-btn.disabled {
@@ -68,7 +71,7 @@
     position: relative;
     display: block;
     width: 100%;
-    height: 42px;
+    height: 34px;
 }
 
 #updatesong i, #updatesong span {
@@ -81,10 +84,15 @@
 
 .clips {
 	position: relative;
-    width: 82px;
+    width: 12.5%;
     display: block;
     border-radius: 6px;
     float: left;
+    padding-top: 4px;
+}
+
+.main-player-clips .clips {
+    padding-top: 0px;   
 }
 
 .clips.focus {
@@ -116,12 +124,16 @@
 
 .clip, .blank {
 	position: relative;
-	width: 78px;
+	width: 96%;
     height: 34px;
     display: block;
     cursor: pointer;
     border-radius: 6px;
     margin: 0 auto 4px;
+}
+
+.clip.clip-0 {
+    background-image: image-url('0.png');
 }
 
 .clip.clip-a, .clip.clip-1 {
@@ -235,6 +247,7 @@
     pointer-events: none;
     background-repeat: no-repeat;
     background-position: center 7px;
+    display: none;
 }
 
 #song-clips .clips.focus .part-play-btn {
@@ -348,4 +361,53 @@ ul#song-info li, ul#part-info li {
 
 .btn.loading * {
    pointer-events: none; 
+}
+
+.mixaudio {
+    color: white;
+    background-color: black;
+    padding: 2px 20px 0px;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    margin-right: 15px;
+}
+
+.mixaudio, .mixaudio:hover, .mixaudio:active {
+    text-decoration: none;
+}
+
+.main-player-bg {
+    position: relative;
+    height: 82px;
+    margin: 0 -6px 8px -81px;
+    border-radius: 15px;
+    border-top: 20px solid black;
+    border-left: 77px solid black;
+    border-bottom: 20px solid black;
+    border-right: 2px solid black;
+}
+
+.main-player-clips {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    height: 34px;
+}
+
+#main-player, .main-player-clips {
+    top: 24px; 
+}
+
+.audio-clips-bg {
+    position: absolute;
+    top: -112px;
+    border-top: 108px solid #232426;
+    left: -100px;
+    border-left: 97px solid #232426;
+    bottom: -28px;
+    border-bottom: 25px solid #232426;
+    right: -27px;
+    border-right: 24px solid #232426;
+    border-radius: 20px;
+    z-index: -1;
 }

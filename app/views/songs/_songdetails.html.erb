@@ -1,0 +1,60 @@
+<!-- Songs Details Area Start -->
+<ul id="song-info">
+    <li><p>Song Configuration</p></li>
+    <li class="name-editor" type="song">
+        <span class="name" data-name="<%= @song.name %>" title="Click to edit...">Name: <%= @song.name %></span>
+        <div class="edit"> 
+            <%= form_for(@song, :remote => true, method: :put) do |f| %>
+                <label for="song_name">Name:</label>
+                <%= f.text_field :name, required: true %>
+            <% end %>
+        </div>
+    </li>
+    <li><p>Time: <%= Time.at(@song.duration).utc.strftime("%M:%S") %></p></li>
+</ul>
+<script type="text/javascript">
+    function updateSongName(event, name) {
+        $("#song-info .name-editor > .name")
+            .text("Name: "+$(event.target).val())
+            .attr('data-name',$(event.target).val());
+    }
+
+    $(document).ready(function(){
+        $("#song-info .name-editor > .name").click(function(event){
+            event.stopPropagation();
+            $(event.target).parent().addClass('editing');
+            $(event.target).parents('.name-editor').find('input').focus().val($(event.target).attr('data-name'))
+        });
+
+        $("#song-info .name-editor input[type='text']").on('keypress',function(event){
+            if (event.keyCode == 13) { event.target.blur(); };
+        });
+
+        $('form').on('submit', function(){
+            return false;
+        });
+
+        $("#song-info .name-editor input[type='text']").on('blur',function(event){
+            event.stopPropagation();
+            $(event.target).parents('.name-editor').removeClass('editing');
+            if ($.trim($(event.target).val()) == "") {
+                return alert("Name can not be empty.");
+            };
+
+            updateSongName(event, $(event.target).val());
+            // Update song name
+            $.ajax({
+                type: "PUT",
+                dataType: "json",
+                url: $(event.target).parent().attr('action'),
+                contentType: 'application/json',
+                data: JSON.stringify({name: $(event.target).val() })
+            }).done(function( song ){
+                if (song && song.name) {
+                    updateSongName(event, song.name);    
+                };
+            });
+        });
+    });
+</script>
+<!-- Songs Details Area End -->
