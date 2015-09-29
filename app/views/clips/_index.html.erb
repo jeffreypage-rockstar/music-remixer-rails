@@ -19,7 +19,7 @@
                     <div class="play-btn"></div>
                 </div>
             <% end %>
-            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip[@state]%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip[@state]%>">
+            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip[@state]%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip[@state]%>">
                 <div class="progress"></div>
                 <div class="opaque-gray"></div>
                 <div class="play-btn"></div>
@@ -199,12 +199,102 @@
         };
     }
 
+    function clipDraggable(element, containment) {
+        element.draggable({ 
+            revert: true,
+            containment: containment,
+            axis: "y",
+            zIndex: 1000
+        });
+    };
+
+    function blankDroppable(element) {
+        element.droppable({
+            drop: function( event, ui ) {
+                var column = $(this).parent().data('column');
+                if (!window.draggableElm[column]) { window.draggableElm[column] = []};
+
+                if (window.draggableElm[column].length <= 0) {
+                    var blankDroppableElement = blankDroppable($("<div class='blank dotted-border'></div>"));
+                    blankDroppableElement.insertBefore(ui.draggable);  
+                    ui.draggable.attr('style', '');
+                    $(ui.draggable).insertBefore($(this));
+                } else {
+                    var cloneElement = ui.draggable.clone(true).attr('style', '');
+                    var oldClipElement = window.draggableElm[column][0];    
+                    $(cloneElement).insertBefore($(ui.draggable));
+
+                    $(ui.draggable)
+                        .attr('style', '')
+                        .insertBefore($(this));
+                        
+                    if (cloneElement.data('row') != oldClipElement.data('row')) {
+                        $(this)
+                            .insertBefore(oldClipElement)
+                            .removeClass('dotted-border no-border');
+                    
+                        oldClipElement
+                            .insertBefore(cloneElement)
+                            .draggable( "enable" );
+                        cloneElement.remove();
+                    } else {
+                        $(this)
+                            .insertBefore(cloneElement)
+                            .removeClass('dotted-border no-border');
+                        delete window.draggableElm[column];
+                        cloneElement.remove();
+                        return;
+                    }
+                }
+                window.draggableElm[column].push(ui.draggable);
+                if (window.draggableElm[column].length == 2) {
+                    updateClipRow(window.draggableElm[column]);
+                    delete window.draggableElm[column];
+                    return;
+                };
+                $(this).remove();
+            }
+        });
+        return element;
+    };
+
+    function updateClipRow(clips) {
+        var dbRow = clips[0].data('db-row');
+        clips[0].attr('data-db-row', clips[1].data('db-row'));
+        clips[1].attr('data-db-row', dbRow);
+
+        var song_id = $("#song-clips").data('id');
+        var clip = { clip: { row: clips[0].attr('data-db-row') } };
+        var updateClipUrl = "/songs/"+song_id+"/clips/"+clips[0].data('id');
+        updateClip(clip, updateClipUrl);
+
+        clip = { clip: { row: clips[1].attr('data-db-row') } };
+        updateClipUrl = "/songs/"+song_id+"/clips/"+clips[1].data('id');
+        updateClip(clip, updateClipUrl);
+    }
+
+    function updateClip(clip, url) {
+        $.ajax({
+            type: "PUT",
+            dataType: "json",
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify(clip)
+        }).done(function( clip ){
+            console.log("Clip updated!!!", clip);
+        });
+    }
+
     $(document).on('ready page:load', function () { 
         window.wavesurfers = wavesurfers = {};
+        window.draggableElm = {};
         // Intialize all sound clips for play
         setTimeout(function(){
             loadPartClips();    
         }, 500);
+
+        clipDraggable($("#audio-clips .clip"), 'parent');
+        blankDroppable($("#audio-clips .blank"));
         
         $(".clips .level.column").click(function(event){
             event.stopPropagation();
@@ -265,7 +355,7 @@
 
             var volume = wavesurfer.isMuted ? 1 : 0;
             var song_id = $(event.target).parents(".song-clips").data('id');
-            var update_clip_url = "/songs/"+song_id+"/clips/"+$(event.target).data('id')
+            var updateClipUrl = "/songs/"+song_id+"/clips/"+$(event.target).data('id')
 
             // Update song name
             var clip = { clip: { state: volume } };
@@ -274,15 +364,7 @@
             } else if (configuration == 'style-down') {
               clip = { clip: { state3: volume } };
             }
-            $.ajax({
-                type: "PUT",
-                dataType: "json",
-                url: update_clip_url,
-                contentType: 'application/json',
-                data: JSON.stringify(clip)
-            }).done(function( clip ){
-                // console.log("", clip);
-            });
+            updateClip(clip, updateClipUrl);
         });
 
         $(".clip .play-btn").click(function(event){

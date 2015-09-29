@@ -67,9 +67,9 @@ group :development, :test do
 end
 
 group :production do
-	gem 'pg'
+	gem 'pg', '~> 0.18.3'
   gem 'unicorn'  
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
-# gem 'wavesurfer', '~> 0.0.1'
+gem 'jquery-ui-rails', '~> 5.0.5'

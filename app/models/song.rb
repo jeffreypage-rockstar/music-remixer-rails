@@ -16,6 +16,7 @@ class Song < ActiveRecord::Base
 	validate :validate_zip_file
 
 	after_save :read_song_details
+	after_destroy :delete_folder
 
 	def validate_zip_file
 		if self.zipfile.blank? or !self.zipfile.url.include?(".zip")
@@ -234,5 +235,11 @@ class Song < ActiveRecord::Base
 			end
 			self.duration = duration
 			self.save
+		end
+
+		def delete_folder
+			fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
+			dirPath = "#{Rails.root}/public#{fileUploadPath}"
+			system "rm -R #{dirPath}"
 		end
 end

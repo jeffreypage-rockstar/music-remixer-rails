@@ -10,6 +10,7 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require jquery-ui
  *= require_tree .
  *= require_self
  */
@@ -178,8 +179,19 @@
 .blank {
 	border: 2px solid white;
 	border-radius: 5px;
-	margin: 2px auto;
 	background-image: none !important;
+}
+
+.blank.no-border {
+    border: 0px solid transparent;
+}
+
+.blank.dotted-border {
+    border: 2px dotted red;
+}
+
+.blank .clip {
+    width: 100%;
 }
 
 .levels .blank {
