@@ -50,6 +50,7 @@
         });
 
         window.topWavesurfer.on('finish', function () {
+            updatePreviewPlayBtn(false);
             $(".full-play-btn").removeClass('playing');
             window.topWavesurfer.seekTo(0);
         });

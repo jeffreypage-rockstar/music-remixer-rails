@@ -44,9 +44,11 @@
             if (window.topWavesurfer.backend.isPaused()) {
                 $(event.target).addClass('playing');
                 window.topWavesurfer.play();
+                updatePreviewPlayBtn(true);
             } else {
                 $(event.target).removeClass('playing');
                 window.topWavesurfer.pause();    
+                updatePreviewPlayBtn(false);
             }
         });
     });

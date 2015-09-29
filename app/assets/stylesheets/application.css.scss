@@ -288,55 +288,6 @@
 	background-image: image-url('pause_medium.png');
 }
 
-.iPhone {
-	position: relative;
-    display: none;
-	width: 220px;
-    height: 380px;
-    border-top: 55px solid black;
-    border-bottom: 55px solid black;
-    border-left: 10px solid black;
-    border-right: 10px solid black;
-    border-top-right-radius: 25px;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-}
-
-.iPhone .mic {
-	position: absolute;
-	width: 10px;
-    height: 10px;
-    top: -35px;
-    left: 50%;
-    margin-left: -5px;
-    box-shadow: inset 0px -3px 12px -5px #C1A3A3;
-    border-radius: 25px;
-}
-
-.iPhone .speaker {
-	position: absolute;
-    width: 60px;
-    height: 10px;
-    top: -20px;
-    left: 50%;
-    margin-left: -30px;
-    box-shadow: inset 0px -1px 16px -4px #827A7A;
-    border-radius: 25px;
-}
-
-.iPhone .home-btn {
-	width: 35px;
-    height: 35px;
-    position: absolute;
-    background-color: #23211E;
-    border-radius: 25px;
-    bottom: -44px;
-    left: 50%;
-    margin-left: -17.5px;
-    box-shadow: inset 0px -3px 12px -5px #C1A3A3;
-}
-
 ul#song-info, ul#part-info {
     list-style: none;
     margin: 0;
@@ -439,4 +390,267 @@ ul#song-info li, ul#part-info li {
     border-right: 24px solid #232426;
     border-radius: 20px;
     z-index: -1;
+}
+
+/* Preview */
+.iPhone {
+    position: absolute;
+    top: -50px;
+    width: 240px;
+    height: 447px;
+    margin-left: 30px;
+    border-top: 55px solid black;
+    border-bottom: 55px solid black;
+    border-left: 10px solid black;
+    border-right: 10px solid black;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    pointer-events: none;
+}
+
+.iPhone .mic {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -35px;
+    left: 50%;
+    margin-left: -5px;
+    box-shadow: inset 0px -3px 12px -5px #C1A3A3;
+    border-radius: 25px;
+}
+
+.iPhone .speaker {
+    position: absolute;
+    width: 60px;
+    height: 10px;
+    top: -20px;
+    left: 50%;
+    margin-left: -30px;
+    box-shadow: inset 0px -1px 16px -4px #827A7A;
+    border-radius: 25px;
+}
+
+.iPhone .home-btn {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    background-color: #23211E;
+    border-radius: 25px;
+    bottom: -44px;
+    left: 50%;
+    margin-left: -17.5px;
+    box-shadow: inset 0px -3px 12px -5px #C1A3A3;
+}
+
+.iPhone .screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: image-url('bg.png');
+}
+
+.iPhone .navigation-bar {
+    width: 100%;
+    height: 37px;
+    line-height: 37px;
+}
+
+.iPhone .navigation-bar i.fa {
+    margin: 0 12px;
+}
+
+.iPhone .navigation-bar label {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.iPhone .screen .wing-group {
+    top: 5px;
+    left: 14px;
+}
+
+.iPhone .screen .playBtn {
+    position: absolute;
+    width: 61px;
+    height: 61px;
+    top: 100px;
+    left: 69px;
+    background-image: image-url('play_preview.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1000;
+}
+
+.iPhone .screen .playBtn.playing {
+    position: absolute;
+    background-image: image-url('pause_preview.png');
+}
+
+.iPhone .screen [class*="wing"],
+.iPhone .screen .configbtn {
+    position: absolute;
+    z-index: 999;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.iPhone .screen .wing1,
+.iPhone .screen .wing2 {
+    width: 49px;
+    height: 68px;
+    top: 96px;
+}
+
+.iPhone .screen .wing1 {
+    left: 33px;
+    background-image: image-url('wing_1_s@2x.png');   
+}
+
+.iPhone .screen .wing1.muted {
+    background-image: image-url('wing_1@2x.png');
+}
+
+.iPhone .screen .wing2 {
+    left: 116px;
+    background-image: image-url('wing_2_s@2x.png');
+}
+
+.iPhone .screen .wing2.muted {
+    background-image: image-url('wing_2@2x.png');
+}
+
+.iPhone .screen .wing3,
+.iPhone .screen .wing4 {
+    width: 68px;
+    height: 50px;
+    left: 65px;
+}
+
+.iPhone .screen .wing3 {
+    top: 63px;
+    background-image: image-url('wing_3_s@2x.png');
+}
+
+.iPhone .screen .wing3.muted {
+    background-image: image-url('wing_3@2x.png');
+}
+
+.iPhone .screen .wing4 {
+    top: 147px;
+    background-image: image-url('wing_4_s@2x.png');
+}
+
+.iPhone .screen .wing4.muted {
+    background-image: image-url('wing_4@2x.png');
+}
+
+.iPhone .screen .wing5,
+.iPhone .screen .wing6,
+.iPhone .screen .wing7,
+.iPhone .screen .wing8 {
+    width: 41px;
+    height: 41px;
+}
+
+.iPhone .screen .wing5,
+.iPhone .screen .wing6 {
+    top: 58px;
+}
+
+.iPhone .screen .wing5 {
+    left: 27px;
+    background-image: image-url('wing_5_s@2x.png');
+}
+
+.iPhone .screen .wing5.muted {
+    background-image: image-url('wing_5@2x.png');
+}
+
+.iPhone .screen .wing6 {
+    left: 130px;
+    background-image: image-url('wing_6_s@2x.png');
+}
+
+.iPhone .screen .wing6.muted {
+    background-image: image-url('wing_6@2x.png');
+}
+
+.iPhone .screen .wing7,
+.iPhone .screen .wing8 {
+    top: 161px;
+}
+
+.iPhone .screen .wing7 {
+    left: 27px;
+    background-image: image-url('wing_7_s@2x.png');
+}
+
+.iPhone .screen .wing7.muted {
+    background-image: image-url('wing_7@2x.png');
+}
+
+.iPhone .screen .wing8 {
+    left: 130px;
+    background-image: image-url('wing_8_s@2x.png');
+}
+
+.iPhone .screen .wing8.muted {
+    background-image: image-url('wing_8@2x.png');
+}
+
+.iPhone .screen .configbtn {
+    width: 180px;
+    top: 240px;
+    left: 50%;
+    margin-left: -90px;
+}
+
+.iPhone .screen .configbtn .source, 
+.iPhone .screen .configbtn .style-up, 
+.iPhone .screen .configbtn .style-down {
+    width: 55px;
+    height: 24px;
+    line-height: 24px;
+    background-color: #62d0e8;
+    border-radius: 4px;
+    padding: 0 4px;
+    margin-left: 4px;
+    font-size: 10px;
+    text-align: center;
+    float: left;
+}
+
+.iPhone .screen .configbtn .source.active,
+.iPhone .screen .configbtn .style-up.active,
+.iPhone .screen .configbtn .style-down.active {
+    background-color: #e6c23a;
+}
+
+.iPhone .screen .bar {
+    position: absolute;
+    background-color: #146d86;
+    bottom: 35px;
+    left: 10px;
+    right: 10px;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 12px;
+}
+
+.iPhone .screen .bar:last-child {
+   bottom: 10px;    
+}
+
+.iPhone .screen .bar i.fa {
+    margin:0px 12px;
+    float: left;
+    font-size: 18px;
+}
+
+.iPhone .screen .bar i.fa:last-child {
+    float: right;
 }

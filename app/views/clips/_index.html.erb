@@ -19,7 +19,7 @@
                     <div class="play-btn"></div>
                 </div>
             <% end %>
-            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip[@state]%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip[@state]%>">
+            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip[@state]%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" data-state="<%=clip[@state]%>" data-filetype="<%=clip.wing%>">
                 <div class="progress"></div>
                 <div class="opaque-gray"></div>
                 <div class="play-btn"></div>
@@ -35,6 +35,31 @@
     var clipPreviewPlayer = false;
     var clipPreviewPlayerRow = 0;
     var clipPreviewPlayerColumn = 0;
+
+    function updatePreview() {
+        $(".wing").removeClass('muted');
+        $("#audio-clips #clips-"+index).each(function(){
+            $(this).find('.clip').each(function(){
+                if ($(this).attr('data-state') == 'true') {
+                    $(".wing."+$(this).data('filetype')).addClass('muted');
+                };
+            });
+        });
+    }
+
+    function updatePreviewPlayBtn(playing) {
+        $("#preview .playBtn").removeClass('playing');
+        if (playing) {
+            $("#preview .playBtn").addClass('playing');
+        };    
+    }
+
+    function updatePreviewForClip(clipFileType, state) {
+        $(".wing."+clipFileType).removeClass('muted');    
+        if (state) {
+            $(".wing."+clipFileType).addClass('muted');    
+        };
+    }
 
     function loadPartClips() {
         var wavesurfer = null;
@@ -281,13 +306,14 @@
             contentType: 'application/json',
             data: JSON.stringify(clip)
         }).done(function( clip ){
-            console.log("Clip updated!!!", clip);
+            // console.log("Clip updated!!!", clip);
         });
     }
 
     $(document).on('ready page:load', function () { 
         window.wavesurfers = wavesurfers = {};
         window.draggableElm = {};
+        updatePreview();
         // Intialize all sound clips for play
         setTimeout(function(){
             loadPartClips();    
@@ -312,6 +338,8 @@
             showCurrentPartDetails();
             $(event.target).parent().addClass('focus');
             playNext();
+
+            updatePreview();
         });
 
         $(".clips .part-play-btn").click(function(event){
@@ -352,18 +380,22 @@
 
             $(event.target).toggleClass('muted');
             wavesurfer.toggleMute();
-
-            var volume = wavesurfer.isMuted ? 1 : 0;
+            
+            var state = wavesurfer.isMuted ? true : false;
+            $(event.target).attr('data-state', state);
             var song_id = $(event.target).parents(".song-clips").data('id');
             var updateClipUrl = "/songs/"+song_id+"/clips/"+$(event.target).data('id')
 
             // Update song name
-            var clip = { clip: { state: volume } };
+            var clip = { clip: { state: state } };
             if (configuration == 'style-up') {
-              clip = { clip: { state2: volume } };
+              clip = { clip: { state2: state } };
             } else if (configuration == 'style-down') {
-              clip = { clip: { state3: volume } };
+              clip = { clip: { state3: state } };
             }
+            if (column == index) {
+                updatePreviewForClip($(event.target).data('filetype'), state);    
+            };
             updateClip(clip, updateClipUrl);
         });
 

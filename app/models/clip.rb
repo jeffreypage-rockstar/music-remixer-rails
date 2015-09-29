@@ -6,13 +6,13 @@ class Clip < ActiveRecord::Base
 	
 	scope :exist, ->(row, column) { where(row: row, column: column) }
 
-	def level_name
+	def wing
 		fileName = self.file.to_s.split("/").last
 		if fileName[0] =~ /[0-9]/
 			levelType = fileName.split(".").first.gsub(/\d|O-/,"").gsub("-"," ")
 		else 
 			levelType = fileName.split("_").first.gsub('O-','').gsub('-',' ')
 		end
-		levelType
+		levelType.gsub(' ','-').downcase
 	end
 end
