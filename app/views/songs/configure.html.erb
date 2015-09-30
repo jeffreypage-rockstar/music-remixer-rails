@@ -1,14 +1,11 @@
 <div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
     <div class="row" style="margin-bottom: 15px;">
         <div class="col-md-9" style="height: 90px;">
-            <div class="col-md-4">
+            <div id="songdetails" class="col-md-4">
                  <%= render 'songdetails' %>          
             </div>
-            <div class="col-md-3">
+            <div id="partdetails" class="col-md-4">
                 <%= render 'partdetails' %>          
-            </div>
-            <div class="col-md-5" style="height: 100%;">
-                <%= render 'configurationbtn' %>          
             </div>
         </div>
     </div>
@@ -19,7 +16,6 @@
 
     <div class="row">
         <div id="audio-clips" class="col-md-9">
-            <div class="audio-clips-bg"></div>
             <%= render 'clips/index' %>            
         </div>
         <div id="preview" class="col-md-3">
@@ -29,7 +25,7 @@
 </div>
 
 <script type="text/javascript">
-    var configuration = "<%=@configuration%>";
+    window.configuration = "<%=@configuration%>";
     initializeTopPlayer = function(mixedFilePath) {
         window.topWavesurfer = Object.create(WaveSurfer);
         window.topWavesurfer.init({

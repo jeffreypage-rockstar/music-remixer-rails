@@ -39,6 +39,10 @@ class SongsController < ApplicationController
   end
 
   def configure
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
   end
 
   # PATCH/PUT /songs/1

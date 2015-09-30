@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925101655) do
+ActiveRecord::Schema.define(version: 20150930075139) do
 
   create_table "_songs_old_20150921", force: :cascade do |t|
     t.string   "name"
@@ -39,13 +39,13 @@ ActiveRecord::Schema.define(version: 20150925101655) do
     t.string   "row"
     t.string   "column"
     t.float    "duration"
-    t.boolean  "state"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "state",      default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "part_id"
     t.text     "file"
-    t.boolean  "state2"
-    t.boolean  "state3"
+    t.boolean  "state2",     default: false
+    t.boolean  "state3",     default: false
   end
 
   create_table "parts", force: :cascade do |t|
