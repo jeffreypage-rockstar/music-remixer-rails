@@ -55,8 +55,9 @@
             $(this).attr('data-state2', state);
         } else if (window.configuration == 'style-down') {
             $(this).attr('data-state3', state);
+        } else {
+            $(this).attr('data-state1', state);    
         }
-        $(this).attr('data-state1', state);
     }
 
     updatePreview = function() {
@@ -107,7 +108,6 @@
                     if (wavesurfer) {
                         if (($(this).state() && !wavesurfer.isMuted) || (!$(this).state() && wavesurfer.isMuted)) {
                             wavesurfer.toggleMute();
-                            console.log("column : ", column, "row : ", row, "Mute = ", wavesurfer.isMuted);
                         }
                     }
                 }
@@ -183,13 +183,10 @@
 
     clipEndedCallback = function() {
         if (index == 8) { 
-            console.log(index+ " part's clip ended.");
             $("#clips-"+index).removeClass('playing');
             stopPartPlayers(true);
             return; 
         };
-        console.log(index+ " part's clip ended. Playing next !!!");
-
         $("#clips-"+index).removeClass('focus').removeClass('playing');
         if (index < 8) index++; 
         $("#clips-"+index).addClass('focus').addClass('playing');
