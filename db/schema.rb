@@ -13,18 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20150930075139) do
 
-  create_table "_songs_old_20150921", force: :cascade do |t|
-    t.string   "name"
-    t.float    "duration"
-    t.text     "zipfile"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text     "mixed_file"
-    t.text     "mixaudio"
-    t.text     "mixaudio2"
-    t.text     "mixaudio3"
-  end
-
   create_table "clip_types", force: :cascade do |t|
     t.integer  "song_id"
     t.string   "name"
