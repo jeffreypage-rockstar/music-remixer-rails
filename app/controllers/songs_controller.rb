@@ -26,7 +26,6 @@ class SongsController < ApplicationController
   # POST /songs.json
   def create
     @song = Song.new(song_params)
-
     respond_to do |format|
       if @song.save
         format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully created.' }
@@ -39,6 +38,10 @@ class SongsController < ApplicationController
   end
 
   def configure
+    if @song.mixaudio.blank?
+      @song.create_mixed_audio(params[:configuration])
+      @mixaudio = @song.mixaudio
+    end
     respond_to do |format|
       format.html {}
       format.js {}
@@ -104,16 +107,13 @@ class SongsController < ApplicationController
       if params[:configuration].present?
         @configuration = params[:configuration]
       end
-
+      
       @mixaudio = @song.mixaudio
-      @state = 'state'
-      if @configuration == 'style-up'
-        @mixaudio = @song.mixaudio2
-        @state = 'state2'
-      elsif @configuration == 'style-down'
-        @mixaudio = @song.mixaudio3
-        @state = 'state3'
-      end
+      # if @configuration == 'style-up'
+      #   @mixaudio = @song.mixaudio2
+      # elsif @configuration == 'style-down'
+      #   @mixaudio = @song.mixaudio3
+      # end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

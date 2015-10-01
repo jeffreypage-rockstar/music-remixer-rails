@@ -32,7 +32,7 @@
 <script type="text/javascript">
     // Predefined Varibales
     var loadColumn = 1;
-    var index = <%= currentIndex %>;
+    var sColumn = <%= currentIndex %>;
     var clipPreviewPlayer = false;
     var clipPreviewPlayerRow = 0;
     var clipPreviewPlayerColumn = 0;
@@ -62,7 +62,7 @@
 
     updatePreview = function() {
         $(".wing").removeClass('muted');
-        $("#audio-clips #clips-"+index).each(function(){
+        $("#audio-clips #clips-"+sColumn).each(function(){
             $(this).find('.clip').each(function(){
                 if ($(this).state()) {
                     $(".wing."+$(this).data('filetype')).addClass('muted');
@@ -137,7 +137,7 @@
             isPartPlayerReady(_this.column);
             if (isAllClipsLoadedOfThisPart(_this.column)) {
                 console.log(_this.column+" Part player is ready!");
-                if (index == _this.column) addRemoveEventListener(true);
+                if (sColumn == _this.column) addRemoveEventListener(true);
                 if (loadColumn <= 7) {
                     loadColumn++;
                     loadPartClips();
@@ -166,13 +166,13 @@
     }
 
     playNext = function() {
-        if (index > $("#audio-clips .clips").length) { return };
+        if (sColumn > $("#audio-clips .clips").length) { return };
         addRemoveEventListener(true);
     }
 
     function addRemoveEventListener(addListener) {
-        if (!wavesurfers[index]) { return };
-        var wavesurfer = wavesurfers[index]['1'];
+        if (!wavesurfers[sColumn]) { return };
+        var wavesurfer = wavesurfers[sColumn]['1'];
         if (wavesurfer) {
             wavesurfer.unAll();
             if (addListener) {
@@ -182,19 +182,19 @@
     }
 
     clipEndedCallback = function() {
-        if (index == 8) { 
-            $("#clips-"+index).removeClass('playing');
+        if (sColumn == 8) { 
+            $("#clips-"+sColumn).removeClass('playing');
             stopPartPlayers(true);
             return; 
         };
-        $("#clips-"+index).removeClass('focus').removeClass('playing');
-        if (index < 8) index++; 
-        $("#clips-"+index).addClass('focus').addClass('playing');
+        $("#clips-"+sColumn).removeClass('focus').removeClass('playing');
+        if (sColumn < 8) sColumn++; 
+        $("#clips-"+sColumn).addClass('focus').addClass('playing');
         showCurrentPartDetails();
         playNext();
         
         for (var i = 1; i <= 8; i++) {
-            var wavesurfer = wavesurfers[index][i];
+            var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 wavesurfer.play();    
             }
@@ -202,10 +202,10 @@
     }
 
     pausePartPlayer = function() {
-        if (!wavesurfers[index]) { return };
+        if (!wavesurfers[sColumn]) { return };
         $(".clips.focus").removeClass('playing');
         for (var i = 1; i <= 8; i++) {
-            var wavesurfer = wavesurfers[index][i];
+            var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
             };
@@ -213,9 +213,9 @@
     }
 
     stopPartPlayers = function(seek) {
-        if (!wavesurfers[index]) { return };
+        if (!wavesurfers[sColumn]) { return };
         for (var i = 1; i <= 8; i++) {
-            var wavesurfer = wavesurfers[index][i];
+            var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 wavesurfer.seekTo(0);
                 if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
@@ -226,7 +226,7 @@
      // Intialize all sound clips for play
      // intializeSoundClips();
     function showCurrentPartDetails() {
-        var partElement = $("#clips-"+index).children(".level.column");
+        var partElement = $("#clips-"+sColumn).children(".level.column");
         $("#part-time").html("Time: "+partElement.data('time'));
         $("#part-info .name")
             .attr('data-name', partElement.data('name'))
@@ -325,8 +325,8 @@
     };
 
     function updateClipRow(clips) {
-        var dbRow = clips[0].data('db-row');
-        clips[0].attr('data-db-row', clips[1].data('db-row'));
+        var dbRow = clips[0].attr('data-db-row');
+        clips[0].attr('data-db-row', clips[1].attr('data-db-row'));
         clips[1].attr('data-db-row', dbRow);
 
         var song_id = $("#song-clips").data('id');
@@ -367,13 +367,13 @@
             event.stopPropagation();
             var column = $(event.target).parent().data('column');
             if (!column) { return };
-            if (column == index) { return };
+            if (column == sColumn) { return };
 
             // Paused Sound Clips
             stopPartPlayers(true);
 
-            $("#clips-"+index).removeClass('focus').removeClass('playing');
-            index = column;
+            $("#clips-"+sColumn).removeClass('focus').removeClass('playing');
+            sColumn = column;
 
             isPartPlayerReady(column);
             showCurrentPartDetails();
@@ -387,7 +387,7 @@
             event.stopPropagation();
             var column = $(event.target).parent().data('column');
             if (!column) { return };
-            if (column != index) { return };
+            if (column != sColumn) { return };
 
             // Stop any signle player
             stopTopPlayer();
@@ -398,7 +398,7 @@
 
             // Play or Paused Sound Clips
             for (var i = 1; i <= 8; i++) {
-                var wavesurfer = wavesurfers[index][i];
+                var wavesurfer = wavesurfers[sColumn][i];
                 if (wavesurfer.backend.isPaused()) {
                     $(event.target).parent().addClass('playing');
                     wavesurfer.play();
@@ -434,7 +434,7 @@
             } else if (configuration == 'style-down') {
               clip = { clip: { state3: state } };
             }
-            if (column == index) {
+            if (column == sColumn) {
                 updatePreviewForClip($(event.target).data('filetype'), state);    
             };
             updateClip(clip, updateClipUrl);

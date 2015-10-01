@@ -78,17 +78,15 @@ class Song < ActiveRecord::Base
 			clips.each_with_index do |clip, r|
 				filePath = File.join(dirPath, clip.file)
 				fileExtension = File.extname(filePath)
-
 				fileName = clip.file.split("/").last
-
 				state = nil
-				if configuration == 'style-up'
-					state = clip.state2
-			    elsif configuration == 'style-down'
-			    	state = clip.state3
-			    else 
+				# if configuration == 'style-up'
+				# 	state = clip.state2
+			 	# elsif configuration == 'style-down'
+			 	#   state = clip.state3
+			 	# else 
 			    	state = clip.state
-			    end
+			    # end
 				unless state
 					command += " -i '#{fileName}'" 
 					count += 1
@@ -137,16 +135,16 @@ class Song < ActiveRecord::Base
 		  puts "Error was #{$?}"
 		elsif result
 		  oldmixedfile = false
-	      if configuration == 'style-up'
-	      	oldmixedfile = self.mixaudio2.split("/").last if self.mixaudio2.present?
-	      	self.mixaudio2 = "#{fileUploadPath}#{output}"
-	      elsif configuration == 'style-down'
-	      	oldmixedfile = self.mixaudio3.split("/").last if self.mixaudio3.present?
-	      	self.mixaudio3 = "#{fileUploadPath}#{output}"
-	      else 
+	      # if configuration == 'style-up'
+	      # 	oldmixedfile = self.mixaudio2.split("/").last if self.mixaudio2.present?
+	      # 	self.mixaudio2 = "#{fileUploadPath}#{output}"
+	      # elsif configuration == 'style-down'
+	      # 	oldmixedfile = self.mixaudio3.split("/").last if self.mixaudio3.present?
+	      # 	self.mixaudio3 = "#{fileUploadPath}#{output}"
+	      # else 
 	      	oldmixedfile = self.mixaudio.split("/").last if self.mixaudio.present?
 	      	self.mixaudio = "#{fileUploadPath}#{output}"
-	      end
+	      # end
 		  isSaved = self.save
 		  system "cd #{dirPath} && rm #{oldmixedfile}" if isSaved && oldmixedfile	
 		  system "cd #{dirPath} && rm mix_audio_part_*#{fileExtension}"	
@@ -210,9 +208,11 @@ class Song < ActiveRecord::Base
 								end
 							end
 
+							levelType = levelType.gsub(' ','')
+							row = ClipType.index(levelType.downcase)
 							unless clipTypes.include? levelType
 								clipTypes.push(levelType)
-								clipType = ClipType.find_or_create_by(song_id: self.id, name:levelType, row: clipTypes.length)
+								clipType = ClipType.find_or_create_by(song_id: self.id, name:levelType, row: row)
 							end
 
 							if clips[column].blank?

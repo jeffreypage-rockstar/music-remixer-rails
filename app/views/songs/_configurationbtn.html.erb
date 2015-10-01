@@ -16,8 +16,8 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(".configuration").on('click', function(event){
-            // event.stopPropagation();
-            // event.preventDefault();
+            event.stopPropagation();
+            event.preventDefault();
             // $(event.target).button('loading');
             $(".configuration").removeClass("disabled");
             $(event.target).addClass("disabled");
