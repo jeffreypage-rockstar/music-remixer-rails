@@ -15,29 +15,82 @@
  *= require_self
  */
  
- @import "bootstrap-sprockets";
- @import "bootstrap";
- @import "font-awesome";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
 
- body {
- 	background-color: #333;
- 	color: white;
- }
+body {
+  background-color: #000;
+  color: white;
+}
 
- body .container {
-    width: 1170px !important;
- }
+.splash.row {
+  margin: 0 auto;
+}
 
- .row, [class*="col-"] {
- 	margin-left: 0px;
-    margin-right: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
- }
+@media screen and (max-width: 768px) {
+  .splash.row {
+	max-width: 80%;
+	//margin: 0 auto;
+  }
+}
 
- input {
- 	color: black;
- }
+@media screen and (max-width: 650px) { // TODO: add min-width: 420px to this
+  .splash.row {
+	max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 420px) { // TODO: remove this
+  .splash.row {
+	width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .splash.row .signup {
+	max-width: 400px;
+	float: right;
+  }
+}
+
+#footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn-primary {
+  text-transform: uppercase;
+}
+
+li.artist a.navbar-btn,
+li.artist a.navbar-btn:hover,
+li.artist a.navbar-btn:focus {
+  padding: 6px 20px;
+  color: #fff;
+  background-color: #ea345f;
+  border: none;
+}
+
+label {
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+//body .container {
+//  width: 1170px !important;
+//}
+
+.row, [class*="col-"] {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+input {
+  color: black;
+}
 
 
 .song-clip {

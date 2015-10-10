@@ -1,0 +1,81 @@
+body .container.auth {
+  //background-image: url(//nebula.wsimg.com/8690aa7bee17adbec53e7ec3c28eefaf?AccessKeyId=9BA1524139E64B4DEAC8&alloworigin=1);
+  //background-position-x: center;
+  //background-position-y: top;
+  //background-position: center top;
+  //background-repeat: no-repeat;
+  //position: fixed;
+  //top: 0;
+  //bottom: 0;
+  //left: 0;
+  //right: 0;
+  //width: 100%;
+  //height: 100%;
+  //overflow: hidden;
+}
+
+body .container.auth  {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 440px;
+}
+
+.auth .form-group {
+  margin-bottom: 30px;
+}
+
+.navbar-nav > li > span {
+  padding-bottom: 15px;
+  padding-top: 15px;
+  color: #9d9d9d;
+  line-height: 20px;
+  display: block;
+}
+
+body.auth .navbar {
+  min-height: 70px;
+}
+body.auth .navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+body.auth .navbar .navbar-collapse {
+  text-align: center;
+}
+body.auth .navbar a {
+  font-size:40px;
+  color:#fff;
+}
+body.auth .navbar-nav > li > a {
+  line-height:40px;
+}
+body.auth .nav > li > a:hover, .nav > li > a:focus {
+  text-decoration: none;
+  background-color: #000;
+}
+body.auth hr {
+  border-top:1px solid #868686;
+}
+.background-line {
+  display: table;
+  white-space: nowrap;
+}
+.background-line:before,
+.background-line:after {
+  border-top: 1px solid #868686;
+  content: '';
+  display: table-cell;
+  position: relative;
+  top: 0.8em;
+  width: 50%;
+}
+.background-line > span {
+  padding: 0 20px;
+}
+.title {
+  color: white;
+  font-size: 1.35em;
+  text-transform: uppercase;
+}
+

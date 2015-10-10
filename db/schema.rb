@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930075139) do
+ActiveRecord::Schema.define(version: 20151010193811) do
+
+  create_table "beta_artists", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "artist_name"
+    t.string   "invite_code"
+    t.string   "artist_url"
+    t.boolean  "is_active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "beta_users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "clip_types", force: :cascade do |t|
     t.integer  "song_id"
@@ -55,5 +74,21 @@ ActiveRecord::Schema.define(version: 20150930075139) do
     t.text     "mixaudio2"
     t.text     "mixaudio3"
   end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.string   "email",                                          null: false
+    t.string   "username",                                       null: false
+    t.string   "encrypted_password", limit: 128,                 null: false
+    t.string   "confirmation_token", limit: 128
+    t.string   "remember_token",     limit: 128,                 null: false
+    t.boolean  "is_admin",                       default: false
+    t.boolean  "is_artist",                      default: false
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email"
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+  add_index "users", ["username"], name: "index_users_on_username"
 
 end

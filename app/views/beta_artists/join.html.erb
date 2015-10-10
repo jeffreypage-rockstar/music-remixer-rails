@@ -1,0 +1,17 @@
+<div class="artist-join">
+    <div class="blurb">
+        <p>
+            We are just getting going.  Sign up here and we'll be in contact.
+        </p>
+    </div>
+
+    <p class="background-line title"><span><%= t(".title") %></span></p>
+
+    <%= form_for @beta_artist, url: '/artist/join', html: { method: :post } do |form| %>
+	    <%= render partial: '/beta_artists/form', object: form %>
+
+	    <div class="form-group">
+	        <%= form.submit 'Sign Up', class: 'btn btn-primary btn-block' %>
+		</div>
+	<% end %>
+</div>

@@ -3,7 +3,8 @@
 # Description: Artist home page   
 # Author: @Ravi Prakash Singh :: Email - raviprakash.singh@newgenapps.com 
 class HomeController < ApplicationController
+
 	def index
-        @songs = Song.all
+		@songs = Song.all
 	end
 end

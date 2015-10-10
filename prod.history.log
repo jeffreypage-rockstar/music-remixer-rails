@@ -1,0 +1,454 @@
+    1  sudo su
+    2  sudo ls -l
+    3  sudo su
+    4  exit
+    5  sudo su
+    6  exit
+    7  cd /
+    8  sudo /etc/init.d/unicorn restart
+    9  cd /home/rails
+   10  bundle
+   11  bundle show carrierwave
+   12  sudo /etc/init.d/unicorn restart
+   13  bundle
+   14  bundle show carrierwave
+   15  vi Gemfile
+   16  exit
+   17  cd /
+   18  sudo /etc/init.d/unicorn restart
+   19  service unicorn restart
+   20  sudo service unicorn restart
+   21  ls
+   22  cd /home/rails
+   23  RAILS_ENV=production rake asstest:precompile
+   24  RAILS_ENV=production rake assest:precompile
+   25  RAILS_ENV=production rake assets:precompile
+   26  chmod 0664 /home/rails/log/production.log
+   27  sudo RAILS_ENV=production rake assets:precompile
+   28  RAILS_ENV=production rake assets:precompile
+   29  sudo su
+   30  exit
+   31  ls
+   32  rvm list
+   33  gem list
+   34  gem env
+   35  cd /home/rails
+   36  ls
+   37  service nginx restart
+   38  vi /var/log/nginx/error.log
+   39  vi /var/log/nginx/access.log
+   40  vi /etc/default/unicorn
+   41  ls
+   42  vi README.rdoc
+   43  cd tmp
+   44  ls
+   45  cd ..
+   46  cd /etc/init.d
+   47  ls
+   48  cd /
+   49  cd /etc/init.d/unicorn restart
+   50  /etc/init.d/unicorn restart
+   51  sudo /etc/init.d/unicorn restart
+   52  sudo service unicorn restart
+   53  cd /home/rails
+   54  RAILS_ENV=production rake assets:precompile
+   55  exit
+   56  cd  /home/rails
+   57  sudo service unicorn restart
+   58  exit
+   59  sudo service unicorn restart
+   60  sudo vi /etc/nginx/nginx.conf 
+   61  sudo service nginx restart
+   62  ls
+   63  exit
+   64  sudo service unicorn restart
+   65  ls
+   66  cd /etc/
+   67  ls
+   68  cd nginx/
+   69  ls
+   70  sudo vi nginx.conf 
+   71  sudo service nginx restart
+   72  sudo service unicorn restart
+   73  exit
+   74  sudo service unicorn restart
+   75  history
+   76  ll /home/rails/
+   77  cd /home/rails
+   78  git status
+   79  ll
+   80  top
+   81  ll
+   82  cd config
+   83  ll
+   84  vi database.yml
+   85  cat database.ymle 
+   86  ll
+   87  vi secrets.yml 
+   88  env
+   89  top
+   90  sudo su rails
+   91  ll
+   92  vi routes*
+   93  psql
+   94  su rails
+   95  sudo su rails
+   96  exit
+   97  sudo service unicorn restart
+   98  exit
+   99  sudo vi /etc/nginx/nginx.conf
+  100  cd /etc/nginx/sites-enabled/
+  101  ls
+  102  vi rails 
+  103  exit
+  104  adduser deployer
+  105  sudo adduser deployer
+  106  visudo
+  107  sudo visudo
+  108  sudo vi /etc/ssh/sshd_config
+  109  ls
+  110  pwd
+  111  cd /etc/init.d/
+  112  ls
+  113  vi unicorn 
+  114  ls
+  115  exit
+  116  ls
+  117  cd akashic/
+  118  ls
+  119  ls -l
+  120  ls
+  121  cd shared/
+  122  gem install nokogiri -v '1.6.6.2'
+  123  sudo gem install nokogiri -v '1.6.6.2'
+  124  gem install nokogiri -v '1.6.6.2'
+  125  ls
+  126  ls -l
+  127  cd ..
+  128  ls
+  129  ls -l
+  130  visudo
+  131  exit
+  132  cd /var/deploy/
+  133  sudo mkdir /var/deploy/akashic
+  134  ls
+  135  sudo chown -R deploy:deploy /var/deploy/akashic
+  136  sudo chmod -R g+w /var/deploy/akashic
+  137  sudo vi ~/.bash_profile
+  138  ls
+  139  cd 
+  140  ls
+  141  ls -a
+  142  vi .bashrc 
+  143  printenv
+  144  env
+  145  nano ~/.bashrc
+  146  sudo vi ~/.bashrc 
+  147  printenv
+  148  source ~/.bashrc
+  149  printenv
+  150  sudo vi /etc/environment
+  151  source /etc/environment
+  152  ls
+  153  cd /var/deploy/akashic/
+  154  ls
+  155  ls -l
+  156  sudo vi /etc/nginx/nginx.conf
+  157  sudo vi /etc/nginx/sites-enabled/rails
+  158  sudo service nginx restart
+  159  nginx -t
+  160  vi /var/log/nginx/error.log
+  161  sudo vi /var/log/nginx/error.log
+  162  sudo vi /etc/nginx/sites-enabled/rails
+  163  ls -l
+  164  cd releases/
+  165  ls -l
+  166  cd ../..
+  167  ls
+  168  sudo vi /var/deploy/akashic/current/log/unicorn.log
+  169  ls
+  170  cd /var/deploy/akashic/current/
+  171  ls
+  172  cd log
+  173  ls
+  174  cd ../..
+  175  ls
+  176  cd shared/log/
+  177  ls
+  178  vi production.log 
+  179  vi unicorn.error.log 
+  180  vi unicorn.access.log 
+  181  cd ../..
+  182  sudo rm -rf *
+  183  ls
+  184  sudo service unicorn stop
+  185  sudo vi /etc/nginx/nginx.conf
+  186  sudo vi /etc/nginx/sites-enabled/akashic
+  187  cd /etc/nginx/sites-enabled/
+  188  ls
+  189  sudo vi /etc/nginx/sites-enabled/akashic
+  190  sudo service nginx restart
+  191  sudo vi /var/deploy/akashic/current/log/unicorn.access.log
+  192  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  193  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  194  ls -l
+  195  cd /var/deploy/akashic/
+  196  ls -l
+  197  sudo chown -R deploy:deploy /var/deploy/akashic
+  198  sudo chmod -R g+w /var/deploy/akashic
+  199  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  200  # ps aux | grep unicorn
+  201  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  202  lsof -wni tcp:300
+  203  lsof -wni tcp:3000
+  204  lsof -wni tcp
+  205  lsof -wni tcp:80
+  206  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  207  lsof /tmp/unicorn.akashic.sock
+  208  kill -9 25892
+  209  kill -9 29099
+  210  lsof /tmp/unicorn.akashic.sock
+  211  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  212  sudo service nginx restart
+  213  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  214  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  215  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  216  sudo vi /etc/environment
+  217  source /etc/environment
+  218  sudo vi ~/.bashrc
+  219  source ~/.bashrc
+  220  printenv
+  221  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  222  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  223  sudo vi /var/deploy/akashic/shared/log/production.log 
+  224  cd /var/deploy/akashic/releases/
+  225  ls
+  226  exit
+  227  ll
+  228  history
+  229  ll /var/deploy/
+  230  cd /var/deploy/akashic/
+  231  ll
+  232  cd current
+  233  ll
+  234  cd public/uploads
+  235  ll
+  236  ll songs/
+  237  find .
+  238  find . | grep zip
+  239  cp ./songs/6/jai_ambe.zip ~
+  240  ll
+  241  cd
+  242  ll
+  243  exit
+  244  cd /var/deploy/akashic/current
+  245  ll
+  246  find . | grep mix
+  247  rails console production
+  248  bundle exec rails console production
+  249  pwd
+  250  vi Gemfile
+  251  bundle install
+  252  bundle exec rails console production
+  253  RAILS_ENV=production rails console
+  254  which ruby
+  255  which rails
+  256  rails c
+  257  rails c production
+  258  exit
+  259  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  260  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  261  sudo vi /var/deploy/akashic/shared/log/production.log
+  262  ffmpeg
+  263  sudo apt-get update
+  264  sudo apt-get install ffmpeg
+  265  sudo apt-get --purge remove ffmpeg
+  266  sudo apt-get --purge autoremove
+  267  sudo apt-get install ppa-purge
+  268  sudo ppa-purge ppa:jon-severinsson/ffmpeg
+  269  sudo add-apt-repository ppa:mc3man/trusty-media
+  270  sudo apt-get update
+  271  sudo apt-get dist-upgrade
+  272  sudo apt-get install ffmpeg
+  273  ffmpeg
+  274  sudo vi /var/deploy/akashic/shared/log/production.log
+  275  cd /var/deploy/akashic/shared/tmp/
+  276  ls
+  277  cd cache/
+  278  ls
+  279  cd assets/
+  280  ls
+  281  cd ..
+  282  sudo rm -R *
+  283  ls
+  284  cd ../..
+  285  ls
+  286  cd public/assets/
+  287  ls
+  288  cd ..
+  289  ls
+  290  sudo rm -r assets/
+  291  ls
+  292  cd ..
+  293  ls
+  294  sudo rm -R *
+  295  ls
+  296  lsof -i
+  297  lsof -i:80
+  298  lsof /tmp/unicorn.akashic.sock
+  299  kill -9 24279
+  300  lsof /tmp/unicorn.akashic.sock
+  301  ls
+  302  cd current/public/songs
+  303  ls
+  304  cd current/public/
+  305  ls
+  306  cd songs
+  307  ls
+  308  exit
+  309  locate uncorn.conf
+  310  locate unc
+  311  locate uncorn
+  312  sudo vi /etc/unicorn.conf
+  313  exit
+  314  vi /etc/default/unicorn
+  315  sudo vi /etc/unicorn.conf
+  316  sudo vi /etc/default/unicorn
+  317  sudo service unicorn restart
+  318  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  319  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  320  sudo service unicorn restart
+  321  sudo service nginx restart
+  322  lsof /tmp/unicorn.akashic.sock
+  323  sudo service nginx restart
+  324  sudo vi /var/log/unicorn/unicorn.log
+  325  sudo service nginx restart
+  326  sudo service unicorn restart
+  327  sudo vi /var/log/unicorn/unicorn.log
+  328  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  329  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  330  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  331  sudo service unicorn restart
+  332  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  333  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  334  sudo vi /etc/unicorn.conf
+  335  sudo vi /etc/default/unicorn
+  336  sudo vi /etc/unicorn.conf
+  337  sudo service unicorn restart
+  338  sudo vi /etc/default/unicorn
+  339  env
+  340  sudo vi /etc/default/unicorn
+  341  sudo vi /etc/environment
+  342  source /etc/environment
+  343  sudo vi ~/.bashrc
+  344  source ~/.bashrc
+  345  env
+  346  sudo vi /etc/default/unicorn
+  347  env
+  348  :q!
+  349  sudo service unicorn restart
+  350  sudo vi /var/deploy/akashic/shared/log/unicorn.access.log
+  351  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  352  sudo service unicorn restart
+  353  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  354  rvm
+  355  rvm list
+  356  rvm get stable --auto-dotfiles
+  357  rvm use ruby-2.2.1
+  358  rvm implode
+  359  sudo rvm implode
+  360  exit
+  361  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  362  cd /var/deploy/akashic/current
+  363  ls
+  364  vi config.ru 
+  365  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  366  ls
+  367  gem uninstall rack
+  368  cd ..
+  369  cd shared/
+  370  gem uninstall rack
+  371  ls
+  372  env
+  373  ls
+  374  cd 
+  375  cd /etc/
+  376  ls
+  377  cd init.d/
+  378  ls
+  379  vi unicorn 
+  380  sudo vi /etc/default/unicorn
+  381  sudi vi unicorn 
+  382  sudo vi unicorn 
+  383  sudo service unicorn restart
+  384  ls
+  385  rvm list
+  386  cd /usr/local/rvm/gems
+  387  ls
+  388  ls -l
+  389  cd ruby-2.2.1/
+  390  ls
+  391  \curl -sSL https://get.rvm.io | bash -s stable --ruby
+  392  gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+  393  \curl -sSL https://get.rvm.io | bash -s stable --ruby
+  394  ruby
+  395  exit
+  396  lsof /tmp/unicorn.akashic.sock
+  397  sudo vi /var/deploy/akashic/shared/log/unicorn.error.log
+  398  exit
+  399  history
+  400  ll /var/deploy/akashic/
+  401  cd /var/deploy/akashic/
+  402  ll
+  403  ll releases/
+  404  pwd
+  405  cd ..
+  406  cd curr
+  407  ll
+  408  cd akashic/current
+  409  ll
+  410  git status
+  411  ls -al
+  412  cd ../
+  413  cd releases/
+  414  ll
+  415  cd 20151001102616/
+  416  ll
+  417  git status
+  418  exit
+  419  cd .ssh
+  420  ll
+  421  vi authorized_keys 
+  422  exit
+  423  ssh -v git@bitbucket.org
+  424  exit
+  425  history
+  426  ll /usr/local/rvm/gems/ruby-2.2.1/
+  427  which ruby
+  428  ruby -v
+  429  which ruby
+  430  ruby -v
+  431  \curl -sSL https://get.rvm.io | bash -s stable --ruby
+  432  pwd
+  433  curl -sSL https://get.rvm.io | bash -s stable --ruby
+  434  which rvm
+  435  rvm list
+  436  history | grep rvm
+  437  rvm use ruby-2.2.1
+  438  which ruby
+  439  history | grep unicorn
+  440  sudo service unicorn restart
+  441  ll /usr/local/rvm/gems/
+  442  ll /usr/local/rvm/gems/ruby-2.2.1
+  443  ll /usr/local/rvm/gems/ruby-2.2.1@global
+  444  ll /usr/local/rvm/gems/ruby-2.2.1@global/
+  445  rvm list
+  446  which ruby
+  447  pwd
+  448  cd /
+  449  find . | grep unicorn
+  450  history | grep ruby
+  451  history | more
+  452  pwd
+  453  cd
+  454  history > history.log

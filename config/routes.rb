@@ -1,4 +1,31 @@
 Rails.application.routes.draw do
+
+#  get 'beta_artists/join'
+  get 'artist/join' => 'beta_artists#join', as: 'artist_join'
+  get 'artist/thanks' => 'beta_artists#thanks', as: 'artist_thanks'
+  post 'artist/join' => 'beta_artists#join'
+
+  get 'artist/profile'
+  get 'artist/dashboard'
+  get 'artist/music'
+  get 'artist/connect'
+
+  # You can have the root of your site routed with "root"
+  root 'pages#splash'
+
+	# AUTHENTICATION
+  resources  :users, :controller => 'users', :only => [:create]
+  resources :passwords, controller: "clearance/passwords", only: [:create, :new]
+  resource :session, controller: "clearance/sessions", only: [:create]
+  resources :users, controller: "clearance/users", only: [:create] do
+    resource :password, controller: "clearance/passwords", only: [:create, :edit, :update]
+  end
+  get "/sign_in" => "clearance/sessions#new", as: "sign_in"
+  delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
+  get "/sign_up" => "clearance/users#new", as: "sign_up"
+  # get "/artist/join" => "artist#join", as: "artist_join"
+
+  # SONGS
   resources :songs do
     member do
       get :configure
@@ -12,14 +39,12 @@ Rails.application.routes.draw do
       end
     end
   end
+
   # get '/configure/:id' => 'home#configure', as: :configurator
   get 'home/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-   root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
