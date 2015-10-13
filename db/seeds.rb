@@ -8,5 +8,9 @@
 User.where({email: 'mark@8stem.com'}).delete_all
 User.create!(email:'mark@8stem.com', username:'mark8stem', name:'Mark Puckett', password:'asdfasdf', is_admin:true)
 
-User.where({email: 'test@test.com'}).delete_all
-User.create!(email:'test@test.com', username:'test', name:'Test Test', password:'asdfasdf', is_admin:false, is_artist_admin:true)
+User.where({email: 'test@avogen.com'}).delete_all
+User.create!(email:'test@avogen.com', username:'test', name:'Test Test', password:'asdfasdf', is_admin:false, is_artist_admin:true)
+
+BetaUser.where({email: 'betauser@8stem.com'}).delete_all
+BetaUser.create!(email:'betauser@8stem.com', name:'Beta User', invite_code:'abc123')
+

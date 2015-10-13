@@ -1,14 +1,35 @@
 class UsersController < Clearance::UsersController
 	# layout 'auth', :only => [:create, :new]
 
-	def create
-		@user = user_from_params
-
-		if @user.save
-			sign_in @user
-			redirect_to '/'
+	def new
+		if !params[:invite_code].nil?
+			session[:invite_code] = params[:invite_code]
+			redirect_to '/sign_up'
+		# elsif session[:invite_code].nil?
+		# 	redirect_to '/', :alert => 'Sorry, you must have an invite code to sign up!'
 		else
-			render template: 'users/new'
+			@user = User.new
+		end
+	end
+
+	def create
+		render template: 'users/new' if session[:invite_code].nil?
+
+		beta = BetaUser.find_by_invite_code(session[:invite_code])
+		if beta.user_id.nil?
+			@user = user_from_params
+
+			if @user.save
+				session.delete(:invite_code)
+				beta.user_id = @user.id
+				beta.save
+				sign_in @user
+				redirect_to '/', :info => 'Thanks for signing up!'
+			else
+				render template: 'users/new'
+			end
+		else
+			redirect_to '/', :alert => 'Sorry, this invite code has already been used.'
 		end
 	end
 

@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20151011200423) do
 
   create_table "artists", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "name"
+    t.string   "name",       null: false
     t.string   "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -24,23 +24,27 @@ ActiveRecord::Schema.define(version: 20151011200423) do
   add_index "artists", ["user_id"], name: "index_artists_on_user_id"
 
   create_table "beta_artists", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "artist_name"
-    t.string   "invite_code"
+    t.string   "name",                        null: false
+    t.string   "email",                       null: false
+    t.string   "artist_name",                 null: false
+    t.string   "invite_code",                 null: false
     t.string   "artist_url"
-    t.boolean  "is_active"
+    t.boolean  "is_active",   default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "beta_users", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.string   "email",       null: false
+    t.string   "message"
+    t.string   "invite_code", null: false
+    t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
-  create_table "beta_users", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id"
 
   create_table "clip_types", force: :cascade do |t|
     t.integer  "song_id"
@@ -75,7 +79,7 @@ ActiveRecord::Schema.define(version: 20151011200423) do
   end
 
   create_table "songs", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.float    "duration"
     t.text     "zipfile"
     t.datetime "created_at", null: false
@@ -91,7 +95,7 @@ ActiveRecord::Schema.define(version: 20151011200423) do
     t.datetime "updated_at",                                     null: false
     t.string   "email",                                          null: false
     t.string   "username",                                       null: false
-    t.string   "name",                                           null: false
+    t.string   "name"
     t.string   "encrypted_password", limit: 128,                 null: false
     t.string   "confirmation_token", limit: 128
     t.string   "remember_token",     limit: 128,                 null: false

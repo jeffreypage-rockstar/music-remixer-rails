@@ -17,9 +17,11 @@
 	    <%= link_to t(".forgot_password"), new_password_path, class: 'btn btn-link' %>
 	</div>
 
-	<hr/>
+	<% if false %>
+		<hr/>
 
-	<div class="form-group text-center">
-	    Don't have an account?  <%= link_to t(".sign_up"), sign_up_path, class: 'btn btn-link' %>
-	</div>
+		<div class="form-group text-center">
+		    Don't have an account?  <%= link_to t(".sign_up"), sign_up_path, class: 'btn btn-link' %>
+		</div>
+	<% end %>
 <% end %>

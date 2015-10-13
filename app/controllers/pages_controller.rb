@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def splash
-    @user = User.new
+    @beta_user = BetaUser.new
   end
 end

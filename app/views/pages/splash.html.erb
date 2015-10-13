@@ -1,7 +1,7 @@
 <div class="splash row">
 <% if signed_in? %>
-	<div style="max-width:400px; margin:10px auto">
-	    Thanks for signing up.  We'll be in touch.
+	<div class="text-center">
+	    You are logged in.
 	</div>
 <% else %>
 	<div class="blurb col-xs-12 col-sm-6">
@@ -10,7 +10,7 @@
 	</div>
 	<div class="signup col-xs-12 col-sm-6">
 		<div class="h4 text-center">Join our Beta Program!</div>
-        <%= render partial: '/users/new' %>
+        <%= render partial: '/beta_users/form' %>
 	</div>
 <% end %>
 </div>

@@ -1,2 +1,6 @@
-<p class="background-line title"><span><%= t(".title") %></span></p>
-<%= render partial: '/users/new' %>
+<% if session[:invite_code].nil? %>
+	<div>Sorry, you must have an invite code to sign up!</div>
+<% else %>
+    <p class="background-line title"><span><%= t(".title") %></span></p>
+    <%= render partial: '/users/new' %>
+<% end %>

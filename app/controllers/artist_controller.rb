@@ -2,9 +2,9 @@ class ArtistController < ApplicationController
   before_action :require_login, :except => [:join]
 	before_action :validate_artist, :except => [:join]
 
-  def join
-		@beta_artist = BetaArtist.new
-  end
+  # def join
+		# @beta_artist = BetaArtist.new
+  # end
 
   def profile
   end
