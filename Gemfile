@@ -39,6 +39,9 @@ gem 'autoprefixer-rails'
 # authentication
 gem 'clearance', '~> 1.11'
 
+# admin
+gem "rails_admin"
+
 # Table generator
 # gem 'simple_table_for'
 

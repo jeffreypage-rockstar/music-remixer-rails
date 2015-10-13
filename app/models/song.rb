@@ -7,6 +7,7 @@ require 'taglib'
 require 'digest/md5'
 
 class Song < ActiveRecord::Base
+	belongs_to :artist
 	has_many :parts, dependent: :delete_all
 	has_many :clips, dependent: :delete_all
 	has_many :clip_types, dependent: :delete_all

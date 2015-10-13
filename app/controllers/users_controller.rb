@@ -1,4 +1,6 @@
 class UsersController < Clearance::UsersController
+	layout 'auth', :only => [:create, :new]
+
 	def create
 		@user = user_from_params
 

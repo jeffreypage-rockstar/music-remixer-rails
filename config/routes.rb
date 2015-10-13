@@ -13,17 +13,18 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#splash'
 
-	# AUTHENTICATION
-  resources  :users, :controller => 'users', :only => [:create]
+	# ADMIN
+  mount RailsAdmin::Engine => "/admin", as: "rails_admin"
+
+  # AUTHENTICATION
+  resource  :session, :controller => 'sessions', :only => [:new, :create, :destroy]
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
-  resource :session, controller: "clearance/sessions", only: [:create]
-  resources :users, controller: "clearance/users", only: [:create] do
+  resource :users, controller: "users", only: [:create] do
     resource :password, controller: "clearance/passwords", only: [:create, :edit, :update]
   end
-  get "/sign_in" => "clearance/sessions#new", as: "sign_in"
-  delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
-  get "/sign_up" => "clearance/users#new", as: "sign_up"
-  # get "/artist/join" => "artist#join", as: "artist_join"
+  get "/sign_in" => "sessions#new", as: "sign_in"
+  get "/sign_up" => "users#new", as: "sign_up"
+  delete "/sign_out" => "sessions#destroy", as: "sign_out"
 
   # SONGS
   resources :songs do

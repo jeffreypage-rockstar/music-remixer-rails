@@ -13,13 +13,16 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar-collapse">
-		<% if signed_in? %>
 		<ul class="nav navbar-nav">
-			<li><a href="/artist/dashboard">Dashboard</a></li>
-			<li><a href="/artist/music">Music</a></li>
-			<li><a href="/artist/connect">Connect</a></li>
+		    <% if signed_in? && current_user.is_admin? %>
+		        <li><a href="/admin" target="_blank">Admin Site</a></li>
+		    <% end %>
+		    <% if signed_in? && current_user.is_artist_admin? %>
+				<li><a href="/artist/dashboard">Dashboard</a></li>
+				<li><a href="/artist/music">Music</a></li>
+				<li><a href="/artist/connect">Connect</a></li>
+		    <% end %>
 		</ul>
-		<% end %>
         <ul class="nav navbar-nav pull-right">
             <% if signed_in? %>
                 <li><span><%= current_user.email %></span></li>

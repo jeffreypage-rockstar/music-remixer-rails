@@ -1,7 +1,12 @@
 class SessionsController < Clearance::SessionsController
-	# protected
-	# def url_after_create
-	# 	new_blog_post_path
-	# end
+	layout 'auth'
 
+	def url_after_create
+		url = current_user.is_artist_admin ? '/artist/dashboard' : '/'
+		"#{url}?ref=signin"
+	end
+
+	def url_after_destroy
+		'/?ref=signout'
+	end
 end
