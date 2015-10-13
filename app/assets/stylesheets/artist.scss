@@ -1,3 +1,13 @@
 // Place all the styles related to the Artist controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.navbar-nav > li.artist > a.navbar-btn,
+.navbar-nav > li.artist > a.navbar-btn:hover,
+.navbar-nav > li.artist > a.navbar-btn:focus {
+  padding: 6px 20px;
+  color: #fff;
+  background-color: #ea345f;
+  border: none;
+}
+

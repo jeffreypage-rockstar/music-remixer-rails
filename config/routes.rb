@@ -14,17 +14,17 @@ Rails.application.routes.draw do
   root 'pages#splash'
 
 	# ADMIN
-  mount RailsAdmin::Engine => "/admin", as: "rails_admin"
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   # AUTHENTICATION
   resource  :session, :controller => 'sessions', :only => [:new, :create, :destroy]
-  resources :passwords, controller: "clearance/passwords", only: [:create, :new]
-  resource :users, controller: "users", only: [:create] do
-    resource :password, controller: "clearance/passwords", only: [:create, :edit, :update]
+  resources :passwords, controller: 'passwords', only: [:create, :new]
+  resource :users, controller: 'users', only: [:create] do
+    resource :password, controller: 'passwords', only: [:create, :edit, :update]
   end
-  get "/sign_in" => "sessions#new", as: "sign_in"
-  get "/sign_up" => "users#new", as: "sign_up"
-  delete "/sign_out" => "sessions#destroy", as: "sign_out"
+  get '/sign_in' => 'sessions#new', as: 'sign_in'
+  get '/sign_up' => 'users#new', as: 'sign_up'
+  delete '/sign_out' => 'sessions#destroy', as: 'sign_out'
 
   # SONGS
   resources :songs do

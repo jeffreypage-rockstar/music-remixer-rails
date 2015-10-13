@@ -1,3 +1,638 @@
 // Place all the styles related to the Songs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#song-clips {
+
+  background-color: #000;
+  color: white;
+
+  .row, [class*="col-"] {
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+  }
+
+  input {
+	color: black;
+  }
+
+
+  .song-clip {
+	margin-bottom: 5px;
+  }
+
+  .main-player-area {
+	/*height: 162px;
+	margin-bottom: 40px;*/
+  }
+
+  #main-player {
+	position: absolute;
+	width: 100%;
+  }
+
+  .full-play-btn {
+	position: absolute;
+	width: 33px;
+	height: 32px;
+	left: -42px;
+	background-image: image-url('play.png');
+	background-size: contain;
+  }
+
+  .full-play-btn.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+  }
+
+  .full-play-btn.playing {
+	background-image: image-url('pause.png');
+  }
+
+  .full-waveform {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 34px;
+  }
+
+  #song-clips {
+	margin: 0 78px 35px;
+  }
+
+  .clips, .levels {
+	position: relative;
+	width: 12.5%;
+	display: block;
+	border-radius: 6px;
+	float: left;
+	padding-top: 4px;
+  }
+
+  .levels {
+	margin-left: -95px;
+  }
+
+  .main-player-clips .clips {
+	padding-top: 0px;
+  }
+
+  .clips.focus {
+	background-color: black;
+  }
+
+  .level {
+	position: relative;
+	width: 82px;
+	margin-bottom: 3px;
+	display: block;
+	color: white;
+	text-align: center;
+  }
+
+  .level.left {
+	height: 34px;
+	line-height: 34px;
+	font-size: 18px;
+	text-align: right;
+	pointer-events: none;
+	float: left;
+  }
+
+  .level.left:first-child {
+	margin-top: 2px;
+  }
+
+  .level.column {
+	cursor: pointer;
+  }
+
+  .clip, .blank {
+	position: relative;
+	width: 96%;
+	height: 34px;
+	display: block;
+	cursor: pointer;
+	border-radius: 6px;
+	margin: 0 auto 4px;
+  }
+
+  .clip.clip-0 {
+	background-image: image-url('0.png');
+  }
+
+  .clip.clip-a, .clip.clip-1 {
+	background-image: image-url('1.png');
+  }
+
+  .clip.clip-b, .clip.clip-2 {
+	background-image: image-url('2.png');
+  }
+
+  .clip.clip-c, .clip.clip-3 {
+	background-image: image-url('3.png');
+  }
+
+  .clip.clip-d, .clip.clip-4 {
+	background-image: image-url('4.png');
+  }
+
+  .clip.clip-e, .clip.clip-5 {
+	background-image: image-url('5.png');
+  }
+
+  .clip.clip-f, .clip.clip-6 {
+	background-image: image-url('6.png');
+  }
+
+  .clip.clip-g, .clip.clip-7 {
+	background-image: image-url('7.png');
+  }
+
+  .clip.clip-h, .clip.clip-8 {
+	background-image: image-url('8.png');
+  }
+
+  .blank {
+	border: 2px solid white;
+	border-radius: 5px;
+	background-image: none !important;
+  }
+
+  .blank.no-border {
+	border: 0px solid transparent;
+  }
+
+  .blank.dotted-border {
+	border: 2px dotted red;
+  }
+
+  .blank .clip {
+	width: 100%;
+  }
+
+  .levels .blank {
+	float: left;
+	border: none;
+  }
+
+  .clip.paused {
+	background-image: image-url ('');
+  }
+
+  .clip wave {
+	pointer-events: none;
+  }
+
+  .opaque-gray {
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+	display: none;
+	pointer-events: none;
+	background-image: image-url('clip_muted.png');
+	position: absolute;
+	z-index: 99;
+  }
+
+  .clip.muted .opaque-gray {
+	display: block;
+  }
+
+  .progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 100%;
+	pointer-events: none;
+	z-index: 100;
+	background-color: rgba(130, 84, 103, 0.5);
+	border-radius: 0px;
+	box-shadow: none;
+  }
+
+  .play-btn {
+	position: absolute;
+	top: 50%;
+	left: 5px;
+	width: 19px;
+	height: 18px;
+	margin-top: -9px;
+	background-image: image-url('play_small.png');
+	z-index: 100;
+	display: none;
+  }
+
+  .clips.focus .loaded .play-btn {
+	display: block;
+  }
+
+  .clips.focus.playing .loaded .play-btn {
+	display: none;
+  }
+
+  .clip.bordered .play-btn {
+	left: 3px;
+  }
+
+  .play-btn.paused {
+	background-image: image-url('pause_small.png');
+  }
+
+  .part-play-btn {
+	position: relative;
+	width: 78px;
+	height: 40px;
+	display: block;
+	cursor: pointer;
+	pointer-events: none;
+	background-repeat: no-repeat;
+	background-position: center 7px;
+	display: none;
+  }
+
+  #song-clips .clips.focus .part-play-btn {
+	background-image: image-url('play_medium.png');
+	pointer-events: all;
+  }
+
+  #song-clips .clips.focus .part-play-btn.disabled, #mixaudio.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+  }
+
+  #song-clips .clips.focus.playing .part-play-btn {
+	background-image: image-url('pause_medium.png');
+  }
+
+  ul#song-info, ul#part-info {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+  }
+
+  ul#song-info li, ul#part-info li {
+	height: 30px;
+	line-height: 30px;
+  }
+
+  .name-editor {
+	height: 30px;
+	line-height: 30px;
+  }
+
+  .name-editor > .name {
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	cursor: pointer;
+  }
+
+  .name-editor label {
+	display: block;
+	float: left;
+	font-weight: normal;
+	margin: 0;
+  }
+
+  .name-editor #song_name,
+  .name-editor #part_name {
+	line-height: 17px;
+  }
+
+  .name-editor > .edit, .name-editor.editing > span {
+	display: none;
+  }
+
+  .name-editor.editing > .edit {
+	display: block;
+  }
+
+  .btn.loading *, a.loading * {
+	pointer-events: none;
+  }
+
+  .mixaudio {
+	color: white;
+	background-color: black;
+	padding: 2px 20px 0px;
+	border-top-left-radius: 18px;
+	border-top-right-radius: 18px;
+	margin-right: 15px;
+  }
+
+  .mixaudio, .mixaudio:hover,
+  .mixaudio:active, .mixaudio:focus {
+	text-decoration: none;
+  }
+
+  #mixaudio i, #mixaudio span, #mixaudio * {
+	pointer-events: none;
+  }
+
+  .main-player-bg {
+	position: relative;
+	height: 82px;
+	margin: 0 -6px 8px -81px;
+	border-radius: 15px;
+	border-top: 20px solid black;
+	border-left: 77px solid black;
+	border-bottom: 20px solid black;
+	border-right: 2px solid black;
+  }
+
+  .main-player-clips {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	height: 34px;
+  }
+
+  #main-player, .main-player-clips {
+	top: 24px;
+  }
+
+  .audio-clips-bg {
+	position: absolute;
+	top: -112px;
+	border-top: 108px solid #232426;
+	left: -100px;
+	border-left: 97px solid #232426;
+	bottom: -28px;
+	border-bottom: 25px solid #232426;
+	right: -27px;
+	border-right: 24px solid #232426;
+	border-radius: 20px;
+	background-color: #232426;
+	z-index: -1;
+  }
+
+  /* Preview */
+  .iPhone {
+	position: absolute;
+	top: -50px;
+	width: 240px;
+	height: 447px;
+	margin-left: 30px;
+	border-top: 55px solid black;
+	border-bottom: 55px solid black;
+	border-left: 10px solid black;
+	border-right: 10px solid black;
+	border-top-right-radius: 25px;
+	border-top-left-radius: 25px;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+	pointer-events: none;
+  }
+
+  .iPhone .mic {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	top: -35px;
+	left: 50%;
+	margin-left: -5px;
+	box-shadow: inset 0px -3px 12px -5px #C1A3A3;
+	border-radius: 25px;
+  }
+
+  .iPhone .speaker {
+	position: absolute;
+	width: 60px;
+	height: 10px;
+	top: -20px;
+	left: 50%;
+	margin-left: -30px;
+	box-shadow: inset 0px -1px 16px -4px #827A7A;
+	border-radius: 25px;
+  }
+
+  .iPhone .home-btn {
+	width: 35px;
+	height: 35px;
+	position: absolute;
+	background-color: #23211E;
+	border-radius: 25px;
+	bottom: -44px;
+	left: 50%;
+	margin-left: -17.5px;
+	box-shadow: inset 0px -3px 12px -5px #C1A3A3;
+  }
+
+  .iPhone .screen {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-image: image-url('bg.png');
+  }
+
+  .iPhone .navigation-bar {
+	width: 100%;
+	height: 37px;
+	line-height: 37px;
+  }
+
+  .iPhone .navigation-bar i.fa {
+	margin: 0 12px;
+  }
+
+  .iPhone .navigation-bar label {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	text-align: center;
+  }
+
+  .iPhone .screen .wing-group {
+	top: 5px;
+	left: 14px;
+  }
+
+  .iPhone .screen .playBtn {
+	position: absolute;
+	width: 61px;
+	height: 61px;
+	top: 100px;
+	left: 69px;
+	background-image: image-url('play_preview.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	z-index: 1000;
+  }
+
+  .iPhone .screen .playBtn.playing {
+	position: absolute;
+	background-image: image-url('pause_preview.png');
+  }
+
+  .iPhone .screen [class*="wing"],
+  .iPhone .screen .configbtn {
+	position: absolute;
+	z-index: 999;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+  }
+
+  .iPhone .screen .wing1,
+  .iPhone .screen .wing2 {
+	width: 49px;
+	height: 68px;
+	top: 96px;
+  }
+
+  .iPhone .screen .wing1 {
+	left: 33px;
+	background-image: image-url('wing_1_s@2x.png');
+  }
+
+  .iPhone .screen .wing1.muted {
+	background-image: image-url('wing_1@2x.png');
+  }
+
+  .iPhone .screen .wing2 {
+	left: 116px;
+	background-image: image-url('wing_2_s@2x.png');
+  }
+
+  .iPhone .screen .wing2.muted {
+	background-image: image-url('wing_2@2x.png');
+  }
+
+  .iPhone .screen .wing3,
+  .iPhone .screen .wing4 {
+	width: 68px;
+	height: 50px;
+	left: 65px;
+  }
+
+  .iPhone .screen .wing3 {
+	top: 63px;
+	background-image: image-url('wing_3_s@2x.png');
+  }
+
+  .iPhone .screen .wing3.muted {
+	background-image: image-url('wing_3@2x.png');
+  }
+
+  .iPhone .screen .wing4 {
+	top: 147px;
+	background-image: image-url('wing_4_s@2x.png');
+  }
+
+  .iPhone .screen .wing4.muted {
+	background-image: image-url('wing_4@2x.png');
+  }
+
+  .iPhone .screen .wing5,
+  .iPhone .screen .wing6,
+  .iPhone .screen .wing7,
+  .iPhone .screen .wing8 {
+	width: 41px;
+	height: 41px;
+  }
+
+  .iPhone .screen .wing5,
+  .iPhone .screen .wing6 {
+	top: 58px;
+  }
+
+  .iPhone .screen .wing5 {
+	left: 27px;
+	background-image: image-url('wing_5_s@2x.png');
+  }
+
+  .iPhone .screen .wing5.muted {
+	background-image: image-url('wing_5@2x.png');
+  }
+
+  .iPhone .screen .wing6 {
+	left: 130px;
+	background-image: image-url('wing_6_s@2x.png');
+  }
+
+  .iPhone .screen .wing6.muted {
+	background-image: image-url('wing_6@2x.png');
+  }
+
+  .iPhone .screen .wing7,
+  .iPhone .screen .wing8 {
+	top: 161px;
+  }
+
+  .iPhone .screen .wing7 {
+	left: 27px;
+	background-image: image-url('wing_7_s@2x.png');
+  }
+
+  .iPhone .screen .wing7.muted {
+	background-image: image-url('wing_7@2x.png');
+  }
+
+  .iPhone .screen .wing8 {
+	left: 130px;
+	background-image: image-url('wing_8_s@2x.png');
+  }
+
+  .iPhone .screen .wing8.muted {
+	background-image: image-url('wing_8@2x.png');
+  }
+
+  .iPhone .screen .configbtn {
+	width: 180px;
+	top: 240px;
+	left: 50%;
+	margin-left: -90px;
+  }
+
+  .iPhone .screen .configbtn .source,
+  .iPhone .screen .configbtn .style-up,
+  .iPhone .screen .configbtn .style-down {
+	width: 55px;
+	height: 24px;
+	line-height: 24px;
+	background-color: #62d0e8;
+	border-radius: 4px;
+	padding: 0 4px;
+	margin-left: 4px;
+	font-size: 10px;
+	text-align: center;
+	float: left;
+  }
+
+  .iPhone .screen .configbtn .source.active,
+  .iPhone .screen .configbtn .style-up.active,
+  .iPhone .screen .configbtn .style-down.active {
+	background-color: #e6c23a;
+  }
+
+  .iPhone .screen .bar {
+	position: absolute;
+	background-color: #146d86;
+	bottom: 35px;
+	left: 10px;
+	right: 10px;
+	height: 18px;
+	line-height: 18px;
+	border-radius: 12px;
+  }
+
+  .iPhone .screen .bar:last-child {
+	bottom: 10px;
+  }
+
+  .iPhone .screen .bar i.fa {
+	margin:0px 12px;
+	float: left;
+	font-size: 18px;
+  }
+
+  .iPhone .screen .bar i.fa:last-child {
+	float: right;
+  }
+
+}

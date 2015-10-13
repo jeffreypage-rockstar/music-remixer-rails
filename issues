@@ -5,5 +5,8 @@ Things I DO like about this one:
 - auth is simple, not too complicated
 
 Issues:
+- css in application.css.scss is not namespaced
+- .row in application.css.scss breaks all of bootstrap
+
 
 

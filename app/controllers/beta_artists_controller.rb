@@ -1,5 +1,6 @@
 class BetaArtistsController < ApplicationController
-  layout 'auth'
+  # layout 'auth'
+
   def join
     if request.post? && params.include?(:beta_artist)
       @beta_artist = BetaArtist.new(beta_artist_params)
