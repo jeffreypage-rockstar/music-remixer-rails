@@ -1,35 +1,48 @@
 class UsersController < Clearance::UsersController
 	# layout 'auth', :only => [:create, :new]
 
+	def validate_beta_invite_code
+		invite_code = params['invite_code'] || session['invite_code']
+		if invite_code.nil?
+			redirect_to '/'
+			return false
+		end
+
+		beta = BetaUser.where(:invite_code => invite_code, :user_id => nil).first
+		if beta.nil?
+			redirect_to '/', :alert => 'Sorry, this invite code is no longer valid.'
+			return false
+		end
+
+		beta
+	end
+
+	# /sign_up
 	def new
-		if !params[:invite_code].nil?
+		return unless validate_beta_invite_code
+
+		# when they come in with an invite_code, store the code and redirect to url without it
+		if params[:invite_code]
 			session[:invite_code] = params[:invite_code]
 			redirect_to '/sign_up'
-		# elsif session[:invite_code].nil?
-		# 	redirect_to '/', :alert => 'Sorry, you must have an invite code to sign up!'
-		else
-			@user = User.new
 		end
+
+		@user = User.new
 	end
 
 	def create
-		render template: 'users/new' if session[:invite_code].nil?
+		beta_user = validate_beta_invite_code
+		return unless beta_user
 
-		beta = BetaUser.find_by_invite_code(session[:invite_code])
-		if beta.user_id.nil?
-			@user = user_from_params
-
-			if @user.save
-				session.delete(:invite_code)
-				beta.user_id = @user.id
-				beta.save
-				sign_in @user
-				redirect_to '/', :info => 'Thanks for signing up!'
-			else
-				render template: 'users/new'
-			end
+		@user = user_from_params
+		if @user.save
+			session.delete(:invite_code)
+			beta_user.user_id = @user.id
+			beta_user.save
+			sign_in @user
+			redirect_to '/', :info => 'Thanks for signing up!'
 		else
-			redirect_to '/', :alert => 'Sorry, this invite code has already been used.'
+			render template: 'users/new'
 		end
 	end
 
@@ -47,4 +60,5 @@ class UsersController < Clearance::UsersController
 			user.password = password
 		end
 	end
+
 end

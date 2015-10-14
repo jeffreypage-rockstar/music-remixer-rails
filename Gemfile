@@ -40,7 +40,10 @@ gem 'autoprefixer-rails'
 gem 'clearance', '~> 1.11'
 
 # admin
-gem "rails_admin"
+gem 'rails_admin'
+
+# easy forms
+gem 'simple_form'
 
 # Table generator
 # gem 'simple_table_for'

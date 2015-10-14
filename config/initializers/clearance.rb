@@ -8,4 +8,6 @@ Clearance.configure do |config|
   # Clearance::SessionsController.layout 'auth'
   # Clearance::UsersController.layout 'auth'
   # Clearance.configuration.redirect_url = '/artist/dashboard'
+
+  config.sign_in_guards = [EmailConfirmationGuard]
 end

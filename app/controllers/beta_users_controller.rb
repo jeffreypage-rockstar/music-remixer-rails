@@ -5,8 +5,7 @@ class BetaUsersController < ApplicationController
 			@beta_user = BetaUser.new(beta_user_params)
 			@beta_user.invite_code = Digest::SHA1.hexdigest([Time.now, rand].join)
 			if @beta_user.save
-				redirect_to '/user/thanks'
-				# redirect_to '/', :notice => 'Thanks for joining! We\'ll be in touch!'
+				redirect_to beta_thanks_url
 			else
 				render :join
 			end

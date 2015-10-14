@@ -16,7 +16,8 @@
 
 body.sessions > div.container,
 body.users > div.container,
-body.passwords > div.container  {
+body.passwords > div.container,
+body.beta_users > div.container {
   margin: 80px auto 0;
   padding: 0 20px;
   max-width: 440px;
@@ -48,6 +49,6 @@ body.passwords > div.container  {
 .title {
   //color: white;
   font-size: 1.35em;
-  text-transform: uppercase;
+  //text-transform: uppercase;
 }
 
