@@ -47,7 +47,7 @@
             };
 
             // Update part name
-            var column = index;
+            var column = sColumn;
             updatePartName(column, event, $(event.target).val());
             $.ajax({
                 type: "PUT",
