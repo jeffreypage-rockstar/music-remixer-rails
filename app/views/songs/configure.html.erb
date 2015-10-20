@@ -56,7 +56,7 @@
 
     stopTopPlayer = function() {
         if (window.topWavesurfer) {
-            if (!window.topWavesurfer.backend.isPaused()) {
+            if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
                 window.topWavesurfer.pause();
                 $(".full-play-btn").removeClass('playing');
             }    
@@ -64,7 +64,7 @@
     }
     <% if @mixaudio.present? %>
     $(document).ready(function(){
-        initializeTopPlayer("<%=@mixaudio%>");
+        //initializeTopPlayer("<%=@mixaudio%>");
     });
     <% end %>
 </script>

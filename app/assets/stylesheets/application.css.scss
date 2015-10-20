@@ -176,6 +176,10 @@
 	background-image: image-url('8.png');
 }
 
+#mixaudioplayer .clip {
+    border: 2px solid;
+}
+
 .blank {
 	border: 2px solid white;
 	border-radius: 5px;
@@ -207,6 +211,9 @@
     pointer-events: none;
 }
 
+#mixaudioplayer .clip wave {
+    pointer-events: all;
+}
 .opaque-gray {
 	width: 100%;
     height: 100%;
@@ -372,6 +379,8 @@ ul#song-info li, ul#part-info li {
     left: 0px;
     right: 0px;
     height: 34px;
+    background: gray;
+    border-radius: 6px;
 }
 
 #main-player, .main-player-clips {

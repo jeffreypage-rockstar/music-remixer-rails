@@ -32,10 +32,10 @@
 <script type="text/javascript">
     // Predefined Varibales
     var loadColumn = 1;
-    var sColumn = <%= currentIndex %>;
-    var clipPreviewPlayer = false;
-    var clipPreviewPlayerRow = 0;
-    var clipPreviewPlayerColumn = 0;
+    window.sColumn = <%= currentIndex %>;
+    window.clipPreviewPlayer = false;
+    window.clipPreviewPlayerRow = 0;
+    window.clipPreviewPlayerColumn = 0;
 
     $.fn.state = function() {
         var state = false;
@@ -199,6 +199,8 @@
                 wavesurfer.play();    
             }
         };
+        topWavesurfer[sColumn].play();;
+
     }
 
     pausePartPlayer = function() {
