@@ -11,12 +11,22 @@
 <div class="col-md-9">
     <div class="main-player-bg"></div>
     <div class="main-player-clips">
+        <% song_start_time = 0.0 %>
         <% @song.parts.each_with_index do |part, c| %>
             <% c += 1 %>
             <div id="clips-<%=c%>0" class="clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
                 <% clip = part.clips.first %>
+                <% time_increment = 1.0 %>
+                <% if c == 1 %>
+                    <% time_increment = 0.0 %>
+                <% end %>
                 <div id="clip-part-<%=c%>" class="clip" data-id="<%=clip.id%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-filetype="<%=clip.wing%>">
                     <div class="progress"></div>
+                    <div class="time-line"></div>
+                    <div class="time-inline">
+                        <p class="left-time-inline"><%= Time.at(song_start_time + time_increment).utc.strftime("%M:%S") %></p>
+                        <p class="right-time-inline"><%= Time.at(song_start_time = song_start_time + part.duration).utc.strftime("%M:%S") %></p>
+                    </div>
                 </div>
             </div>
         <% end %>
@@ -47,7 +57,9 @@
             height: 17,
             waveColor: 'rebeccapurple',
             progressColor: 'rebeccapurple',
-            splitChannels: true
+            splitChannels: true,
+            cursorWidth: 2,
+            cursorColor: "yellow"
         });
         
         wavesurfer.on('ready', function (_this) {

@@ -124,7 +124,9 @@
             height: 17,
             waveColor: 'black',
             progressColor: 'black',
-            splitChannels: true
+            splitChannels: true,
+            cursorWidth: 2,
+            cursorColor: "yellow"
         });
         wavesurfer.on('ready', function (_this) {
             $(_this.container).addClass('loaded');

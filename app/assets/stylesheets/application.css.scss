@@ -108,11 +108,14 @@
     background-color: transparent;
 }
 
-#mixaudioplayer .clips wave wave {
+#mixaudioplayer .clips wave wave, 
+#mixaudioplayer .clips wave canvas,
+#audio-clips .clips wave wave {
     display: none !important;
 }
 
-#mixaudioplayer .clips.focus wave wave {
+#mixaudioplayer .clips.focus wave wave,
+#audio-clips .clips.focus wave wave {
     display: block !important;
 }
 
@@ -191,6 +194,37 @@
 #mixaudioplayer .clip {
   background: rebeccapurple;  
   /* border: 2px solid black; */
+}
+
+#mixaudioplayer .clip .time-line {
+    height: 8px;
+    background: white;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: -4px;
+    border-top: 2px solid #9D9D9D;
+    border-bottom: 2px solid #9D9D9D;
+}
+
+#mixaudioplayer .clips:last-child .clip .time-line {
+    width: 100%;
+}
+
+#mixaudioplayer .clip .time-inline p {
+    position: absolute;
+    bottom: 0px;
+    color: white;
+    margin: 0;
+    font-size: 10px;
+}
+
+#mixaudioplayer .clip .time-inline p.left-time-inline {
+    left: 4px;
+}
+
+#mixaudioplayer .clip .time-inline p.right-time-inline {
+    right: 4px;
 }
 
 .blank {
@@ -392,7 +426,7 @@ ul#song-info li, ul#part-info li {
     left: 0px;
     right: 0px;
     height: 34px;
-    background: gray;
+    background: #232426;
     border-radius: 6px;
 }
 
