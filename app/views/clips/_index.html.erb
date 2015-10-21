@@ -1,5 +1,4 @@
 <div class="audio-clips-bg"></div>
-<% currentIndex = 1 %>
 <!-- Clips Segment Area Start -->
 <div class="levels">
     <% @song.clip_types.each_with_index do |clip_type, c| %>
@@ -11,7 +10,7 @@
 </div>
 <% @song.parts.each_with_index do |part, c| %>
     <% c += 1 %>
-    <div id="clips-<%=c%>" class="clips<%=' focus' if c == currentIndex %>" data-column="<%=c%>">
+    <div id="clips-<%=c%>" class="clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
         <div class="part-play-btn disabled"></div>
         <% part.clips.each_with_index do |clip, r| %>
             <% r += 1 %>
@@ -32,7 +31,7 @@
 <script type="text/javascript">
     // Predefined Varibales
     var loadColumn = 1;
-    window.sColumn = <%= currentIndex %>;
+    window.sColumn = <%= @currentIndex %>;
     window.clipPreviewPlayer = false;
     window.clipPreviewPlayerRow = 0;
     window.clipPreviewPlayerColumn = 0;
@@ -89,7 +88,7 @@
         var wavesurfer = null;
         $("#audio-clips #clips-"+loadColumn).each(function(){
             var column = $(this).attr('data-column');
-            wavesurfers[column] = {};
+            if (!wavesurfers[column]) wavesurfers[column] = {};
             $(this).find('.clip').each(function(){
                 wavesurferPlayer(this, $(this).data('path'), $(this).state(), column, $(this).attr('data-row'));
             })
@@ -172,9 +171,10 @@
 
     function addRemoveEventListener(addListener) {
         if (!wavesurfers[sColumn]) { return };
-        var wavesurfer = wavesurfers[sColumn]['1'];
+        var wavesurfer = wavesurfers[sColumn]['0'];
         if (wavesurfer) {
-            wavesurfer.unAll();
+            wavesurfer.un('finish', clipEndedCallback);
+            wavesurfer.un('finish', singleClipEndedCallback);
             if (addListener) {
                 wavesurfer.on('finish', clipEndedCallback);
             } 
@@ -183,30 +183,31 @@
 
     clipEndedCallback = function() {
         if (sColumn == 8) { 
+            $(".full-play-btn").removeClass('playing');
             $("#clips-"+sColumn).removeClass('playing');
             stopPartPlayers(true);
             return; 
         };
-        $("#clips-"+sColumn).removeClass('focus').removeClass('playing');
+        $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
+
         if (sColumn < 8) sColumn++; 
-        $("#clips-"+sColumn).addClass('focus').addClass('playing');
+        $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
         showCurrentPartDetails();
         playNext();
         
-        for (var i = 1; i <= 8; i++) {
+        for (var i = 0; i <= 8; i++) {
             var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 wavesurfer.play();    
             }
         };
-        topWavesurfer[sColumn].play();;
-
+        // topWavesurfers[sColumn].play();;
     }
 
     pausePartPlayer = function() {
         if (!wavesurfers[sColumn]) { return };
         $(".clips.focus").removeClass('playing');
-        for (var i = 1; i <= 8; i++) {
+        for (var i = 0; i <= 8; i++) {
             var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
@@ -216,7 +217,7 @@
 
     stopPartPlayers = function(seek) {
         if (!wavesurfers[sColumn]) { return };
-        for (var i = 1; i <= 8; i++) {
+        for (var i = 0; i <= 8; i++) {
             var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 wavesurfer.seekTo(0);
@@ -354,8 +355,8 @@
     }
 
     $(document).on('ready page:load', function () { 
-        window.wavesurfers = wavesurfers = {};
-        window.draggableElm = {};
+        // window.wavesurfers = wavesurfers = {};
+        // window.draggableElm = {};
         updatePreview();
         // Intialize all sound clips for play
         setTimeout(function(){
@@ -372,14 +373,15 @@
             if (column == sColumn) { return };
 
             // Paused Sound Clips
+            $(".full-play-btn").removeClass('playing');
             stopPartPlayers(true);
 
-            $("#clips-"+sColumn).removeClass('focus').removeClass('playing');
+            $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
             sColumn = column;
 
             isPartPlayerReady(column);
             showCurrentPartDetails();
-            $(event.target).parent().addClass('focus');
+            $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
             playNext();
 
             updatePreview();

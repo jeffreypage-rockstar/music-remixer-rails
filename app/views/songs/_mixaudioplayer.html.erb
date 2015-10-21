@@ -8,21 +8,15 @@
         </a>
     </div>
 </div>
-<% currentIndex = 1 %>
 <div class="col-md-9">
     <div class="main-player-bg"></div>
     <div class="main-player-clips">
-    <!--
-        <% (1..8).each_with_index do |c, index| %>
-            <div class="clips">
-                <div class="clip clip-0"> </div>
-            </div>
-        <% end %> -->
         <% @song.parts.each_with_index do |part, c| %>
             <% c += 1 %>
-            <div id="clips-<%=c%>-0" class="clips" data-column="<%=c%>">
+            <div id="clips-<%=c%>0" class="clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
                 <% clip = part.clips.first %>
                 <div id="clip-part-<%=c%>" class="clip" data-id="<%=clip.id%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-filetype="<%=clip.wing%>">
+                    <div class="progress"></div>
                 </div>
             </div>
         <% end %>
@@ -38,73 +32,102 @@
     <%= render 'configurationbtn' %>          
 </div>
 <script type="text/javascript">
-    $(document).ready(function(){
+    window.topWavesurfers = {};
+    window.seekingColumn = 0;
+    window.wavesurfers = wavesurfers = {};
+    window.draggableElm = {};
+    var loadTopColumn = 1;
 
-        var topWavesurfers = {};
-        var seekingColumn = 0;
-        $("#mixaudioplayer .clips").each(function(){
-            var column = $(this).attr('data-column');
-            
-            $(this).find('.clip').each(function(){
-                topWavesurfers[column] = {};
-                console.log("", $(this).data('path'))
-                // wavesurferPlayer(this, $(this).data('path'), $(this).state(), column, $(this).attr('data-row'));
-
-                // var row = $(this).attr('data-row');
-                var wavesurfer = Object.create(WaveSurfer);
-                // wavesurfer.row = row;
-                wavesurfer.column = column;
-                wavesurfer.init({
-                    container: this,
-                    fillParent: true,
-                    height: 17,
-                    waveColor: 'gray',
-                    progressColor: 'gray',
-                    splitChannels: true
-                });
-                wavesurfer.on('ready', function (_this) {
-                    
-                });
-
-                wavesurfer.on('loading', function (_this, progress) {
-                    $(_this.container).children(".progress").css("left", progress+"%");
-                });
-
-                wavesurfer.on('seek', function (_this, position) {
-                    var column = _this.column
-                    if (!column) { return };
-                    if (seekingColumn == column) {
-                        seekingColumn = 0;
-                        return;
-                    };
-
-                    // Paused Sound Clips
-                    stopPartPlayers(true);
-
-                    $("#clips-"+sColumn).removeClass('focus').removeClass('playing');
-                    sColumn = column;
-
-                    isPartPlayerReady(column);
-                    showCurrentPartDetails();
-                    $("#clips-"+sColumn).addClass('focus');
-                    for (var i = 1; i <= 8; i++) {
-                        if (i != _this.column) {
-                            if (topWavesurfers[i].getCurrentTime() > 0) {
-                                seekingColumn = i;
-                                topWavesurfers[i].seekTo(0);
-                            };
-                        };
-                        var wavesurfer = wavesurfers[sColumn][i].seekTo(position);
-                    };
-                    playNext();
-
-                    updatePreview();
-                });
-
-                wavesurfer.load($(this).data('path'));
-                topWavesurfers[column] = wavesurfer;
-            })
+    topWavesurferPlayer = function(container, src, column) {
+        var wavesurfer = Object.create(WaveSurfer);
+        wavesurfer.column = column;
+        wavesurfer.init({
+            container: container,
+            fillParent: true,
+            height: 17,
+            waveColor: 'rebeccapurple',
+            progressColor: 'rebeccapurple',
+            splitChannels: true
         });
+        
+        wavesurfer.on('ready', function (_this) {
+            $(_this.container).addClass('loaded');
+            if (!_this.isMuted) {
+                _this.toggleMute();    
+            };
+            console.log(_this.column+" Top Clip player is ready!");
+            if (loadTopColumn <= 7) {
+                loadTopColumn++;
+                loadTopClips();
+            };
+        });
+
+        wavesurfer.on('loading', function (_this, progress) {
+            $(_this.container).children(".progress").css("left", progress+"%");
+        });
+
+        wavesurfer.on('seek', function (_this, position) {
+            console.log("Column ===== : ", _this.column);
+            if (!_this.column) { return };
+            if (seekingColumn == _this.column) {
+                console.log(" Seek CallBack ============= ", seekingColumn);
+                seekingColumn = -1;
+                return true;
+            };
+
+            seekAllClips(_this.column, position);
+        });
+
+        wavesurfer.load(src);
+        wavesurfers[column][0] = wavesurfer;
+    }
+
+    function seekAllClips(column, position) {
+        if (sColumn != column) {
+            seekingColumn = sColumn;
+            stopPartPlayers(true);
+
+            $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
+            sColumn = column;
+            showCurrentPartDetails();
+            $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
+
+            if ($(".full-play-btn").hasClass('playing')) {
+                $("#clips-"+sColumn).addClass('playing');
+            }
+
+            playNext();
+            updatePreview();
+        }
+        
+        for (var i = 0; i <= 8; i++) {
+            var wavesurfer = wavesurfers[sColumn][i];
+            if (wavesurfer) {
+                if (i != 0) { wavesurfer.seekTo(position); }
+                if ($(".full-play-btn").hasClass('playing')) {
+                    if (wavesurfer.backend.isPaused()) {
+                        wavesurfer.play();
+                    }
+                }
+            };
+        };
+    }
+
+    function loadTopClips() {
+       $("#mixaudioplayer #clips-"+loadTopColumn+"0").each(function(){
+            var column = $(this).attr('data-column');
+            if (!wavesurfers[column]) wavesurfers[column] = {};
+            $(this).find('.clip').each(function(){
+                topWavesurferPlayer(this, $(this).data('path'), parseInt(column));
+            })
+        }); 
+    }
+
+    $(document).ready(function(){
+        // Intialize all sound clips for play
+        setTimeout(function(){
+            loadTopClips();    
+        }, 500);
 
         $("#mixaudio").on('click', function(event){
             $(event.target).addClass("disabled");
@@ -120,15 +143,8 @@
             addRemoveEventListener(true);
             $(".full-play-btn").toggleClass('playing');
 
-            var wavesurfer = topWavesurfers[sColumn];
-            if ($(".full-play-btn").hasClass('playing')) {
-                wavesurfer.play();
-            } else {
-                wavesurfer.pause();
-            }
-
             // Play or Paused Sound Clips
-            for (var i = 1; i <= 8; i++) {
+            for (var i = 0; i <= 8; i++) {
                 var wavesurfer = wavesurfers[sColumn][i];
                 if (wavesurfer.backend.isPaused()) {
                     $("#clips-"+sColumn).addClass('playing');

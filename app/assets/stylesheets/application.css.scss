@@ -104,6 +104,18 @@
 	background-color: black;
 }
 
+#mixaudioplayer .clips {
+    background-color: transparent;
+}
+
+#mixaudioplayer .clips wave wave {
+    display: none !important;
+}
+
+#mixaudioplayer .clips.focus wave wave {
+    display: block !important;
+}
+
 .level {
 	position: relative;
 	width: 82px;
@@ -177,7 +189,8 @@
 }
 
 #mixaudioplayer .clip {
-    border: 2px solid;
+  background: rebeccapurple;  
+  /* border: 2px solid black; */
 }
 
 .blank {
