@@ -135,9 +135,17 @@
                     _this.toggleMute();    
                 };
             };
+
+            if (wavesurfers[_this.column][0]) {
+                var tWavesurfer = wavesurfers[_this.column][0];
+                if (tWavesurfer && tWavesurfer.getCurrentTime() > 0) {
+                    _this.seekTo(tWavesurfer.getCurrentTime() / tWavesurfer.getDuration());
+                };
+            }
+            
             isPartPlayerReady(_this.column);
             if (isAllClipsLoadedOfThisPart(_this.column)) {
-                console.log(_this.column+" Part player is ready!");
+                // console.log(_this.column+" Part player is ready!");
                 if (sColumn == _this.column) addRemoveEventListener(true);
                 if (loadColumn <= 7) {
                     loadColumn++;

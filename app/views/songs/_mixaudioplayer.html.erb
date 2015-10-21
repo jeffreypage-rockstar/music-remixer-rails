@@ -67,7 +67,7 @@
             if (!_this.isMuted) {
                 _this.toggleMute();    
             };
-            console.log(_this.column+" Top Clip player is ready!");
+            // console.log(_this.column+" Top Clip player is ready!");
             if (loadTopColumn <= 7) {
                 loadTopColumn++;
                 loadTopClips();
@@ -79,14 +79,13 @@
         });
 
         wavesurfer.on('seek', function (_this, position) {
-            console.log("Column ===== : ", _this.column);
             if (!_this.column) { return };
             if (seekingColumn == _this.column) {
-                console.log(" Seek CallBack ============= ", seekingColumn);
                 seekingColumn = -1;
                 return true;
             };
 
+            // console.log("Position : ", position);
             seekAllClips(_this.column, position);
         });
 
