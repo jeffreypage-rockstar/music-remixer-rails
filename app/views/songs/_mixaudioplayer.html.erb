@@ -71,7 +71,9 @@
             if (loadTopColumn <= 7) {
                 loadTopColumn++;
                 loadTopClips();
-            };
+            } else {
+                $("#mixaudio").removeClass('disabled');
+            }
         });
 
         wavesurfer.on('loading', function (_this, progress) {

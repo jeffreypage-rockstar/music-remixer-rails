@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930075139) do
+ActiveRecord::Schema.define(version: 20151023041849) do
+
+  create_table "_songs_old_20150921", force: :cascade do |t|
+    t.string   "name"
+    t.float    "duration"
+    t.text     "zipfile"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text     "mixed_file"
+    t.text     "mixaudio"
+    t.text     "mixaudio2"
+    t.text     "mixaudio3"
+  end
 
   create_table "clip_types", force: :cascade do |t|
     t.integer  "song_id"
@@ -27,13 +39,14 @@ ActiveRecord::Schema.define(version: 20150930075139) do
     t.string   "row"
     t.string   "column"
     t.float    "duration"
-    t.boolean  "state",      default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.boolean  "state",        default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "part_id"
     t.text     "file"
-    t.boolean  "state2",     default: false
-    t.boolean  "state3",     default: false
+    t.boolean  "state2",       default: false
+    t.boolean  "state3",       default: false
+    t.boolean  "user_content", default: false
   end
 
   create_table "parts", force: :cascade do |t|

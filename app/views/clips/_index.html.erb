@@ -1,11 +1,12 @@
 <div class="audio-clips-bg"></div>
 <!-- Clips Segment Area Start -->
 <div class="levels">
-    <% @song.clip_types.each_with_index do |clip_type, c| %>
-        <% if c == 4 %>
+    <% @song.clip_types.each_with_index do |clip_type, r| %>
+        <% r += 1 %>
+        <% if r == 5 %>
         <div class="level left"></div>
         <% end %>
-        <div class="level left"><%=clip_type.name%></div>
+        <div id="level-<%=r%>" class="level left"><%=clip_type.name%></div>
     <% end %>
 </div>
 <% @song.parts.each_with_index do |part, c| %>
@@ -19,10 +20,13 @@
                     <div class="play-btn"></div>
                 </div>
             <% end %>
-            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-filetype="<%=clip.wing%>">
+            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-filetype="<%=clip.wing%>" data-user-content="<%=clip.user_content%>">
                 <div class="progress"></div>
                 <div class="opaque-gray"></div>
                 <div class="play-btn"></div>
+                <% if clip.user_content %>
+                <div class="user-content">0</div>
+                <% end %>
             </div>
         <% end %>
         <div class="level column" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>"><%=part.name%></div>
@@ -238,15 +242,29 @@
 
      // Intialize all sound clips for play
      // intializeSoundClips();
-    function showCurrentPartDetails() {
+    showCurrentPartDetails = function() {
         var partElement = $("#clips-"+sColumn).children(".level.column");
         $("#part-time").html("Time: "+partElement.data('time'));
         $("#part-info .name")
-            .attr('data-name', partElement.data('name'))
-            .text("Name: "+partElement.data('name'))
+            .attr('data-name', partElement.attr('data-name'))
+            .text("Name: "+partElement.attr('data-name'))
         var songID = $("#song-clips").data('id');
         var partID = partElement.data('id');
         $("#part-info form").attr('action', "/songs/"+songID+"/parts/"+partID);
+        showUserContent();
+    }
+
+    function showUserContent() {
+        var userContents = "";
+        $("#audio-clips #clips-"+sColumn+" .clip").each(function(){
+            console.log("", $(this).data('user-content'));
+            if ($(this).data('user-content')) {
+                var row = $(this).data('row');
+                levelName = $("#level-"+row).text();
+                userContents += " ["+levelName+"]";
+            };
+        });
+        $("p#user-ocntent").text("User Content :"+userContents);
     }
 
     singleClipEndedCallback = function() {
@@ -370,7 +388,8 @@
         updatePreview();
         // Intialize all sound clips for play
         setTimeout(function(){
-            loadPartClips();    
+            loadPartClips();
+            showUserContent();    
         }, 500);
 
         clipDraggable($("#audio-clips .clip"), 'parent');

@@ -2,11 +2,11 @@
 <% @currentIndex = 1 %>
 <div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
     <div class="row" style="margin-bottom: 15px;">
-        <div class="col-md-9" style="height: 90px;">
+        <div class="col-md-9" style="">
             <div id="songdetails" class="col-md-4">
                  <%= render 'songdetails' %>          
             </div>
-            <div id="partdetails" class="col-md-4">
+            <div id="partdetails" class="col-md-8">
                 <%= render 'partdetails' %>          
             </div>
         </div>

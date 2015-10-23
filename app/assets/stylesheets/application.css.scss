@@ -319,6 +319,23 @@
 	background-image: image-url('pause_small.png');
 }
 
+.user-content {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    margin-top: -8px;
+    z-index: 100;
+    border: 1px solid white;
+    border-radius: 15px;
+    text-align: center;
+    line-height: 15px;
+    font-weight: normal;
+    font-size: 12px;
+    box-shadow: inset 0px 0px 15px 2px #525284;
+}
+
 .part-play-btn {
 	position: relative;
     width: 78px;
