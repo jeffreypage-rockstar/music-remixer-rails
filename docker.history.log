@@ -1,0 +1,154 @@
+open http://192.168.99.100:3000/
+    1  ll
+    2  ll /Volumes/
+    3  ls -al /
+    4  cd /
+    5  ll
+    6  ls -l
+    7  ls -l /Volumes/
+    8  ls -l /Volumes/Gaga/
+    9  cd 
+   10  cd mix8/
+   11  ll
+   12  cd ..
+   13  ls -al
+   14  ls -al .*
+   15  ls -al
+   16  pwd
+   17  cp Dropbox\ \(Personal\)/.bashrc .bashrc
+   18  ll
+   19  ls -al
+   20  ln -s "Dropbox (Personal)" my.Dropbox
+   21  ls -l
+   22  ln -s "Dropbox (8Stem, Inc.)" 8stem.Dropbox
+   23  cd my.Dropbox
+   24  cp bashrc ../.bashrc
+   25  ll
+   26  ls -al
+   27  cp my.Dropbox/bash_profile .bash_profile
+   28  vi .bash_profile 
+   29  vi .bash_profile 
+   30  vi .bashrc 
+   31  grep alias .bash*
+   32  vi .bashrc
+   33  env
+   34  env | grep DOCKER
+   35  grep DOCKER .*
+   36  vi .bashrc
+   37  exit
+   38  docker-machine upgrade default
+   39  docker-machine upgrade default
+   40  cd mix8/
+   41  ll
+   42  cd akashic-nga/
+   43  ll
+   44  git status
+   45  git status
+   46  sudo git status
+   47  git status
+   48  git branch -a
+   49  open .
+   50  pwd
+   51  ll
+   52  vi docker-compose.yml
+   53  vi Dockerfile
+   54  docker-compose up
+   55  docker-compose up
+   56  env
+   57  cd mix8/akashic-nga/
+   58  docker-compose up
+   59  docker version
+   60  cd
+   61  grep DOCKER .*
+   62  vi bashrc
+   63  vi .bashrc
+   64  reload .bashrc
+   65  exit
+   66  env | grep DOCKER
+   67  docker version
+   68  cd mix8/akashic-nga/
+   69  docker-compose up
+   70  docker-compose up
+   71  git status
+   72  vi .gitignore 
+   73  vi .gitignore 
+   74  git status
+   75  git add .
+   76  git commit -m "try docker"
+   77  git config --global --edit
+   78  git status
+   79  git reset --soft HEAD~1
+   80  git status
+   81  git commit -m "try docker"
+   82  git status
+   83  git status
+   84  git pull
+   85  git remote -v
+   86  git remote set-url origin git@bitbucket.org:8stem/akashic-nga.git
+   87  git status
+   88  git pull
+   89  git status
+   90  git push origin docker
+   91  git show-ref
+   92  git push -u origin docker
+   93  git push origin docker
+   94  git push origin navigation
+   95  git remote -v
+   96  history | grep docker
+   97  rake -T
+   98  ll
+   99  git status
+  100  git status
+  101  git diff docker-compose.yml
+  102  git status
+  103  git diff .
+  104  git checkout HEAD docker-compose.yml
+  105  git status
+  106  which rails
+  107  rails --help
+  108  /usr/bin/rails
+  109  docker-compose up
+  110  ps aux | grep ruby
+  111  ps aux | grep docker
+  112  top
+  113  docker-compose stop
+  114  docker-compose up
+  115  git status
+  116  git log
+  117  ps aux | grep dock
+  118  ps aux | grep ruby
+  119  ps aux | grep pum
+  120  vi Gemfile
+  121  history
+  122  git status
+  123  docker-compose build
+  124  docker-compose up
+  125  ll tmp/pids/
+  126  rm tmp/pids/
+  127  rm tmp/pids/server.pid 
+  128  docker-compose up
+  129  ll tmp/pids/
+  130  docker-compose up
+  131  docker-compose up
+  132  docker-compose up -d
+  133  tail -f log/production.log 
+  134  docker-compose stop
+  135  docker-compose up -d
+  136  tail -f log/production.log 
+  137  docker-compose run web rake db:create
+  138  docker-compose run web rake db:migrate
+  139  docker-compose stop
+  140  docker-compose up -d
+  141  tail -f log/production.log 
+  142  docker-compose stop
+  143  docker-compose up -d
+  144* tail -f log/production.log ;9C
+  145  docker-compose up -d
+  146  history
+  147  tail -f log/production.log 
+  148  docker-compose run web rake -T
+  149  docker-compose run web rake db:seed
+  150  tail -f log/production.log 
+  151  ll
+  152  history
+  153  history > docker.history.log

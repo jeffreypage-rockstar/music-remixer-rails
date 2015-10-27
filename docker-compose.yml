@@ -9,3 +9,7 @@ web:
     - "3000:3000"
   links:
     - db
+  environment:
+    - RAILS_ENV=production
+    - RACK_ENV=production
+    - SECRET_KEY_BASE=d6972cfbf89eb0e0013aabd7ad5210a4385627337de6904bfb6061d88979104780fa3de833a50116b2c8de209c3b9eb3c6d4ba494d924be5b885412b65cccf38
