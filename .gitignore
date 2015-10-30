@@ -38,3 +38,7 @@ bower.json
 
 # ignore IDEA files
 .idea
+
+# ignore docker file, must symlink to it
+docker-compose.yml
+
