@@ -4525,13 +4525,14 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 	border-color: transparent;
 }
 .navbar-default .navbar-brand {
-	color: #262b2e;
+	color: #41c7ff;
+	font-weight: bold;
 }
-.navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {
-	color: #0f1112;
-	background-color: transparent;
-}
+/*.navbar-default .navbar-brand:hover,*/
+/*.navbar-default .navbar-brand:focus {*/
+	/*color: #0f1112;*/
+	/*background-color: transparent;*/
+/*}*/
 .navbar-default .navbar-text {
 	color: #bbbbbb;
 }
@@ -7038,9 +7039,9 @@ input[type="checkbox"]:disabled:checked:after,
 .alert .close {
 	color: #fff;
 }
-.badge {
-	padding: 3px 6px 5px;
-}
+/*.badge {*/
+	/*padding: 3px 6px 5px;*/
+/*}*/
 .progress {
 	position: relative;
 	z-index: 1;

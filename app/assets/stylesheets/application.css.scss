@@ -39,8 +39,17 @@
   margin-bottom: 20px;
 }
 
-body > div.container {
+body > div.container,
+body > div.container-fluid {
   margin-top:60px;
+}
+
+@media (min-width: 768px) {
+  body > div.container,
+  body > div.container-fluid,
+  body > nav > .container-fluid {
+	padding: 0 35px;
+  }
 }
 
 body.sessions #navbar-collapse,
@@ -48,4 +57,18 @@ body.users #navbar-collapse,
 body.passwords #navbar-collapse,
 body.beta_artists.join #navbar-collapse {
   display: none !important;
+}
+
+.navbar .navbar-nav > li > a > .badge {
+  background-color: #41c7ff;
+}
+
+.navbar-default .far-right {
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+
+.well.form400 {
+  max-width: 400px;
+  margin: 0 auto;
 }
