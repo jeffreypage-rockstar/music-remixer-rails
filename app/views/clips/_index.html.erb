@@ -1,17 +1,17 @@
 <div class="audio-clips-bg"></div>
-<% currentIndex = 1 %>
 <!-- Clips Segment Area Start -->
 <div class="levels">
-    <% @song.clip_types.each_with_index do |clip_type, c| %>
-        <% if c == 4 %>
+    <% @song.clip_types.each_with_index do |clip_type, r| %>
+        <% r += 1 %>
+        <% if r == 5 %>
         <div class="level left"></div>
         <% end %>
-        <div class="level left"><%=clip_type.name%></div>
+        <div id="level-<%=r%>" class="level left"><%=clip_type.name%></div>
     <% end %>
 </div>
 <% @song.parts.each_with_index do |part, c| %>
     <% c += 1 %>
-    <div id="clips-<%=c%>" class="clips<%=' focus' if c == currentIndex %>" data-column="<%=c%>">
+    <div id="clips-<%=c%>" class="clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
         <div class="part-play-btn disabled"></div>
         <% part.clips.each_with_index do |clip, r| %>
             <% r += 1 %>
@@ -20,10 +20,13 @@
                     <div class="play-btn"></div>
                 </div>
             <% end %>
-            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-filetype="<%=clip.wing%>">
+            <div id="clip-part-<%=c%><%=r%>" class="clip clip-<%=r%><%=' muted' if clip.state%>" data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-filetype="<%=clip.wing%>" data-user-content="<%=clip.user_content%>">
                 <div class="progress"></div>
                 <div class="opaque-gray"></div>
                 <div class="play-btn"></div>
+                <% if clip.user_content %>
+                <div class="user-content">0</div>
+                <% end %>
             </div>
         <% end %>
         <div class="level column" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>"><%=part.name%></div>
@@ -32,10 +35,10 @@
 <script type="text/javascript">
     // Predefined Varibales
     var loadColumn = 1;
-    var sColumn = <%= currentIndex %>;
-    var clipPreviewPlayer = false;
-    var clipPreviewPlayerRow = 0;
-    var clipPreviewPlayerColumn = 0;
+    window.sColumn = <%= @currentIndex %>;
+    window.clipPreviewPlayer = false;
+    window.clipPreviewPlayerRow = 0;
+    window.clipPreviewPlayerColumn = 0;
 
     $.fn.state = function() {
         var state = false;
@@ -89,7 +92,7 @@
         var wavesurfer = null;
         $("#audio-clips #clips-"+loadColumn).each(function(){
             var column = $(this).attr('data-column');
-            wavesurfers[column] = {};
+            if (!wavesurfers[column]) wavesurfers[column] = {};
             $(this).find('.clip').each(function(){
                 wavesurferPlayer(this, $(this).data('path'), $(this).state(), column, $(this).attr('data-row'));
             })
@@ -125,7 +128,9 @@
             height: 17,
             waveColor: 'black',
             progressColor: 'black',
-            splitChannels: true
+            splitChannels: true,
+            cursorWidth: 2,
+            cursorColor: "yellow"
         });
         wavesurfer.on('ready', function (_this) {
             $(_this.container).addClass('loaded');
@@ -134,9 +139,17 @@
                     _this.toggleMute();    
                 };
             };
+
+            if (wavesurfers[_this.column][0]) {
+                var tWavesurfer = wavesurfers[_this.column][0];
+                if (tWavesurfer && tWavesurfer.getCurrentTime() > 0) {
+                    _this.seekTo(tWavesurfer.getCurrentTime() / tWavesurfer.getDuration());
+                };
+            }
+            
             isPartPlayerReady(_this.column);
             if (isAllClipsLoadedOfThisPart(_this.column)) {
-                console.log(_this.column+" Part player is ready!");
+                // console.log(_this.column+" Part player is ready!");
                 if (sColumn == _this.column) addRemoveEventListener(true);
                 if (loadColumn <= 7) {
                     loadColumn++;
@@ -172,9 +185,10 @@
 
     function addRemoveEventListener(addListener) {
         if (!wavesurfers[sColumn]) { return };
-        var wavesurfer = wavesurfers[sColumn]['1'];
+        var wavesurfer = wavesurfers[sColumn]['0'];
         if (wavesurfer) {
-            wavesurfer.unAll();
+            wavesurfer.un('finish', clipEndedCallback);
+            wavesurfer.un('finish', singleClipEndedCallback);
             if (addListener) {
                 wavesurfer.on('finish', clipEndedCallback);
             } 
@@ -183,28 +197,31 @@
 
     clipEndedCallback = function() {
         if (sColumn == 8) { 
+            $(".full-play-btn").removeClass('playing');
             $("#clips-"+sColumn).removeClass('playing');
             stopPartPlayers(true);
             return; 
         };
-        $("#clips-"+sColumn).removeClass('focus').removeClass('playing');
+        $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
+
         if (sColumn < 8) sColumn++; 
-        $("#clips-"+sColumn).addClass('focus').addClass('playing');
+        $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
         showCurrentPartDetails();
         playNext();
         
-        for (var i = 1; i <= 8; i++) {
+        for (var i = 0; i <= 8; i++) {
             var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 wavesurfer.play();    
             }
         };
+        // topWavesurfers[sColumn].play();;
     }
 
     pausePartPlayer = function() {
         if (!wavesurfers[sColumn]) { return };
         $(".clips.focus").removeClass('playing');
-        for (var i = 1; i <= 8; i++) {
+        for (var i = 0; i <= 8; i++) {
             var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
@@ -214,7 +231,7 @@
 
     stopPartPlayers = function(seek) {
         if (!wavesurfers[sColumn]) { return };
-        for (var i = 1; i <= 8; i++) {
+        for (var i = 0; i <= 8; i++) {
             var wavesurfer = wavesurfers[sColumn][i];
             if (wavesurfer) {
                 wavesurfer.seekTo(0);
@@ -225,15 +242,29 @@
 
      // Intialize all sound clips for play
      // intializeSoundClips();
-    function showCurrentPartDetails() {
+    showCurrentPartDetails = function() {
         var partElement = $("#clips-"+sColumn).children(".level.column");
         $("#part-time").html("Time: "+partElement.data('time'));
         $("#part-info .name")
-            .attr('data-name', partElement.data('name'))
-            .text("Name: "+partElement.data('name'))
+            .attr('data-name', partElement.attr('data-name'))
+            .text("Name: "+partElement.attr('data-name'))
         var songID = $("#song-clips").data('id');
         var partID = partElement.data('id');
         $("#part-info form").attr('action', "/songs/"+songID+"/parts/"+partID);
+        showUserContent();
+    }
+
+    function showUserContent() {
+        var userContents = "";
+        $("#audio-clips #clips-"+sColumn+" .clip").each(function(){
+            console.log("", $(this).data('user-content'));
+            if ($(this).data('user-content')) {
+                var row = $(this).data('row');
+                levelName = $("#level-"+row).text();
+                userContents += " ["+levelName+"]";
+            };
+        });
+        $("p#user-content").text("User Content :"+userContents);
     }
 
     singleClipEndedCallback = function() {
@@ -352,12 +383,13 @@
     }
 
     $(document).on('ready page:load', function () { 
-        window.wavesurfers = wavesurfers = {};
-        window.draggableElm = {};
+        // window.wavesurfers = wavesurfers = {};
+        // window.draggableElm = {};
         updatePreview();
         // Intialize all sound clips for play
         setTimeout(function(){
-            loadPartClips();    
+            loadPartClips();
+            showUserContent();    
         }, 500);
 
         clipDraggable($("#audio-clips .clip"), 'parent');
@@ -370,14 +402,15 @@
             if (column == sColumn) { return };
 
             // Paused Sound Clips
+            $(".full-play-btn").removeClass('playing');
             stopPartPlayers(true);
 
-            $("#clips-"+sColumn).removeClass('focus').removeClass('playing');
+            $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
             sColumn = column;
 
             isPartPlayerReady(column);
             showCurrentPartDetails();
-            $(event.target).parent().addClass('focus');
+            $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
             playNext();
 
             updatePreview();

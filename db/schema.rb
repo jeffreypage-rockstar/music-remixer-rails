@@ -11,20 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151011200423) do
+ActiveRecord::Schema.define(version: 20151023041849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "artists", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "name",       null: false
-    t.string   "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "artists", ["user_id"], name: "index_artists_on_user_id", using: :btree
 
   create_table "beta_artists", force: :cascade do |t|
     t.string   "name",                        null: false
@@ -63,13 +53,14 @@ ActiveRecord::Schema.define(version: 20151011200423) do
     t.string   "row"
     t.string   "column"
     t.float    "duration"
-    t.boolean  "state",      default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.boolean  "state",        default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "part_id"
     t.text     "file"
-    t.boolean  "state2",     default: false
-    t.boolean  "state3",     default: false
+    t.boolean  "state2",       default: false
+    t.boolean  "state3",       default: false
+    t.boolean  "user_content", default: false
   end
 
   create_table "parts", force: :cascade do |t|
@@ -90,7 +81,7 @@ ActiveRecord::Schema.define(version: 20151011200423) do
     t.text     "mixaudio"
     t.text     "mixaudio2"
     t.text     "mixaudio3"
-    t.integer  "artist_id"
+    t.integer  "user_id"
   end
 
   create_table "users", force: :cascade do |t|

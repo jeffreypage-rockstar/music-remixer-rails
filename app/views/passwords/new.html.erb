@@ -1,12 +1,14 @@
-<div class="page-header"><h1><%= t(".title") %></h1></div>
+<div class="well">
+	<h3><%= t(".title") %></h3>
 
-<p><%= t(".description") %></p>
+	<p><%= t(".description") %></p>
 
-<%= form_for :password, url: passwords_path do |form| %>
-	<div class="form-group">
-		<%= form.label :email %>
-		<%= form.email_field :email, class: 'form-control' %>
-	</div>
+	<%= form_for :password, url: passwords_path do |form| %>
+		<div class="form-group">
+			<%= form.label :email %>
+			<%= form.email_field :email, class: 'form-control' %>
+		</div>
 
-	<%= form.submit 'Submit', class: 'btn btn-primary' %>
-<% end %>
+		<%= form.submit 'Submit', class: 'btn btn-primary' %>
+	<% end %>
+</div>

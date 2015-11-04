@@ -1,19 +1,7 @@
-<div class="form-group">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-	<%= form.label :email %>
-	<%= form.email_field :email, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-	<%= form.label :artist_name %>
-	<%= form.text_field :artist_name, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-	<%= form.label :invite_code %>
-	<%= form.text_field :invite_code, class: 'form-control' %>
-</div>
+<%= simple_form_for @beta_artist do |f| %>
+	<%= f.input :name %>
+	<%= f.input :email %>
+	<%= f.input :artist_name %>
+	<%= f.input :invite_code %>
+	<%= f.button :submit, 'Submit' %>
+<% end %>

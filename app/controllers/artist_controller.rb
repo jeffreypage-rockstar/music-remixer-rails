@@ -2,10 +2,6 @@ class ArtistController < ApplicationController
   before_action :require_login, :except => [:join]
 	before_action :validate_artist, :except => [:join]
 
-  # def join
-		# @beta_artist = BetaArtist.new
-  # end
-
   def profile
   end
 
@@ -13,7 +9,6 @@ class ArtistController < ApplicationController
   end
 
   def music
-		@artists = current_user.artists
   end
 
   def connect
@@ -21,7 +16,7 @@ class ArtistController < ApplicationController
 
 	protected
 	def validate_artist
-		redirect_to '/artist/join' unless current_user.is_artist_admin?
+		redirect_to '/' unless current_user.is_artist_admin?
 	end
 
 end

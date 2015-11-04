@@ -1,8 +1,9 @@
 class User < ActiveRecord::Base
   include Clearance::User
 
-  # artist administration
-  has_many :artists
+	# has many songs catalog
+	has_many :songs
+	has_many :remixes
 
   validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :email, presence: true, email: true, :uniqueness => {:case_sensitive => false}
@@ -14,6 +15,6 @@ class User < ActiveRecord::Base
   end
 
   def send_welcome_email
-
+		# TODO send_welcome_email
   end
 end

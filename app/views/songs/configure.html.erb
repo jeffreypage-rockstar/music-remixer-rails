@@ -1,11 +1,12 @@
 <%- title("#{@song.name}") %>
+<% @currentIndex = 1 %>
 <div id="song-clips" class="row song-clips" data-id="<%=@song.id%>">
     <div class="row" style="margin-bottom: 15px;">
-        <div class="col-md-9" style="height: 90px;">
+        <div class="col-md-9" style="">
             <div id="songdetails" class="col-md-4">
                  <%= render 'songdetails' %>          
             </div>
-            <div id="partdetails" class="col-md-4">
+            <div id="partdetails" class="col-md-8">
                 <%= render 'partdetails' %>          
             </div>
         </div>
@@ -56,7 +57,7 @@
 
     stopTopPlayer = function() {
         if (window.topWavesurfer) {
-            if (!window.topWavesurfer.backend.isPaused()) {
+            if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
                 window.topWavesurfer.pause();
                 $(".full-play-btn").removeClass('playing');
             }    
@@ -64,7 +65,7 @@
     }
     <% if @mixaudio.present? %>
     $(document).ready(function(){
-        initializeTopPlayer("<%=@mixaudio%>");
+        //initializeTopPlayer("<%=@mixaudio%>");
     });
     <% end %>
 </script>

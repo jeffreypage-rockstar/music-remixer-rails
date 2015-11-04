@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  # get 'artist/join' => 'beta_artists#join', as: 'artist_join'
-  # get 'artist/thanks' => 'beta_artists#thanks', as: 'artist_thanks'
-  # post 'artist/join' => 'beta_artists#join'
+  get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
+  # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
+  post 'beta/artist' => 'beta_artists#join'
 
   get 'beta/join' => 'beta_users#join', as: 'beta_users'
   get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'

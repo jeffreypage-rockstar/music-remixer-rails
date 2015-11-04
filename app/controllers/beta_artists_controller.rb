@@ -5,8 +5,7 @@ class BetaArtistsController < ApplicationController
     if request.post? && params.include?(:beta_artist)
       @beta_artist = BetaArtist.new(beta_artist_params)
       if @beta_artist.save
-        redirect_to '/artist/thanks'
-        # redirect_to '/', :notice => 'Thanks for joining! We\'ll be in touch!'
+        redirect_to '/beta/thanks'
       else
         render :join
       end

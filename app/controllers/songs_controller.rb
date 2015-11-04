@@ -100,6 +100,10 @@ class SongsController < ApplicationController
       else 
         @song = Song.find(params[:id])
       end
+
+      unless @song
+        return redirect_to songs_path
+      end
     end
 
     def set_configuration

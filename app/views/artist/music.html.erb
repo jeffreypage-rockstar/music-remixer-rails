@@ -1,20 +1,13 @@
 <h1>Artist#music</h1>
 <p>Find me in app/views/artist/music.html.erb</p>
-<% if @artists.length %>
-    <% @artists.each do |artist| %>
-	    <div class="row">
-            <h2><%= artist.name %></h2>
-	    </div>
-		<div class="row">
-		    <% if artist.songs.length %>
-		        <ul class="list-group">
-				<% artist.songs.each do |song| %>
-                    <li class="list-group-item">
-                        <%= song.name %>
-                    </li>
-		        <% end %>
-		        </ul>
-			<% end %>
-		</div>
-    <% end %>
-<% end %>
+<div class="row">
+	<% if current_user.songs.length %>
+		<ul class="list-group">
+		<% current_user.songs.each do |song| %>
+			<li class="list-group-item">
+				<%= song.name %>
+			</li>
+		<% end %>
+		</ul>
+	<% end %>
+</div>

@@ -16,7 +16,8 @@
  */
  
 @import "bootstrap-sprockets";
-@import "bootstrap";
+/* @import "bootstrap"; */
+@import "mix8";
 @import "font-awesome";
 
 #footer {
@@ -36,10 +37,6 @@
 
 .form-group {
   margin-bottom: 20px;
-}
-
-.navbar-inverse .navbar-brand {
-  color: #fff;
 }
 
 body > div.container {
