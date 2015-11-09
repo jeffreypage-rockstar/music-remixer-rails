@@ -14,51 +14,14 @@
  *= require_tree .
  *= require_self
  */
- 
+
 @import "bootstrap-sprockets";
-/* @import "bootstrap"; */
 @import "mix8";
 @import "font-awesome";
 
-#footer {
-  margin-top: 30px;
-  text-align: center;
+#main {
+  margin-top: 65px;
 }
-
-//.btn-primary {
-//  text-transform: uppercase;
-//}
-//
-//label {
-//  text-transform: uppercase;
-//  font-weight: normal;
-//}
-//
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-body > div.container,
-body > div.container-fluid {
-  margin-top:65px;
-}
-
-
-@media (min-width: 768px) {
-  //body > div.container,
-  //body > div.container-fluid,
-  body > nav > .container-fluid {
-	padding: 0 35px;
-  }
-}
-
-//@media (min-width: 768px) {
-//  body > div.container,
-//  body > div.container-fluid {
-//	padding: 0;
-//  }
-//}
 
 body.sessions #navbar-collapse,
 body.users #navbar-collapse,
@@ -79,4 +42,10 @@ body.beta_artists.join #navbar-collapse {
 .well.form400 {
   max-width: 400px;
   margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .well.form400 {
+	margin-top: 100px;
+  }
 }

@@ -17,7 +17,7 @@
 </head>
 <body class="<%= request['controller'] %> <%= request['action'] %>">
 	<%= render 'shared/navigation_bar' %>
-	<div class='container-fluid'>
+	<div id="main">
 		<%= render 'shared/flash' %>
 		<%= yield %>
 	</div>

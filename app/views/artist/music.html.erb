@@ -1,14 +1,16 @@
 <%= render partial: 'secondnav' %>
-<h1>Artist#music</h1>
-<p>Find me in app/views/artist/music.html.erb</p>
-<div class="row">
-	<% if current_user.songs.length %>
-		<ul class="list-group">
-		<% current_user.songs.each do |song| %>
-			<li class="list-group-item">
-				<%=link_to song.name, configure_song_path(song), data: { no_turbolink: true } %>
-			</li>
+<div class="container">
+	<h1>Artist#music</h1>
+	<p>Find me in app/views/artist/music.html.erb</p>
+	<div class="row">
+		<% if current_user.songs.length %>
+			<ul class="list-group">
+			<% current_user.songs.each do |song| %>
+				<li class="list-group-item">
+					<%=link_to song.name, configure_song_path(song), data: { no_turbolink: true } %>
+				</li>
+			<% end %>
+			</ul>
 		<% end %>
-		</ul>
-	<% end %>
+	</div>
 </div>

@@ -2,11 +2,22 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body.songs.configure {
+  background-color: #333;
+  color: white;
+  margin-top: 60px;
+}
+body.songs.configure > .container,
+body.songs.configure > .container-fluid  {
+  width: 1170px !important;
+}
+
 #song-clips {
-
   margin: 0 78px 35px;
+}
 
-  /* TODO: remove this!  this is really bad, should never change bootstrap core styles */
+body.songs.configure {
+
   .row, [class*="col-"] {
 	margin-left: 0px;
 	margin-right: 0px;
@@ -17,6 +28,7 @@
   input {
 	color: black;
   }
+}
 
   .song-clip {
 	margin-bottom: 5px;
@@ -25,6 +37,11 @@
   .main-player-area {
 	/*height: 162px;
 	margin-bottom: 40px;*/
+  }
+
+  #main-player {
+	position: absolute;
+	width: 100%;
   }
 
   .full-play-btn {
@@ -71,6 +88,10 @@
 
   .clips.focus {
 	background-color: black;
+  }
+
+  #mixaudioplayer .clips {
+	background-color: transparent;
   }
 
   #mixaudioplayer .clips wave wave,
@@ -411,8 +432,12 @@
 	left: 0px;
 	right: 0px;
 	height: 34px;
-	background: gray;
+	background: #232426;
 	border-radius: 6px;
+  }
+
+  #main-player, .main-player-clips {
+	top: 24px;
   }
 
   .audio-clips-bg {
@@ -693,14 +718,6 @@
 	float: right;
   }
 
-}
 
-#main-player {
-  position: absolute;
-  width: 100%;
-}
-.main-player-clips {
-  top: 24px;
-}
 
 
