@@ -6,15 +6,6 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# eliminate double-logging
-ActiveSupport::Logger.class_eval do
-	#monkey patching here so there aren't duplicate lines in console/server
-	def self.broadcast(logger)
-		Module.new do
-		end
-	end
-end
-
 module Mix8
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

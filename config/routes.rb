@@ -7,8 +7,13 @@ Rails.application.routes.draw do
 		namespace :api, path:'/', defaults: {format: :json} do
 			scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
 	      # root to: "sessions#new"
-			  get '/app/install' => 'application#install'
-			  get '/app/config' => 'application#config'
+			  get '/app/install' => 'app#install'
+			  get '/app/startup' => 'app#startup'
+
+			  post '/users/signup' => 'users#signup'
+			  post '/users/login' => 'users#login'
+			  post '/users/logout' => 'users#logout'
+
 	      resources :users, :only => [:show, :create]
 				resources :sessions, :only => [:create, :destroy]
 			  resources :songs, :only => [:index, :show]

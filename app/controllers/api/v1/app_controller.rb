@@ -1,10 +1,10 @@
-class Api::V1::AooController < Api::V1::ApiController
+class Api::V1::AppController < Api::V1::ApiController
 
 	def install
 		# TODO: log that the app was installed
 	end
 
-	def config
+	def startup
 		# TODO: log that the app was started
 	end
 end

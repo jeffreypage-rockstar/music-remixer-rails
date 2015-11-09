@@ -89,4 +89,4 @@ group :production do
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
-gem 'jquery-ui-rails', '~> 5.0.5'
+#gem 'jquery-ui-rails', '~> 5.0.5'

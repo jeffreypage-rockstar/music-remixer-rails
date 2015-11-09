@@ -1,6 +1,5 @@
 class Api::V1::SongsController < Api::V1::ApiController
 	before_action :authenticate_with_token!, only: [:create, :update, :destroy]
-	respond_to :json
 
 	def index
 		# songs = Song.search(params).page(params[:page]).per(params[:per_page])
