@@ -1,0 +1,500 @@
+  108  mv twig-leg.png pix/
+  109  ll
+  110  pwd
+  111  cd 
+  112  cd mix8/8stem.com/
+  113  ll
+  114  tar -czf 8stem.tar.gz www
+  115  ll
+  116  mv 8stem.tar.gz ~/Dropbox\ \(8Stem\,\ Inc.\)/
+  117  pwd
+  118  git status
+  119  git diff .
+  120  git checkout HEAD .
+  121  git status
+  122  vi .gitignore 
+  123  git status
+  124  git add .
+  125  git commit -m "add idea to git ignore"
+  126  git push origin master
+  127  cd ..
+  128  ll
+  129  cd ios-app
+  130  ll
+  131  git status
+  132  git stash
+  133  git status
+  134  git pull
+  135  git remote -v
+  136  history  | grep remote
+  137  git remote set-url origin git@bitbucket.org:8stem/ios-app.git
+  138  git pull 
+  139  ll
+  140  git status
+  141  open Mix8.xcworkspace/
+  142  open Mix8.xcworkspace/
+  143  git status
+  144  open Mix8.xcworkspace/
+  145  pwd
+  146  git status
+  147  cd ..
+  148  ll
+  149  cd akashic-nga/
+  150  ll
+  151  git status
+  152  git dff .
+  153  git diff .
+  154  gitstash
+  155  git stash
+  156  git status
+  157  rm app/assets/stylesheets/mix8.theme.css
+  158  ll docker*
+  159  cat docker-compose.yml 
+  160  cat docker-compose.production.yml 
+  161  vi docker-compose.
+  162  mv docker-compose.yml docker-compose.development.yml
+  163  vi docker*
+  164  ll
+  165  git status
+  166  git add .
+  167  git commit -m "prod and dev docker-compose files"
+  168  git status
+  169  git statu
+  170  git status
+  171  git checkout master
+  172  git pull
+  173  dockerp
+  174  docker ps
+  175  docker stop 8c8df504481d
+  176  docker ps
+  177  ll
+  178  vi docker-compose.yml
+  179  ll
+  180  grep -ri admin *
+  181  ll
+  182  pwd
+  183  ll
+  184  cd ..
+  185  mv akashic-nga master
+  186  mkdir akashic-nga
+  187  mv master akashic-nga/
+  188  cd akashic-nga/
+  189  ll
+  190  cp -r master navigation
+  191  cd navigation/
+  192  ls -al
+  193  git status
+  194  git stash
+  195  git staths
+  196  git status
+  197  git checkout navigation
+  198  ll
+  199  cp Dockerfile ../master/
+  200  cd ../master/
+  201  ll
+  202  open .
+  203  docker-compose up
+  204  docker-compose up
+  205  ping rubygems.org
+  206  ping rubygems.org
+  207  docker-compose up
+  208  vi Gemfile
+  209  vi Gemfile
+  210  docker-compose up
+  211  ssh root@159.203.248.222
+  212  vi .ssh/config
+  213  cd .ssh/
+  214  ll
+  215  rm zulily
+  216  rm zulily.pub 
+  217  ll
+  218  rm known_hosts.zulily 
+  219  ll
+  220  vi config
+  221  ssh -T git@bitbucket.org
+  222  ssh -T git@bitbucket.org
+  223  ssh root@159.203.248.222
+  224  ssh root@159.203.248.222
+  225  ssh root@159.203.248.222
+  226  ssh-add -l
+  227  ssh root@159.203.248.222
+  228  ssh root@159.203.248.222
+  229  ssh root@159.203.248.222
+  230  ssh root@159.203.248.222
+  231  ssh root@159.203.248.222
+  232  cd
+  233  history
+  234  ssh root@8stem.com
+  235  ssh root@8stem.com
+  236  cd mix8/akashic-nga/master/
+  237  vi Gemfile
+  238  ssh deploy@104.236.143.203
+  239  sudo vi /etc/hosts
+  240  cd mix8/
+  241  open .
+  242  pwd
+  243  ll
+  244  cd akashic-nga/
+  245  ll
+  246  git status
+  247  gitdiff .
+  248  git diff .
+  249  git add . 
+  250  git commit -m "postgres and docker"
+  251  ll
+  252  docker-compose up
+  253  git log
+  254  git status
+  255  git log
+  256  docker exec rake db:migrate RAILS_ENV=development
+  257  docker-compose run web rake db:migrate RAILS_ENV=development
+  258  docker-compose run web rake db:create
+  259  docker-compose run web rake db:migrate
+  260  docker-compose run web rake db:seed
+  261  docker-compose up
+  262  cp docker-compose.yml docker-compose.production.yml
+  263  docker-compose up
+  264  docker-compose run web rake db:create
+  265  docker ps
+  266  docker ps
+  267  docker-compose run web rake db:create
+  268  docker-compose run web rake db:migrate
+  269  docker-compose up
+  270  docker-compose up
+  271  docker-compose stop
+  272  docker-compose build
+  273  docker-compose up
+  274  git status
+  275  git log Gemfile
+  276  git show -p 5743d9eb43d796427ca3c7e86c5034676712e838
+  277  grep -r puma *
+  278  ssh root@159.203.242.73
+  279  ssh root@9stem.com
+  280  ssh root@8stem.com
+  281  pwd
+  282  ssh root@159.203.242.73
+  283  ssh root@104.236.159.161
+  284  ssh deploy@104.236.159.161
+  285  pwd
+  286  cd mix8/
+  287  ll
+  288  cd phpsound/
+  289  ll
+  290  ll
+  291  docker-compose stop
+  292  docker-compose up
+  293  ll
+  294  cd tmp/
+  295  ll
+  296  cd x/
+  297  ll
+  298  vi index.html 
+  299  cd
+  300  cd Downloads/
+  301  ll
+  302  ll | grep drw
+  303  cd startbootstrap-freelancer-1.0.3
+  304  ll
+  305  vi index.html 
+  306  ll js
+  307  vi js/jq
+  308  vi js/jquery.js 
+  309  ;9D
+  310  ;9D;9C;9C;9D
+  311  pwd
+  312  cd 
+  313  cd Downloads/
+  314  rm -rf startbootstrap-freelancer-1.0.3
+  315  rm -rf startbootstrap-freelancer-1.0.3.zip 
+  316  ll
+  317  history | grep composer
+  318  pwd
+  319  cd
+  320  cd mix8/
+  321  ll
+  322  ll
+  323  cd
+  324  cd 8stem.com
+  325  ll
+  326  cd Desktop/
+  327  cd 8stem.com/
+  328  ll
+  329  cd new/
+  330  ll
+  331  cd www
+  332  vi .env 
+  333  ll
+  334  php -S localhost:3000
+  335  git status
+  336  cd ..
+  337  git status
+  338  git diff www/contact.php
+  339  git add .
+  340  ll log
+  341  vi .gitignore 
+  342  git status
+  343  vi .git
+  344  vi .gitignore 
+  345  cd log/
+  346  vi .git
+  347  vi .gitignore ../.gitignore 
+  348  git status
+  349  git commit -m "vendor stuff"
+  350  git push origin master
+  351  pwd
+  352  cd
+  353  ll
+  354  cd mix8/docs/
+  355  ll
+  356  vi docker.txt 
+  357  otp
+  358  ps aux | grep docker
+  359  vi foo
+  360  vi foo
+  361  pwd
+  362  cd 
+  363  cd Desktop/
+  364  cd 8stem.com/
+  365  ll
+  366  cd new/
+  367  ll
+  368  mv ~/mix8/docs/foo .
+  369  ll
+  370  vi www/css/site.css 
+  371  vi www/css/foo.css 
+  372  vi www/css/site.css 
+  373  ll
+  374  echo foo >> www/css/site.css 
+  375  vi www/css/site.css 
+  376  echo foo
+  377  cat foo >> www/css/site.css 
+  378  vi www/css/site.css 
+  379  vi www/index.php 
+  380  vi www/index.php 
+  381  vi www/css/site.css 
+  382  ll
+  383  ll
+  384  rm foo
+  385  git status
+  386  rm www/css/foo.css 
+  387  git diff .
+  388  git add .
+  389  git commit -m "remove map"
+  390  git push origin master
+  391  ping 8stem.com
+  392  pwd
+  393  cd 
+  394  cd mix8/docs/
+  395  ll
+  396  cat docker.txt 
+  397  vi 8stem.com.txt
+  398  git status
+  399  git init
+  400  git add .
+  401  ll
+  402  vi install-sox-osx.txt 
+  403  git status
+  404  git commit -m "docs"
+  405  git remote add origin git@bitbucket.org:8stem/docs.git
+  406  git push -u origin --all
+  407  cd 
+  408  cd Desktop/8stem.com/new/
+  409  ll
+  410  git status
+  411  git diff .
+  412  git diff .
+  413  git add .
+  414  git commit -m "favicon"
+  415  git push origin master
+  416  pwd
+  417  cd ..
+  418  ll
+  419  mv new ~/mix8/8stem.com
+  420  cd
+  421  cd mix8/8stem.com/
+  422  ll
+  423  pwd
+  424  which kexp
+  425  cd
+  426  cdbin
+  427  cd bin/
+  428  cat kexp
+  429  pwd
+  430  cd
+  431  cd Desktop/mix8.theme/
+  432  ll
+  433  cp bootstrap.css ~/mix8/akashic-nga/app/assets/stylesheets/mix8.theme.css
+  434  pwd
+  435  cd
+  436  cd mix8/8stem.com/
+  437  ll
+  438  mate .
+  439  /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ 
+  440  LaunchServices.framework/Support/lsregister
+  441  ps aux | grep -i mate
+  442  which mate
+  443  ll ~/bin/mate
+  444  cat ~/bin/mate
+  445  ll
+  446  /Applications/TextMate.app/Contents/Resources/mate
+  447  cd
+  448  cd bin
+  449  rm mate
+  450  ln -s /Applications/TextMate.app/Contents/Resources/mate ~/bin/mate
+  451  cd 
+  452  cd mix8/8stem.com/
+  453  docker-compose stop
+  454  docker-compose build
+  455  docker-compose up -d
+  456  docker-compose up -d
+  457  ll /var/log/
+  458  pwd
+  459  ll /var/log/
+  460  ps aux | grep -i vhost
+  461  docker ps
+  462  ps aux | grep docker
+  463  ps aux 
+  464  ps aux  
+  465  ps aux   | grep -v System
+  466  ps aux   | grep -v System | grep -v libexec | grep -v Chrome
+  467  ssh root@8stem.com
+  468  cd me.dev/
+  469  ll
+  470  cd rails-api/
+  471  ll
+  472  cd market_place_api/
+  473  git status
+  474  git log
+  475  cd 
+  476  cd mix8/
+  477  find . | grep rails4-starter
+  478  find . | grep rails4-starter | more
+  479  find . | grep rails4-starter | grep -v git
+  480  vi mix8/phpsound/www/themes/sound/js/functions.
+  481  vi mix8/phpsound/www/themes/sound/js/functions.js
+  482  vi mix8/phpsound/www/themes/sound/js/functions.js
+  483  pwd
+  484  cd mix8/ios-app/
+  485  git pull
+  486  open Mix8.xcworkspace/
+  487  git pull
+  488  open Mix8.xcworkspace/
+  489  pwd
+  490  open Mix8.xcworkspace/
+  491  pwd
+  492  git pull
+  493  open Mix8.xcworkspace/
+  494  pwd
+  495  pwdc
+  496  cd ..
+  497  find . | grep Dockerfile
+  498  cat ./8stem.com/Dockerfile
+  499  find . | grep Dockerfile
+  500  cat ./akashic-nga/master/Dockerfile
+  501  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  502  brew install rbenv ruby-build
+  503  echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile
+  504  source ~/.bash_profile
+  505  rbenv install 2.2.3
+  506  rbenv global 2.2.3
+  507  ruby -v
+  508  git config --global color.ui true
+  509  gem install rails -v 4.2.4
+  510  gem install rails -v 4.2.4
+  511  xcode-select --install
+  512  xcode-select --install
+  513  gem install rails -v 4.2.4
+  514  rbenv rehash
+  515  rails -v
+  516  brew install mysql
+  517  ln -sfv /usr/local/opt/postgresql/*plist ~/Library/LaunchAgents
+  518  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+  519  brew install postgresql
+  520  ln -sfv /usr/local/opt/mysql/*plist ~/Library/LaunchAgents
+  521  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+  522  ln -sfv /usr/local/opt/postgresql/*plist ~/Library/LaunchAgents
+  523  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+  524  history 
+  525  history  | grep sudo
+  526  pwd
+  527  pwd
+  528  cd mix8/akashic-nga/navigation/
+  529  rails s
+  530  vi Gemfile
+  531  bundle install
+  532  bundle update
+  533  bundle install
+  534  bundle update
+  535  brew install taglib
+  536  bundle update
+  537  bundle install
+  538  rails s
+  539  env | grep APP
+  540  ps aux | grep APP
+  541  grep -r APP *
+  542  rails s
+  543  vi bin/rails 
+  544  rake rails:update:bin
+  545  rails s
+  546  find . | grep api
+  547  mv app/lib .
+  548  ll lib
+  549  mv app/lib/api_contraints.rb lib/
+  550  ll app/lib/
+  551  rm -rf app/lib/
+  552  rails s
+  553  rails s
+  554  find . | grep api
+  555  grep -r lib *
+  556  grep -r lib * | grep -v log
+  557  rails s
+  558  ll
+  559  foreman start
+  560  which foremena
+  561  rails s
+  562  rails s
+  563  rails s
+  564  rails s
+  565  rails s
+  566  mkdir app/lib
+  567  mv lib/api_contraints.rb app/lib/
+  568  rails s
+  569  cd app//lib/
+  570  ll
+  571  mv api_contraints.rb api_constraints.rb 
+  572  cd ..
+  573  pwd
+  574  cd ..
+  575  rails s
+  576  rails s
+  577  which rake
+  578  rake db:create
+  579  su - postgres
+  580  vi Gemfile
+  581  rake db:create
+  582  createuser mix8
+  583  createdb -Omix8 -Eutf8 mix8_development
+  584  createdb -Omix8 -Eutf8 mix8_test
+  585  psql -U mix8 mix8_development
+  586  history
+  587  rake db:migrate
+  588  vi config/database.yml 
+  589  rake db:migrate
+  590  vi config/database.yml 
+  591  rake db:migrate
+  592  ll
+  593  rails s
+  594  rake db:seed
+  595  rails s
+  596  history
+  597  brew install imagemagick
+  598  bundle install
+  599  bundle install
+  600  rails s
+  601  rake db:migrate
+  602  which bundle
+  603  which bundle
+  604  history | grep rb
+  605  history
+  606  ll
+  607  history > history.log

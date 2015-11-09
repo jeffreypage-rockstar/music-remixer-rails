@@ -10,6 +10,9 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :is_admin, default: false
       t.boolean :is_artist_admin, default: false
 
+			t.string :profile_image
+			t.string :profile_background_image
+
       t.datetime :confirmed_at
       t.datetime :confirmation_sent_at
 

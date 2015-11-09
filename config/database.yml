@@ -1,11 +1,11 @@
 default: &default
   adapter: postgresql
   timeout: 5000
-  database: app_development
+  database: mix8_development
   pool: 5
-  host: db
+  host: localhost
   port: 5432
-  username: postgres
+  username: mix8
   password: <%= ENV["DB_ENV_POSTGRES_PASSWORD"] %>
   encoding: unicode
 
@@ -14,9 +14,9 @@ development:
 
 test:
   <<: *default
-  database: app_test
+  database: mix8_test
 
 production:
   <<: *default
-  database: app_production
+  database: mix8_production
   timeout: 5000

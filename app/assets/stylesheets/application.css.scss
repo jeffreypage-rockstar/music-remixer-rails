@@ -41,16 +41,24 @@
 
 body > div.container,
 body > div.container-fluid {
-  margin-top:60px;
+  margin-top:65px;
 }
 
+
 @media (min-width: 768px) {
-  body > div.container,
-  body > div.container-fluid,
+  //body > div.container,
+  //body > div.container-fluid,
   body > nav > .container-fluid {
 	padding: 0 35px;
   }
 }
+
+//@media (min-width: 768px) {
+//  body > div.container,
+//  body > div.container-fluid {
+//	padding: 0;
+//  }
+//}
 
 body.sessions #navbar-collapse,
 body.users #navbar-collapse,
