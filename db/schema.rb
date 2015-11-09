@@ -13,90 +13,89 @@
 
 ActiveRecord::Schema.define(version: 20151023041849) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "beta_artists", force: :cascade do |t|
-    t.string   "name",                        null: false
-    t.string   "email",                       null: false
-    t.string   "artist_name",                 null: false
-    t.string   "invite_code",                 null: false
-    t.string   "artist_url"
-    t.boolean  "is_active",   default: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "name",        limit: 255,                 null: false
+    t.string   "email",       limit: 255,                 null: false
+    t.string   "artist_name", limit: 255,                 null: false
+    t.string   "invite_code", limit: 255,                 null: false
+    t.string   "artist_url",  limit: 255
+    t.boolean  "is_active",               default: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "beta_users", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.string   "email",       null: false
-    t.string   "message"
-    t.string   "invite_code", null: false
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",        limit: 255, null: false
+    t.string   "email",       limit: 255, null: false
+    t.string   "message",     limit: 255
+    t.string   "invite_code", limit: 255, null: false
+    t.integer  "user_id",     limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id", using: :btree
 
   create_table "clip_types", force: :cascade do |t|
-    t.integer  "song_id"
-    t.string   "name"
-    t.integer  "row"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "song_id",    limit: 4
+    t.string   "name",       limit: 255
+    t.integer  "row",        limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "clips", force: :cascade do |t|
-    t.integer  "song_id"
-    t.string   "name"
-    t.string   "row"
-    t.string   "column"
-    t.float    "duration"
-    t.boolean  "state",        default: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "part_id"
-    t.text     "file"
-    t.boolean  "state2",       default: false
-    t.boolean  "state3",       default: false
-    t.boolean  "user_content", default: false
+    t.integer  "song_id",      limit: 4
+    t.string   "name",         limit: 255
+    t.string   "row",          limit: 255
+    t.string   "column",       limit: 255
+    t.float    "duration",     limit: 24
+    t.boolean  "state",                      default: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.integer  "part_id",      limit: 4
+    t.text     "file",         limit: 65535
+    t.boolean  "state2",                     default: false
+    t.boolean  "state3",                     default: false
+    t.boolean  "user_content",               default: false
   end
 
   create_table "parts", force: :cascade do |t|
-    t.integer  "song_id"
-    t.string   "name"
-    t.float    "duration"
-    t.string   "column"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "song_id",    limit: 4
+    t.string   "name",       limit: 255
+    t.float    "duration",   limit: 24
+    t.string   "column",     limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "songs", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.float    "duration"
-    t.text     "zipfile"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text     "mixaudio"
-    t.text     "mixaudio2"
-    t.text     "mixaudio3"
-    t.integer  "user_id"
+    t.string   "name",       limit: 255,   null: false
+    t.float    "duration",   limit: 24
+    t.text     "zipfile",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "mixaudio",   limit: 65535
+    t.text     "mixaudio2",  limit: 65535
+    t.text     "mixaudio3",  limit: 65535
+    t.integer  "user_id",    limit: 4
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                            null: false
-    t.string   "username",                                         null: false
-    t.string   "name"
-    t.string   "encrypted_password",   limit: 128,                 null: false
-    t.string   "confirmation_token",   limit: 128
-    t.string   "remember_token",       limit: 128,                 null: false
-    t.boolean  "is_admin",                         default: false
-    t.boolean  "is_artist_admin",                  default: false
+    t.string   "email",                    limit: 255,                 null: false
+    t.string   "username",                 limit: 255,                 null: false
+    t.string   "name",                     limit: 255
+    t.string   "encrypted_password",       limit: 128,                 null: false
+    t.string   "confirmation_token",       limit: 128
+    t.string   "remember_token",           limit: 128,                 null: false
+    t.boolean  "is_admin",                             default: false
+    t.boolean  "is_artist_admin",                      default: false
+    t.string   "profile_image",            limit: 255
+    t.string   "profile_background_image", limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
