@@ -28,10 +28,10 @@ Rails.application.routes.draw do
 	  get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
 	  post 'beta/join' => 'beta_users#join'
 
-	  get 'artist/profile'
-	  get 'artist/dashboard'
-	  get 'artist/music'
-	  get 'artist/connect'
+	  get 'artist/profile', as: 'artist_profile'
+	  get 'artist/dashboard', as: 'artist_dashboard'
+	  get 'artist/music', as: 'artist_music'
+	  get 'artist/connect', as: 'artist_connect'
 
 	  # You can have the root of your site routed with "root"
 	  root 'pages#splash'

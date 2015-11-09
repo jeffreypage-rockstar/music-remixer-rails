@@ -17,9 +17,9 @@
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav pull-right">
 				<% if signed_in? && current_user.is_artist_admin? %>
-					<li><a href="/artist/profile">Profile</a></li>
-					<li><a href="/artist/music">Music</a></li>
-					<li><a href="/artist/connect">Connect <span class="badge">10</span></a></li>
+					<li class="<%= 'active' if current_page?(artist_profile_path) %>"><a href="/artist/profile">Profile</a></li>
+					<li class="<%= 'active' if current_page?(artist_music_path) %>"><a href="/artist/music">Music</a></li>
+					<li class="<%= 'active' if current_page?(artist_connect_path) %>"><a href="/artist/connect">Connect <span class="badge">10</span></a></li>
 				<% end %>
 				<li class="far-right">
 					<% if signed_in? %>
