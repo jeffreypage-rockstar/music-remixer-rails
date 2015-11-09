@@ -26,6 +26,7 @@ class SongsController < ApplicationController
   # POST /songs.json
   def create
     @song = Song.new(song_params)
+    @song.user = current_user
     respond_to do |format|
       if @song.save
         format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully created.' }
