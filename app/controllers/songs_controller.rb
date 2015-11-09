@@ -1,11 +1,12 @@
 class SongsController < ApplicationController
-  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :destroy]
+	before_action :require_login
+	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
   # GET /songs.json
   def index
-    @songs = Song.all
+    @songs = current_user.songs
   end
 
   # GET /songs/1
@@ -97,9 +98,9 @@ class SongsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_song
       if action_name == 'configure' || action_name == 'mixaudio'
-        @song = Song.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
+        @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
       else 
-        @song = Song.find(params[:id])
+        @song = current_user.songs.find(params[:id])
       end
 
       unless @song
