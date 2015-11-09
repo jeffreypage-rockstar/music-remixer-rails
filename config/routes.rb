@@ -1,51 +1,74 @@
+require 'api_constraints'
+
 Rails.application.routes.draw do
 
-  get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
-  # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
-  post 'beta/artist' => 'beta_artists#join'
+	# API subdomain
+	constraints :subdomain => 'api' do
+		namespace :api, path:'/', defaults: {format: :json} do
+			scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
+	      # root to: "sessions#new"
+			  get '/app/install' => 'application#install'
+			  get '/app/config' => 'application#config'
+	      resources :users, :only => [:show, :create]
+				resources :sessions, :only => [:create, :destroy]
+			  resources :songs, :only => [:index, :show]
 
-  get 'beta/join' => 'beta_users#join', as: 'beta_users'
-  get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
-  post 'beta/join' => 'beta_users#join'
+#				resource  :session, :controller => 'sessions', :only => [:new, :create, :destroy]
+			end
+		end
+	end
 
-  get 'artist/profile'
-  get 'artist/dashboard'
-  get 'artist/music'
-  get 'artist/connect'
+	# Normal site (no subdomain)
+	constraints :subdomain => '' do
+		get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
+	  # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
+	  post 'beta/artist' => 'beta_artists#join'
 
-  # You can have the root of your site routed with "root"
-  root 'pages#splash'
+	  get 'beta/join' => 'beta_users#join', as: 'beta_users'
+	  get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
+	  post 'beta/join' => 'beta_users#join'
+
+	  get 'artist/profile'
+	  get 'artist/dashboard'
+	  get 'artist/music'
+	  get 'artist/connect'
+
+	  # You can have the root of your site routed with "root"
+	  root 'pages#splash'
+
+	  # AUTHENTICATION
+		resource  :session, :controller => 'sessions', :only => [:new, :create, :destroy]
+		resources :passwords, controller: 'passwords', only: [:create, :new]
+		resource  :users, controller: 'users', only: [:create] do
+			resource :password, controller: 'passwords', only: [:create, :edit, :update]
+		end
+		get '/sign_in' => 'sessions#new', as: 'sign_in'
+		get '/sign_up' => 'users#new', as: 'sign_up'
+		delete '/sign_out' => 'sessions#destroy', as: 'sign_out'
+
+		# SONGS
+		resources :songs do
+			member do
+				get :configure
+				get :mixaudio
+			end
+
+			resources :parts
+			resources :clips do
+				collection do
+					post :state
+				end
+			end
+		end
+	end
 
 	# ADMIN
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-
-  # AUTHENTICATION
-  resource  :session, :controller => 'sessions', :only => [:new, :create, :destroy]
-  resources :passwords, controller: 'passwords', only: [:create, :new]
-  resource :users, controller: 'users', only: [:create] do
-    resource :password, controller: 'passwords', only: [:create, :edit, :update]
-  end
-  get '/sign_in' => 'sessions#new', as: 'sign_in'
-  get '/sign_up' => 'users#new', as: 'sign_up'
-  delete '/sign_out' => 'sessions#destroy', as: 'sign_out'
-
-  # SONGS
-  resources :songs do
-    member do
-      get :configure
-      get :mixaudio
-    end
-
-    resources :parts
-    resources :clips do
-      collection do
-        post :state
-      end
-    end
-  end
+	constraints :subdomain => 'admin' do
+		mount RailsAdmin::Engine => '/', as: 'rails_admin'
+	end
 
   # get '/configure/:id' => 'home#configure', as: :configurator
-  get 'home/index'
+  # get 'home/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
