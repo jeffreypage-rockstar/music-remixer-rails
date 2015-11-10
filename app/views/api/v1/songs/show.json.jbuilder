@@ -1,5 +1,5 @@
 # main properties of a song
-json.extract! @song, :id, :name, :duration, :mixaudio, :mixaudio2, :mixaudio3, :created_at, :updated_at, :parts
+json.extract! @song, :id, :name, :duration, :mixaudio, :created_at
 
 # who's song is it
 json.artist do
@@ -9,6 +9,13 @@ json.artist do
 end
 
 # TODO: expose song stats
+
+# Vocals, Drums, etc
+json.parts do
+	json.array! @song.clip_types do |clip_type|
+		json.extract! clip_type, :id, :name, :row
+	end
+end
 
 # Intro, Chorus, etc
 json.sections do
@@ -24,9 +31,3 @@ json.clips do
 	end
 end
 
-# vocals, drums, etc
-json.parts do
-	json.array! @song.clip_types do |clip_type|
-		json.extract! clip_type, :id, :name, :row
-	end
-end
