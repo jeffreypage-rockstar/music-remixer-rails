@@ -7,12 +7,15 @@ require 'taglib'
 require 'digest/md5'
 
 class Song < ActiveRecord::Base
+	include PublicActivity::Model
+	tracked
+
 	belongs_to :user
 	has_many :parts, dependent: :delete_all
 	has_many :clips, dependent: :delete_all
 	has_many :clip_types, dependent: :delete_all
-	mount_uploader :zipfile, AudioUploader
 
+	mount_uploader :zipfile, AudioUploader
 	validates :name, :zipfile, presence: true
 	validate :validate_zip_file
 
