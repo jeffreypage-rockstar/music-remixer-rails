@@ -50,6 +50,7 @@ Rails.application.routes.draw do
 		get '/sign_in' => 'sessions#new', as: 'sign_in'
 		get '/sign_up' => 'users#new', as: 'sign_up'
 		delete '/sign_out' => 'sessions#destroy', as: 'sign_out'
+		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
 
 		# SONGS
 		resources :songs do

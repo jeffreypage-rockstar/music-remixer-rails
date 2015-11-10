@@ -48,6 +48,8 @@ gem 'autoprefixer-rails'
 
 # authentication
 gem 'clearance', '~> 1.11'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # admin
 gem 'rails_admin'
