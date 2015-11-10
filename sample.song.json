@@ -1,0 +1,809 @@
+{
+  "id": 1,
+  "name": "Jai Ambe",
+  "duration": 323,
+  "mixaudio": "/uploads/songs/1/mix-audio-177f673a3a6ff1577dc2f1dbfb3b1a4f.m4a",
+  "mixaudio2": null,
+  "mixaudio3": null,
+  "created_at": "2015-11-09T22:29:34.000Z",
+  "updated_at": "2015-11-09T22:29:48.000Z",
+  "parts": [
+    {
+      "id": 8,
+      "name": "Vocals",
+      "row": 1
+    },
+    {
+      "id": 1,
+      "name": "Bass",
+      "row": 2
+    },
+    {
+      "id": 4,
+      "name": "Drums",
+      "row": 3
+    },
+    {
+      "id": 6,
+      "name": "Inst",
+      "row": 4
+    },
+    {
+      "id": 7,
+      "name": "UpPerc",
+      "row": 5
+    },
+    {
+      "id": 5,
+      "name": "DTPerc",
+      "row": 6
+    },
+    {
+      "id": 3,
+      "name": "Dive",
+      "row": 7
+    },
+    {
+      "id": 2,
+      "name": "Crash",
+      "row": 8
+    }
+  ],
+  "sections": [
+    {
+      "id": 1,
+      "name": "Part 1",
+      "duration": 88,
+      "column": "1"
+    },
+    {
+      "id": 2,
+      "name": "Part 2",
+      "duration": 41,
+      "column": "2"
+    },
+    {
+      "id": 3,
+      "name": "Part 3",
+      "duration": 20,
+      "column": "3"
+    },
+    {
+      "id": 4,
+      "name": "Part 4",
+      "duration": 20,
+      "column": "4"
+    },
+    {
+      "id": 5,
+      "name": "Part 5",
+      "duration": 20,
+      "column": "5"
+    },
+    {
+      "id": 6,
+      "name": "Part 6",
+      "duration": 41,
+      "column": "6"
+    },
+    {
+      "id": 7,
+      "name": "Part 7",
+      "duration": 41,
+      "column": "7"
+    },
+    {
+      "id": 8,
+      "name": "Part 8",
+      "duration": 52,
+      "column": "8"
+    }
+  ],
+  "clips": [
+    {
+      "id": 57,
+      "row": "1",
+      "column": "1",
+      "part_id": 1,
+      "state": true,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_1h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 58,
+      "row": "1",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": true,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_2h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 59,
+      "row": "1",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_3h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 60,
+      "row": "1",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_4h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 61,
+      "row": "1",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_5h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 62,
+      "row": "1",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_6h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 63,
+      "row": "1",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_7h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 64,
+      "row": "1",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Vocals_8h.m4a",
+      "user_content": false
+    },
+    {
+      "id": 1,
+      "row": "2",
+      "column": "1",
+      "part_id": 1,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_1a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 2,
+      "row": "2",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_2a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 3,
+      "row": "2",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_3a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 4,
+      "row": "2",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_4a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 5,
+      "row": "2",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_5a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 6,
+      "row": "2",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_6a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 7,
+      "row": "2",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_7a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 8,
+      "row": "2",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Bass_8a.m4a",
+      "user_content": false
+    },
+    {
+      "id": 25,
+      "row": "3",
+      "column": "1",
+      "part_id": 1,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_1d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 26,
+      "row": "3",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_2d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 27,
+      "row": "3",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_3d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 28,
+      "row": "3",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_4d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 29,
+      "row": "3",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_5d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 30,
+      "row": "3",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_6d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 31,
+      "row": "3",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_7d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 32,
+      "row": "3",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Drums_8d.m4a",
+      "user_content": false
+    },
+    {
+      "id": 41,
+      "row": "4",
+      "column": "1",
+      "part_id": 1,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_1f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 42,
+      "row": "4",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_2f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 43,
+      "row": "4",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_3f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 44,
+      "row": "4",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_4f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 45,
+      "row": "4",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_5f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 46,
+      "row": "4",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_6f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 47,
+      "row": "4",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_7f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 48,
+      "row": "4",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Inst_8f.m4a",
+      "user_content": false
+    },
+    {
+      "id": 49,
+      "row": "5",
+      "column": "1",
+      "part_id": 1,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_1g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 50,
+      "row": "5",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_2g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 51,
+      "row": "5",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_3g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 52,
+      "row": "5",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_4g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 53,
+      "row": "5",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_5g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 54,
+      "row": "5",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_6g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 55,
+      "row": "5",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_7g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 56,
+      "row": "5",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Up Perc_8g.m4a",
+      "user_content": false
+    },
+    {
+      "id": 33,
+      "row": "6",
+      "column": "1",
+      "part_id": 1,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_1e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 34,
+      "row": "6",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_2e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 35,
+      "row": "6",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_3e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 36,
+      "row": "6",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_4e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 37,
+      "row": "6",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_5e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 38,
+      "row": "6",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_6e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 39,
+      "row": "6",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_7e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 40,
+      "row": "6",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-DT-Perc_8e.m4a",
+      "user_content": false
+    },
+    {
+      "id": 17,
+      "row": "7",
+      "column": "1",
+      "part_id": 1,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_1c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 18,
+      "row": "7",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_2c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 19,
+      "row": "7",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_3c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 20,
+      "row": "7",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_4c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 21,
+      "row": "7",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_5c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 22,
+      "row": "7",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_6c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 23,
+      "row": "7",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_7c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 24,
+      "row": "7",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Dive_8c.m4a",
+      "user_content": false
+    },
+    {
+      "id": 9,
+      "row": "8",
+      "column": "1",
+      "part_id": 1,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_1b.m4a",
+      "user_content": false
+    },
+    {
+      "id": 10,
+      "row": "8",
+      "column": "2",
+      "part_id": 2,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_2b.m4a",
+      "user_content": false
+    },
+    {
+      "id": 11,
+      "row": "8",
+      "column": "3",
+      "part_id": 3,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_3b.m4a",
+      "user_content": false
+    },
+    {
+      "id": 12,
+      "row": "8",
+      "column": "4",
+      "part_id": 4,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_4b.m4a",
+      "user_content": false
+    },
+    {
+      "id": 13,
+      "row": "8",
+      "column": "5",
+      "part_id": 5,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_5b.m4a",
+      "user_content": false
+    },
+    {
+      "id": 14,
+      "row": "8",
+      "column": "6",
+      "part_id": 6,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_6b.m4a",
+      "user_content": false
+    },
+    {
+      "id": 15,
+      "row": "8",
+      "column": "7",
+      "part_id": 7,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_7b.m4a",
+      "user_content": false
+    },
+    {
+      "id": 16,
+      "row": "8",
+      "column": "8",
+      "part_id": 8,
+      "state": false,
+      "state2": false,
+      "state3": false,
+      "file": "/uploads/songs/1/jai_ambe/O-Crash_8b.m4a",
+      "user_content": false
+    }
+  ]
+}
+

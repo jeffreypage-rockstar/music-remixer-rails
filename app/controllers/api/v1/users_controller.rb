@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApiController
-	before_action :authenticate_with_token!, only: [:update, :destroy]
+	before_action :authenticate_with_token!, only: [:show]
 
 	# GET /users/<id>
 	def show
@@ -36,7 +36,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 	# POST /users/logout
 	def logout
 		if signed_in?
-			current_user.remember_token = Clearance::Token.new
+			current_user.remember_token = SecureRandom.hex(32).encode('UTF-8') # Clearance::Token.new (only 20 chars)
 			current_user.save!
 		end
 		render json: {}, status: 200
