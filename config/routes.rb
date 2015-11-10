@@ -14,10 +14,12 @@ Rails.application.routes.draw do
 			  post '/users/login' => 'users#login'
 			  post '/users/logout' => 'users#logout'
 
-	      resources :users, :only => [:show, :create]
-				resources :sessions, :only => [:create, :destroy]
-			  resources :songs, :only => [:index, :show]
+	      get '/social/stream' => 'social#stream'
 
+	      resources :songs, :only => [:index, :show]
+
+#			  resources :users, :only => [:show, :create]
+#				resources :sessions, :only => [:create, :destroy]
 #				resource  :session, :controller => 'sessions', :only => [:new, :create, :destroy]
 			end
 		end

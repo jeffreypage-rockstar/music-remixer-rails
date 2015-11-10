@@ -12,6 +12,8 @@ class ArtistController < ApplicationController
   end
 
   def connect
+		# TOOD: add pagination
+	  @activities = PublicActivity::Activity.order('created_at DESC').all
   end
 
 	protected

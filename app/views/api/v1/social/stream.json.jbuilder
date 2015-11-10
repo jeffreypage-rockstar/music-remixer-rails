@@ -13,8 +13,12 @@ json.array!(@activities) do |a|
 		json.profile_image a.owner.profile_image  # TODO: only return thumbnail
 	end
 
-	json.action a.key
+	json.verb a.key
 
+	json.object do
+		json.id a.trackable.id
+		json.name a.trackable.title
+	end
 
-	json.when a.created_at
+	json.published a.created_at
 end

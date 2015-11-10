@@ -1,9 +1,8 @@
 <%= render partial: 'secondnav' %>
 <div class="container">
-	<h1>Artist#music</h1>
-	<p>Find me in app/views/artist/music.html.erb</p>
+	<h4>Songs</h4>
 	<div class="row">
-		<% if current_user.songs.length %>
+		<% if current_user.songs.length > 0 %>
 			<ul class="list-group">
 			<% current_user.songs.each do |song| %>
 				<li class="list-group-item">
@@ -12,5 +11,23 @@
 			<% end %>
 			</ul>
 		<% end %>
+	</div>
+</div>
+<div class="container">
+	<h4>Remixes</h4>
+	<div class="row">
+		<ul class="list-group">
+			<% if current_user.remixes.length > 0 %>
+				<% current_user.remixes.each do |mix| %>
+					<li class="list-group-item">
+						<%= link_to mix.name, song_path(mix.song), data: { no_turbolink: true } %>
+					</li>
+				<% end %>
+			<% else  %>
+				<li class="list-group-item">
+					<i>No remixes yet. :(</i>
+				</li>
+			<% end %>
+		</ul>
 	</div>
 </div>

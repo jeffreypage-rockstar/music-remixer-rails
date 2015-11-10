@@ -8,7 +8,8 @@ require 'digest/md5'
 
 class Song < ActiveRecord::Base
 	include PublicActivity::Model
-	tracked
+	tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
+			    title: Proc.new { |controller, model| model.title }
 
 	belongs_to :user
 	has_many :parts, dependent: :delete_all
@@ -21,6 +22,10 @@ class Song < ActiveRecord::Base
 
 	after_save :read_song_details
 	after_destroy :delete_folder
+
+	def title
+		name
+	end
 
 	def validate_zip_file
 		if self.zipfile.blank? or !self.zipfile.url.include?(".zip")
