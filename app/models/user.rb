@@ -31,13 +31,27 @@ class User < ActiveRecord::Base
   end
 
   def self.create_with_auth_and_hash(authentication, auth_hash)
-	  create! do |u|
-		  # u.name = trim("#{auth_hash["info"]["first_name"]} #{auth_hash["info"]["first_name"]}")
-		  u.name = auth_hash["info"]["name"]
-		  u.email = auth_hash["extra"]["raw_info"]["email"]
-		  u.username = auth_hash["extra"]["raw_info"]["username"]
-		  u.authentications << (authentication)
-	  end
+		puts "in create_with_auth_and_hash: #{auth_hash.inspect}"
+		email = auth_hash["extra"]["raw_info"]["email"]
+		u = self.find_by_email(email)
+		if u.nil?
+			# new user account added via fb connect
+			create! do |u|
+			  # u.name = trim("#{auth_hash["info"]["first_name"]} #{auth_hash["info"]["first_name"]}")
+			  u.name = auth_hash["info"]["name"]
+			  u.email = auth_hash["extra"]["raw_info"]["email"]
+			  u.username = self.create_unique_username(u.email)
+			  u.encrypted_password = SecureRandom.hex(20)
+			  u.confirmed_at = Time.now
+			  u.authentications << (authentication)
+			end
+		else
+			# user already has account, just adding FB
+			u.confirmed_at = Time.now if u.confirmed_at.nil?
+			u.authentications << (authentication)
+		end
+		puts "create_with_auth_and_hash: returning #{u.inspect}"
+		return u
   end
 
   def fb_token
@@ -47,6 +61,14 @@ class User < ActiveRecord::Base
 
   def password_optional?
 	  true
+  end
+
+  def self.create_unique_username(email)
+		loop do
+			username = "#{email[/^[^@]*/]}_#{SecureRandom.hex(3)}"
+			puts "Trying username: #{username}"
+			return username if User.find_by_username(username).nil?
+		end
   end
 
 end

@@ -9,5 +9,7 @@ Clearance.configure do |config|
   # Clearance::UsersController.layout 'auth'
   # Clearance.configuration.redirect_url = '/artist/dashboard'
 
-  config.sign_in_guards = [EmailConfirmationGuard]
+	# TODO: do we really want this email confirmation guard?
+	# it makes fb connect not work
+  # config.sign_in_guards = [EmailConfirmationGuard]
 end
