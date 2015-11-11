@@ -28,7 +28,31 @@ Rails.application.routes.draw do
 		end
 	end
 
-	# Normal site (no subdomain)
+	# Artist subdomain
+	constraints :subdomain => 'artist' do
+		namespace :artist, path: '/' do
+			get 'profile' => 'artist#profile', as: 'profile'
+			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
+			get 'music' => 'artist#music', as: 'music'
+			get 'connect' => 'artist#connect', as: 'connect'
+
+			# had to move parts out from under songs, form_for was not working for it
+			resources :songs do
+				member do
+					get :configure
+					get :mixaudio
+				end
+				resources :parts
+				resources :clips do
+					collection do
+						post :state
+					end
+				end
+			end
+		end
+	end
+
+	# Normal site (no subdomain or www)
 	constraints :subdomain => '' do
 		get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
 		# get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
@@ -37,11 +61,6 @@ Rails.application.routes.draw do
 		get 'beta/join' => 'beta_users#join', as: 'beta_users'
 		get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
 		post 'beta/join' => 'beta_users#join'
-
-		get 'artist/profile', as: 'artist_profile'
-		get 'artist/dashboard', as: 'artist_dashboard'
-		get 'artist/music', as: 'artist_music'
-		get 'artist/connect', as: 'artist_connect'
 
 		# You can have the root of your site routed with "root"
 		root 'pages#splash'
@@ -54,23 +73,9 @@ Rails.application.routes.draw do
 		end
 		get '/sign_in' => 'sessions#new', as: 'sign_in'
 		get '/sign_up' => 'users#new', as: 'sign_up'
-		delete '/sign_out' => 'sessions#destroy', as: 'sign_out'
+		get '/sign_out' => 'sessions#destroy', as: 'sign_out'
 		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
 
-		# SONGS
-		resources :songs do
-			member do
-				get :configure
-				get :mixaudio
-			end
-
-			resources :parts
-			resources :clips do
-				collection do
-					post :state
-				end
-			end
-		end
 	end
 
 	# ADMIN

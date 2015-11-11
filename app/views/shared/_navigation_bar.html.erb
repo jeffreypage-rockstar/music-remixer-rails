@@ -8,7 +8,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/" data-no-turbolink="true">
+			<a class="navbar-brand" href="<%= root_url %>" data-no-turbolink="true">
 				<%= I18n.t('brand.name') %>
 			</a>
 		</div>
@@ -17,15 +17,15 @@
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav pull-right">
 				<% if signed_in? && current_user.is_artist_admin? %>
-					<li class="<%= 'active' if current_page?(artist_profile_path) %>"><a href="/artist/profile">Profile</a></li>
-					<li class="<%= 'active' if current_page?(artist_music_path) %>"><a href="/artist/music">Music</a></li>
-					<li class="<%= 'active' if current_page?(artist_connect_path) %>"><a href="/artist/connect">Connect <span class="badge">10</span></a></li>
+					<li class="<%= 'active' if current_page?(artist_profile_path) %>"><a href="<%= artist_profile_url %>">Profile</a></li>
+					<li class="<%= 'active' if current_page?(artist_music_path) %>"><a href="<%= artist_music_url %>">Music</a></li>
+					<li class="<%= 'active' if current_page?(artist_connect_path) %>"><a href="<%= artist_connect_url %>">Connect <span class="badge">10</span></a></li>
 				<% end %>
 				<li class="far-right">
 					<% if signed_in? %>
-						<%= link_to 'Sign out', sign_out_path, method: :delete %>
+						<%= link_to 'Sign out', sign_out_url %>
 					<% else %>
-						<%= link_to 'Sign in', sign_in_path, class: 'navbar-link' %>
+						<%= link_to 'Sign in', sign_in_url, class: 'navbar-link' %>
 					<% end %>
 				</li>
 			</ul>

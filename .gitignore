@@ -42,3 +42,4 @@ bower.json
 # ignore docker file, must symlink to it
 docker-compose.yml
 
+vendor/ruby

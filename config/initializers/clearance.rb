@@ -1,5 +1,9 @@
 Clearance.configure do |config|
   config.routes = false
+  config.cookie_domain = '.mix8.dev'
+  config.cookie_expiration = lambda { |cookies| 1.year.from_now.utc }
+  config.cookie_name = 'remember_token'
+  config.cookie_path = '/'
 
 	# TODO: change mailer sender email address
   config.mailer_sender = "mark@8stem.com"

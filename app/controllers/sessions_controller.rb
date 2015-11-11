@@ -2,7 +2,7 @@ class SessionsController < Clearance::SessionsController
 	# layout 'auth'
 
 	def url_after_create
-		url = current_user.is_artist_admin ? '/artist/dashboard' : '/'
+		url = current_user.is_artist_admin ? artist_dashboard_url : root_url
 		"#{url}?ref=signin"
 	end
 
