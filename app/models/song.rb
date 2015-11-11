@@ -27,6 +27,14 @@ class Song < ActiveRecord::Base
 		name
 	end
 
+	def preview_url
+		mixaudio  # TODO: needs to be fully qualified url
+	end
+
+	def image
+		'/todo.png' # TODO: add image to song, needs to be fully qualified url
+	end
+
 	def validate_zip_file
 		if self.zipfile.blank? or !self.zipfile.url.include?(".zip")
 			errors.add(:zipfile, "Not a valid zip file.")

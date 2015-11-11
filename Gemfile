@@ -60,6 +60,9 @@ gem 'simple_form'
 # public activity stream
 gem 'public_activity', '~> 1.4.2'
 
+# likes, follows, mentions
+gem 'socialization', '~> 1.2.0'
+
 # Table generator
 # gem 'simple_table_for'
 

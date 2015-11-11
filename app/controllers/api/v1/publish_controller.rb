@@ -1,12 +1,11 @@
 class Api::V1::PublishController < Api::V1::ApiController
 	before_action :authenticate_with_token!
 
-	# POST /publish
-	def create
+	# POST /publish/mix
+	def mix
 	end
 
-	# PUT /publish
-	def update
+	# POST /publish/upload
+	def upload
 	end
-
 end

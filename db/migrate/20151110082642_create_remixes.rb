@@ -4,6 +4,7 @@ class CreateRemixes < ActiveRecord::Migration
 	    t.belongs_to  :user
 	    t.belongs_to  :song
 	    t.string      :name
+	    t.text        :config
 	    t.boolean     :is_public
 
 	    t.timestamps

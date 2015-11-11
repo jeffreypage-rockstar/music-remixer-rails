@@ -24,3 +24,8 @@ User.create!(email:'test@8stem.com', username:'test', name:'Test Test', password
 BetaUser.where({email: 'betauser@8stem.com'}).delete_all
 BetaUser.create!(email:'betauser@8stem.com', name:'Beta User', invite_code:'abc123')
 
+# follow
+User.find(1).follow!(User.find(2))
+User.find(2).follow!(User.find(1))
+
+
