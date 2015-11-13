@@ -5,7 +5,7 @@ class Api::V1::PublishController < Api::V1::ApiController
 	def mix
 	end
 
-	# POST /publish/upload
-	def upload
+	# POST /publish/audio
+	def audio
 	end
 end

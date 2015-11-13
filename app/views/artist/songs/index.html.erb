@@ -18,7 +18,7 @@
   <tbody>
     <% @songs.each do |song| %>
       <tr>
-        <td><%=link_to song.name, configure_song_path(song), data: { no_turbolink: true } %></td>
+        <td><%=link_to song.name, configure_artist_song_path(song), data: { no_turbolink: true } %></td>
         <td><%= Time.at(song.duration).utc.strftime("%M:%S") %></td>
         <td><%= Time.at(song.created_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>
         <td><%= Time.at(song.updated_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>

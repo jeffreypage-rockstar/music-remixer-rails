@@ -6,7 +6,7 @@
 			<ul class="list-group">
 			<% current_user.songs.each do |song| %>
 				<li class="list-group-item">
-					<%=link_to song.name, configure_song_path(song), data: { no_turbolink: true } %>
+					<%=link_to song.name, configure_artist_song_path(song), data: { no_turbolink: true } %>
 				</li>
 			<% end %>
 			</ul>

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 				get '/social/stream' => 'social#stream'
 
 				post '/publish/mix'		=> 'publish#mix'
-				post '/publish/upload' => 'publish#upload'
+				post '/publish/audio' => 'publish#audio'
 
 				resources :songs, :only => [:index, :show]
 

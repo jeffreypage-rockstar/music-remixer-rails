@@ -30,7 +30,7 @@ class Artist::SongsController < ApplicationController
     @song.user = current_user
     respond_to do |format|
       if @song.save
-        format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully created.' }
+        format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
@@ -55,7 +55,7 @@ class Artist::SongsController < ApplicationController
   def update
     respond_to do |format|
       if @song.update(song_params)
-        format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully updated.' }
+        format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render json: @song }
       else
         format.html { render :edit }
@@ -73,7 +73,7 @@ class Artist::SongsController < ApplicationController
         elsif @configuration == 'style-down'
           @mixaudio = @song.mixaudio3
         end
-        # format.html { redirect_to configure_song_path(@song), notice: 'Song was successfully updated.' }
+        # format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.js {}
         # format.json { render json: { song: @song, mixaudio: @mixaudio, state: @state} }
       else
