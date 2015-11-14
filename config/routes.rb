@@ -76,6 +76,7 @@ Rails.application.routes.draw do
 		get '/sign_out' => 'sessions#destroy', as: 'sign_out'
 		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
 
+		match '/lbstatus' => 'pages#lbstatus', via: :get
 	end
 
 	# ADMIN
