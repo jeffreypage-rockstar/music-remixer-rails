@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 	# Artist subdomain
 	constraints :subdomain => 'artist' do
 		namespace :artist, path: '/' do
+			get '/' => 'artist#index'
 			get 'profile' => 'artist#profile', as: 'profile'
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
 			get 'music' => 'artist#music', as: 'music'
