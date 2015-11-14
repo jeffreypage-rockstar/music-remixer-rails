@@ -1,18 +1,18 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-set :application, 'akashic'
+set :application, 'mix8'
 
 set :repo_url, 'git@bitbucket.org:8stem/akashic-nga.git'
 set :deploy_via, :remote_cache
-set :branch, "master"
-# set :branch, "capistrano"
+set :branch, "navigation"
 
-# Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+set :rbenv_type, :user
+set :rbenv_ruby, '2.2.3'
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/var/deploy/akashic'
+set :deploy_to, '/home/deploy/mix8'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -27,7 +27,7 @@ set :deploy_to, '/var/deploy/akashic'
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 
 set :use_sudo, false
 set :bundle_binstubs, nil
@@ -44,9 +44,35 @@ after 'deploy', 'deploy:cleanup'
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
+	# %w[start stop restart].each do |command|
+	# 	desc "#{command} unicorn server"
+	# 	task command do
+	# 		on roles :web do
+	# 			run "/etc/init.d/unicorn_#{application} #{command}"
+	# 		end
+	# 	end
+	# end
 
-  task :restart do
-    invoke 'unicorn:restart'
-  end
+	# task :setup_config do
+	# 	on roles :web do
+	# 		sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+	# 		sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
+	# 		run "mkdir -p #{shared_path}/config"
+	# 		put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
+	# 		puts "Now edit #{shared_path}/config/database.yml and add your username and password"
+	# 	end
+	# end
+	# # after "deploy:setup", "deploy:setup_config"
 
+	# desc "Make sure local git is in sync with remote."
+	# task :check_revision do
+	# 	on roles :web do
+	# 		unless `git rev-parse HEAD` == `git rev-parse origin/master`
+	# 			puts "WARNING: HEAD is not the same as origin/master"
+	# 			puts "Run `git push` to sync changes."
+	# 			exit
+	# 		end
+	# 	end
+	# end
+	# before "deploy", "deploy:check_revision"
 end

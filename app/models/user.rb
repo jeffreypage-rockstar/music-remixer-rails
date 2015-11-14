@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
 	# profile images
 	mount_uploader :profile_image, ProfileImageUploader
-	# mount_uploader :profile_background_image, ProfileBackgroundUploader
+	mount_uploader :profile_background_image, ProfileBackgroundUploader
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	# NOTE: this causes double validation errors, Clearance must be doing it to?

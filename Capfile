@@ -21,7 +21,7 @@ require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/faster_assets'
 
-require 'capistrano/rvm'
+require 'capistrano/rbenv'
 require 'capistrano3/unicorn'
 
 # require 'capistrano/rvm'

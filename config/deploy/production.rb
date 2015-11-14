@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '162.243.147.223', user: 'deploy', roles: %w{app db web}
+server '162.242.246.25', user: 'deploy', roles: %w{app db web}
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
@@ -30,10 +30,10 @@ server '162.243.147.223', user: 'deploy', roles: %w{app db web}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-set :deploy_to, '/var/deploy/akashic'
+#set :deploy_to, '/var/deploy/akashic'
 # set :bundle_env_variables, { 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 1 }
-set :rvm_ruby_string, 'ruby 2.2.1p85'
-set :rvm_type, :system
+#set :rvm_ruby_string, 'ruby 2.2.1p85'
+#set :rvm_type, :system
 # set :rvm_custom_path, '/home/ubuntu/.rvm'  # only needed if not detected
 
 set :stage, :production
@@ -48,12 +48,12 @@ set :rails_env, "production"
 #
 # Global options
 # --------------
- set :ssh_options, {
-   verbose: :debug,
-   keys: %w(~/.ssh/id_rsa.pub),
-   forward_agent: true,
-   auth_methods: %w(password)
- }
+# set :ssh_options, {
+#   verbose: :debug,
+#   keys: %w(~/.ssh/id_rsa.pub),
+#   forward_agent: true,
+#   auth_methods: %w(password)
+# }
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
