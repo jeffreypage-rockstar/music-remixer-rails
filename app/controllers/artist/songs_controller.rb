@@ -104,7 +104,7 @@ class Artist::SongsController < ApplicationController
       end
 
       unless @song
-        return redirect_to songs_path
+        return redirect_to artist_songs_path
       end
     end
 

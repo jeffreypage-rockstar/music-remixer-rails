@@ -8,8 +8,8 @@ require 'digest/md5'
 
 class Song < ActiveRecord::Base
 	include PublicActivity::Model
-	tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
-			    title: Proc.new { |controller, model| model.title }
+	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
+	# 		    title: Proc.new { |controller, model| model.title }
 
 	belongs_to :user
 	has_many :parts, dependent: :delete_all

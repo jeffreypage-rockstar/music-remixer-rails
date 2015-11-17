@@ -4,6 +4,7 @@
 # Author: @Ravi Prakash Singh :: Email - raviprakash.singh@newgenapps.com 
 class ApplicationController < ActionController::Base
   include Clearance::Controller
+  include PublicActivity::StoreController
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
