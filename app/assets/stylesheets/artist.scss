@@ -55,6 +55,11 @@
         color: #ffffff;
         font-size: 16px;
       }
+
+      .edit-profile {
+        color: #ffffff;
+        text-decoration: none;
+      }
     }
   }
 
@@ -91,6 +96,11 @@
     }
 
     .following {
+      .profile-image {
+        width: 75px;
+        height: 75px;
+      }
+
       .name {
         font-weight: 600;
         margin: 0;
@@ -113,6 +123,11 @@
     }
 
     .follower {
+      .profile-image {
+        width: 75px;
+        height: 75px;
+      }
+
       .name {
         font-weight: 600;
         margin: 0;
@@ -129,6 +144,7 @@
       padding: 5px 10px;
       background-color: #737373;
       text-transform: uppercase;
+      margin-right: 7px;
     }
   }
 
@@ -195,6 +211,8 @@
           .tag {
             padding: 5px 10px;
             background-color: #737373;
+            text-transform: uppercase;
+            margin-right: 7px;
           }
         }
 

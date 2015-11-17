@@ -7,7 +7,7 @@ class Artist::ArtistController < ApplicationController
 	end
 
 	def profile
-		@artist = current_user
+		@artist = current_user.decorate
 	end
 
 	# TODO: get rid of dashboard?

@@ -71,6 +71,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 
 gem 'slim-rails'
+gem 'draper'
 
 group :development, :test do
   gem 'puma'
