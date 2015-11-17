@@ -16,7 +16,7 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
 
 	# Provide a default URL as a default if there hasn't been a file uploaded:
 	def default_url
-	  ActionController::Base.helpers.asset_path('fallback/profile_image_default.png')
+	  ActionController::Base.helpers.asset_path('fallback/profile_image/' + [version_name, 'default.png'].join('_'))
 	end
 
 	# Process files as they are uploaded:
@@ -32,7 +32,7 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
 	end
 
 	version :thumb do
-	  process :resize_to_fit => [200, 200]
+	  process :resize_to_fill => [200, 200]
 	end
 
 	version :small_thumb, from_version: :thumb do

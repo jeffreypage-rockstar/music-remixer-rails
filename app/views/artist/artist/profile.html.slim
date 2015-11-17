@@ -3,7 +3,7 @@
     .container
       .row.row-eq-height
         .col-xs-4
-          img.img-responsive src="#{@artist.profile_image.url()}"
+          img.img-responsive src="#{@artist.profile_image.url(:medium)}"
 
           a.upload-profile-image href=""
             = image_tag 'upload-profile-image.png'
@@ -11,7 +11,7 @@
           .content
             .name #{@artist.name}
             .location #{@artist.location}
-            a.edit-profile href="#"
+            a.edit-profile href="#{artist_edit_profile_path}"
               => fa_icon 'pencil'
               | Edit Profile
   .container
@@ -89,7 +89,7 @@
 
           .content
             ul.media-list.track-list
-              = @artist.songs.decorate
+              - songs = @artist.songs.decorate
               - songs.each do |song|
                 li.media.track data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
                   .media-left

@@ -1,0 +1,26 @@
+.bootstrap-tagsinput {
+  width: 100%;
+  min-height: 41px;
+  padding: 6px 16px;
+  color: #666666;
+  background-color: #f8f8f8;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: none;
+
+  .tag {
+    background-color: #737373;
+    text-transform: uppercase;
+    margin-right: 7px;
+  }
+}
+
+.btn.btn-grey {
+  background-color: #eaeaea;
+  color: #a7a7a7;
+}
+
+.btn.btn-round {
+  border-radius: 24px;
+}

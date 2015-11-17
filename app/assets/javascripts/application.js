@@ -17,4 +17,6 @@
 //= require jquery-ui/draggable
 //= require jquery-ui/droppable
 //= require jquery.jplayer.min
+//= require bootstrap-filestyle
+//= require bootstrap-tagsinput
 //= require_tree .

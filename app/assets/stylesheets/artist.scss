@@ -279,3 +279,39 @@
     }
   }
 }
+
+#editArtistProfilePage {
+  .profile {
+    margin-top: 30px;
+    padding: 30px;
+  }
+
+  #artistProfileForm {
+    .input-group-addon {
+      min-width: 120px;
+      text-align: left;
+      background-color: #eaeaea;
+      font-weight: 600;
+    }
+
+    .input-group[class*="col-"] {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    label {
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .hint {
+      color: #a6a6a6;
+      font-weight: 400;
+    }
+
+    .user_profile_image, .user_profile_background_image {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}

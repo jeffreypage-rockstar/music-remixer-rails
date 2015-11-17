@@ -10,6 +10,20 @@ class Artist::ArtistController < ApplicationController
 		@artist = current_user.decorate
 	end
 
+	def edit_profile
+		@artist = current_user.decorate
+	end
+
+	def update_profile
+		@artist = current_user.decorate
+
+		if @artist.update(artist_profile_params)
+			redirect_to artist_profile_path, notice: 'Profile successfully updated'
+		else
+			render :edit_profile
+		end
+	end
+
 	# TODO: get rid of dashboard?
 	def dashboard
 		redirect_to artist_profile_path
@@ -27,6 +41,10 @@ class Artist::ArtistController < ApplicationController
 
 	def validate_artist
 		redirect_to root_url unless current_user.is_artist_admin?
+	end
+
+	def artist_profile_params
+		params.require(:user).permit(:name, :location, :bio, :genre_list, :facebook_link, :twitter_link, :soundcloud_link, :profile_image, :profile_image_cache, :profile_background_image, :profile_background_image_cache)
 	end
 
 end

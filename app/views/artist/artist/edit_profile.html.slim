@@ -1,0 +1,50 @@
+#editArtistProfilePage
+  .container
+    .white-section.profile
+      = simple_form_for @artist, method: :patch, url: artist_update_profile_path, html: { id: 'artistProfileForm', class: 'form-horizontal' }, wrapper: :horizontal_form do |f|
+        = f.input :name, label: 'Display Name'
+
+        hr
+        = f.input :location
+
+        hr
+        = f.input :bio, as: :text, label: 'Bio<span class="hint">(up to 1000 characters)</span>'.html_safe, placeholder: 'More information about you', html: { rows: 7 }
+
+        hr
+        = f.input :genre_list, label: 'Genres', input_html: { value: @artist.genre_list.to_s }
+
+        hr
+        .row
+          .col-sm-4
+            = f.label :social_links
+          .col-sm-8
+            = f.input :facebook_link, wrapper: :horizontal_input_group_without_label, label: false do
+              span.input-group-addon Facebook
+              = f.input_field :facebook_link, class: 'form-control'
+
+            = f.input :twitter_link, wrapper: :horizontal_input_group_without_label, label: false do
+              span.input-group-addon Twitter
+              = f.input_field :twitter_link, class: 'form-control'
+
+            = f.input :soundcloud_link, wrapper: :horizontal_input_group_without_label, label: false do
+              span.input-group-addon Soundcloud
+              = f.input_field :soundcloud_link, class: 'form-control'
+
+        hr
+        .row
+          .col-sm-4
+            = f.input :profile_image, as: :file, label: 'Profile Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
+            = f.hidden_field :profile_image_cache
+          .col-sm-8
+            = image_tag @artist.profile_image.url(:thumb)
+
+        hr
+        .row
+          .col-sm-4
+            = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input
+            = f.hidden_field :profile_background_image_cache
+          .col-sm-8
+            = image_tag @artist.profile_background_image.url, class: 'img-responsive'
+
+        hr
+        = f.button :submit, 'Save Profile Changes', class: 'btn-grey btn-round'

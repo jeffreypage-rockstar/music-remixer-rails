@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 		namespace :artist, path: '/' do
 			get '/' => 'artist#index'
 			get 'profile' => 'artist#profile', as: 'profile'
+			get 'profile/edit' => 'artist#edit_profile', as: 'edit_profile'
+			patch 'profile/update' => 'artist#update_profile', as: 'update_profile'
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
 			get 'music' => 'artist#music', as: 'music'
 			get 'connect' => 'artist#connect', as: 'connect'
