@@ -55,7 +55,7 @@ class Song < ActiveRecord::Base
 			fileCount = 0
 			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".oga", ".wav", ".flac", ".act", ".3gp", ".mp4"]
 			Zip::File.open(folder) do |zipfile|
-			    # Read File details
+				# Read File details
 				zipfile.each do |file|
 					filePath = File.join(dirPath, file.name)
 					if !File.directory?(filePath) && !filePath.include?("MACOSX") && !filePath.include?(".DS_Store")
@@ -194,43 +194,41 @@ class Song < ActiveRecord::Base
 			clipTypes = []
 			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".oga", ".wav", ".flac", ".act", ".3gp", ".mp4"]
 			Zip::File.open(folder) do |zipfile|
-			    # Read File details
+		    # Read File details
 				zipfile.each do |file|
 					# Extract and write files
 					filePath = File.join(dirPath, file.name)
 					FileUtils.mkdir_p(File.dirname(filePath))
-			    	zipfile.extract(file, filePath) unless File.exist?(filePath)
+					zipfile.extract(file, filePath) unless File.exist?(filePath)
 
-			    	clipFilePath = ""
+					clipFilePath = ""
 					if !File.directory?(filePath) && !filePath.include?("MACOSX") && !filePath.include?(".DS_Store")
 						fileExtension = File.extname(filePath)
 						if accepted_formats.include? fileExtension
 							# Collect File info
 							fileCount += 1
 							fileName = file.name.to_s.split("/").last
-							if fileName[0] =~ /[0-9]/
-								column = fileName[0]
+							# puts "FILENAME: #{fileName}"
+							fileName = Song.standardize_uploaded_filename(fileName)
+							# puts "STANDARDIZED FILENAME: #{fileName}"
+
+							levelType = fileName.split("_").first.gsub('O-','').gsub('-',' ')
+							# puts "LEVELTYPE: #{levelType}"
+							rowColumnExtension = fileName.split("_").last
+							# puts "ROWCOLE: #{rowColumnExtension}"
+							if rowColumnExtension
+								rowColumnValue = rowColumnExtension.split(".").first
+								column = rowColumnValue[0]
+								row = rowColumnValue[1]
 								# clips[column] = Array.new if clips[column].blank?
-								levelType = fileName.split(".").first.gsub(/\d|O-/,"").gsub("-"," ")
 								clipFilePath = "#{fileUploadPath}#{file.name.to_s}"
+								# puts "CLIPFILEPATH: #{clipFilePath}"
 								# data = {level: levelType, filePath: "#{fileUploadPath}#{file.name.to_s}"}
 								# clips[column].push(data)
-							else 
-								levelType = fileName.split("_").first.gsub('O-','').gsub('-',' ')
-								rowColumnExtension = fileName.split("_").last
-								if rowColumnExtension
-									rowColumnValue = rowColumnExtension.split(".").first
-									column = rowColumnValue[0]
-									row = rowColumnValue[1]
-									# clips[column] = Array.new if clips[column].blank?
-									clipFilePath = "#{fileUploadPath}#{file.name.to_s}"
-									# data = {level: levelType, filePath: "#{fileUploadPath}#{file.name.to_s}"}
-									# clips[column].push(data)
-								end
 							end
 
-							levelType = levelType.gsub(' ','')
-							row = ClipType.index(levelType.downcase)
+							# levelType = levelType.gsub(' ','')
+							# row = ClipType.index(levelType.downcase)
 							unless clipTypes.include? levelType
 								clipTypes.push(levelType)
 								clipType = ClipType.find_or_create_by(song_id: self.id, name:levelType, row: row)
@@ -263,4 +261,25 @@ class Song < ActiveRecord::Base
 			dirPath = "#{Rails.root}/public#{fileUploadPath}"
 			system "rm -R #{dirPath}"
 		end
+
+		def self.standardize_uploaded_filename(filename)
+			filename = File.basename(filename).strip
+			# puts "FILENAME BASENAME: #{filename}"
+
+			# 8 - Vox8 - Vox_8a.wav
+			# 6- Inst6 - Inst_6c.wav
+			# 6-Inst_6c.wav
+			# or Inst_6c.wav
+			re = /([a-zA-Z0-9]+)_(\d+)([a-zA-Z])\.[a-z0-9A-Z]+$/
+			m = re.match(filename)
+			# puts m.inspect
+
+			short_file = m[0]	# Vox_1a.wav
+			# section = m[1]	# Vox (label)
+			# column = m[2].to_i - 1	# 1-8 (column)
+			# row = m[3].ord - 97		# a-h (row)
+
+			return short_file
+		end
+
 end
