@@ -35,9 +35,6 @@ gem 'jbuilder', '~> 2.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -88,11 +85,11 @@ group :development, :test do
   gem 'spring'
 
   gem 'capistrano', '~> 3.4.0'
-  gem 'capistrano-rvm',     require: false
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-ext',     require: false
   gem 'capistrano-faster-assets', '~> 1.0.2'
+  gem 'capistrano-rbenv', github: "capistrano/rbenv"
   gem 'capistrano3-unicorn', require: false
 end
 

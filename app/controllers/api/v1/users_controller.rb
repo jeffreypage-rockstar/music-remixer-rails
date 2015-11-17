@@ -22,9 +22,9 @@ class Api::V1::UsersController < Api::V1::ApiController
 		unless params[:username].nil? || params[:password].nil?
 			username = params[:username]
 			password = params[:password]
-			user = username.present? && User.find_by(username: username)
+			user = User.find_by(username: username) || User.find_by(email: username)
 
-			if user.authenticated?(password)
+			if !user.nil? && user.authenticated?(password)
 				@token = user.remember_token
 				return render :token, status: 200
 			end

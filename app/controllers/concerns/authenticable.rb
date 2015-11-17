@@ -1,5 +1,4 @@
 module Authenticable
-
 	def current_user
 		@current_user ||= User.find_by(remember_token: request.headers['Authorization'])
 	end
@@ -11,5 +10,4 @@ module Authenticable
 	def user_signed_in?
 		current_user.present?
 	end
-
 end

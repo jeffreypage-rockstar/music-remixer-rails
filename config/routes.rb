@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 	# Artist subdomain
 	constraints :subdomain => 'artist' do
 		namespace :artist, path: '/' do
+			get '/' => 'artist#index'
 			get 'profile' => 'artist#profile', as: 'profile'
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
 			get 'music' => 'artist#music', as: 'music'
@@ -76,6 +77,7 @@ Rails.application.routes.draw do
 		get '/sign_out' => 'sessions#destroy', as: 'sign_out'
 		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
 
+		match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 	end
 
 	# ADMIN
