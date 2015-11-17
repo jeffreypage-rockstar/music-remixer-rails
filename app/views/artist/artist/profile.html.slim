@@ -3,13 +3,13 @@
     .container
       .row.row-eq-height
         .col-xs-4
-          img.img-responsive src="http://lorempixel.com/400/400/"
+          img.img-responsive src="#{@artist.profile_image.url()}"
 
           a.upload-profile-image href=""
             = image_tag 'upload-profile-image.png'
         .col-xs-8
           .content
-            .name Chet Faker
+            .name #{@artist.name}
             .location Melbourne, Australia
   .container
     .row
@@ -18,66 +18,51 @@
           .row.stats-list
             .col-xs-4.stat
               .name Followings
-              .value 577
+              .value #{@artist.followees_count}
 
             .col-xs-4.stat
               .name Followers
-              .value 142
+              .value #{@artist.followers_count}
 
             .col-xs-4.stat
               .name Tracks
-              .value 16
+              .value #{@artist.songs_count}
 
         .white-section.followings
-          h4 577 following
+          h4 #{@artist.followees_count} followings
 
           a.view-all href="" View all
 
           hr
 
           ul.media-list.following-list
-            li.media.following
-              .media-left
-                img src="http://lorempixel.com/75/75/"
-              .media-body
-                .name Nataly Ivanitska
+            - @artist.followees(User).each do |followee|
+              li.media.following
+                .media-left
+                  img src="http://lorempixel.com/75/75/"
+                .media-body
+                  .name #{followee.name}
 
-                .followers-count 4 Followers
-                .location Kiev, Ukraine
-            li.media.following
-              .media-left
-                img src="http://lorempixel.com/75/75/"
-              .media-body
-                .name Nataly Ivanitska
-
-                .followers-count 4 Followers
-                .location Kiev, Ukraine
+                  .followers-count #{followee.followers_count} Followers
+                  .location Kiev, Ukraine
 
         .white-section.followers
-          h4 142 Followers
+          h4 #{@artist.followers_count} followers
 
           a.view-all href="" View all
 
           hr
 
           ul.media-list.follower-list
-            li.media.follower
-              .media-left
-                img src="http://lorempixel.com/75/75/"
-              .media-body
-                .name Nataly Ivanitska
+            - @artist.followers(User).each do |follower|
+              li.media.follower
+                .media-left
+                  img src="http://lorempixel.com/75/75/"
+                .media-body
+                  .name #{follower.name}
 
-                .followers-count 4 Followers
-                .location Kiev, Ukraine
-            li.media.follower
-              .media-left
-                img src="http://lorempixel.com/75/75/"
-              .media-body
-                .name Nataly Ivanitska
-
-                .followers-count 4 Followers
-                .location Kiev, Ukraine
-
+                  .followers-count #{follower.followers_count} Followers
+                  .location Kiev, Ukraine
 
       .col-md-8
         .white-section
@@ -107,64 +92,34 @@
 
           .content
             ul.media-list.track-list
-              li.media.track data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
-                .media-left
-                  img.cover src="http://lorempixel.com/200/200/"
-                  a class="play"
-                    = image_tag 'tracks/play.png'
-                  a class="pause"
-                    = image_tag 'tracks/pause.png'
-                .media-body
-                  h4.media-heading Talk is Cheap
-                  span.by-artist by Chet Faker
+              - @artist.songs.each do |song|
+                li.media.track data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
+                  .media-left
+                    img.cover src="http://lorempixel.com/200/200/"
+                    a class="play"
+                      = image_tag 'tracks/play.png'
+                    a class="pause"
+                      = image_tag 'tracks/pause.png'
+                  .media-body
+                    h4.media-heading #{song.name}
+                    span.by-artist by #{song.user.names}
 
-                  .tags
-                    a href="#tag" class="tag badge" SOUL
+                    .tags
+                      a href="#tag" class="tag badge" SOUL
 
-                  .mix8-player
-                    #jquery_jplayer_1.jp-player
-                    #jp_container_1.jp-audio
-                      .jp-time-holder
-                        .jp-current-time aria-label="time" role="timer"
-                        .duration 03:00
-                      .clearfix
-                      .jp-progress
-                        .jp-seek-bar
-                          .jp-play-bar
+                    .mix8-player
+                      .jp-player id="jquery_jplayer_#{song.id}"
+                      .jp-audio id="jp_container_#{song.id}"
+                        .jp-time-holder
+                          .jp-current-time aria-label="time" role="timer"
+                          .duration #{song.duration}
+                        .clearfix
+                        .jp-progress
+                          .jp-seek-bar
+                            .jp-play-bar
 
-                  .actions
-                    a.share.pull-left href="#share"
-                      = image_tag 'tracks/share.png'
-                    a.like.pull-left href="#like"
-                      = image_tag 'tracks/like.png'
-
-              li.media.track data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
-                .media-left
-                  img.cover src="http://lorempixel.com/200/200/"
-                  a class="play"
-                    = image_tag 'tracks/play.png'
-                  a class="pause"
-                    = image_tag 'tracks/pause.png'
-                .media-body
-                  h4.media-heading Talk is Cheap
-                  span.by-artist by Chet Faker
-
-                  .tags
-                    a href="#tag" class="tag badge" SOUL
-
-                  .mix8-player
-                    #jquery_jplayer_2.jp-player
-                    #jp_container_2.jp-audio
-                      .jp-time-holder
-                        .jp-current-time aria-label="time" role="timer"
-                        .duration 03:00
-                      .clearfix
-                      .jp-progress
-                        .jp-seek-bar
-                          .jp-play-bar
-
-                  .actions
-                    a.share.pull-left href="#share"
-                      = image_tag 'tracks/share.png'
-                    a.like.pull-left href="#like"
-                      = image_tag 'tracks/like.png'
+                    .actions
+                      a.share.pull-left href="#share"
+                        = image_tag 'tracks/share.png'
+                      a.like.pull-left href="#like"
+                        = image_tag 'tracks/like.png'
