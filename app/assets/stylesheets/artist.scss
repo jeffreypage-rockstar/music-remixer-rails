@@ -20,3 +20,244 @@
 .upload-btn {
   margin-top: 30px;
 }
+
+#artistProfilePage {
+  background-color: #f8f8f8;
+
+  .header {
+    padding-top: 50px;
+
+    .upload-profile-image {
+      position: absolute;
+      left: 50%;
+      bottom: -32px;
+      margin-left: -32px;
+      display: block;
+      width: 65px;
+      height: 65px;
+      z-index: 100;
+    }
+
+    .content {
+      padding-bottom: 30px;
+      position: absolute;
+      bottom: 0;
+
+      .name {
+        font-family: 'Droid Sans', sans-serif;
+        color: #ffffff;
+        font-size: 34px;
+        font-weight: 400;
+      }
+
+      .location {
+        font-family: 'Droid Sans', sans-serif;
+        color: #ffffff;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .stats {
+    margin-bottom: 30px;
+
+    .stats-list {
+      margin-top: 20px;
+
+      .stat {
+        text-align: center;
+
+        .name {
+          color: #9f9f9f;
+          text-transform: uppercase;
+        }
+
+        .value {
+          font-weight: 600;
+          font-size: 42px;
+        }
+      }
+    }
+  }
+
+  .followings {
+    position: relative;
+    margin-bottom: 30px;
+
+    .view-all {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .following {
+      .name {
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .location {
+        color: #9f9f9f;
+      }
+    }
+  }
+
+  .followers {
+    position: relative;
+    margin-bottom: 30px;
+
+    .view-all {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .follower {
+      .name {
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .location {
+        color: #9f9f9f;
+      }
+    }
+  }
+
+  .artist-tags {
+    .tag {
+      padding: 5px 10px;
+      background-color: #737373;
+      text-transform: uppercase;
+    }
+  }
+
+  .social-links {
+    .social-link {
+      padding: 10px;
+      color: #9f9f9f;
+    }
+  }
+
+  .artist-bio {
+    padding: 25px 0;
+
+    .title {
+      padding-bottom: 25px;
+      margin: 0;
+    }
+
+    .content {
+      font-weight: 300;
+      font-size: 16px;
+    }
+  }
+
+  .artist-tracks {
+    padding: 25px 0;
+
+    .title {
+      padding-bottom: 25px;
+      margin: 0;
+    }
+
+    .track-list {
+      .track.media {
+        background-color: #ffffff;
+
+        .by-artist {
+          color: #9f9f9f;
+          font-size: 14px;
+        }
+
+        .media-left {
+          position: relative;
+
+          .cover {
+            width: 200px;
+            height: 200px;
+          }
+
+          .play, .pause {
+            position: absolute;
+            top: 75px;
+            left: 75px;
+            cursor: pointer;
+          }
+        }
+
+        .media-body {
+          padding: 20px 20px 15px 10px;
+          position: relative;
+        }
+
+        .tags {
+          .tag {
+            padding: 5px 10px;
+            background-color: #737373;
+          }
+        }
+
+        .mix8-player {
+          position: absolute;
+          bottom: 15px;
+          left: 0;
+          right: 100px;
+          padding-left: 10px;
+
+          .jp-time-holder {
+            width: 100%;
+            font-size: 12px;
+            color: #9f9f9f;
+
+            .jp-current-time {
+              display: inline;
+              float: left;
+            }
+
+            .duration {
+              display: inline;
+              float: right;
+            }
+          }
+
+          .jp-audio .jp-progress {
+            height: 6px;
+            background-color: #f4f4f4;
+            border-radius: 3px;
+
+            .jp-seek-bar {
+              height: 6px;
+              border-radius: 3px;
+              cursor: pointer;
+
+              .jp-play-bar {
+                height: 6px;
+                border-radius: 3px;
+                background-color: #41c7ff;
+              }
+            }
+          }
+        }
+
+        .actions {
+          position: absolute;
+          bottom: 15px;
+          right: 20px;
+
+          .share, .like {
+            margin: 5px;
+            line-height: 25px;
+            width: 25px;
+            height: 25px;
+            display: block;
+
+            img {
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+  }
+}

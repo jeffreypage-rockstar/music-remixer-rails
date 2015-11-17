@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20151117055951) do
     t.integer  "user_id",    limit: 4
     t.integer  "song_id",    limit: 4
     t.string   "name",       limit: 255
+    t.text     "config",     limit: 65535
     t.boolean  "is_public"
     t.datetime "created_at"
     t.datetime "updated_at"

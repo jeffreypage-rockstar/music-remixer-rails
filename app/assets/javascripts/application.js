@@ -16,4 +16,5 @@
 //= require turbolinks
 //= require jquery-ui/draggable
 //= require jquery-ui/droppable
+//= require jquery.jplayer.min
 //= require_tree .
