@@ -5,7 +5,7 @@ set :application, 'mix8'
 
 set :repo_url, 'git@bitbucket.org:8stem/akashic-nga.git'
 set :deploy_via, :remote_cache
-set :branch, "navigation"
+set :branch, "master"
 
 set :rbenv_type, :user
 set :rbenv_ruby, '2.2.3'
