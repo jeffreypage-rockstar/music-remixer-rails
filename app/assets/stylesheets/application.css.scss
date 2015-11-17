@@ -46,6 +46,28 @@ body.beta_artists.join #navbar-collapse {
 
 @media (min-width: 768px) {
   .well.form400 {
-	margin-top: 100px;
+    margin-top: 100px;
   }
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  color: #232323;
+}
+
+h4 {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.white-section {
+  padding: 15px;
+  background-color: white;
+}
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }

@@ -1,0 +1,170 @@
+#artistProfilePage
+  .header style="background-image: url(#{image_path('profile/default-background.jpg')}); background-size: cover;"
+    .container
+      .row.row-eq-height
+        .col-xs-4
+          img.img-responsive src="http://lorempixel.com/400/400/"
+
+          a.upload-profile-image href=""
+            = image_tag 'upload-profile-image.png'
+        .col-xs-8
+          .content
+            .name Chet Faker
+            .location Melbourne, Australia
+  .container
+    .row
+      .col-md-4
+        .white-section.stats
+          .row.stats-list
+            .col-xs-4.stat
+              .name Followings
+              .value 577
+
+            .col-xs-4.stat
+              .name Followers
+              .value 142
+
+            .col-xs-4.stat
+              .name Tracks
+              .value 16
+
+        .white-section.followings
+          h4 577 following
+
+          a.view-all href="" View all
+
+          hr
+
+          ul.media-list.following-list
+            li.media.following
+              .media-left
+                img src="http://lorempixel.com/75/75/"
+              .media-body
+                .name Nataly Ivanitska
+
+                .followers-count 4 Followers
+                .location Kiev, Ukraine
+            li.media.following
+              .media-left
+                img src="http://lorempixel.com/75/75/"
+              .media-body
+                .name Nataly Ivanitska
+
+                .followers-count 4 Followers
+                .location Kiev, Ukraine
+
+        .white-section.followers
+          h4 142 Followers
+
+          a.view-all href="" View all
+
+          hr
+
+          ul.media-list.follower-list
+            li.media.follower
+              .media-left
+                img src="http://lorempixel.com/75/75/"
+              .media-body
+                .name Nataly Ivanitska
+
+                .followers-count 4 Followers
+                .location Kiev, Ukraine
+            li.media.follower
+              .media-left
+                img src="http://lorempixel.com/75/75/"
+              .media-body
+                .name Nataly Ivanitska
+
+                .followers-count 4 Followers
+                .location Kiev, Ukraine
+
+
+      .col-md-8
+        .white-section
+          .row
+            .col-xs-9.artist-tags
+              a href="#tag" class="tag badge" SOUL
+            .col-xs-3.social-links.text-right
+              a.social-link href="#"
+                i.fa.fa-facebook
+              a.social-link href="#"
+                i.fa.fa-twitter
+              a.social-link href="#"
+                i.fa.fa-soundcloud
+
+        .artist-bio
+          h4.title Artist Bio
+
+          .content
+            p Ponderum electram theophrastus ad sea, et mei facer perpetua. Vidit disputationi an eum, ad expetenda adipiscing sit. Pro elit tincidunt et. Ei primis voluptua insolens cum, ea affert omittantur cum, illum nostrum lucilius at per.
+
+            p  Est te causae placerat democritum. Eleifend definitionem nam ad, tale commune recteque his ne. Usu decore regione efficiantur et. Purto placerat imperdiet per ei, vix ex suas philosophia. Ex case habeo lorem qui, dico aperiam lucilius duo et, eam ei choro eloquentiam. Dicant interpretaris eu nec.
+
+            p  Vis dolor percipit persecuti ea, enim vero tacimates at vix. Nam agam ullum ei, duo integre conclusionemque ei, ad has persecuti accommodare. Vim dolor similique ea, pri at tota modus sensibus, ea vide justo omnium mea. Partem complectitur ei usu.
+
+        .artist-tracks
+          h4.title Tracks
+
+          .content
+            ul.media-list.track-list
+              li.media.track data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
+                .media-left
+                  img.cover src="http://lorempixel.com/200/200/"
+                  a class="play"
+                    = image_tag 'tracks/play.png'
+                  a class="pause"
+                    = image_tag 'tracks/pause.png'
+                .media-body
+                  h4.media-heading Talk is Cheap
+                  span.by-artist by Chet Faker
+
+                  .tags
+                    a href="#tag" class="tag badge" SOUL
+
+                  .mix8-player
+                    #jquery_jplayer_1.jp-player
+                    #jp_container_1.jp-audio
+                      .jp-time-holder
+                        .jp-current-time aria-label="time" role="timer"
+                        .duration 03:00
+                      .clearfix
+                      .jp-progress
+                        .jp-seek-bar
+                          .jp-play-bar
+
+                  .actions
+                    a.share.pull-left href="#share"
+                      = image_tag 'tracks/share.png'
+                    a.like.pull-left href="#like"
+                      = image_tag 'tracks/like.png'
+
+              li.media.track data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
+                .media-left
+                  img.cover src="http://lorempixel.com/200/200/"
+                  a class="play"
+                    = image_tag 'tracks/play.png'
+                  a class="pause"
+                    = image_tag 'tracks/pause.png'
+                .media-body
+                  h4.media-heading Talk is Cheap
+                  span.by-artist by Chet Faker
+
+                  .tags
+                    a href="#tag" class="tag badge" SOUL
+
+                  .mix8-player
+                    #jquery_jplayer_2.jp-player
+                    #jp_container_2.jp-audio
+                      .jp-time-holder
+                        .jp-current-time aria-label="time" role="timer"
+                        .duration 03:00
+                      .clearfix
+                      .jp-progress
+                        .jp-seek-bar
+                          .jp-play-bar
+
+                  .actions
+                    a.share.pull-left href="#share"
+                      = image_tag 'tracks/share.png'
+                    a.like.pull-left href="#like"
+                      = image_tag 'tracks/like.png'

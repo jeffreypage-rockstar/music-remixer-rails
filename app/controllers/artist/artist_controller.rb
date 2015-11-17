@@ -3,8 +3,7 @@ class Artist::ArtistController < ApplicationController
 	before_action :validate_artist
 
 	def profile
-		puts "Artist::profile"
-		puts current_user.inspect
+		@artist = current_user
 	end
 
 	def dashboard

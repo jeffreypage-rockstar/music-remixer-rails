@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+ruby '2.2.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 
@@ -68,7 +68,9 @@ gem 'socialization', '~> 1.2.0'
 
 # Upload file
 gem 'carrierwave'
-gem "mini_magick"
+gem 'mini_magick'
+
+gem 'slim-rails'
 
 group :development, :test do
   gem 'puma'
