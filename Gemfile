@@ -60,6 +60,9 @@ gem 'public_activity', '~> 1.4.2'
 # likes, follows, mentions
 gem 'socialization', '~> 1.2.0'
 
+# tagging for song/artist genres
+gem 'acts-as-taggable-on', '~> 3.4'
+
 # Table generator
 # gem 'simple_table_for'
 

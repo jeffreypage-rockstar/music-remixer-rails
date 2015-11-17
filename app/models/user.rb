@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
 	has_many :songs
 	has_many :remixes
 
+	# artist genres
+	acts_as_taggable_on :genres
+
 	# follow, like, mention (from socialization gem)
 	acts_as_follower
 	acts_as_followable

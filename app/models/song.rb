@@ -16,6 +16,10 @@ class Song < ActiveRecord::Base
 	has_many :clips, dependent: :delete_all
 	has_many :clip_types, dependent: :delete_all
 
+	# artist genres
+	acts_as_taggable_on :genres
+
+	# audio uploader
 	mount_uploader :zipfile, AudioUploader
 	validates :name, :zipfile, presence: true
 	validate :validate_zip_file
