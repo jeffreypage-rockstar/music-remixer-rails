@@ -3,10 +3,9 @@
     .container
       .row.row-eq-height
         .col-xs-4
-          img.img-responsive src="#{@artist.profile_image.url(:medium)}"
-
-          a.upload-profile-image href=""
-            = image_tag 'upload-profile-image.png'
+          = form_for @artist, url: artist_upload_profile_image_path, html: { id: 'uploadProfileImageForm', method: :patch, multipart: true } do |f|
+            img.img-responsive src="#{@artist.profile_image.url(:medium)}"
+            = f.file_field :profile_image, data: { image_url: image_path('upload-profile-image.png') }
         .col-xs-8
           .content
             .name #{@artist.name}
@@ -119,7 +118,7 @@
                             .jp-play-bar
 
                     .actions
-                      a.share.pull-left href="#share"
+                      = link_to share_modal_artist_song_path, class: 'share-song pull-left', data: { modal: true } do
                         = image_tag 'tracks/share.png'
                       a.like.pull-left href="#like"
                         = image_tag 'tracks/like.png'

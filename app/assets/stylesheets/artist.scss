@@ -1,6 +1,7 @@
 // Place all the styles related to the Artist controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "mixin";
 
 .navbar-nav > li.artist > a.navbar-btn,
 .navbar-nav > li.artist > a.navbar-btn:hover,
@@ -27,15 +28,23 @@
   .header {
     padding-top: 50px;
 
-    .upload-profile-image {
-      position: absolute;
-      left: 50%;
-      bottom: -32px;
-      margin-left: -32px;
-      display: block;
-      width: 65px;
-      height: 65px;
-      z-index: 100;
+    #uploadProfileImageForm {
+      .bootstrap-filestyle {
+        position: absolute;
+        left: 50%;
+        bottom: -32px;
+        margin-left: -32px;
+        z-index: 100;
+
+        .upload-profile-image {
+          display: block;
+          width: 65px;
+          height: 65px;
+          padding: 0;
+          border: none;
+          border-radius: 32px;
+        }
+      }
     }
 
     .content {
@@ -178,104 +187,7 @@
     }
 
     .track-list {
-      .track.media {
-        background-color: #ffffff;
-
-        .by-artist {
-          color: #9f9f9f;
-          font-size: 14px;
-        }
-
-        .media-left {
-          position: relative;
-
-          .cover {
-            width: 200px;
-            height: 200px;
-          }
-
-          .play, .pause {
-            position: absolute;
-            top: 75px;
-            left: 75px;
-            cursor: pointer;
-          }
-        }
-
-        .media-body {
-          padding: 20px 20px 15px 10px;
-          position: relative;
-        }
-
-        .tags {
-          .tag {
-            padding: 5px 10px;
-            background-color: #737373;
-            text-transform: uppercase;
-            margin-right: 7px;
-          }
-        }
-
-        .mix8-player {
-          position: absolute;
-          bottom: 15px;
-          left: 0;
-          right: 100px;
-          padding-left: 10px;
-
-          .jp-time-holder {
-            width: 100%;
-            font-size: 12px;
-            color: #9f9f9f;
-
-            .jp-current-time {
-              display: inline;
-              float: left;
-            }
-
-            .duration {
-              display: inline;
-              float: right;
-            }
-          }
-
-          .jp-audio .jp-progress {
-            height: 6px;
-            background-color: #f4f4f4;
-            border-radius: 3px;
-
-            .jp-seek-bar {
-              height: 6px;
-              border-radius: 3px;
-              cursor: pointer;
-
-              .jp-play-bar {
-                height: 6px;
-                border-radius: 3px;
-                background-color: #41c7ff;
-              }
-            }
-          }
-        }
-
-        .actions {
-          position: absolute;
-          bottom: 15px;
-          right: 20px;
-
-          .share, .like {
-            margin: 5px;
-            line-height: 25px;
-            width: 25px;
-            height: 25px;
-            display: block;
-
-            img {
-              display: inline-block;
-            }
-          }
-        }
-      }
+      @include track-media(200px);
     }
   }
 }

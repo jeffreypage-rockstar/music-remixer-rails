@@ -72,6 +72,10 @@ gem 'mini_magick'
 
 gem 'slim-rails'
 gem 'draper'
+gem 'responders'
+
+# copy to clipboard
+gem 'zeroclipboard-rails'
 
 group :development, :test do
   gem 'puma'

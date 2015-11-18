@@ -19,4 +19,5 @@
 //= require jquery.jplayer.min
 //= require bootstrap-filestyle
 //= require bootstrap-tagsinput
+//= require zeroclipboard
 //= require_tree .

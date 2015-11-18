@@ -1,8 +1,13 @@
+require "application_responder"
+
 # Ruby version 2.2.2
 # Rails version 4.2.1
 # Description: Artist home page   
 # Author: @Ravi Prakash Singh :: Email - raviprakash.singh@newgenapps.com 
 class ApplicationController < ActionController::Base
+  self.responder = ApplicationResponder
+  respond_to :html
+
   include Clearance::Controller
   include PublicActivity::StoreController
 
@@ -10,7 +15,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session, :except => 'lbstatus'
 
-  before_action :http_basic_auth, :except => 'lbstatus'
+  # before_action :http_basic_auth, :except => 'lbstatus'
 
   def http_basic_auth
 	  if request.subdomain == ''
@@ -24,5 +29,11 @@ class ApplicationController < ActionController::Base
 			  user == '8stem' && pass == 'admin8'
 		  end
 	  end
-  end
+	end
+
+	def respond_modal_with(*args, &blk)
+		options = args.extract_options!
+		options[:responder] = ModalResponder
+		respond_with *args, options, &blk
+	end
 end

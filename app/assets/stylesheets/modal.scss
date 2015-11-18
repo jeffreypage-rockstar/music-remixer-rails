@@ -1,0 +1,21 @@
+@import "mixin";
+
+#shareSongModal {
+  @include track-media(150px);
+
+  .social-share-links {
+    margin: 15px 0;
+
+    .social-share-link {
+      width: 32px;
+      height: 32px;
+      display: inline-block;
+      margin-right: 7px;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}

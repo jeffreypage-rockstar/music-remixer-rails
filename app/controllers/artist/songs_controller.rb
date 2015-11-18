@@ -1,6 +1,8 @@
 class Artist::SongsController < ApplicationController
+  respond_to :html, :json
+
 	before_action :require_login
-	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :destroy]
+	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
@@ -82,6 +84,10 @@ class Artist::SongsController < ApplicationController
         # format.json { render json: @song.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def share_modal
+    respond_modal_with @song.decorate
   end
 
   # DELETE /songs/1

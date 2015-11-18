@@ -1,7 +1,16 @@
 @initializePlayer = (jpPlayerSelector, jpAudioSelector) ->
+  trackElement = $(jpPlayerSelector).closest('.track')
+
+  trackElement.find('.play').click ->
+    trackElement.find('.jp-player').jPlayer('play')
+    return
+
+  trackElement.find('.pause').click ->
+    trackElement.find('.jp-player').jPlayer('pause')
+    return
+
   $(jpPlayerSelector).jPlayer
     ready: ->
-      trackElement = $(this).closest('.track')
       trackElement.find('.pause').hide()
       trackElement.find('.play').show()
 
@@ -12,13 +21,11 @@
 
     play: ->
       $(this).jPlayer('pauseOthers')
-      trackElement = $(this).closest('.track')
       trackElement.find('.play').hide()
       trackElement.find('.pause').show()
       return
 
     pause: ->
-      trackElement = $(this).closest('.track')
       trackElement.find('.pause').hide()
       trackElement.find('.play').show()
       return
@@ -37,14 +44,17 @@
     initializePlayer '#' + $(player).find('.jp-player').prop('id'), '#' + $(player).find('.jp-audio').prop('id')
     return
 
-  $('#artistProfilePage .track-list .track .play').click ->
-    trackElement = $(this).closest('.track')
-    trackElement.find('.jp-player').jPlayer('play')
-    return
+  imageUrl = $('#user_profile_image').data('image-url')
 
-  $('#artistProfilePage .track-list .track .pause').click ->
-    trackElement = $(this).closest('.track')
-    trackElement.find('.jp-player').jPlayer('pause')
+  $('#user_profile_image').filestyle
+    icon: false
+    badge: false
+    input: false
+    buttonText: "<img src=\"#{imageUrl}\" />"
+    buttonName: 'upload-profile-image'
+
+  $('#user_profile_image').on 'change', ->
+    $('#uploadProfileImageForm').trigger('submit.rails')
     return
 
   return

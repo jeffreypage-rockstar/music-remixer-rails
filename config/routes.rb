@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 			get 'profile' => 'artist#profile', as: 'profile'
 			get 'profile/edit' => 'artist#edit_profile', as: 'edit_profile'
 			patch 'profile/update' => 'artist#update_profile', as: 'update_profile'
+			patch 'profile/upload_profile_image' => 'artist#upload_profile_image', as: 'upload_profile_image'
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
 			get 'music' => 'artist#music', as: 'music'
 			get 'connect' => 'artist#connect', as: 'connect'
@@ -44,7 +45,8 @@ Rails.application.routes.draw do
 				member do
 					get :configure
 					get :mixaudio
-				end
+					get :share_modal
+        end
 				resources :parts
 				resources :clips do
 					collection do

@@ -17,10 +17,19 @@ class Artist::ArtistController < ApplicationController
 	def update_profile
 		@artist = current_user.decorate
 
-		if @artist.update(artist_profile_params)
+		if @artist.update(profile_params)
 			redirect_to artist_profile_path, notice: 'Profile successfully updated'
 		else
 			render :edit_profile
+		end
+	end
+
+	def upload_profile_image
+		@artist = current_user
+		if @artist.update(profile_image_params)
+			redirect_to artist_profile_path, notice: 'Profile Image successfully updated'
+		else
+			redirect_to artist_profile_path, alert: 'Profile Image update failed'
 		end
 	end
 
@@ -43,8 +52,12 @@ class Artist::ArtistController < ApplicationController
 		redirect_to root_url unless current_user.is_artist_admin?
 	end
 
-	def artist_profile_params
+	def profile_params
 		params.require(:user).permit(:name, :location, :bio, :genre_list, :facebook_link, :twitter_link, :soundcloud_link, :profile_image, :profile_image_cache, :profile_background_image, :profile_background_image_cache)
+	end
+	
+	def profile_image_params
+		params.require(:user).permit(:profile_image)
 	end
 
 end

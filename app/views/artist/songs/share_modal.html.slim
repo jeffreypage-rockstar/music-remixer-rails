@@ -1,0 +1,52 @@
+= content_for :id, 'shareSongModal'
+= content_for :title, "Share #{@song.name_with_artist}"
+
+.track.media data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
+  .media-left
+    img.cover src="http://lorempixel.com/200/200/"
+    a class="play"
+      = image_tag 'tracks/play.png'
+    a class="pause"
+      = image_tag 'tracks/pause.png'
+
+  .media-body
+    h4.media-heading #{@song,name}
+    span.by-artist by #{@song.artist_name}
+
+    - if @song.genres.any?
+      .tags
+        - @song.genres.each do |genre|
+          a.tag.badge href="##{genre.name}" #{genre.name}
+
+    .mix8-player
+      .jp-player id="jquery_jplayer"
+      .jp-audio id="jp_container"
+        .jp-time-holder
+          .jp-current-time aria-label="time" role="timer"
+          .duration #{song.duration}
+        .clearfix
+        .jp-progress
+          .jp-seek-bar
+            .jp-play-bar
+
+    .actions
+      a.like.pull-left href="#like"
+        = image_tag 'tracks/like.png'
+
+h4 Share
+
+.social-share-links
+  = @song.facebook_share_anchor
+  = @song.twitter_share_anchor
+  = @song.googleplus_share_anchor
+  = @song.tumblr_share_anchor
+  = @song.pinterest_share_anchor
+  = @song.email_share_anchor
+
+.input-group
+  = text_field_tag :song_url, 'song url', class: 'form-control'
+
+  span.input-group-btn
+    button#copy-song-url.btn.btn-default type="button" data-clipboard-target="song_url"
+      => fa_icon :copy
+      | Copy
