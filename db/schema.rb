@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117055951) do
+ActiveRecord::Schema.define(version: 20151118081853) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -141,15 +141,16 @@ ActiveRecord::Schema.define(version: 20151117055951) do
   end
 
   create_table "songs", force: :cascade do |t|
-    t.string   "name",       limit: 255,   null: false
+    t.string   "name",       limit: 255,               null: false
     t.float    "duration",   limit: 24
     t.text     "zipfile",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.text     "mixaudio",   limit: 65535
     t.text     "mixaudio2",  limit: 65535
     t.text     "mixaudio3",  limit: 65535
     t.integer  "user_id",    limit: 4
+    t.integer  "status",     limit: 4,     default: 0
   end
 
   create_table "taggings", force: :cascade do |t|
