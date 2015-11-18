@@ -51,6 +51,9 @@ gem 'omniauth-facebook'
 # admin
 gem 'rails_admin'
 
+# Workers
+gem 'sidekiq'
+
 # easy forms
 gem 'simple_form'
 
