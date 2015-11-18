@@ -67,8 +67,9 @@ class Song < ActiveRecord::Base
 				end
 			end
 
-			unless fileCount == 64
-				errors.add(:zipfile, "Zip file does not contains 64 audio clips.")
+			# TODO: need more verification here
+			unless fileCount > 32
+				errors.add(:zipfile, "Zip file does not contain enough audio clips.")
 			end
 		end
 	end
@@ -83,9 +84,13 @@ class Song < ActiveRecord::Base
 	end
 
 	def create_mixed_audio configuration = 'source'
+		puts "in create_mixed_audio for song #{self.id}"
+
 		# Folder and Zip file path
-		fileUploadPath = self.zipfile.url.gsub(".zip","")
+		puts "ZIPFILE: #{self.zipfile.url}"
+		fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
 		dirPath = "#{Rails.root}/public#{fileUploadPath}"
+		puts "DIRPATH: #{dirPath}"
 
 		commands = []
 		outputs = []
@@ -100,14 +105,7 @@ class Song < ActiveRecord::Base
 				filePath = File.join(dirPath, clip.file)
 				fileExtension = File.extname(filePath)
 				fileName = clip.file.split("/").last
-				state = nil
-				# if configuration == 'style-up'
-				# 	state = clip.state2
-			 	# elsif configuration == 'style-down'
-			 	#   state = clip.state3
-			 	# else 
-			    	state = clip.state
-			    # end
+				state = clip.state
 				unless state
 					command += " -i '#{fileName}'" 
 					count += 1
@@ -117,11 +115,11 @@ class Song < ActiveRecord::Base
 			# If at least a single clip is not mute
 			output = "mix_audio_part_#{part.column}#{fileExtension}"
 			if command.present?
-				command += " -filter_complex amix=inputs=#{count}:duration=longest:dropout_transition=3,volume=#{count} -y ../#{output}"
+				command += " -filter_complex amix=inputs=#{count}:duration=longest:dropout_transition=3,volume=#{count} -y #{output}"
 				command = ffmpegcmd + command
 			# If all clips are muted, Create a blank audio
 			else
-				command = "#{ffmpegcmd} -filter_complex aevalsrc=0 -t #{part.duration+1} -y ../#{output}"
+				command = "#{ffmpegcmd} -filter_complex aevalsrc=0 -t #{part.duration+1} -y #{output}"
 			end
 			outputs.push(output)
 			commands.push(command)
@@ -129,7 +127,7 @@ class Song < ActiveRecord::Base
 
 		result = []
 		commands.each_with_index do |command, index|
-			puts command
+			puts "EXECUTING command #{index+1}: #{command}"
 			result[index] = system command
 			if result[index].nil?
 			  puts "Error was #{$?}"
@@ -151,21 +149,15 @@ class Song < ActiveRecord::Base
 		end
 		command = "#{ffmpegcmd} #{command} -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y #{output}"
 
+		puts "EXECUTING command: #{command}"
 		result = system command
 		if result.nil?
 		  puts "Error was #{$?}"
 		elsif result
 		  oldmixedfile = false
-	      # if configuration == 'style-up'
-	      # 	oldmixedfile = self.mixaudio2.split("/").last if self.mixaudio2.present?
-	      # 	self.mixaudio2 = "#{fileUploadPath}#{output}"
-	      # elsif configuration == 'style-down'
-	      # 	oldmixedfile = self.mixaudio3.split("/").last if self.mixaudio3.present?
-	      # 	self.mixaudio3 = "#{fileUploadPath}#{output}"
-	      # else 
-	      	oldmixedfile = self.mixaudio.split("/").last if self.mixaudio.present?
-	      	self.mixaudio = "#{fileUploadPath}#{output}"
-	      # end
+      oldmixedfile = self.mixaudio.split("/").last if self.mixaudio.present?
+      self.mixaudio = "#{fileUploadPath}#{output}"
+
 		  isSaved = self.save
 		  system "cd #{dirPath} && rm #{oldmixedfile}" if isSaved && oldmixedfile	
 		  system "cd #{dirPath} && rm mix_audio_part_*#{fileExtension}"	
@@ -253,6 +245,7 @@ class Song < ActiveRecord::Base
 				end
 			end
 			self.duration = duration
+			self.create_mixed_audio
 			self.save
 		end
 
