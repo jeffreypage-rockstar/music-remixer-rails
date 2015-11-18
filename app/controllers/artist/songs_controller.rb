@@ -2,7 +2,7 @@ class Artist::SongsController < ApplicationController
   respond_to :html, :json
 
 	before_action :require_login
-	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :destroy]
+	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
@@ -87,7 +87,14 @@ class Artist::SongsController < ApplicationController
   end
 
   def share_modal
-    respond_modal_with @song.decorate
+    respond_modal_with @song
+  end
+
+  def toggle_like_song
+    current_user.toggle_like!(@song)
+    respond_to do |format|
+      format.js { render :like_unlike_song }
+    end
   end
 
   # DELETE /songs/1

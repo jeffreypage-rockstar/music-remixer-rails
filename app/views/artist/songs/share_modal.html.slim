@@ -1,7 +1,9 @@
-= content_for :id, 'shareSongModal'
-= content_for :title, "Share #{@song.name_with_artist}"
+- song = @song.decorate
 
-.track.media data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
+= content_for :id, 'shareSongModal'
+= content_for :title, "Share #{song.name_with_artist}"
+
+.track.media data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}'
   .media-left
     img.cover src="http://lorempixel.com/200/200/"
     a class="play"
@@ -10,12 +12,12 @@
       = image_tag 'tracks/pause.png'
 
   .media-body
-    h4.media-heading #{@song,name}
-    span.by-artist by #{@song.artist_name}
+    h4.media-heading #{song.name}
+    span.by-artist by #{song.artist_name}
 
-    - if @song.genres.any?
+    - if song.genres.any?
       .tags
-        - @song.genres.each do |genre|
+        - song.genres.each do |genre|
           a.tag.badge href="##{genre.name}" #{genre.name}
 
     .mix8-player
@@ -30,21 +32,21 @@
             .jp-play-bar
 
     .actions
-      a.like.pull-left href="#like"
-        = image_tag 'tracks/like.png'
+      .like-unlike-song.pull-left
+        = render partial: 'artist/songs/like_unlike_song', locals: { song: song }
 
 h4 Share
 
 .social-share-links
-  = @song.facebook_share_anchor
-  = @song.twitter_share_anchor
-  = @song.googleplus_share_anchor
-  = @song.tumblr_share_anchor
-  = @song.pinterest_share_anchor
-  = @song.email_share_anchor
+  = song.facebook_share_anchor
+  = song.twitter_share_anchor
+  = song.googleplus_share_anchor
+  = song.tumblr_share_anchor
+  = song.pinterest_share_anchor
+  = song.email_share_anchor
 
 .input-group
-  = text_field_tag :song_url, 'song url', class: 'form-control'
+  = text_field_tag :song_url, song.song_url, class: 'form-control'
 
   span.input-group-btn
     button#copy-song-url.btn.btn-default type="button" data-clipboard-target="song_url"

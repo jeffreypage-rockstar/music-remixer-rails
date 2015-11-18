@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 					get :configure
 					get :mixaudio
 					get :share_modal
+          post :toggle_like_song
+          delete :toggle_like_song
         end
 				resources :parts
 				resources :clips do

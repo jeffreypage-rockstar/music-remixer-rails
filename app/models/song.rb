@@ -18,6 +18,7 @@ class Song < ActiveRecord::Base
 
 	# artist genres
 	acts_as_taggable_on :genres
+	acts_as_likeable
 
 	# audio uploader
 	mount_uploader :zipfile, AudioUploader

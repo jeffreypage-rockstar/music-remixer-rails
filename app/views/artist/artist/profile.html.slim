@@ -90,7 +90,7 @@
             ul.media-list.track-list
               - songs = @artist.songs.decorate
               - songs.each do |song|
-                li.media.track data-audio='{"m4a": "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a"}'
+                li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}'
                   .media-left
                     img.cover src="http://lorempixel.com/200/200/"
                     a class="play"
@@ -118,7 +118,7 @@
                             .jp-play-bar
 
                     .actions
-                      = link_to share_modal_artist_song_path, class: 'share-song pull-left', data: { modal: true } do
+                      = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: { modal: true } do
                         = image_tag 'tracks/share.png'
-                      a.like.pull-left href="#like"
-                        = image_tag 'tracks/like.png'
+                      .like-unlike-song.pull-left
+                        = render partial: 'artist/songs/like_unlike_song', locals: { song: song }
