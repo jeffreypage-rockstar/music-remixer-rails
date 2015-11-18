@@ -11,6 +11,8 @@ class Song < ActiveRecord::Base
 	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
 	# 		    title: Proc.new { |controller, model| model.title }
 
+	mount_uploader :cover, SongCoverUploader
+
 	belongs_to :user, counter_cache: true
 	has_many :parts, dependent: :delete_all
 	has_many :clips, dependent: :delete_all

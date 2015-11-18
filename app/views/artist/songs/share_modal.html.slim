@@ -5,7 +5,7 @@
 
 .track.media data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}'
   .media-left
-    img.cover src="http://lorempixel.com/200/200/"
+    img.cover src="#{song.cover.url(:thumb)}"
     a class="play"
       = image_tag 'tracks/play.png'
     a class="pause"

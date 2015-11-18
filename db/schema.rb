@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117100129) do
+ActiveRecord::Schema.define(version: 20151118041202) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 20151117100129) do
     t.text     "mixaudio2",  limit: 65535
     t.text     "mixaudio3",  limit: 65535
     t.integer  "user_id",    limit: 4
+    t.string   "cover",      limit: 255
   end
 
   create_table "taggings", force: :cascade do |t|

@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class ProfileImageUploader < CarrierWave::Uploader::Base
-
 	include CarrierWave::MiniMagick
 
 	# Choose what kind of storage to use for this uploader:

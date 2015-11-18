@@ -16,6 +16,10 @@
     <%= f.text_field :name, required: true %>
   </div>
   <div class="field">
+    <%= f.label :cover %><br>
+    <%= f.file_field :cover, required: true %>
+  </div>
+  <div class="field">
     <%= f.label :zipfile %><br>
     <%= f.file_field :zipfile, required: true %>
   </div>
