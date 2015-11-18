@@ -18,6 +18,9 @@ class Song < ActiveRecord::Base
 	has_many :clips, dependent: :delete_all
 	has_many :clip_types, dependent: :delete_all
 
+	# songs status
+	enum status: { pending: 0, released: 1, archived: 2 }
+
 	# artist genres
 	acts_as_taggable_on :genres
 	acts_as_likeable
