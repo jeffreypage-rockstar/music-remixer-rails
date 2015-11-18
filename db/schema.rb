@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 20151118081853) do
     t.text     "mixaudio2",  limit: 65535
     t.text     "mixaudio3",  limit: 65535
     t.integer  "user_id",    limit: 4
-    t.string   "cover",      limit: 255
+    t.string   "image",      limit: 255
     t.integer  "status",     limit: 4,     default: 0
   end
 

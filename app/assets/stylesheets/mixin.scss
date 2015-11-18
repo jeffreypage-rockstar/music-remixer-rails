@@ -1,4 +1,4 @@
-@mixin track-media($cover_size) {
+@mixin track-media($image_size) {
   .track.media {
     background-color: #ffffff;
 
@@ -10,15 +10,15 @@
     .media-left {
       position: relative;
 
-      .cover {
-        width: $cover_size;
-        height: $cover_size;
+      .image {
+        width: $image_size;
+        height: $image_size;
       }
 
       .play, .pause {
         position: absolute;
-        top: ($cover_size - 50px) / 2;
-        left: ($cover_size - 50px) / 2;
+        top: ($image_size - 50px) / 2;
+        left: ($image_size - 50px) / 2;
         cursor: pointer;
       }
     }

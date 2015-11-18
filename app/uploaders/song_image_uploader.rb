@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class SongCoverUploader < CarrierWave::Uploader::Base
+class SongImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
@@ -15,7 +15,7 @@ class SongCoverUploader < CarrierWave::Uploader::Base
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
-    ActionController::Base.helpers.asset_path('fallback/song_cover/' + [version_name, 'default.jpg'].join('_'))
+    ActionController::Base.helpers.asset_path('fallback/song_image/' + [version_name, 'default.jpg'].join('_'))
   end
 
   # Process files as they are uploaded:

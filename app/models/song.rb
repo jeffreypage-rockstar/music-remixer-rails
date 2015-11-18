@@ -11,7 +11,7 @@ class Song < ActiveRecord::Base
 	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
 	# 		    title: Proc.new { |controller, model| model.title }
 
-	mount_uploader :cover, SongCoverUploader
+	mount_uploader :image, SongImageUploader
 
 	belongs_to :user, counter_cache: true
 	has_many :parts, dependent: :delete_all
@@ -39,10 +39,6 @@ class Song < ActiveRecord::Base
 
 	def preview_url
 		mixaudio  # TODO: needs to be fully qualified url
-	end
-
-	def image
-		'/todo.png' # TODO: add image to song, needs to be fully qualified url
 	end
 
 	def validate_zip_file
