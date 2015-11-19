@@ -44,19 +44,6 @@
     initializePlayer '#' + $(player).find('.jp-player').prop('id'), '#' + $(player).find('.jp-audio').prop('id')
     return
 
-  imageUrl = $('#user_profile_image').data('image-url')
-
-  $('#user_profile_image').filestyle
-    icon: false
-    badge: false
-    input: false
-    buttonText: "<img src=\"#{imageUrl}\" />"
-    buttonName: 'upload-profile-image'
-
-  $('#user_profile_image').on 'change', ->
-    $('#uploadProfileImageForm').trigger('submit.rails')
-    return
-
   return
 
 @editArtistProfilePageReady = ->

@@ -3,9 +3,13 @@
     .container
       .row.row-eq-height
         .col-xs-4
-          = form_for @artist, url: artist_upload_profile_image_path, html: { id: 'uploadProfileImageForm', method: :patch, multipart: true } do |f|
-            img.img-responsive src="#{@artist.profile_image.url(:medium)}"
-            = f.file_field :profile_image, data: { image_url: image_path('upload-profile-image.png') }
+          img.img-responsive src="#{@artist.profile_image.url(:medium)}"
+          - if policy(@artist).follow?
+            = link_to artist_follow_path, class: 'unfollow', method: :post do
+              = image_tag 'follow.png'
+          - if policy(@artist).unfollow?
+            = link_to artist_unfollow_path, class: 'unfollow', method: :delete do
+              = image_tag 'unfollow.png'
         .col-xs-8
           .content
             .name #{@artist.name}

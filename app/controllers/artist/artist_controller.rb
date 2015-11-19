@@ -24,13 +24,18 @@ class Artist::ArtistController < ApplicationController
 		end
 	end
 
-	def upload_profile_image
+	def follow
 		@artist = current_user
-		if @artist.update(profile_image_params)
-			redirect_to artist_profile_path, notice: 'Profile Image successfully updated'
-		else
-			redirect_to artist_profile_path, alert: 'Profile Image update failed'
-		end
+		authorize @artist
+		current_user.follow! @artist
+		redirect_to artist_profile_path, notice: 'Successfully followed'
+	end
+
+	def unfollow
+		@artist = current_user
+		authorize @artist
+		current_user.unfollow! @artist
+		redirect_to artist_profile_path, notice: 'Successfully unfollowed'
 	end
 
 	# TODO: get rid of dashboard?
@@ -54,10 +59,6 @@ class Artist::ArtistController < ApplicationController
 
 	def profile_params
 		params.require(:user).permit(:name, :location, :bio, :genre_list, :facebook_link, :twitter_link, :soundcloud_link, :profile_image, :profile_image_cache, :profile_background_image, :profile_background_image_cache)
-	end
-	
-	def profile_image_params
-		params.require(:user).permit(:profile_image)
 	end
 
 end

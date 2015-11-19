@@ -28,23 +28,18 @@
   .header {
     padding-top: 50px;
 
-    #uploadProfileImageForm {
-      .bootstrap-filestyle {
-        position: absolute;
-        left: 50%;
-        bottom: -32px;
-        margin-left: -32px;
-        z-index: 100;
-
-        .upload-profile-image {
-          display: block;
-          width: 65px;
-          height: 65px;
-          padding: 0;
-          border: none;
-          border-radius: 32px;
-        }
-      }
+    .follow, .unfollow {
+      position: absolute;
+      left: 50%;
+      bottom: -32px;
+      margin-left: -32px;
+      z-index: 100;
+      display: block;
+      width: 65px;
+      height: 65px;
+      padding: 0;
+      border: none;
+      border-radius: 32px;
     }
 
     .content {

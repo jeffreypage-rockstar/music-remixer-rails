@@ -77,6 +77,9 @@ gem 'slim-rails'
 gem 'draper'
 gem 'responders'
 
+# authorization
+gem 'pundit'
+
 # copy to clipboard
 gem 'zeroclipboard-rails'
 
