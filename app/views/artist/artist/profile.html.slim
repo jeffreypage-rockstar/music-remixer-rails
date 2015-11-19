@@ -37,7 +37,7 @@
         .white-section.followings
           h4 #{@artist.followees_count} followings
 
-          a.view-all href="" View all
+          /a.view-all href="" View all
 
           hr
 
@@ -55,7 +55,7 @@
         .white-section.followers
           h4 #{@artist.followers_count} followers
 
-          a.view-all href="" View all
+          /a.view-all href="" View all
 
           hr
 
@@ -83,9 +83,10 @@
               = @artist.soundcloud_link
 
         .artist-bio
-          h4.title Artist Bio
+          - unless @artist.bio.blank?
+            h4.title Artist Bio
 
-          .content #{@artist.bio}
+            .content #{@artist.bio}
 
         .artist-tracks
           h4.title Tracks

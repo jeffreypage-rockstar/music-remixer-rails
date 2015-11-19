@@ -2,6 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "mixin";
+@import "bootstrap/variables";
 
 .navbar-nav > li.artist > a.navbar-btn,
 .navbar-nav > li.artist > a.navbar-btn:hover,
@@ -47,17 +48,30 @@
       position: absolute;
       bottom: 0;
 
+      @media screen and (max-width: $screen-sm-min) {
+        padding-bottom: 10px;
+      }
+
       .name {
         font-family: 'Droid Sans', sans-serif;
         color: #ffffff;
         font-size: 34px;
         font-weight: 400;
+
+        @media screen and (max-width: $screen-sm-min) {
+          font-size: 24px;
+          line-height: 32px;
+        }
       }
 
       .location {
         font-family: 'Droid Sans', sans-serif;
         color: #ffffff;
         font-size: 16px;
+
+        @media screen and (max-width: $screen-sm-min) {
+          font-size: 14px;
+        }
       }
 
       .edit-profile {
@@ -79,6 +93,10 @@
         .name {
           color: #9f9f9f;
           text-transform: uppercase;
+
+          @media screen and (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+            font-size: 0.8em;
+          }
         }
 
         .value {
