@@ -2,6 +2,12 @@
 
 #shareSongModal {
   @include track-media(150px);
+  
+  .track.media {
+    .media-body {
+      padding-top: 0;
+    }
+  }
 
   .social-share-links {
     margin: 15px 0;
