@@ -41,6 +41,11 @@
       padding: 0;
       border: none;
       border-radius: 32px;
+
+      @media screen and (max-width: $screen-md-min) {
+        top: -32px;
+        bottom: auto;
+      }
     }
 
     .content {

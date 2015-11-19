@@ -1,3 +1,5 @@
+@import "bootstrap/variables";
+
 @mixin track-media($image_size) {
   .track.media {
     background-color: #ffffff;
@@ -13,6 +15,11 @@
       .image {
         width: $image_size;
         height: $image_size;
+
+        @media screen and (max-width: $screen-sm-min) {
+          width: $image_size / 1.5;
+          height: $image_size / 1.5;
+        }
       }
 
       .play, .pause {
@@ -20,6 +27,11 @@
         top: ($image_size - 50px) / 2;
         left: ($image_size - 50px) / 2;
         cursor: pointer;
+
+        @media screen and (max-width: $screen-sm-min) {
+          top: ($image_size / 1.5 - 50px) / 2;
+          left: ($image_size / 1.5 - 50px) / 2;
+        }
       }
     }
 

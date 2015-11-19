@@ -4,9 +4,9 @@
       .row.row-eq-height
         .col-xs-4
           img.img-responsive src="#{@artist.profile_image.url(:medium)}"
-          - if policy(@artist).follow?
-            = link_to artist_follow_path, class: 'unfollow', method: :post do
-              = image_tag 'follow.png'
+          /- if policy(@artist).follow?
+          = link_to artist_follow_path, class: 'unfollow', method: :post do
+            = image_tag 'follow.png'
           - if policy(@artist).unfollow?
             = link_to artist_unfollow_path, class: 'unfollow', method: :delete do
               = image_tag 'unfollow.png'
@@ -19,58 +19,7 @@
               | Edit Profile
   .container
     .row
-      .col-md-4
-        .white-section.stats
-          .row.stats-list
-            .col-xs-4.stat
-              .name Followings
-              .value #{@artist.followees_count}
-
-            .col-xs-4.stat
-              .name Followers
-              .value #{@artist.followers_count}
-
-            .col-xs-4.stat
-              .name Tracks
-              .value #{@artist.songs_count}
-
-        .white-section.followings
-          h4 #{@artist.followees_count} followings
-
-          /a.view-all href="" View all
-
-          hr
-
-          ul.media-list.following-list
-            - @artist.followees(User).each do |followee|
-              li.media.following
-                .media-left
-                  img.profile-image src="#{followee.profile_image.url(:thumb)}"
-                .media-body
-                  .name #{followee.name}
-
-                  .followers-count #{followee.followers_count} Followers
-                  .location #{followee.location}
-
-        .white-section.followers
-          h4 #{@artist.followers_count} followers
-
-          /a.view-all href="" View all
-
-          hr
-
-          ul.media-list.follower-list
-            - @artist.followers(User).each do |follower|
-              li.media.follower
-                .media-left
-                  img.profile-image src="#{follower.profile_image.url(:thumb)}"
-                .media-body
-                  .name #{follower.name}
-
-                  .followers-count #{follower.followers_count} Followers
-                  .location #{follower.location}
-
-      .col-md-8
+      .col-md-8.col-md-push-4
         .white-section
           .row
             .col-sm-9.artist-tags
@@ -123,7 +72,57 @@
                             .jp-play-bar
 
                     .actions
-                      = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: { modal: true } do
+                      = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: {modal: true} do
                         = image_tag 'tracks/share.png'
                       .like-unlike-song.pull-left
-                        = render partial: 'artist/songs/like_unlike_song', locals: { song: song }
+                        = render partial: 'artist/songs/like_unlike_song', locals: {song: song}
+      .col-md-4.col-md-pull-8
+        .white-section.stats
+          .row.stats-list
+            .col-xs-4.stat
+              .name Followings
+              .value #{@artist.followees_count}
+
+            .col-xs-4.stat
+              .name Followers
+              .value #{@artist.followers_count}
+
+            .col-xs-4.stat
+              .name Tracks
+              .value #{@artist.songs_count}
+
+        .white-section.followings
+          h4 #{@artist.followees_count} followings
+
+          /a.view-all href="" View all
+
+          hr
+
+          ul.media-list.following-list
+            - @artist.followees(User).each do |followee|
+              li.media.following
+                .media-left
+                  img.profile-image src="#{followee.profile_image.url(:thumb)}"
+                .media-body
+                  .name #{followee.name}
+
+                  .followers-count #{followee.followers_count} Followers
+                  .location #{followee.location}
+
+        .white-section.followers
+          h4 #{@artist.followers_count} followers
+
+          /a.view-all href="" View all
+
+          hr
+
+          ul.media-list.follower-list
+            - @artist.followers(User).each do |follower|
+              li.media.follower
+                .media-left
+                  img.profile-image src="#{follower.profile_image.url(:thumb)}"
+                .media-body
+                  .name #{follower.name}
+
+                  .followers-count #{follower.followers_count} Followers
+                  .location #{follower.location}
