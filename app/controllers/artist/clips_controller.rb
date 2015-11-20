@@ -1,4 +1,4 @@
-class Artist::ClipsController < ApplicationController
+class Artist::ClipsController < Artist::BaseController
   before_action :set_clip, only: [:show, :edit, :update, :destroy]
   
   def new

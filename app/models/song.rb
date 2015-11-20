@@ -12,6 +12,7 @@ class Song < ActiveRecord::Base
 	# 		    title: Proc.new { |controller, model| model.title }
 
 	mount_uploader :image, SongImageUploader
+	mount_uploader :zipfile, AudioUploader
 
 	belongs_to :user, counter_cache: true
 	has_many :parts, dependent: :delete_all
@@ -26,8 +27,7 @@ class Song < ActiveRecord::Base
 	acts_as_likeable
 
 	# audio uploader
-	mount_uploader :zipfile, AudioUploader
-	validates :name, :zipfile, presence: true
+	validates :name, :image, :zipfile, presence: true
 	validate :validate_zip_file
 
 	after_save :read_song_details

@@ -1,4 +1,4 @@
-class Artist::PartsController < ApplicationController
+class Artist::PartsController < Artist::BaseController
   before_action :set_part, only: [:show, :edit, :update, :destroy]
 
 	def new

@@ -1,6 +1,10 @@
 class SongDecorator < Draper::Decorator
   delegate_all
 
+  def name
+    object.name
+  end
+
   def duration
     unless object.duration.blank?
       mins = (object.duration / 60).to_i

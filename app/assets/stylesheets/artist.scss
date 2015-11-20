@@ -40,6 +40,8 @@
       height: 65px;
       padding: 0;
       border: none;
+      -webkit-border-radius: 32px;
+      -moz-border-radius: 32px;
       border-radius: 32px;
 
       @media screen and (max-width: $screen-md-min) {
@@ -205,7 +207,7 @@
     }
 
     .track-list {
-      @include track-media(200px);
+      @include track-media(200px, 150px);
     }
   }
 }
@@ -243,5 +245,79 @@
       padding-left: 15px;
       padding-right: 15px;
     }
+  }
+}
+
+#artistMusicPage {
+  .released-songs {
+    margin-bottom: 30px;
+  }
+
+  .selected-songs {
+    .duration, .plays, .downloads, .remixes {
+      font-size: .8em;
+      color: #9f9f9f;
+    }
+  }
+
+  .top-remixes {
+    .plays, .downloads, .remixes {
+      font-size: .8em;
+      color: #9f9f9f;
+    }
+
+    .hot {
+      background-color: #ff9a41;
+      text-transform: uppercase;
+      margin-left: 7px;
+    }
+
+    .new {
+      background-color: #41c7ff;
+      text-transform: uppercase;
+      margin-left: 7px;
+    }
+  }
+
+  .released-songs {
+    @include track-media(75px, 150px);
+
+    .track.media {
+      .media-body {
+        padding-top: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+
+
+#songForm {
+  .input-group-addon {
+    min-width: 120px;
+    text-align: left;
+    background-color: #eaeaea;
+    font-weight: 600;
+  }
+
+  .input-group[class*="col-"] {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  label {
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .hint {
+    color: #a6a6a6;
+    font-weight: 400;
+  }
+
+  .song_image, .song_zipfile {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }

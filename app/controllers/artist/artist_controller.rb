@@ -1,4 +1,4 @@
-class Artist::ArtistController < ApplicationController
+class Artist::ArtistController < Artist::BaseController
 	before_action :require_login
 	before_action :validate_artist
 
@@ -7,16 +7,12 @@ class Artist::ArtistController < ApplicationController
 	end
 
 	def profile
-		@artist = current_user.decorate
 	end
 
 	def edit_profile
-		@artist = current_user.decorate
 	end
 
 	def update_profile
-		@artist = current_user.decorate
-
 		if @artist.update(profile_params)
 			redirect_to artist_profile_path, notice: 'Profile successfully updated'
 		else
@@ -25,14 +21,12 @@ class Artist::ArtistController < ApplicationController
 	end
 
 	def follow
-		@artist = current_user
 		authorize @artist
 		current_user.follow! @artist
 		redirect_to artist_profile_path, notice: 'Successfully followed'
 	end
 
 	def unfollow
-		@artist = current_user
 		authorize @artist
 		current_user.unfollow! @artist
 		redirect_to artist_profile_path, notice: 'Successfully unfollowed'

@@ -1,6 +1,6 @@
 @import "bootstrap/variables";
 
-@mixin track-media($image_size) {
+@mixin track-media($image_size, $image_sm_size) {
   .track.media {
     background-color: #ffffff;
 
@@ -17,8 +17,8 @@
         height: $image_size;
 
         @media screen and (max-width: $screen-sm-min) {
-          width: $image_size / 1.5;
-          height: $image_size / 1.5;
+          width: $image_sm_size;
+          height: $image_sm_size;
         }
       }
 
@@ -29,8 +29,8 @@
         cursor: pointer;
 
         @media screen and (max-width: $screen-sm-min) {
-          top: ($image_size / 1.5 - 50px) / 2;
-          left: ($image_size / 1.5 - 50px) / 2;
+          top: ($image_sm_size - 50px) / 2;
+          left: ($image_sm_size - 50px) / 2;
         }
       }
     }
@@ -75,15 +75,21 @@
       .jp-audio .jp-progress {
         height: 6px;
         background-color: #f4f4f4;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
         border-radius: 3px;
 
         .jp-seek-bar {
           height: 6px;
+          -webkit-border-radius: 3px;
+          -moz-border-radius: 3px;
           border-radius: 3px;
           cursor: pointer;
 
           .jp-play-bar {
             height: 6px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
             border-radius: 3px;
             background-color: #41c7ff;
           }
@@ -94,7 +100,7 @@
     .actions {
       position: absolute;
       bottom: 15px;
-      right: 20px;
+      right: 0;
 
       .share-song, .like-unlike-song {
         margin: 5px;

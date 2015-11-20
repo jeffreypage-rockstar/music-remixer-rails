@@ -1,4 +1,4 @@
-class Artist::SongsController < ApplicationController
+class Artist::SongsController < Artist::BaseController
   respond_to :html, :json
 
 	before_action :require_login
@@ -137,6 +137,6 @@ class Artist::SongsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def song_params
-      params.require(:song).permit(:name, :duration, :zipfile, :image, :image_cache)
+      params.require(:song).permit(:name, :duration, :genre_list, :zipfile, :image, :image_cache)
     end
 end

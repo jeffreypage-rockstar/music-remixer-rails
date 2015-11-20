@@ -1,0 +1,49 @@
+= render partial: 'secondnav'
+
+#artistMusicPage
+  .container
+    - if @artist.songs.any?
+      .selected-songs
+        h4 Selected Songs
+
+        table.table.table-mix8
+          thead
+            tr
+              th Track Name
+              th.text-center Duration
+              th.text-center Plays
+              th.text-center Downloads
+              th.text-center Remixes
+          tbody
+            - selected_songs = @artist.songs.decorate
+            - selected_songs.each do |song|
+              tr
+                td
+                  = link_to song.name, configure_artist_song_path(song)
+                td.duration.text-center #{song.duration}
+                td.plays.text-center 661
+                td.downloads.text-center 876
+                td.remixes.text-center 27
+
+    - if @artist.remixes.any?
+      .top-remixes
+        h4 Top 100 Remixes
+
+        table.table.table-mix8
+          thead
+            tr
+              th Track Name
+              th.text-center Plays
+              th.text-center Downloads
+              th.text-center Remixes
+          tbody
+            - top_remixes = @artist.remixes.decorate
+            - top_remixes.each do |remix|
+              tr
+                td
+                  = link_to remix.name, song_path(remix.song)
+                  span.hot.badge Hot
+                  span.new.badge New
+                td.plays.text-center 661
+                td.downloads.text-center 876
+                td.remixes.text-center 27
