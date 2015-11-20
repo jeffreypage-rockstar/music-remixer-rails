@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118081853) do
+ActiveRecord::Schema.define(version: 20151120013015) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -195,9 +195,10 @@ ActiveRecord::Schema.define(version: 20151118081853) do
     t.integer  "songs_count",              limit: 4,     default: 0
     t.string   "location",                 limit: 128
     t.text     "bio",                      limit: 65535
-    t.string   "facebook_link",            limit: 255
-    t.string   "twitter_link",             limit: 255
-    t.string   "soundcloud_link",          limit: 255
+    t.string   "facebook",                 limit: 255
+    t.string   "twitter",                  limit: 255
+    t.string   "soundcloud",               limit: 255
+    t.string   "instagram",                limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
