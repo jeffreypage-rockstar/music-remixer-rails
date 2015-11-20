@@ -135,7 +135,6 @@ ActiveRecord::Schema.define(version: 20151120013015) do
     t.integer  "user_id",    limit: 4
     t.integer  "song_id",    limit: 4
     t.string   "name",       limit: 255
-    t.text     "config",     limit: 65535
     t.boolean  "is_public"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -151,8 +150,8 @@ ActiveRecord::Schema.define(version: 20151120013015) do
     t.text     "mixaudio2",  limit: 65535
     t.text     "mixaudio3",  limit: 65535
     t.integer  "user_id",    limit: 4
-    t.string   "image",      limit: 255
     t.integer  "status",     limit: 4,     default: 0
+    t.string   "image",      limit: 255
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -190,11 +189,11 @@ ActiveRecord::Schema.define(version: 20151120013015) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.string   "location",                 limit: 128
+    t.text     "bio",                      limit: 65535
     t.integer  "followees_count",          limit: 4,     default: 0
     t.integer  "followers_count",          limit: 4,     default: 0
     t.integer  "songs_count",              limit: 4,     default: 0
-    t.string   "location",                 limit: 128
-    t.text     "bio",                      limit: 65535
     t.string   "facebook",                 limit: 255
     t.string   "twitter",                  limit: 255
     t.string   "soundcloud",               limit: 255
