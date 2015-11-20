@@ -72,6 +72,7 @@ gem 'acts-as-taggable-on', '~> 3.4'
 
 # Upload file
 gem 'carrierwave'
+gem 'fog'
 gem 'mini_magick'
 
 gem 'slim-rails'

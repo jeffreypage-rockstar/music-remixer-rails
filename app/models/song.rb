@@ -11,7 +11,9 @@ class Song < ActiveRecord::Base
 	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
 	# 		    title: Proc.new { |controller, model| model.title }
 
+	ACCEPTED_CLIP_FORMATS = %w(m4a mp3 aac amr aiff ogg oga wav flac act 3gp mp4)
 	mount_uploader :image, SongImageUploader
+	mount_uploader :mixaudio, SongMixaudioUploader
 
 	belongs_to :user, counter_cache: true
 	has_many :parts, dependent: :delete_all
@@ -30,8 +32,7 @@ class Song < ActiveRecord::Base
 	validates :name, :zipfile, presence: true
 	validate :validate_zip_file
 
-	after_save :read_song_details
-	after_destroy :delete_folder
+	before_save :read_song_details
 
 	def title
 		name
@@ -42,27 +43,26 @@ class Song < ActiveRecord::Base
 	end
 
 	def validate_zip_file
-		if self.zipfile.blank? or !self.zipfile.url.include?(".zip")
+		if self.zipfile.blank? or !self.zipfile.file.path.include?(".zip")
 			errors.add(:zipfile, "Not a valid zip file.")
 		elsif 
 			# Check for valid zip file
-			folder = "#{Rails.root}/public#{self.zipfile.url}"
-			errors.add(:zipfile, "Not a valid zip file.") unless Song.valid_zip?(folder)
+			unless Song.valid_zip?(self.zipfile.file.path)
+				errors.add(:zipfile, "Not a valid zip file.")
+			end
 
 			# Folder and Zip file path
-			fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
-			dirPath = "#{Rails.root}/public#{fileUploadPath}"
+			dirPath = File.dirname self.zipfile.file.path
 
 			# Open Zip file and read audio clips
 			fileCount = 0
-			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".oga", ".wav", ".flac", ".act", ".3gp", ".mp4"]
-			Zip::File.open(folder) do |zipfile|
+			Zip::File.open(self.zipfile.file.path) do |zipfile|
 				# Read File details
 				zipfile.each do |file|
 					filePath = File.join(dirPath, file.name)
 					if !File.directory?(filePath) && !filePath.include?("MACOSX") && !filePath.include?(".DS_Store")
 						fileExtension = File.extname(filePath)
-						if accepted_formats.include? fileExtension
+						if ACCEPTED_CLIP_FORMATS.include? fileExtension
 							fileCount += 1	
 						end
 					end
@@ -89,27 +89,23 @@ class Song < ActiveRecord::Base
 		puts "in create_mixed_audio for song #{self.id}"
 
 		# Folder and Zip file path
-		puts "ZIPFILE: #{self.zipfile.url}"
-		fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
-		dirPath = "#{Rails.root}/public#{fileUploadPath}"
+		puts "ZIPFILE: #{self.zipfile.file.path}"
+		dirPath = File.dirname self.zipfile.file.path
 		puts "DIRPATH: #{dirPath}"
 
 		commands = []
 		outputs = []
 		fileExtension = ""
 		ffmpegcmd = "cd #{dirPath} && ffmpeg"
-		@parts = self.parts
-		@parts.each_with_index do |part, c|
+    self.parts.each_with_index do |part, c|
 			command = ""
 			count = 0
 			clips = part.clips
 			clips.each_with_index do |clip, r|
-				filePath = File.join(dirPath, clip.file)
-				fileExtension = File.extname(filePath)
-				fileName = clip.file.split("/").last
+				fileExtension = File.extname(clip.file.file.path)
 				state = clip.state
 				unless state
-					command += " -i '#{fileName}'" 
+					command += " -i '#{clip.file.file.path}'"
 					count += 1
 				end
 			end
@@ -139,8 +135,7 @@ class Song < ActiveRecord::Base
 		end
 
 		# File Upload path
-		fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
-		dirPath = "#{Rails.root}/public#{fileUploadPath}"
+		dirPath = File.dirname self.zipfile.file.path
 		
 		command = ""
 		ffmpegcmd = "cd #{dirPath} && ffmpeg"
@@ -158,7 +153,7 @@ class Song < ActiveRecord::Base
 		elsif result
 		  oldmixedfile = false
       oldmixedfile = self.mixaudio.split("/").last if self.mixaudio.present?
-      self.mixaudio = "#{fileUploadPath}#{output}"
+      self.mixaudio = File.open File.join(dirPath, output)
 
 		  isSaved = self.save
 		  system "cd #{dirPath} && rm #{oldmixedfile}" if isSaved && oldmixedfile	
@@ -171,23 +166,17 @@ class Song < ActiveRecord::Base
 		def read_song_details
 			return if self.duration.present?
 			return nil if self.zipfile.blank?
-			return nil unless self.zipfile.url.include?(".zip")
-
-			# Check for valid zip file
-			folder = "#{Rails.root}/public#{self.zipfile.url}"
-			return nil unless Song.valid_zip?(folder)
+			return nil unless self.zipfile.file.path.include?(".zip")
 
 			# Folder and Zip file path
-			fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
-			dirPath = "#{Rails.root}/public#{fileUploadPath}"
+			dirPath = File.dirname self.zipfile.file.path
 
 			# Open Zip file and read audio clips
 			clips = Hash.new
 			fileCount = 0
 			duration = 0
 			clipTypes = []
-			accepted_formats = [".m4a", ".mp3", ".aac", ".amr", ".aiff", ".ogg", ".oga", ".wav", ".flac", ".act", ".3gp", ".mp4"]
-			Zip::File.open(folder) do |zipfile|
+			Zip::File.open(self.zipfile.file.path) do |zipfile|
 		    # Read File details
 				zipfile.each do |file|
 					# Extract and write files
@@ -198,7 +187,8 @@ class Song < ActiveRecord::Base
 					clipFilePath = ""
 					if !File.directory?(filePath) && !filePath.include?("MACOSX") && !filePath.include?(".DS_Store")
 						fileExtension = File.extname(filePath)
-						if accepted_formats.include? fileExtension
+
+						if ACCEPTED_CLIP_FORMATS.include? fileExtension[1..-1]
 							# Collect File info
 							fileCount += 1
 							fileName = file.name.to_s.split("/").last
@@ -215,7 +205,7 @@ class Song < ActiveRecord::Base
 								column = rowColumnValue[0]
 								row = rowColumnValue[1]
 								# clips[column] = Array.new if clips[column].blank?
-								clipFilePath = "#{fileUploadPath}#{file.name.to_s}"
+								clipFilePath = File.join dirPath, file.name.to_s
 								# puts "CLIPFILEPATH: #{clipFilePath}"
 								# data = {level: levelType, filePath: "#{fileUploadPath}#{file.name.to_s}"}
 								# clips[column].push(data)
@@ -225,37 +215,31 @@ class Song < ActiveRecord::Base
 							# row = ClipType.index(levelType.downcase)
 							unless clipTypes.include? levelType
 								clipTypes.push(levelType)
-								clipType = ClipType.find_or_create_by(song_id: self.id, name:levelType, row: row)
-							end
+								clipType = self.clip_types.find_or_initialize_by(name: levelType, row: row)
+              end
 
 							if clips[column].blank?
 								TagLib::FileRef.open(filePath) do |fileref|
 								  unless fileref.null?
 								    properties = fileref.audio_properties
 								    duration += properties.length
-									part = Part.find_or_create_by(song_id: self.id, name: "Part #{column}", duration: properties.length, column: column)
-									clip = Clip.find_or_create_by(song_id: self.id, part_id: part.id, row: row, column: column, file: clipFilePath, state: 0)
-									clips[column] = "added"
+                    part = self.parts.find_or_initialize_by(name: "Part #{column}", duration: properties.length, column: column)
+                    clip = part.clips.find_or_initialize_by(row: row, column: column, file: File.open(clipFilePath), state: 0)
+                    clips[column] = "added"
 								  end
 								end  # File is automatically closed at block end
 							else
-								part = Part.find_by(song_id: self.id, column: column)
-								clip = Clip.find_or_create_by(song_id: self.id, part_id: part.id, row: row, column: column, file: clipFilePath, state: 0)	
+								part = self.parts.select { |p| p.column == column }.first
+								clip = part.clips.find_or_initialize_by(row: row, column: column, file: File.open(clipFilePath), state: 0)
 							end
 						end
 					end
 				end
 			end
 			self.duration = duration
-			self.create_mixed_audio
-			self.save
-		end
+      self.create_mixed_audio
 
-		def delete_folder
-			fileUploadPath = self.zipfile.url.gsub(self.zipfile.url.split("/").last,"")
-			dirPath = "#{Rails.root}/public#{fileUploadPath}"
-			system "rm -R #{dirPath}"
-		end
+    end
 
 		def self.standardize_uploaded_filename(filename)
 			filename = File.basename(filename).strip

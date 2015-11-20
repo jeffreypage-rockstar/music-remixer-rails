@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class AudioUploader < CarrierWave::Uploader::Base
+class ClipFileUploader < CarrierWave::Uploader::Base
 
   storage :fog
 
@@ -10,16 +10,16 @@ class AudioUploader < CarrierWave::Uploader::Base
   end
 
   def fog_directory
-    'private_audio'
+    'public_audio'
   end
 
   def fog_public
-    false
+    true
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
-    %w(zip)
+    Song::ACCEPTED_CLIP_FORMATS
   end
 
   def filename
