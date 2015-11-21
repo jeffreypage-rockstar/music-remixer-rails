@@ -7,6 +7,7 @@ require 'taglib'
 require 'digest/md5'
 
 class Song < ActiveRecord::Base
+	extend FriendlyId
 	include PublicActivity::Model
 	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
 	# 		    title: Proc.new { |controller, model| model.title }
@@ -14,6 +15,8 @@ class Song < ActiveRecord::Base
 	ACCEPTED_CLIP_FORMATS = %w(m4a mp3 aac amr aiff ogg oga wav flac act 3gp mp4)
 	mount_uploader :image, SongImageUploader
 	mount_uploader :mixaudio, SongMixaudioUploader
+
+	friendly_id :name_with_artist_name, use: [:slugged, :finders]
 
 	belongs_to :user, counter_cache: true
 	has_many :parts, dependent: :delete_all
@@ -38,6 +41,10 @@ class Song < ActiveRecord::Base
 
 	def preview_url
 		mixaudio.url
+	end
+
+	def name_with_artist_name
+		"#{self.name} by #{self.user.name}"
 	end
 
 	def zipfile=(obj)

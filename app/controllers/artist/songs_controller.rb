@@ -111,7 +111,7 @@ class Artist::SongsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_song
       if action_name == 'configure' || action_name == 'mixaudio'
-        @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
+        @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find(params[:id])
       else 
         @song = current_user.songs.find(params[:id])
       end

@@ -85,6 +85,9 @@ gem 'pundit'
 # copy to clipboard
 gem 'zeroclipboard-rails'
 
+# slug
+gem 'friendly_id'
+
 group :development, :test do
   gem 'puma'
   
