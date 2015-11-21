@@ -95,6 +95,8 @@ GEM
     concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
     debug_inspector (0.0.2)
+    default_value_for (3.0.1)
+      activerecord (>= 3.2.0, < 5.0)
     draper (2.1.0)
       actionpack (>= 3.0)
       activemodel (>= 3.0)
@@ -419,6 +421,7 @@ DEPENDENCIES
   carrierwave
   clearance (~> 1.11)
   coffee-rails (~> 4.1.0)
+  default_value_for
   draper
   fog
   font-awesome-rails (~> 4.4.0.0)

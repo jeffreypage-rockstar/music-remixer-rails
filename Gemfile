@@ -88,6 +88,9 @@ gem 'zeroclipboard-rails'
 # slug
 gem 'friendly_id'
 
+# default value
+gem 'default_value_for'
+
 group :development, :test do
   gem 'puma'
   

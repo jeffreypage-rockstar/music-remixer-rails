@@ -15,6 +15,7 @@ class Song < ActiveRecord::Base
 	ACCEPTED_CLIP_FORMATS = %w(m4a mp3 aac amr aiff ogg oga wav flac act 3gp mp4)
 	mount_uploader :image, SongImageUploader
 	mount_uploader :mixaudio, SongMixaudioUploader
+	mount_uploader :zipfile, SongZipfileUploader
 
 	friendly_id :name_with_artist_name, use: [:slugged, :finders]
 
@@ -30,8 +31,11 @@ class Song < ActiveRecord::Base
 	acts_as_taggable_on :genres
 	acts_as_likeable
 
+	default_value_for :uuid do
+		SecureRandom.uuid
+	end
+
 	# audio uploader
-	mount_uploader :zipfile, AudioUploader
 	validates :name, :zipfile, presence: true
 	validate :validate_zip_file
 

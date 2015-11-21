@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151121040342) do
+ActiveRecord::Schema.define(version: 20151121152127) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20151121040342) do
     t.boolean  "state2",                     default: false
     t.boolean  "state3",                     default: false
     t.boolean  "user_content",               default: false
+    t.string   "uuid",         limit: 255
   end
 
   create_table "follows", force: :cascade do |t|
@@ -167,6 +168,7 @@ ActiveRecord::Schema.define(version: 20151121040342) do
     t.string   "image",      limit: 255
     t.integer  "status",     limit: 4,     default: 0
     t.string   "slug",       limit: 255
+    t.string   "uuid",       limit: 255
   end
 
   add_index "songs", ["slug"], name: "index_songs_on_slug", unique: true, using: :btree
@@ -215,6 +217,7 @@ ActiveRecord::Schema.define(version: 20151121040342) do
     t.string   "twitter",                  limit: 255
     t.string   "soundcloud",               limit: 255
     t.string   "instagram",                limit: 255
+    t.string   "uuid",                     limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -2,6 +2,10 @@ class Clip < ActiveRecord::Base
 	default_scope { order('row') }
 	mount_uploader :file, ClipFileUploader
 
+	default_value_for :uuid do
+		SecureRandom.uuid
+	end
+
 	belongs_to :song
 	belongs_to :part
 	
