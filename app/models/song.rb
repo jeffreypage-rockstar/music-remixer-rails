@@ -15,14 +15,11 @@ class Song < ActiveRecord::Base
 	ACCEPTED_CLIP_FORMATS = %w(m4a mp3 aac amr aiff ogg oga wav flac act 3gp mp4)
 	mount_uploader :image, SongImageUploader
 	mount_uploader :mixaudio, SongMixaudioUploader
+	store_in_background :mixaudio
 	mount_uploader :zipfile, SongZipfileUploader
+	store_in_background :zipfile
 
 	friendly_id :name_with_artist_name, use: [:slugged, :finders]
-
-	belongs_to :user, counter_cache: true
-	has_many :parts, dependent: :delete_all
-	has_many :clips, dependent: :delete_all
-	has_many :clip_types, dependent: :delete_all
 
 	# songs status
 	enum status: { pending: 0, released: 1, archived: 2 }
@@ -31,13 +28,17 @@ class Song < ActiveRecord::Base
 	acts_as_taggable_on :genres
 	acts_as_likeable
 
-	default_value_for :uuid do
-		SecureRandom.uuid
-	end
+	default_value_for :uuid, SecureRandom.uuid
+
+	belongs_to :user, counter_cache: true
+	has_many :parts, dependent: :delete_all
+	has_many :clips, dependent: :delete_all
+	has_many :clip_types, dependent: :delete_all
 
 	# audio uploader
-	validates :name, :zipfile, presence: true
-	validate :validate_zip_file
+	validates :name, presence: true
+	validates :zipfile, presence: true
+  validate :validate_zip_file, unless: Proc.new { |s| s.zipfile_tmp.blank? || s.zipfile_processing? }
 
 	def title
 		name
@@ -54,15 +55,27 @@ class Song < ActiveRecord::Base
 	def zipfile=(obj)
 		super(obj)
 
-		self.build_parts_and_clips
-		self.build_mixaudio
+    unless self.zipfile_processing?
+      self.build_parts_and_clips
+      self.build_mixaudio
+    end
+	end
+
+	def zipfile_tmp_path
+		zipfile_tmp_path = self.zipfile.file.try(:path)
+
+		if zipfile_tmp_path.blank?
+			cache_directory = File.expand_path(self.zipfile.cache_dir, self.zipfile.root)
+			zipfile_tmp_path = File.join(cache_directory, self.zipfile_tmp)
+		end
+		zipfile_tmp_path
 	end
 
 	def validate_zip_file
-		unless Song.valid_zip?(self.zipfile.file.path)
+		unless Song.valid_zip?(self.zipfile_tmp_path)
 			errors.add(:zipfile, 'Not a valid zip file.')
 		else
-			Zip::File.open(self.zipfile.file.path) do |files|
+			Zip::File.open(self.zipfile_tmp_path) do |files|
 				file_count = files.count { |file| Song.valid_clip_file? file.name }
 				unless file_count > 32
 					errors.add(:zipfile, 'Zip file does not contain enough audio clips.')
@@ -72,21 +85,21 @@ class Song < ActiveRecord::Base
 	end
 
 	def build_mixaudio(configuration='source')
-		dir_path = File.dirname self.zipfile.file.path
+		dir_path = File.dirname self.zipfile_tmp_path
 		commands = []
 		outputs = []
 		ffmpegcmd = "cd #{dir_path} && ffmpeg "
-		file_extension = File.extname self.clips.first.file.file.path
+		file_extension = File.extname self.clips.first.file_tmp_path
 
 		self.parts.each do |part|
 			clips = part.clips
-			clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| clip.file.file.path }
+			clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| clip.file_tmp_path }
 			command = clip_file_paths.map { |file_path| "-i '#{file_path}'" }.join ' '
 
 			# If at least a single clip is not mute
 			output = "mix_audio_part_#{part.column}#{file_extension}"
 			if command.present?
-				command += " -filter_complex amix=inputs=#{count}:duration=longest:dropout_transition=3,volume=#{count} -y '#{output}'"
+				command += " -filter_complex amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3,volume=#{clip_file_paths.count} -y '#{output}'"
 				command = ffmpegcmd + command
 			# If all clips are muted, Create a blank audio
 			else
@@ -108,7 +121,7 @@ class Song < ActiveRecord::Base
 		end
 
 		# File Upload path
-		dir_path = File.dirname self.zipfile.file.path
+		dir_path = File.dirname self.zipfile_tmp_path
 		digest = Digest::MD5.hexdigest("#{Time.now}")
 		output = "mix-audio-#{digest}#{file_extension}"
 
@@ -138,17 +151,17 @@ class Song < ActiveRecord::Base
 	end
 
 	def build_parts_and_clips
-		return unless Song.valid_zip?(self.zipfile.file.path)
+		return unless Song.valid_zip?(self.zipfile_tmp_path)
 
 		# zipfile directory path
-		dir_path = File.dirname self.zipfile.file.path
+		dir_path = File.dirname self.zipfile_tmp_path
 
 		# Open Zip file and read audio clips
 		duration = 0
 		clip_types = []
 		clips = {}
 
-		Zip::File.open(self.zipfile.file.path) do |files|
+		Zip::File.open(self.zipfile_tmp_path) do |files|
 
 			# read files inside zipfile
 			files.each do |file|

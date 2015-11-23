@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151121152127) do
+ActiveRecord::Schema.define(version: 20151123033029) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -74,21 +74,39 @@ ActiveRecord::Schema.define(version: 20151121152127) do
   end
 
   create_table "clips", force: :cascade do |t|
-    t.integer  "song_id",      limit: 4
-    t.string   "name",         limit: 255
-    t.string   "row",          limit: 255
-    t.string   "column",       limit: 255
-    t.float    "duration",     limit: 24
-    t.boolean  "state",                      default: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.integer  "part_id",      limit: 4
-    t.text     "file",         limit: 65535
-    t.boolean  "state2",                     default: false
-    t.boolean  "state3",                     default: false
-    t.boolean  "user_content",               default: false
-    t.string   "uuid",         limit: 255
+    t.integer  "song_id",         limit: 4
+    t.string   "name",            limit: 255
+    t.string   "row",             limit: 255
+    t.string   "column",          limit: 255
+    t.float    "duration",        limit: 24
+    t.boolean  "state",                         default: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "part_id",         limit: 4
+    t.text     "file",            limit: 65535
+    t.boolean  "state2",                        default: false
+    t.boolean  "state3",                        default: false
+    t.boolean  "user_content",                  default: false
+    t.string   "uuid",            limit: 255
+    t.string   "file_tmp",        limit: 255
+    t.boolean  "file_processing",               default: false, null: false
   end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   limit: 4,     default: 0, null: false
+    t.integer  "attempts",   limit: 4,     default: 0, null: false
+    t.text     "handler",    limit: 65535,             null: false
+    t.text     "last_error", limit: 65535
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by",  limit: 255
+    t.string   "queue",      limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "follows", force: :cascade do |t|
     t.string   "follower_type",   limit: 255
@@ -156,19 +174,23 @@ ActiveRecord::Schema.define(version: 20151121152127) do
   end
 
   create_table "songs", force: :cascade do |t|
-    t.string   "name",       limit: 255,               null: false
-    t.float    "duration",   limit: 24
-    t.text     "zipfile",    limit: 65535
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.text     "mixaudio",   limit: 65535
-    t.text     "mixaudio2",  limit: 65535
-    t.text     "mixaudio3",  limit: 65535
-    t.integer  "user_id",    limit: 4
-    t.string   "image",      limit: 255
-    t.integer  "status",     limit: 4,     default: 0
-    t.string   "slug",       limit: 255
-    t.string   "uuid",       limit: 255
+    t.string   "name",                limit: 255,                   null: false
+    t.float    "duration",            limit: 24
+    t.text     "zipfile",             limit: 65535
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.text     "mixaudio",            limit: 65535
+    t.text     "mixaudio2",           limit: 65535
+    t.text     "mixaudio3",           limit: 65535
+    t.integer  "user_id",             limit: 4
+    t.string   "image",               limit: 255
+    t.integer  "status",              limit: 4,     default: 0
+    t.string   "slug",                limit: 255
+    t.string   "uuid",                limit: 255
+    t.string   "zipfile_tmp",         limit: 255
+    t.string   "mixaudio_tmp",        limit: 255
+    t.boolean  "zipfile_processing",                default: false, null: false
+    t.boolean  "mixaudio_processing",               default: false, null: false
   end
 
   add_index "songs", ["slug"], name: "index_songs_on_slug", unique: true, using: :btree

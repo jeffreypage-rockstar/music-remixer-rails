@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class ClipFileUploader < CarrierWave::Uploader::Base
+  include ::CarrierWave::Backgrounder::Delay
 
   storage :fog
 
