@@ -50,7 +50,11 @@ class Song < ActiveRecord::Base
 
 	def name_with_artist_name
 		"#{self.name} by #{self.user.name}"
-	end
+  end
+
+  def processed?
+    self.mixaudio_tmp.blank?
+  end
 
 	def zipfile=(obj)
 		super(obj)

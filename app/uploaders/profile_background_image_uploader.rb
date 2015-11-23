@@ -8,7 +8,7 @@ class ProfileBackgroundImageUploader < CarrierWave::Uploader::Base
 
   # Override the directory where uploaded files will be stored.
   def store_dir
-    "#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
+    "#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
   end
 
   def fog_directory
