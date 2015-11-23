@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 				post '/users/signup' => 'users#signup'
 				post '/users/login' => 'users#login'
 				post '/users/logout' => 'users#logout'
+			  post '/users/connect' => 'users#connect'
 
 				get '/social/stream' => 'social#stream'
 
