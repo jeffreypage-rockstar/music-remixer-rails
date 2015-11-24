@@ -20,7 +20,7 @@
             = f.input :location
 
             hr
-            = f.input :bio, as: :text, label: 'Bio<span class="hint">(up to 1000 characters)</span>'.html_safe, placeholder: 'More information about you', input_html: {rows: 7}
+            = f.input :bio, as: :text, label: 'Bio <span class="hint">(up to 1000 characters)</span>'.html_safe, placeholder: 'More information about you', input_html: {rows: 7}
 
             hr
             = f.input :genre_list, label: 'Genres', input_html: {value: @artist.genre_list.to_s}
@@ -118,7 +118,7 @@
             = f.input :email
 
             hr
-            = f.input :username
+            = f.input :username, required: false
 
             hr
             .row
