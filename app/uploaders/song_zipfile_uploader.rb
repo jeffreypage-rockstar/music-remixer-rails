@@ -1,8 +1,7 @@
 # encoding: utf-8
 
-class ProfileBackgroundImageUploader < CarrierWave::Uploader::Base
-
-  include CarrierWave::MiniMagick
+class SongZipfileUploader < CarrierWave::Uploader::Base
+  include ::CarrierWave::Backgrounder::Delay
 
   storage :fog
 
@@ -12,23 +11,16 @@ class ProfileBackgroundImageUploader < CarrierWave::Uploader::Base
   end
 
   def fog_directory
-    'images'
+    'private_audio'
   end
 
   def fog_public
-    true
+    false
   end
-
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  def default_url
-    ActionController::Base.helpers.asset_path('fallback/profile_background_image_default.jpg')
-  end
-
-  process :resize_to_fill => [1600, 400]
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w(zip)
   end
 
   def filename

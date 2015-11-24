@@ -43,7 +43,7 @@ class Artist::SongsController < ApplicationController
 
   def configure
     if @song.mixaudio.blank?
-      @song.create_mixed_audio(params[:configuration])
+      @song.build_mixaudio(params[:configuration])
       @mixaudio = @song.mixaudio
     end
     respond_to do |format|
@@ -68,7 +68,7 @@ class Artist::SongsController < ApplicationController
 
   def mixaudio
     respond_to do |format|
-      if @song.create_mixed_audio(params[:configuration])
+      if @song.build_mixaudio(params[:configuration])
         @mixaudio = @song.mixaudio
         if @configuration == 'style-up'
           @mixaudio = @song.mixaudio2
@@ -111,7 +111,7 @@ class Artist::SongsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_song
       if action_name == 'configure' || action_name == 'mixaudio'
-        @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
+        @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find(params[:id])
       else 
         @song = current_user.songs.find(params[:id])
       end

@@ -1,7 +1,7 @@
 <h1>
     Songs
     <div class="pull-right upload-btn">
-        <%= link_to "Upload Music", new_song_path, class: "btn btn-primary btn-md" %>
+        <%= link_to "Upload Music", new_artist_song_path, class: "btn btn-primary btn-md" %>
     </div>
 </h1>
 <table class="table">
@@ -22,7 +22,7 @@
         <td><%= Time.at(song.duration).utc.strftime("%M:%S") %></td>
         <td><%= Time.at(song.created_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>
         <td><%= Time.at(song.updated_at).utc.strftime('%Y/%m/%d %H:%M %p') %></td>
-        <td><%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', artist_song_path(song), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
