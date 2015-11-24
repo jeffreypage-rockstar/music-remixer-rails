@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 			get 'profile' => 'artist#profile', as: 'profile'
 			get 'profile/edit' => 'artist#edit_profile', as: 'edit_profile'
 			patch 'profile/update' => 'artist#update_profile', as: 'update_profile'
+			patch 'profile/update_account' => 'artist#update_account', as: 'update_account'
 			post 'profile/follow' => 'artist#follow', as: 'follow'
 			delete 'profile/unfollow' => 'artist#unfollow', as: 'unfollow'
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
