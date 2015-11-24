@@ -52,7 +52,7 @@ class Artist::ArtistController < Artist::BaseController
 	end
 
 	def profile_params
-		params.require(:user).permit(:name, :location, :bio, :genre_list, :facebook_link, :twitter_link, :soundcloud_link, :profile_image, :profile_image_cache, :profile_background_image, :profile_background_image_cache)
+		params.require(:user).permit(:name, :location, :bio, :genre_list, :facebook, :instagram, :twitter, :soundcloud, :profile_image, :profile_image_cache, :profile_background_image, :profile_background_image_cache)
 	end
 
 end

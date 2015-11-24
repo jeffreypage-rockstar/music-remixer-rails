@@ -18,17 +18,21 @@
           .col-sm-4
             = f.label :social_links
           .col-sm-8
-            = f.input :facebook_link, wrapper: :horizontal_input_group_without_label, label: false do
+            = f.input :facebook, wrapper: :horizontal_input_group_without_label, label: false do
               span.input-group-addon Facebook
-              = f.input_field :facebook_link, class: 'form-control'
+              = f.input_field :facebook, class: 'form-control'
 
-            = f.input :twitter_link, wrapper: :horizontal_input_group_without_label, label: false do
+            = f.input :instagram, wrapper: :horizontal_input_group_without_label, label: false do
+              span.input-group-addon Instagram
+              = f.input_field :instagram, class: 'form-control'
+
+            = f.input :twitter, wrapper: :horizontal_input_group_without_label, label: false do
               span.input-group-addon Twitter
-              = f.input_field :twitter_link, class: 'form-control'
+              = f.input_field :twitter, class: 'form-control'
 
-            = f.input :soundcloud_link, wrapper: :horizontal_input_group_without_label, label: false do
+            = f.input :soundcloud, wrapper: :horizontal_input_group_without_label, label: false do
               span.input-group-addon Soundcloud
-              = f.input_field :soundcloud_link, class: 'form-control'
+              = f.input_field :soundcloud, class: 'form-control'
 
         hr
         .row

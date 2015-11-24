@@ -11,7 +11,7 @@ class Api::V1::SongsController < Api::V1::ApiController
 	end
 
 	def show
-		@song = Song.includes(:clip_types, :parts, :clips).where({id: params[:id], status: Song.statuses[:released]})
+		@song = Song.includes(:clip_types, :parts, :clips).where({id: params[:id], status: Song.statuses[:released]}).first
 	end
 
 end
