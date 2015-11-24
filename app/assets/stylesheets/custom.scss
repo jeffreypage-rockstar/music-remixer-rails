@@ -16,15 +16,6 @@
   }
 }
 
-.btn.btn-grey {
-  background-color: #eaeaea;
-  color: #a7a7a7;
-}
-
-.btn.btn-round {
-  border-radius: 24px;
-}
-
 table.table-mix8 {
   box-shadow: 0 3px 3px rgba(0, 0, 0, .05);
 
@@ -71,6 +62,62 @@ table.table-mix8 {
 
       &:last-child {
         padding-right: 20px;
+      }
+    }
+  }
+}
+
+.btn.btn-grey {
+  background-color: #eaeaea;
+  color: #a7a7a7;
+}
+
+.btn.btn-round {
+  border-radius: 24px;
+}
+
+
+.btn.btn-facebook {
+  background-color: #3b5998;
+  color: #ffffff;
+}
+
+.btn.btn-twitter {
+  background-color: #41c7ff;
+  color: #ffffff;
+}
+
+.btn.btn-tumblr {
+  background-color: #37465c;
+  color: #ffffff;
+}
+
+.btn.btn-googleplus {
+  background-color: #e9453c;
+  color: #ffffff;
+}
+
+.btn.btn-soundcloud {
+  background-color: #fc561f;
+  color: #ffffff;
+}
+
+.btn.btn-lastfm {
+  background-color: #b90611;
+  color: #ffffff;
+}
+
+.nav-center {
+  text-align: center;
+
+  ul.nav {
+    display: inline-block;
+
+    li {
+      display: inline;
+
+      a {
+        float: left;
       }
     }
   }
