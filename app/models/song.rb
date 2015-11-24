@@ -7,7 +7,6 @@ require 'taglib'
 require 'digest/md5'
 
 class Song < ActiveRecord::Base
-	extend FriendlyId
 	include PublicActivity::Model
 	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
 	# 		    title: Proc.new { |controller, model| model.title }
@@ -18,8 +17,6 @@ class Song < ActiveRecord::Base
 	store_in_background :mixaudio
 	mount_uploader :zipfile, SongZipfileUploader
 	store_in_background :zipfile
-
-	friendly_id :name_with_artist_name, use: [:slugged, :finders]
 
 	# songs status
 	enum status: { pending: 0, released: 1, archived: 2 }
@@ -47,10 +44,6 @@ class Song < ActiveRecord::Base
 	def preview_url
 		mixaudio.url
 	end
-
-	def name_with_artist_name
-		"#{self.name} by #{self.user.name}"
-  end
 
   def processed?
     self.mixaudio_tmp.blank?

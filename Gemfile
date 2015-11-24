@@ -87,9 +87,6 @@ gem 'pundit'
 # copy to clipboard
 gem 'zeroclipboard-rails'
 
-# slug
-gem 'friendly_id'
-
 # default value
 gem 'default_value_for'
 
