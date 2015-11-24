@@ -1,5 +1,10 @@
 # main properties of a song
-json.extract! @song, :id, :name, :duration, :mixaudio, :created_at
+json.id @song.id
+json.name @song.name
+json.duration @song.duration.to_s
+json.mixaudio @song.mixaudio
+json.created_at @song.created_at
+
 
 # who's song is it
 json.artist do
