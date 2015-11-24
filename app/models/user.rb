@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 	has_many :songs
 	has_many :remixes
 
+	attr_accessor :invite_code
+
 	# artist genres
 	acts_as_taggable_on :genres
 
@@ -24,8 +26,16 @@ class User < ActiveRecord::Base
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}
+	validates :invite_code, presence: true
+	validate :invite_code_should_be_available
 
 	after_create :send_welcome_email
+
+	def invite_code_should_be_available
+		unless BetaUser.exists?(invite_code: self.invite_code, user_id: nil)
+			self.errors.add :invite_code, 'Sorry, this invite code is no longer valid.'
+		end
+	end
 
 	def admin?
 		is_admin
