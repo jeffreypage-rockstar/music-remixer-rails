@@ -1,6 +1,6 @@
-= render partial: 'secondnav'
-
 #artistMusicPage
+  = render partial: 'artist/artist/artist_profile_header', locals: { artist: @artist }
+  = render partial: 'artist/songs/upload_song_header', locals: { artist: @artist }
   .container
     - if @artist.songs.any?
       .selected-songs

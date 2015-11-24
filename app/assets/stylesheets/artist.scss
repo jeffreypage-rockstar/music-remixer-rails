@@ -19,10 +19,6 @@
   padding: 0 35px;
 }
 
-.upload-btn {
-  margin-top: 30px;
-}
-
 #artistProfilePage {
   background-color: #f8f8f8;
 
@@ -291,8 +287,6 @@
   }
 }
 
-
-
 #songForm {
   .input-group-addon {
     min-width: 120px;
@@ -320,4 +314,55 @@
     padding-left: 15px;
     padding-right: 15px;
   }
+}
+
+#newArtistSongPage {
+  .song {
+    margin-top: 30px;
+  }
+}
+
+#artistProfileHeader {
+  .profile-header {
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    .container {
+      position: relative;
+
+      .edit-profile {
+        position: absolute;
+        right: 15px;
+        top: 25px;
+        color: #9f9f9f;
+      }
+
+      .media {
+        .media-left {
+          padding-right: 20px;
+
+          .profile-image {
+            width: 90px;
+            height: 90px;
+          }
+        }
+
+        .media-body {
+          .artist-name {
+            padding-top: 10px;
+            font-size: 24px;
+            font-weight: 600;
+          }
+
+          .artist-stats {
+            color: #9f9f9f;
+          }
+        }
+      }
+    }
+  }
+}
+
+#uploadSongHeader {
+  padding: 30px 0;
 }

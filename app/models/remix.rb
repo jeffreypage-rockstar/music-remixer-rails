@@ -1,4 +1,5 @@
 class Remix < ActiveRecord::Base
+	belongs_to :user, counter_cache: true
 	belongs_to :song
 	# do we care about tracking remixes of remixes?
 	# belongs_to :parent_remix, foreign_key: 'parent_remix_id'

@@ -1,4 +1,4 @@
-<%= render partial: 'secondnav' %>
+<%= render partial: 'artist/songs/upload_song_header', locals: { artist: @artist } %>
 <div class="container">
 	<h4>Recent Activity</h4>
 	<%= render_activities(@activities) %>

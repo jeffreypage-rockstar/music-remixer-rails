@@ -1,25 +1,23 @@
-.container
-  .white-section.song
-    = simple_form_for @song, url: artist_songs_path, html: { id: 'songForm', class: 'form-horizontal' }, wrapper: :horizontal_form do |f|
-      = f.input :name
+= simple_form_for @song, url: artist_songs_path, html: { id: 'songForm', class: 'form-horizontal' }, wrapper: :horizontal_form do |f|
+  = f.input :name
 
-      hr
-      = f.input :genre_list, label: 'Genres<p class="hint">Press comma( , ) to separate genres</p>'.html_safe, input_html: { value: @song.genre_list.to_s }
+  hr
+  = f.input :genre_list, label: 'Genres<p class="hint">Press comma( , ) to separate genres</p>'.html_safe, input_html: { value: @song.genre_list.to_s }
 
-      hr
-      .row
-        .col-sm-4
-          = f.input :image, as: :file, label: 'Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
-          = f.hidden_field :image_cache
-        .col-sm-8
-          = image_tag @song.image.url(:thumb)
+  hr
+  .row
+    .col-sm-4
+      = f.input :image, as: :file, label: 'Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
+      = f.hidden_field :image_cache
+    .col-sm-8
+      = image_tag @song.image.url(:thumb)
 
-      hr
-      .row
-        .col-sm-4
-          = f.input :zipfile, as: :file, wrapper: :vertical_file_input
-          = f.hidden_field :zipfile_cache
-        .col-sm-8
+  hr
+  .row
+    .col-sm-4
+      = f.input :zipfile, label: 'Zipfile<p class="hint">Lorem ipsum dolor sit amet</p>'.html_safe, as: :file, wrapper: :vertical_file_input
+      = f.hidden_field :zipfile_cache
+    .col-sm-8
 
-      hr
-      = f.button :submit, class: 'btn-grey btn-round'
+  hr
+  = f.button :submit, class: 'btn-grey btn-round'
