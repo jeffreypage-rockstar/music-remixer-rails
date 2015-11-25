@@ -10,12 +10,24 @@ class Artist::ArtistController < Artist::BaseController
 	end
 
 	def edit_profile
+		@active_tab = 'profile'
 	end
 
 	def update_profile
 		if @artist.update(profile_params)
 			redirect_to artist_profile_path, notice: 'Profile successfully updated'
 		else
+			@active_tab = 'profile'
+			render :edit_profile
+		end
+	end
+
+	def update_account
+		if @artist.update(account_params)
+			sign_in @artist
+			redirect_to artist_profile_path, notice: 'Account successfully updated'
+		else
+			@active_tab = 'account'
 			render :edit_profile
 		end
 	end
@@ -50,6 +62,10 @@ class Artist::ArtistController < Artist::BaseController
 
 	def profile_params
 		params.require(:user).permit(:name, :location, :bio, :genre_list, :facebook, :instagram, :twitter, :soundcloud, :profile_image, :profile_image_cache, :profile_background_image, :profile_background_image_cache)
+	end
+
+	def account_params
+		params.require(:user).permit(:email, :username, :password)
 	end
 
 end

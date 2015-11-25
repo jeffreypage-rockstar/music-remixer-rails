@@ -214,6 +214,16 @@
     padding: 30px;
   }
 
+  .connections {
+    margin-top: 30px;
+    padding: 30px;
+  }
+
+  .account {
+    margin-top: 30px;
+    padding: 30px;
+  }
+
   #artistProfileForm {
     .input-group-addon {
       min-width: 120px;
@@ -240,6 +250,66 @@
     .user_profile_image, .user_profile_background_image {
       padding-left: 15px;
       padding-right: 15px;
+    }
+  }
+
+  #profileTabs {
+    padding: 0;
+
+    .nav-tabs {
+      vertical-align: top;
+      border: none;
+
+      & > li {
+        padding: 0 25px;
+
+        & > a {
+          padding: 15px 0;
+          color: #a6a6a6;
+
+          &:hover {
+            background-color: white;
+            outline: none;
+            border-color: transparent;
+            color: #41c7ff;
+          }
+        }
+
+        &.active {
+          & > a, & > a:hover, & > a:focus {
+            color: #555;
+            cursor: default;
+            border: none;
+            border-bottom: 2px solid #41c7ff;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  #artistAccountForm {
+    label {
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .user_password, .user_password_confirmation {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+
+  #connections {
+    ul.list-group {
+      li.list-group-item {
+        line-height: 50px;
+        border: none;
+
+        hr {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }

@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
 	mount_uploader :profile_image, ProfileImageUploader
 	mount_uploader :profile_background_image, ProfileBackgroundImageUploader
 
+	default_value_for :uuid do
+		SecureRandom.uuid
+	end
+
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}

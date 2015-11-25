@@ -1,54 +1,131 @@
 #editArtistProfilePage
-  .container
-    .white-section.profile
-      = simple_form_for @artist, method: :patch, url: artist_update_profile_path, html: { id: 'artistProfileForm', class: 'form-horizontal' }, wrapper: :horizontal_form do |f|
-        = f.input :name, label: 'Display Name'
+  #profileTabs.white-section
+    .nav-center
+      ul.nav.nav-tabs role="tablist"
+        li role="presentation" class=('active' if @active_tab == 'profile')
+          a aria-controls="profile" data-toggle="tab" href="#profile" role="tab" Profile
+        li role="presentation"
+          a aria-controls="connections" data-toggle="tab" href="#connections" role="tab" Connections
+        li role="presentation" class=('active' if @active_tab == 'account')
+          a aria-controls="account" data-toggle="tab" href="#account" role="tab" Account
 
-        hr
-        = f.input :location
+  .tab-content
+    #profile.tab-pane role="tabpanel" class=('active' if @active_tab == 'profile')
+      .container
+        .white-section.profile
+          = simple_form_for @artist, method: :patch, url: artist_update_profile_path, html: {id: 'artistProfileForm', class: 'form-horizontal'}, wrapper: :horizontal_form do |f|
+            = f.input :name, label: 'Display Name'
 
-        hr
-        = f.input :bio, as: :text, label: 'Bio<span class="hint">(up to 1000 characters)</span>'.html_safe, placeholder: 'More information about you', input_html: { rows: 7 }
+            hr
+            = f.input :location
 
-        hr
-        = f.input :genre_list, label: 'Genres<p class="hint">Press comma( , ) to separate genres</p>'.html_safe, input_html: { value: @artist.genre_list.to_s }
+            hr
+            = f.input :bio, as: :text, label: 'Bio <span class="hint">(up to 1000 characters)</span>'.html_safe, placeholder: 'More information about you', input_html: {rows: 7}
 
-        hr
-        .row
-          .col-sm-4
-            = f.label :social_links
-          .col-sm-8
-            = f.input :facebook, wrapper: :horizontal_input_group_without_label, label: false do
-              span.input-group-addon Facebook
-              = f.input_field :facebook, class: 'form-control'
+            hr
+            = f.input :genre_list, label: 'Genres', label: 'Genres<p class="hint">Press comma( , ) to separate genres</p>'.html_safe, input_html: {value: @artist.genre_list.to_s}
 
-            = f.input :instagram, wrapper: :horizontal_input_group_without_label, label: false do
-              span.input-group-addon Instagram
-              = f.input_field :instagram, class: 'form-control'
+            hr
+            .row
+              .col-sm-4
+                = f.label :social_links
+              .col-sm-8
+                = f.input :facebook, wrapper: :horizontal_input_group_without_label, label: false do
+                  span.input-group-addon Facebook
+                  = f.input_field :facebook, class: 'form-control'
 
-            = f.input :twitter, wrapper: :horizontal_input_group_without_label, label: false do
-              span.input-group-addon Twitter
-              = f.input_field :twitter, class: 'form-control'
+                = f.input :instagram, wrapper: :horizontal_input_group_without_label, label: false do
+                  span.input-group-addon Instagram
+                  = f.input_field :instagram, class: 'form-control'
 
-            = f.input :soundcloud, wrapper: :horizontal_input_group_without_label, label: false do
-              span.input-group-addon Soundcloud
-              = f.input_field :soundcloud, class: 'form-control'
+                = f.input :twitter, wrapper: :horizontal_input_group_without_label, label: false do
+                  span.input-group-addon Twitter
+                  = f.input_field :twitter, class: 'form-control'
 
-        hr
-        .row
-          .col-sm-4
-            = f.input :profile_image, as: :file, label: 'Profile Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
-            = f.hidden_field :profile_image_cache
-          .col-sm-8
-            = image_tag @artist.profile_image.url(:thumb)
+                = f.input :soundcloud, wrapper: :horizontal_input_group_without_label, label: false do
+                  span.input-group-addon Soundcloud
+                  = f.input_field :soundcloud, class: 'form-control'
 
-        hr
-        .row
-          .col-sm-4
-            = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input
-            = f.hidden_field :profile_background_image_cache
-          .col-sm-8
-            = image_tag @artist.profile_background_image.url, class: 'img-responsive'
+            hr
+            .row
+              .col-sm-4
+                = f.input :profile_image, as: :file, label: 'Profile Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
+                = f.hidden_field :profile_image_cache
+              .col-sm-8
+                = image_tag @artist.profile_image.url(:thumb)
 
-        hr
-        = f.button :submit, 'Save Profile Changes', class: 'btn-grey btn-round'
+            hr
+            .row
+              .col-sm-4
+                = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input
+                = f.hidden_field :profile_background_image_cache
+              .col-sm-8
+                = image_tag @artist.profile_background_image.url, class: 'img-responsive'
+
+            hr
+            = f.button :submit, 'Save Profile Changes', class: 'btn-grey btn-round'
+
+    #connections.tab-pane role="tabpanel"
+      .container
+        .white-section.connections
+          ul.list-group
+            li.list-group-item
+              strong Facebook
+              .pull-right
+                a.btn.btn-facebook
+                  => fa_icon 'facebook'
+                  | Connect with Facebook
+              hr
+            li.list-group-item
+              strong Twitter
+              .pull-right
+                a.btn.btn-twitter
+                  => fa_icon 'twitter'
+                  | Connect with Twitter
+              hr
+            li.list-group-item
+              strong Tumblr
+              .pull-right
+                a.btn.btn-tumblr
+                  => fa_icon 'tumblr'
+                  | Connect with Tumblr
+              hr
+            li.list-group-item
+              strong Google+
+              .pull-right
+                a.btn.btn-googleplus
+                  => fa_icon 'google-plus'
+                  | Connect with Google+
+              hr
+            li.list-group-item
+              strong SoundCloud
+              .pull-right
+                a.btn.btn-soundcloud
+                  => fa_icon 'soundcloud'
+                  | Connect with SoundCloud
+              hr
+            li.list-group-item
+              strong Last.fm
+              .pull-right
+                a.btn.btn-lastfm
+                  => fa_icon 'lastfm'
+                  | Connect with Last.fm
+
+    #account.tab-pane role="tabpanel" class=('active' if @active_tab == 'account')
+      .container
+        .white-section.account
+          = simple_form_for @artist, method: :patch, url: artist_update_account_path, html: {id: 'artistAccountForm', class: 'form-horizontal'}, wrapper: :horizontal_form do |f|
+            = f.input :email
+
+            hr
+            = f.input :username, required: false
+
+            hr
+            .row
+              .col-sm-4
+                = f.label :password, 'Change Password', autocomplete: 'off'
+              .col-sm-8
+                = f.input :password, label: false, placeholder: 'New Password', wrapper: :vertical_form
+
+            hr
+              = f.button :submit, 'Save Profile Changes', class: 'btn-grey btn-round'

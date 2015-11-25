@@ -3,27 +3,25 @@
 class ProfileImageUploader < CarrierWave::Uploader::Base
 	include CarrierWave::MiniMagick
 
-	# Choose what kind of storage to use for this uploader:
-	storage :file
-	# storage :fog
+	storage :fog
 
 	# Override the directory where uploaded files will be stored.
-	# This is a sensible default for uploaders that are meant to be mounted:
 	def store_dir
-		"uploads/#{model.class.to_s.underscore}s/#{model.id}"
+		"#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
+	end
+
+	def fog_directory
+		'images'
+	end
+
+	def fog_public
+		true
 	end
 
 	# Provide a default URL as a default if there hasn't been a file uploaded:
 	def default_url
 	  ActionController::Base.helpers.asset_path('fallback/profile_image/' + [version_name, 'default.png'].join('_'))
 	end
-
-	# Process files as they are uploaded:
-	# process :scale => [200, 300]
-	#
-	# def scale(width, height)
-	#   # do something
-	# end
 
 	# Create different versions of your uploaded files:
 	version :medium do
@@ -39,15 +37,18 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
 	end
 
 	# Add a white list of extensions which are allowed to be uploaded.
-	# For images you might use something like this:
 	def extension_white_list
 		%w(jpg jpeg gif png)
 	end
 
-	# Override the filename of the uploaded files:
-	# Avoid using model.id or version_name here, see uploader/store.rb for details.
-	# def filename
-	#   "sound_clips.zip" if original_filename
-	# end
+	def filename
+		"#{secure_token(32)}.#{file.extension}" if original_filename.present?
+	end
+
+	protected
+	def secure_token(length=16)
+		var = :"@#{mounted_as}_secure_token"
+		model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+	end
 
 end

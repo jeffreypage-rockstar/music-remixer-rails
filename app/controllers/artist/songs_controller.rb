@@ -44,7 +44,7 @@ class Artist::SongsController < Artist::BaseController
 
   def configure
     if @song.mixaudio.blank?
-      @song.create_mixed_audio(params[:configuration])
+      @song.build_mixaudio(params[:configuration])
       @mixaudio = @song.mixaudio
     end
     respond_to do |format|
@@ -69,7 +69,7 @@ class Artist::SongsController < Artist::BaseController
 
   def mixaudio
     respond_to do |format|
-      if @song.create_mixed_audio(params[:configuration])
+      if @song.build_mixaudio(params[:configuration])
         @mixaudio = @song.mixaudio
         if @configuration == 'style-up'
           @mixaudio = @song.mixaudio2
