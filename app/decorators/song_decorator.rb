@@ -25,6 +25,17 @@ class SongDecorator < Draper::Decorator
     h.artist_song_url(object)
   end
 
+  def status_icon
+    case object.status
+      when 'pending'
+        h.fa_icon 'clock-o', class: 'text-warning', title: 'Pending'
+      when 'released'
+        h.fa_icon 'clock', class: 'text-success', title: 'Released'
+      when 'archived'
+        h.fa_icon 'archive', class: 'text-primary', title: 'Archived'
+    end
+  end
+
   def facebook_share_anchor
     url = "https://www.facebook.com/sharer/sharer.php?u=#{song_url}"
     h.link_to url, class: 'social-share-link', target: '_blank' do

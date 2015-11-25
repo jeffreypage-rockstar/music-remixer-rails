@@ -1,6 +1,5 @@
 #artistMusicPage
   = render partial: 'artist/artist/artist_profile_header', locals: { artist: @artist }
-  = render partial: 'artist/songs/upload_song_header', locals: { artist: @artist }
   .container
     - if @artist.songs.any?
       .selected-songs
@@ -9,21 +8,29 @@
         table.table.table-mix8
           thead
             tr
+              th
               th Track Name
               th.text-center Duration
               th.text-center Plays
               th.text-center Downloads
               th.text-center Remixes
+              th.text-center Status
+              th
           tbody
             - selected_songs = @artist.songs.decorate
-            - selected_songs.each do |song|
+            - selected_songs.each_with_index do |song, index|
               tr
+                td #{index + 1}
                 td
                   = link_to song.name, configure_artist_song_path(song)
                 td.duration.text-center #{song.duration}
-                td.plays.text-center 661
-                td.downloads.text-center 876
-                td.remixes.text-center 27
+                td.plays.text-center #{song.plays_count}
+                td.downloads.text-center #{song.downloads_count}
+                td.remixes.text-center #{song.remixes_count}
+                td.status.text-center #{song.status_icon}
+                td.actions
+                  = link_to configure_artist_song_path(song) do
+                    = image_tag 'edit.png'
 
     - if @artist.remixes.any?
       .top-remixes
@@ -32,18 +39,20 @@
         table.table.table-mix8
           thead
             tr
-              th Track Name
+              th
+              th Remix Name
+              th.text-center Remixed By
               th.text-center Plays
               th.text-center Downloads
-              th.text-center Remixes
           tbody
             - top_remixes = @artist.remixes.decorate
-            - top_remixes.each do |remix|
+            - top_remixes.each_with_index do |remix, index|
               tr
+                td #{index + 1}
                 td
                   = link_to remix.name, song_path(remix.song)
                   span.hot.badge Hot
                   span.new.badge New
-                td.plays.text-center 661
-                td.downloads.text-center 876
-                td.remixes.text-center 27
+                td.remixed-by.text-center #{remix.remixed_by_name}
+                td.plays.text-center #{remix.plays_count}
+                td.downloads.text-center #{remix.downloads_count}

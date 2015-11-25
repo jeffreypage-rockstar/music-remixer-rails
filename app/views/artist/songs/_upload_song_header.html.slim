@@ -1,4 +1,6 @@
 #uploadSongHeader
   .container
     .pull-right.upload-btn
-      = link_to "Upload Music", new_artist_song_path(artist), class: "btn btn-primary btn-md"
+      = link_to new_artist_song_path(artist), class: 'btn btn-primary btn-md' do
+        => fa_icon 'cloud'
+        | Upload Music
