@@ -1,4 +1,4 @@
-class Artist::ArtistController < ApplicationController
+class Artist::ArtistController < Artist::BaseController
 	before_action :require_login
 	before_action :validate_artist
 
@@ -55,8 +55,12 @@ class Artist::ArtistController < ApplicationController
 	end
 
 	def connect
-		# TOOD: add pagination
-		@activities = PublicActivity::Activity.order('created_at DESC').all
+		@active_tab = '8stem'
+		@activities = PublicActivity::Activity.order('created_at DESC').page(params[:page])
+		respond_to do |format|
+			format.js
+			format.html
+		end
 	end
 
 	protected

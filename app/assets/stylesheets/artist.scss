@@ -268,7 +268,7 @@
           color: #a6a6a6;
 
           &:hover {
-            background-color: white;
+            background-color: transparent;
             outline: none;
             border-color: transparent;
             color: #41c7ff;
@@ -393,6 +393,8 @@
 }
 
 #artistProfileHeader {
+  border: 1px solid #f2f2f2;
+
   .profile-header {
     padding-top: 40px;
     padding-bottom: 40px;
@@ -435,4 +437,41 @@
 
 #uploadSongHeader {
   padding: 30px 0;
+}
+
+#artistConnectPage {
+  #connectTabs {
+    padding: 0;
+
+    .nav-tabs {
+      vertical-align: top;
+      border: none;
+
+      & > li {
+        padding: 0 25px;
+
+        & > a {
+          padding: 15px 0;
+          color: #a6a6a6;
+
+          &:hover {
+            background-color: transparent;
+            outline: none;
+            border-color: transparent;
+            color: #41c7ff;
+          }
+        }
+
+        &.active {
+          & > a, & > a:hover, & > a:focus {
+            color: #555;
+            cursor: default;
+            border: none;
+            border-bottom: 2px solid #41c7ff;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
 }

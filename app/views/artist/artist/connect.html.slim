@@ -1,0 +1,20 @@
+#artistConnectPage
+  = render partial: 'artist/artist/artist_profile_header', locals: { artist: @artist }
+  #connectTabs.white-section
+    .nav-center
+      ul.nav.nav-tabs role="tablist"
+        li role="presentation" class=('active' if @active_tab == 'songs')
+          a aria-controls="profile" data-toggle="tab" href="#songs" role="tab" Songs
+        li role="presentation" class=('active' if @active_tab == '8stem')
+          a aria-controls="connections" data-toggle="tab" href="#8stem" role="tab" 8Stem
+        li role="presentation" class=('active' if @active_tab == 'friends')
+          a aria-controls="account" data-toggle="tab" href="#friends" role="tab" Friends
+  .tab-content
+    #songs.tab-pane role="tabpanel" class=('active' if @active_tab == 'songs')
+      .container
+        h4 Recent Activity
+
+        .white-section.songs
+          = render_activities(@activities)
+    .tab-pane id="8stem" role="tabpanel" class=('active' if @active_tab == '8stem')
+    #friends.tab-pane role="tabpanel" class=('active' if @active_tab == 'friends')

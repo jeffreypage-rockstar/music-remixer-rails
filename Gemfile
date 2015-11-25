@@ -84,6 +84,9 @@ gem 'pundit'
 # copy to clipboard
 gem 'zeroclipboard-rails'
 
+# pagination
+gem 'kaminari'
+
 group :development, :test do
   gem 'puma'
   
