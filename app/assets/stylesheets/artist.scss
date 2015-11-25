@@ -322,6 +322,18 @@
     padding-left: 15px;
     padding-right: 15px;
   }
+
+  [type="submit"] {
+    .loading {
+      display: none;
+    }
+
+    &[data-loading="true"] {
+      .loading {
+        display: inline-block;
+      }
+    }
+  }
 }
 
 #newArtistSongPage {

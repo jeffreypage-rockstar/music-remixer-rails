@@ -82,6 +82,12 @@
 
   $('#song_genre_list').tagsinput()
 
+  $('#songForm').submit ->
+    submitSong = $('[type="submit"]')
+    submitSong.attr('data-loading', true)
+    submitSong.attr('disabled', true)
+    return
+
   return
 
 $(document).on 'ready page:load', ->
