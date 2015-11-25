@@ -1,0 +1,7 @@
+.media
+  .media-left
+    = image_tag user.profile_image.url(:small_thumb), class: 'img-circle'
+  .media-body
+    span.owner #{user.name}
+    = image_tag "activities/#{activity}.png", class: 'activity-icon pull-right'
+    = image_tag "activities/#{channel}.png", class: 'activity-icon pull-right'

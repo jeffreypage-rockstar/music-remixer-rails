@@ -7,7 +7,7 @@ require 'taglib'
 require 'digest/md5'
 
 class Song < ActiveRecord::Base
-	include PublicActivity::Model
+	include PublicActivity::Common
 	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
 	# 		    title: Proc.new { |controller, model| model.title }
 

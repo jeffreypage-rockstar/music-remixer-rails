@@ -3,18 +3,34 @@
   #connectTabs.white-section
     .nav-center
       ul.nav.nav-tabs role="tablist"
+        li role="presentation" class=('active' if @active_tab == 'all')
+          a aria-controls="all" data-toggle="tab" href="#all" role="tab" All
         li role="presentation" class=('active' if @active_tab == 'songs')
-          a aria-controls="profile" data-toggle="tab" href="#songs" role="tab" Songs
+          a aria-controls="songs" data-toggle="tab" href="#songs" role="tab" Songs
         li role="presentation" class=('active' if @active_tab == '8stem')
-          a aria-controls="connections" data-toggle="tab" href="#8stem" role="tab" 8Stem
+          a aria-controls="8stem" data-toggle="tab" href="#8stem" role="tab" 8Stem
         li role="presentation" class=('active' if @active_tab == 'friends')
-          a aria-controls="account" data-toggle="tab" href="#friends" role="tab" Friends
+          a aria-controls="friends" data-toggle="tab" href="#friends" role="tab" Friends
   .tab-content
-    #songs.tab-pane role="tabpanel" class=('active' if @active_tab == 'songs')
+    #all.tab-pane role="tabpanel" class=('active' if @active_tab == 'all')
       .container
         h4 Recent Activity
 
-        .white-section.songs
-          = render_activities(@activities)
+        .white-section.recent-activity
+          ul.list-group.activities
+            = render_activities(@activities.limit(2))
+
+        h4 History
+
+        .white-section.history
+          ul.list-group.activities
+            = render_activities(@activities)
+
+          - unless @activities.last_page?
+            a.btn.btn-block.btn-grey.load-more data-remote="true" data-loading="false" href="#{artist_activities_path(page: @activities.next_page)}"
+              => fa_icon 'spinner spin', class: 'loading'
+              | Load more ...
+
+    #songs.tab-pane role="tabpanel" class=('active' if @active_tab == 'songs')
     .tab-pane id="8stem" role="tabpanel" class=('active' if @active_tab == '8stem')
     #friends.tab-pane role="tabpanel" class=('active' if @active_tab == 'friends')

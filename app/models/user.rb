@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	# authentication (clearance and omniauth/fb)
 	include Clearance::User
+	include PublicActivity::Common
 	has_many :authentications, :dependent => :destroy
 
 	# has many songs and remixes
