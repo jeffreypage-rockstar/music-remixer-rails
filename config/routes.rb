@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 			post 'profile/follow' => 'artist#follow', as: 'follow'
 			delete 'profile/unfollow' => 'artist#unfollow', as: 'unfollow'
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
-			get 'music' => 'artist#music', as: 'music'
+			get 'music' => 'songs#index', as: 'music'
 			get 'connect' => 'artist#connect', as: 'connect'
 
 			# had to move parts out from under songs, form_for was not working for it

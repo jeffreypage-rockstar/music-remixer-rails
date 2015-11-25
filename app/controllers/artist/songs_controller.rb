@@ -1,14 +1,15 @@
 class Artist::SongsController < Artist::BaseController
   respond_to :html, :json
+  helper_method :sort_column, :sort_direction
 
-	before_action :require_login
-	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :destroy]
+  before_action :require_login
+  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
   # GET /songs.json
   def index
-    @songs = current_user.songs
+    @songs = @artist.songs.order("#{sort_column} #{sort_direction}")
   end
 
   # GET /songs/1
@@ -108,35 +109,43 @@ class Artist::SongsController < Artist::BaseController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_song
-      if action_name == 'configure' || action_name == 'mixaudio'
-        @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
-      else 
-        @song = current_user.songs.find(params[:id])
-      end
-
-      unless @song
-        return redirect_to artist_songs_path
-      end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_song
+    if action_name == 'configure' || action_name == 'mixaudio'
+      @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
+    else
+      @song = current_user.songs.find(params[:id])
     end
 
-    def set_configuration
-      @configuration = 'source'
-      if params[:configuration].present?
-        @configuration = params[:configuration]
-      end
-      
-      @mixaudio = @song.mixaudio
-      # if @configuration == 'style-up'
-      #   @mixaudio = @song.mixaudio2
-      # elsif @configuration == 'style-down'
-      #   @mixaudio = @song.mixaudio3
-      # end
+    unless @song
+      return redirect_to artist_songs_path
+    end
+  end
+
+  def set_configuration
+    @configuration = 'source'
+    if params[:configuration].present?
+      @configuration = params[:configuration]
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def song_params
-      params.require(:song).permit(:name, :duration, :genre_list, :zipfile, :image, :image_cache)
-    end
+    @mixaudio = @song.mixaudio
+    # if @configuration == 'style-up'
+    #   @mixaudio = @song.mixaudio2
+    # elsif @configuration == 'style-down'
+    #   @mixaudio = @song.mixaudio3
+    # end
+  end
+
+  def sort_column
+    Song.column_names.include?(params[:sort]) ? params[:sort] : 'name'
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def song_params
+    params.require(:song).permit(:name, :duration, :genre_list, :zipfile, :image, :image_cache)
+  end
 end

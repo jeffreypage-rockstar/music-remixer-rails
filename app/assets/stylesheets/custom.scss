@@ -50,6 +50,15 @@ table.table-mix8 {
         border-top-right-radius: 5px;
         padding-right: 20px;
       }
+
+      a {
+        color: #71787d;
+        text-decoration: none;
+
+        &:hover {
+          color: #ffffff;
+        }
+      }
     }
   }
 

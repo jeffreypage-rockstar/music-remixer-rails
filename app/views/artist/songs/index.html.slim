@@ -9,12 +9,12 @@
           thead
             tr
               th
-              th Track Name
-              th.text-center Duration
-              th.text-center Plays
-              th.text-center Downloads
-              th.text-center Remixes
-              th.text-center Status
+              th #{sortable 'name', 'Track Name'}
+              th.text-center #{sortable 'duration', 'Duration'}
+              th.text-center #{sortable 'plays_count', 'Plays'}
+              th.text-center #{sortable 'downloads_count', 'Downloads'}
+              th.text-center #{sortable 'remixes_count', 'Remixes'}
+              th.text-center #{sortable 'status', 'Status'}
               th
           tbody
             - selected_songs = @artist.songs.decorate

@@ -37,9 +37,6 @@ class Artist::ArtistController < Artist::BaseController
 		redirect_to artist_profile_path
 	end
 
-	def music
-	end
-
 	def connect
 		# TOOD: add pagination
 		@activities = PublicActivity::Activity.order('created_at DESC').all
