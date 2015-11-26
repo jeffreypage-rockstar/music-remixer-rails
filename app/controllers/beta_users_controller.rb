@@ -3,7 +3,6 @@ class BetaUsersController < ApplicationController
 	def join
 		if request.post? && params.include?(:beta_user)
 			@beta_user = BetaUser.new(beta_user_params)
-			@beta_user.invite_code = Digest::SHA1.hexdigest([Time.now, rand].join)
 			if @beta_user.save
 				redirect_to beta_thanks_url
 			else
