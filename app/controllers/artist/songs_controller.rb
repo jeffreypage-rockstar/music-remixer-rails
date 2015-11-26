@@ -43,10 +43,6 @@ class Artist::SongsController < Artist::BaseController
   end
 
   def configure
-    if @song.mixaudio.blank?
-      @song.build_mixaudio(params[:configuration])
-      @mixaudio = @song.mixaudio
-    end
     respond_to do |format|
       format.html {}
       format.js {}

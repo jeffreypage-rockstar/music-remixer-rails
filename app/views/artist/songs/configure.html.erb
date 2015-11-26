@@ -1,19 +1,20 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
-<div class="container">
-  <div id="song-clips" class="row song-clips" data-id="<%= @song.id %>">
-    <div class="row" style="margin-bottom: 15px;">
-      <div class="col-md-9" style="">
-        <div id="songdetails" class="col-md-4">
-          <%= render 'songdetails' %>
-        </div>
-        <div id="partdetails" class="col-md-8">
-          <%= render 'partdetails' %>
-        </div>
-      </div>
-    </div>
 
-    <% unless @song.mixaudio_processing %>
+<% if @song.processing_done? %>
+    <div class="container">
+      <div id="song-clips" class="row song-clips" data-id="<%= @song.id %>">
+        <div class="row" style="margin-bottom: 15px;">
+          <div class="col-md-9" style="">
+            <div id="songdetails" class="col-md-4">
+              <%= render 'songdetails' %>
+            </div>
+            <div id="partdetails" class="col-md-8">
+              <%= render 'partdetails' %>
+            </div>
+          </div>
+        </div>
+
         <div id="mixaudioplayer" class="row main-player-area">
           <%= render 'mixaudioplayer', song: @song, mixaudio: @mixaudio %>
         </div>
@@ -26,50 +27,62 @@
             <%= render 'preview' %>
           </div>
         </div>
-    <% end %>
-  </div>
-</div>
+      </div>
+    </div>
 
-<script type="text/javascript">
-    window.configuration = "<%=@configuration%>";
-    initializeTopPlayer = function(mixedFilePath) {
-        window.topWavesurfer = Object.create(WaveSurfer);
-        window.topWavesurfer.init({
-            container: '.full-waveform',
-            fillParent: true,
-            height: 34,
-            waveColor: 'white',
-            progressColor: 'white',
-            cursorColor: 'white'
-        });
-        window.topWavesurfer.on('ready', function (_this) {
-            console.log("Mix Audio player is ready!");
-            $(".full-play-btn, #mixaudio").removeClass('disabled');
-        });
+    <script type="text/javascript">
+        window.configuration = "<%=@configuration%>";
+        initializeTopPlayer = function(mixedFilePath) {
+            window.topWavesurfer = Object.create(WaveSurfer);
+            window.topWavesurfer.init({
+                container: '.full-waveform',
+                fillParent: true,
+                height: 34,
+                waveColor: 'white',
+                progressColor: 'white',
+                cursorColor: 'white'
+            });
+            window.topWavesurfer.on('ready', function (_this) {
+                console.log("Mix Audio player is ready!");
+                $(".full-play-btn, #mixaudio").removeClass('disabled');
+            });
 
-        window.topWavesurfer.on('loading', function (_this, progress) {
-            $(_this.container).children(".progress").css("left", progress+"%");
-        });
+            window.topWavesurfer.on('loading', function (_this, progress) {
+                $(_this.container).children(".progress").css("left", progress+"%");
+            });
 
-        window.topWavesurfer.on('finish', function () {
-            updatePreviewPlayBtn(false);
-            $(".full-play-btn").removeClass('playing');
-            window.topWavesurfer.seekTo(0);
-        });
-        window.topWavesurfer.load(mixedFilePath);
-    }
-
-    stopTopPlayer = function() {
-        if (window.topWavesurfer) {
-            if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
-                window.topWavesurfer.pause();
+            window.topWavesurfer.on('finish', function () {
+                updatePreviewPlayBtn(false);
                 $(".full-play-btn").removeClass('playing');
-            }    
-        };
-    }
-    <% if @mixaudio.present? %>
-    $(document).ready(function(){
-        //initializeTopPlayer("<%=@mixaudio%>");
-    });
-    <% end %>
-</script>
+                window.topWavesurfer.seekTo(0);
+            });
+            window.topWavesurfer.load(mixedFilePath);
+        }
+
+        stopTopPlayer = function() {
+            if (window.topWavesurfer) {
+                if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
+                    window.topWavesurfer.pause();
+                    $(".full-play-btn").removeClass('playing');
+                }
+            };
+        }
+        <% if @mixaudio.present? %>
+        $(document).ready(function(){
+            //initializeTopPlayer("<%=@mixaudio%>");
+        });
+        <% end %>
+    </script>
+<% elsif @song.processing_failed? %>
+    <div class="container">
+      <div class="alert alert-danger">
+        Processing failed
+      </div>
+    </div>
+<% elsif @song.processing_pending? %>
+    <div class="container">
+      <div class="alert alert-danger">
+        Under Processing
+      </div>
+    </div>
+<% end %>

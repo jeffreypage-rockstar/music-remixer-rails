@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20151120013015) do
     t.string   "uuid",            limit: 255
     t.string   "file_tmp",        limit: 255
     t.boolean  "file_processing",               default: false, null: false
+    t.integer  "storing_status",  limit: 4,     default: 0
   end
 
   create_table "follows", force: :cascade do |t|
@@ -156,6 +157,7 @@ ActiveRecord::Schema.define(version: 20151120013015) do
     t.text     "mixaudio2",           limit: 65535
     t.text     "mixaudio3",           limit: 65535
     t.integer  "user_id",             limit: 4
+    t.integer  "status",              limit: 4,     default: 0
     t.string   "image",               limit: 255
     t.integer  "status",              limit: 4,     default: 0
     t.string   "uuid",                limit: 255
@@ -166,6 +168,7 @@ ActiveRecord::Schema.define(version: 20151120013015) do
     t.integer  "downloads_count",     limit: 4,     default: 0
     t.integer  "plays_count",         limit: 4,     default: 0
     t.integer  "remixes_count",       limit: 4,     default: 0
+    t.integer  "processing_status",   limit: 4,     default: 0
   end
 
   create_table "taggings", force: :cascade do |t|
