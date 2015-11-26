@@ -44,7 +44,7 @@ class SongDecorator < Draper::Decorator
 
   def google_plus_share_anchor
     url = "https://plus.google.com/share?url=#{song_url}"
-    h.link_to url, class: 'social-share-link', target: '_blank', data: { channel: 'googleplus' } do
+    h.link_to url, class: 'social-share-link', target: '_blank', data: { channel: 'google-plus' } do
       h.image_tag 'profile/google-plus.png'
     end
   end

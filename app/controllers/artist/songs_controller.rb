@@ -92,7 +92,7 @@ class Artist::SongsController < Artist::BaseController
   end
 
   def share
-    if %w(facebook twitter googleplus tumblr pinterest email).include? params[:channel]
+    if %w(facebook twitter google-plus tumblr pinterest email).include? params[:channel]
       @song.create_activity :share, owner: current_user, parameters: { channel: params[:channel] }
       respond_to do |format|
         format.json { render json: { song_id: @song.id, channel: params[:channel] } }
