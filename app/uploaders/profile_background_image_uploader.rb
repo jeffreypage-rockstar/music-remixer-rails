@@ -19,6 +19,10 @@ class ProfileBackgroundImageUploader < CarrierWave::Uploader::Base
     true
   end
 
+  def asset_host
+    Rails.application.secrets.rackspace_images_asset_host
+  end
+
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
     ActionController::Base.helpers.asset_path('fallback/profile_background_image_default.jpg')
