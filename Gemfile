@@ -52,6 +52,7 @@ gem 'omniauth-facebook'
 # admin
 gem 'rails_admin'
 
+gem 'sinatra', require: nil
 # Workers
 gem 'sidekiq'
 
@@ -72,6 +73,8 @@ gem 'acts-as-taggable-on', '~> 3.4'
 
 # Upload file
 gem 'carrierwave'
+gem 'carrierwave_backgrounder'
+gem 'fog'
 gem 'mini_magick'
 
 gem 'slim-rails'
@@ -86,6 +89,9 @@ gem 'zeroclipboard-rails'
 
 # pagination
 gem 'kaminari'
+
+# default value
+gem 'default_value_for'
 
 group :development, :test do
   gem 'puma'
@@ -117,4 +123,3 @@ group :production do
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
-#gem 'jquery-ui-rails', '~> 5.0.5'

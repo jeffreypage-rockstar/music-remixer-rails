@@ -1,10 +1,6 @@
 class SongDecorator < Draper::Decorator
   delegate_all
 
-  def name
-    object.name
-  end
-
   def duration
     unless object.duration.blank?
       mins = (object.duration / 60).to_i
@@ -46,10 +42,10 @@ class SongDecorator < Draper::Decorator
     end
   end
 
-  def googleplus_share_anchor
+  def google_plus_share_anchor
     url = "https://plus.google.com/share?url=#{song_url}"
     h.link_to url, class: 'social-share-link', target: '_blank', data: { channel: 'googleplus' } do
-      h.image_tag 'profile/googleplus.png'
+      h.image_tag 'profile/google-plus.png'
     end
   end
 
