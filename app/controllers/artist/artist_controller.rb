@@ -12,7 +12,7 @@ class Artist::ArtistController < ApplicationController
 
 	def edit_profile
 		@artist = current_user.decorate
-		@active_tab = 'profile'
+		@active_tab = params[:tab] || 'profile'
 	end
 
 	def update_profile
@@ -55,6 +55,15 @@ class Artist::ArtistController < ApplicationController
 	# TODO: get rid of dashboard?
 	def dashboard
 		redirect_to artist_profile_path
+	end
+
+	def disconnect_identity
+		@artist = current_user
+		provider = params[:provider]
+		if Authentication::PROVIDERS.include? provider
+			@artist.identity(provider).destroy
+			redirect_to artist_edit_profile_path(tab: 'connections'), notice: "Successfully disconnected from #{provider}"
+		end
 	end
 
 	def music

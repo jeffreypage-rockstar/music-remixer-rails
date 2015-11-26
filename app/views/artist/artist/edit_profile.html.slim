@@ -4,7 +4,7 @@
       ul.nav.nav-tabs role="tablist"
         li role="presentation" class=('active' if @active_tab == 'profile')
           a aria-controls="profile" data-toggle="tab" href="#profile" role="tab" Profile
-        li role="presentation"
+        li role="presentation" class=('active' if @active_tab == 'connections')
           a aria-controls="connections" data-toggle="tab" href="#connections" role="tab" Connections
         li role="presentation" class=('active' if @active_tab == 'account')
           a aria-controls="account" data-toggle="tab" href="#account" role="tab" Account
@@ -65,51 +65,23 @@
             hr
             = f.button :submit, 'Save Profile Changes', class: 'btn-grey btn-round'
 
-    #connections.tab-pane role="tabpanel"
+    #connections.tab-pane role="tabpanel" class=('active' if @active_tab == 'connections')
       .container
         .white-section.connections
           ul.list-group
-            li.list-group-item
-              strong Facebook
-              .pull-right
-                a.btn.btn-facebook
-                  => fa_icon 'facebook'
-                  | Connect with Facebook
-              hr
-            li.list-group-item
-              strong Twitter
-              .pull-right
-                a.btn.btn-twitter
-                  => fa_icon 'twitter'
-                  | Connect with Twitter
-              hr
-            li.list-group-item
-              strong Tumblr
-              .pull-right
-                a.btn.btn-tumblr
-                  => fa_icon 'tumblr'
-                  | Connect with Tumblr
-              hr
-            li.list-group-item
-              strong Google+
-              .pull-right
-                a.btn.btn-googleplus
-                  => fa_icon 'google-plus'
-                  | Connect with Google+
-              hr
-            li.list-group-item
-              strong SoundCloud
-              .pull-right
-                a.btn.btn-soundcloud
-                  => fa_icon 'soundcloud'
-                  | Connect with SoundCloud
-              hr
-            li.list-group-item
-              strong Last.fm
-              .pull-right
-                a.btn.btn-lastfm
-                  => fa_icon 'lastfm'
-                  | Connect with Last.fm
+            - %w(facebook twitter tumblr google_oauth2 soundcloud lastfm).each do |provider|
+              li.list-group-item
+                strong #{provider.titleize}
+                .pull-right
+                  - if @artist.identity provider
+                    a.btn.btn-grey href="#{artist_disconnect_identity_path}" data-method="delete"
+                      => fa_icon 'unlink'
+                      | Disconnect
+                  - else
+                    a.btn class="#{provider_btn_class(provider)}" href="/auth/#{provider}"
+                      => fa_icon provider_icon(provider)
+                      | Connect with #{provider_name(provider)}
+                hr
 
     #account.tab-pane role="tabpanel" class=('active' if @active_tab == 'account')
       .container

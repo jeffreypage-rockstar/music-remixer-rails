@@ -78,6 +78,10 @@ class User < ActiveRecord::Base
 		true
 	end
 
+	def identity(provider)
+		self.authentications.find_by(provider: provider)
+	end
+
 	def self.create_unique_username(email)
 		loop do
 			username = "#{email[/^[^@]*/]}_#{SecureRandom.hex(3)}"
