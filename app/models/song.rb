@@ -7,6 +7,7 @@ require 'taglib'
 require 'digest/md5'
 
 class Song < ActiveRecord::Base
+	include ActiveModel::Dirty
 	include PublicActivity::Model
 	# tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
 	# 		    title: Proc.new { |controller, model| model.title }
@@ -14,23 +15,24 @@ class Song < ActiveRecord::Base
 	ACCEPTED_CLIP_FORMATS = %w(m4a mp3 aac amr aiff ogg oga wav flac act 3gp mp4)
 	mount_uploader :image, SongImageUploader
 	mount_uploader :mixaudio, SongMixaudioUploader
-	store_in_background :mixaudio
+	store_in_background :mixaudio, SongProcessWorker
 	mount_uploader :zipfile, SongZipfileUploader
 	store_in_background :zipfile
 
 	# songs status
 	enum status: { pending: 0, released: 1, archived: 2 }
+	enum processing_status: { processing_pending: 0, processing_done: 1, processing_failed: 2 }
 
 	# artist genres
 	acts_as_taggable_on :genres
 	acts_as_likeable
 
-	default_value_for :uuid, SecureRandom.uuid
-
 	belongs_to :user, counter_cache: true
 	has_many :parts, dependent: :delete_all
 	has_many :clips, dependent: :delete_all
 	has_many :clip_types, dependent: :delete_all
+
+	default_values uuid: SecureRandom.uuid, status: Song.statuses[:pending], processing_status: Song.processing_statuses[:processing_pending]
 
 	# audio uploader
 	validates :name, presence: true
@@ -52,7 +54,7 @@ class Song < ActiveRecord::Base
 	def zipfile=(obj)
 		super(obj)
 
-    unless self.zipfile_processing?
+		if self.zipfile_processing_was
       self.build_parts_and_clips
       self.build_mixaudio
     end
