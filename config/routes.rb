@@ -95,7 +95,8 @@ Rails.application.routes.draw do
 	# ADMIN
 	constraints :subdomain => 'admin' do
 		mount RailsAdmin::Engine => '/', as: 'rails_admin'
-  end
+	end
 
+	require 'sidekiq/web'
 	mount Sidekiq::Web => '/sidekiq'
 end
