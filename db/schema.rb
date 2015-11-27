@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124155806) do
+ActiveRecord::Schema.define(version: 20151126131907) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20151124155806) do
     t.string   "uuid",            limit: 255
     t.string   "file_tmp",        limit: 255
     t.boolean  "file_processing",               default: false, null: false
+    t.integer  "storing_status",  limit: 4,     default: 0
   end
 
   create_table "follows", force: :cascade do |t|
@@ -142,6 +143,8 @@ ActiveRecord::Schema.define(version: 20151124155806) do
     t.boolean  "is_public"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "downloads_count", limit: 4,     default: 0
+    t.integer  "plays_count",     limit: 4,     default: 0
   end
 
   create_table "songs", force: :cascade do |t|
@@ -161,6 +164,10 @@ ActiveRecord::Schema.define(version: 20151124155806) do
     t.string   "mixaudio_tmp",        limit: 255
     t.boolean  "zipfile_processing",                default: false, null: false
     t.boolean  "mixaudio_processing",               default: false, null: false
+    t.integer  "downloads_count",     limit: 4,     default: 0
+    t.integer  "plays_count",         limit: 4,     default: 0
+    t.integer  "remixes_count",       limit: 4,     default: 0
+    t.integer  "processing_status",   limit: 4,     default: 0
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -198,11 +205,11 @@ ActiveRecord::Schema.define(version: 20151124155806) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
-    t.string   "location",                 limit: 128
-    t.text     "bio",                      limit: 65535
     t.integer  "followees_count",          limit: 4,     default: 0
     t.integer  "followers_count",          limit: 4,     default: 0
     t.integer  "songs_count",              limit: 4,     default: 0
+    t.string   "location",                 limit: 128
+    t.text     "bio",                      limit: 65535
     t.string   "facebook",                 limit: 255
     t.string   "twitter",                  limit: 255
     t.string   "soundcloud",               limit: 255
