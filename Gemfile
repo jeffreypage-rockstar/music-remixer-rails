@@ -87,6 +87,9 @@ gem 'pundit'
 # copy to clipboard
 gem 'zeroclipboard-rails'
 
+# pagination
+gem 'kaminari'
+
 # default value
 gem 'default_value_for'
 

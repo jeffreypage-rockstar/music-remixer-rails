@@ -1,9 +1,11 @@
 class Clip < ActiveRecord::Base
 	default_scope { order('row') }
 	mount_uploader :file, ClipFileUploader
-	store_in_background :file
+	store_in_background :file, ClipFileUploadWorker
 
-	default_value_for :uuid, SecureRandom.uuid
+	enum storing_status: { storing_pending: 0, storing_done: 1, storing_failed: 2 }
+
+	default_values uuid: SecureRandom.uuid, storing_status: Clip.storing_statuses[:storing_pending]
 
 	belongs_to :song
 	belongs_to :part

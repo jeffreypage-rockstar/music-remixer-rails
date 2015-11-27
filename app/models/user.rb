@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	# authentication (clearance and omniauth/fb)
 	include Clearance::User
+	include PublicActivity::Common
 	has_many :authentications, :dependent => :destroy
 
 	# has many songs and remixes
@@ -76,6 +77,10 @@ class User < ActiveRecord::Base
 
 	def password_optional?
 		true
+	end
+
+	def identity(provider)
+		self.authentications.find_by(provider: provider)
 	end
 
 	def self.create_unique_username(email)

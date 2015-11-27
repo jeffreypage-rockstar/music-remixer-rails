@@ -65,6 +65,38 @@
 
   return
 
+@songFormReady = ->
+  $('#song_image').filestyle
+    icon: false
+    badge: false
+    input: false
+    buttonText: 'Update Image'
+    buttonName: 'btn-primary btn-round'
+
+  $('#song_zipfile').filestyle
+    icon: false
+    badge: false
+    input: false
+    buttonText: 'Update Zipfile'
+    buttonName: 'btn-primary btn-round'
+
+  $('#song_genre_list').tagsinput()
+
+  return
+
+@artistConnectPageReady = ->
+  $('.load-more').bind 'ajax:before', ->
+    $(this).attr('disabled', true)
+    $(this).attr('data-loading', true)
+    return
+
+  $('.load-more').bind 'ajax:complete', ->
+    $(this).attr('disabled', false)
+    $(this).attr('data-loading', false)
+    return
+
+  return
+
 $(document).on 'ready page:load', ->
   if $('#artistProfilePage').length > 0
     artistProfilePageReady()
@@ -72,4 +104,9 @@ $(document).on 'ready page:load', ->
   if $('#editArtistProfilePage').length > 0
     editArtistProfilePageReady()
 
+  if $('#songForm').length > 0
+    songFormReady()
+
+  if $('#artistConnectPage').length > 0
+    artistConnectPageReady()
   return

@@ -18,6 +18,10 @@ class ClipFileUploader < CarrierWave::Uploader::Base
     true
   end
 
+  def asset_host
+    Rails.application.secrets.rackspace_audio_asset_host
+  end
+
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
     Song::ACCEPTED_CLIP_FORMATS

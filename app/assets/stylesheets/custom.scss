@@ -6,13 +6,64 @@
   background-color: #f8f8f8;
   background-image: none;
   border: 1px solid transparent;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: none;
 
   .tag {
     background-color: #737373;
     text-transform: uppercase;
     margin-right: 7px;
+  }
+}
+
+table.table-mix8 {
+  box-shadow: 0 3px 3px rgba(0, 0, 0, .05);
+
+  & > thead > tr {
+    & > th {
+      border: none;
+      background-color: #414a51;
+      color: #71787d;
+      padding: 15px;
+      font-size: 10px;
+      text-transform: uppercase;
+
+      &:first-child {
+        -webkit-border-top-left-radius: 5px;
+        -moz-border-top-left-radius: 5px;
+        border-top-left-radius: 5px;
+        padding-left: 20px;
+      }
+
+      &:last-child {
+        -webkit-border-top-right-radius: 5px;
+        -moz-border-top-right-radius: 5px;
+        border-top-right-radius: 5px;
+        padding-right: 20px;
+      }
+    }
+  }
+
+  & > tbody > tr {
+    &:nth-of-type(odd) {
+      background-color: #ffffff;
+    }
+
+    &:nth-of-type(even) {
+      background-color: #f8f8f8;
+    }
+
+    & > td {
+      padding: 10px;
+
+      &:first-child {
+        padding-left: 20px;
+      }
+
+      &:last-child {
+        padding-right: 20px;
+      }
+    }
   }
 }
 
@@ -24,6 +75,7 @@
 .btn.btn-round {
   border-radius: 24px;
 }
+
 
 .btn.btn-facebook {
   background-color: #3b5998;
@@ -40,7 +92,7 @@
   color: #ffffff;
 }
 
-.btn.btn-googleplus {
+.btn.btn-google-plus {
   background-color: #e9453c;
   color: #ffffff;
 }

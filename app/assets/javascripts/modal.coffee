@@ -9,4 +9,11 @@ $ ->
       clip = new ZeroClipboard($(modal_holder_selector).find('#copy-song-url'))
 
       initializePlayer '#jquery_jplayer', '#jp_container'
+
+      $(modal_holder_selector).find('.social-share-link').click ->
+        shareTrackUrl = $(this).closest('.social-share-links').data('shareTrackUrl')
+        $.post shareTrackUrl, { channel: $(this).data('channel') }, (data) ->
+          return
+        return
+      return
     false

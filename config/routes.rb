@@ -1,5 +1,4 @@
 require 'api_constraints'
-require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
@@ -43,6 +42,8 @@ Rails.application.routes.draw do
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
 			get 'music' => 'artist#music', as: 'music'
 			get 'connect' => 'artist#connect', as: 'connect'
+			get 'activities' => 'artist#activities', as: 'activities'
+			delete 'identity/:provider/disconnect' => 'artist#disconnect_identity', as: 'disconnect_identity'
 
 			# had to move parts out from under songs, form_for was not working for it
 			resources :songs do
@@ -50,6 +51,7 @@ Rails.application.routes.draw do
 					get :configure
 					get :mixaudio
 					get :share_modal
+          post :share
           post :toggle_like_song
           delete :toggle_like_song
         end
@@ -93,7 +95,8 @@ Rails.application.routes.draw do
 	# ADMIN
 	constraints :subdomain => 'admin' do
 		mount RailsAdmin::Engine => '/', as: 'rails_admin'
-  end
+	end
 
+	require 'sidekiq/web'
 	mount Sidekiq::Web => '/sidekiq'
 end

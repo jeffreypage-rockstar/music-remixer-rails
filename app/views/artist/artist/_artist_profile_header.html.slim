@@ -1,0 +1,13 @@
+#artistProfileHeader
+  .white-section.profile-header
+    .container
+      .media
+        .media-left
+          = image_tag artist.profile_image.url(:thumb), class: 'img-circle profile-image'
+        .media-body
+          .artist-name #{artist.name}
+          .artist-stats #{artist.songs_count} tracks &bull; #{artist.remixes_count} remixes
+      .edit-profile
+        | Edit Profile
+        =< link_to artist_edit_profile_path do
+          = image_tag 'edit-circle.png'

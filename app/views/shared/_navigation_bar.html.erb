@@ -19,7 +19,7 @@
 				<% if signed_in? && current_user.is_artist_admin? %>
 					<li class="<%= 'active' if current_page?(artist_profile_path) %>"><a href="<%= artist_profile_url %>">Profile</a></li>
 					<li class="<%= 'active' if current_page?(artist_music_path) %>"><a href="<%= artist_music_url %>">Music</a></li>
-					<li class="<%= 'active' if current_page?(artist_connect_path) %>"><a href="<%= artist_connect_url %>">Connect <span class="badge">10</span></a></li>
+					<li class="<%= 'active' if current_page?(artist_connect_path) %>"><a href="<%= artist_connect_url %>">Networks <span class="badge">10</span></a></li>
 				<% end %>
 				<li class="far-right">
 					<% if signed_in? %>

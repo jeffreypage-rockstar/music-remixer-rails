@@ -434,6 +434,7 @@ DEPENDENCIES
   font-awesome-rails (~> 4.4.0.0)
   jbuilder (~> 2.0)
   jquery-rails
+  kaminari
   mini_magick
   mysql2 (~> 0.3.18)
   omniauth

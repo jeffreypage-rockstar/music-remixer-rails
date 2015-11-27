@@ -1,7 +1,7 @@
 @import "mixin";
 
 #shareSongModal {
-  @include track-media(150px);
+  @include track-media(150px, 100px);
   
   .track.media {
     .media-body {

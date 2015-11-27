@@ -1,0 +1,11 @@
+li.list-group-item.activity.unfollow
+  .row
+    .col-sm-4
+      = render partial: 'public_activity/user_name_with_avatar', locals: { user: activity.owner, channel: '8stem', activity: 'unfollow' }
+    .col-sm-8
+      span.title
+        => 'Unfollowed'
+        strong
+          => fa_icon 'user'
+          = activity.trackable.name
+      span.when.pull-right #{time_ago_in_words activity.created_at}

@@ -18,6 +18,10 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
 		true
 	end
 
+	def asset_host
+		Rails.application.secrets.rackspace_images_asset_host
+	end
+
 	# Provide a default URL as a default if there hasn't been a file uploaded:
 	def default_url
 	  ActionController::Base.helpers.asset_path('fallback/profile_image/' + [version_name, 'default.png'].join('_'))
@@ -33,7 +37,7 @@ class ProfileImageUploader < CarrierWave::Uploader::Base
 	end
 
 	version :small_thumb, from_version: :thumb do
-		process resize_to_fill: [20, 20]
+		process resize_to_fill: [50, 50]
 	end
 
 	# Add a white list of extensions which are allowed to be uploaded.

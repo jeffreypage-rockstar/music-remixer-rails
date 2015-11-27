@@ -1,8 +1,8 @@
-class Artist::SongsController < ApplicationController
+class Artist::SongsController < Artist::BaseController
   respond_to :html, :json
 
 	before_action :require_login
-	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :destroy]
+	before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :share, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
@@ -32,6 +32,7 @@ class Artist::SongsController < ApplicationController
     @song.user = current_user
     respond_to do |format|
       if @song.save
+        @song.create_activity :create, owner: current_user
         format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
@@ -42,10 +43,6 @@ class Artist::SongsController < ApplicationController
   end
 
   def configure
-    if @song.mixaudio.blank?
-      @song.build_mixaudio(params[:configuration])
-      @mixaudio = @song.mixaudio
-    end
     respond_to do |format|
       format.html {}
       format.js {}
@@ -90,8 +87,18 @@ class Artist::SongsController < ApplicationController
     respond_modal_with @song
   end
 
+  def share
+    if %w(facebook twitter google-plus tumblr pinterest email).include? params[:channel]
+      @song.create_activity :share, owner: current_user, parameters: { channel: params[:channel] }
+      respond_to do |format|
+        format.json { render json: { song_id: @song.id, channel: params[:channel] } }
+      end
+    end
+  end
+
   def toggle_like_song
     current_user.toggle_like!(@song)
+    @song.create_activity current_user.likes?(@song) ? :like : :unlike, owner: current_user
     respond_to do |format|
       format.js { render :like_unlike_song }
     end
@@ -137,6 +144,6 @@ class Artist::SongsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def song_params
-      params.require(:song).permit(:name, :duration, :zipfile, :image, :image_cache)
+      params.require(:song).permit(:name, :duration, :genre_list, :zipfile, :image, :image_cache)
     end
 end
