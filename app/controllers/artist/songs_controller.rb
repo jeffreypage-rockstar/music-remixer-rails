@@ -33,7 +33,7 @@ class Artist::SongsController < Artist::BaseController
     @song.user = current_user
     respond_to do |format|
       if @song.save
-        format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully created.' }
+        format.html { redirect_to artist_songs_path, notice: 'Song was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
