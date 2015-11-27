@@ -44,3 +44,5 @@ bower.json
 docker-compose.yml
 
 vendor/ruby
+vendor/cache
+

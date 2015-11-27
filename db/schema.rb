@@ -104,6 +104,19 @@ ActiveRecord::Schema.define(version: 20151126131907) do
   add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree
   add_index "follows", ["follower_id", "follower_type"], name: "fk_follows", using: :btree
 
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",           limit: 255, null: false
+    t.integer  "sluggable_id",   limit: 4,   null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope",          limit: 255
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
   create_table "likes", force: :cascade do |t|
     t.string   "liker_type",    limit: 255
     t.integer  "liker_id",      limit: 4
@@ -136,15 +149,14 @@ ActiveRecord::Schema.define(version: 20151126131907) do
   end
 
   create_table "remixes", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "song_id",    limit: 4
-    t.string   "name",       limit: 255
-    t.text     "config",     limit: 65535
+    t.integer  "user_id",         limit: 4
+    t.integer  "song_id",         limit: 4
+    t.string   "name",            limit: 255
     t.boolean  "is_public"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "downloads_count", limit: 4,     default: 0
-    t.integer  "plays_count",     limit: 4,     default: 0
+    t.integer  "downloads_count", limit: 4,   default: 0
+    t.integer  "plays_count",     limit: 4,   default: 0
   end
 
   create_table "songs", force: :cascade do |t|
@@ -157,8 +169,9 @@ ActiveRecord::Schema.define(version: 20151126131907) do
     t.text     "mixaudio2",           limit: 65535
     t.text     "mixaudio3",           limit: 65535
     t.integer  "user_id",             limit: 4
-    t.string   "image",               limit: 255
     t.integer  "status",              limit: 4,     default: 0
+    t.string   "image",               limit: 255
+    t.string   "slug",                limit: 255
     t.string   "uuid",                limit: 255
     t.string   "zipfile_tmp",         limit: 255
     t.string   "mixaudio_tmp",        limit: 255
@@ -169,6 +182,8 @@ ActiveRecord::Schema.define(version: 20151126131907) do
     t.integer  "remixes_count",       limit: 4,     default: 0
     t.integer  "processing_status",   limit: 4,     default: 0
   end
+
+  add_index "songs", ["slug"], name: "index_songs_on_slug", unique: true, using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
@@ -205,11 +220,11 @@ ActiveRecord::Schema.define(version: 20151126131907) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.string   "location",                 limit: 128
+    t.text     "bio",                      limit: 65535
     t.integer  "followees_count",          limit: 4,     default: 0
     t.integer  "followers_count",          limit: 4,     default: 0
     t.integer  "songs_count",              limit: 4,     default: 0
-    t.string   "location",                 limit: 128
-    t.text     "bio",                      limit: 65535
     t.string   "facebook",                 limit: 255
     t.string   "twitter",                  limit: 255
     t.string   "soundcloud",               limit: 255
