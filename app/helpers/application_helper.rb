@@ -41,6 +41,7 @@ module ApplicationHelper
 			else
 				"btn-#{provider}"
 		end
+	end
 
 	def sortable(column, title = nil)
 		title ||= column.titleize
