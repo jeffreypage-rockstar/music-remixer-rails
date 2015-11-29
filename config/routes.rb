@@ -40,7 +40,7 @@ Rails.application.routes.draw do
 			post 'profile/follow' => 'artist#follow', as: 'follow'
 			delete 'profile/unfollow' => 'artist#unfollow', as: 'unfollow'
 			get 'dashboard' => 'artist#dashboard', as: 'dashboard'
-			get 'music' => 'artist#music', as: 'music'
+			get 'music' => 'songs#index', as: 'music'
 			get 'connect' => 'artist#connect', as: 'connect'
 			get 'activities' => 'artist#activities', as: 'activities'
 			delete 'identity/:provider/disconnect' => 'artist#disconnect_identity', as: 'disconnect_identity'

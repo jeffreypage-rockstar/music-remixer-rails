@@ -7,7 +7,7 @@
         .media-body
           .artist-name #{artist.name}
           .artist-stats #{artist.songs_count} tracks &bull; #{artist.remixes_count} remixes
-      .edit-profile
-        | Edit Profile
-        =< link_to artist_edit_profile_path do
-          = image_tag 'edit-circle.png'
+      .upload-music
+        = link_to new_artist_song_path(artist), class: 'btn btn-primary btn-md' do
+          => fa_icon 'cloud'
+          | Upload Music

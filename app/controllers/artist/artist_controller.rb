@@ -24,8 +24,6 @@ class Artist::ArtistController < Artist::BaseController
 	end
 
 	def update_account
-		@artist = current_user.decorate
-
 		if @artist.update(account_params)
 			sign_in @artist
 			redirect_to artist_profile_path, notice: 'Account successfully updated'

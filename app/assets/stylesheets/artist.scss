@@ -320,9 +320,17 @@
   }
 
   .selected-songs {
-    .duration, .plays, .downloads, .remixes {
+    .duration, .plays, .downloads, .remixes, .status {
       font-size: .8em;
       color: #9f9f9f;
+    }
+
+    .actions {
+      width: 60px;
+
+      a {
+        display: block;
+      }
     }
   }
 
@@ -384,6 +392,18 @@
     padding-left: 15px;
     padding-right: 15px;
   }
+
+  [type="submit"] {
+    .loading {
+      display: none;
+    }
+
+    &[data-loading="true"] {
+      .loading {
+        display: inline-block;
+      }
+    }
+  }
 }
 
 #newArtistSongPage {
@@ -402,7 +422,7 @@
     .container {
       position: relative;
 
-      .edit-profile {
+      .upload-music {
         position: absolute;
         right: 15px;
         top: 25px;

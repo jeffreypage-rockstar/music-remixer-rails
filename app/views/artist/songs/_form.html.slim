@@ -20,4 +20,6 @@
     .col-sm-8
 
   hr
-  = f.button :submit, class: 'btn-grey btn-round'
+  = f.button :button, class: 'btn-grey btn-round', data: { loading: false } do
+    => fa_icon 'spinner spin', class: 'loading'
+    | Submit Song
