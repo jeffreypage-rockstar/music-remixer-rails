@@ -3,7 +3,7 @@ class Artist::SongsController < Artist::BaseController
   helper_method :sort_column, :sort_direction
 
   before_action :require_login
-  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :share, :destroy]
+  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
@@ -31,14 +31,21 @@ class Artist::SongsController < Artist::BaseController
   def create
     @song = Song.new(song_params)
     @song.user = current_user
-    respond_to do |format|
-      if @song.save
-        @song.create_activity :create, owner: current_user
-        format.html { redirect_to artist_songs_path, notice: 'Song was successfully created.' }
-        format.json { render :show, status: :created, location: @song }
+    if @song.save
+      @song.create_activity :create, owner: current_user
+      flash[:success] = 'Song was successfully created.'
+      flash.keep(:success)
+
+      if request.xhr?
+        render json: { redirect_url: artist_songs_path }
       else
-        format.html { render :new }
-        format.json { render json: @song.errors, status: :unprocessable_entity }
+        redirect_to artist_songs_path
+      end
+    else
+      if request.xhr?
+        render partial: 'artist/songs/form', layout: false, status: :unprocessable_entity
+      else
+        render :new
       end
     end
   end

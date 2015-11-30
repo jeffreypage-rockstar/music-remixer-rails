@@ -93,6 +93,8 @@ gem 'kaminari'
 # default value
 gem 'default_value_for'
 
+gem 'jquery-fileupload-rails'
+
 group :development, :test do
   gem 'puma'
   

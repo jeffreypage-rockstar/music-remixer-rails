@@ -14,7 +14,6 @@
               th.text-center #{sortable 'plays_count', 'Plays'}
               th.text-center #{sortable 'downloads_count', 'Downloads'}
               th.text-center #{sortable 'remixes_count', 'Remixes'}
-              th.text-center #{sortable 'processing_status', 'Processing'}
               th.text-center #{sortable 'status', 'Status'}
               th
           tbody
@@ -28,7 +27,6 @@
                 td.plays.text-center #{song.plays_count}
                 td.downloads.text-center #{song.downloads_count}
                 td.remixes.text-center #{song.remixes_count}
-                td.status.text-center #{song.processing_status_icon}
                 td.status.text-center #{song.status_icon}
                 td.actions
                   = link_to configure_artist_song_path(song) do
