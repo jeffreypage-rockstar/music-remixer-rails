@@ -1,4 +1,4 @@
-= simple_form_for @song, url: artist_songs_path, html: { id: 'songForm', class: 'form-horizontal' }, wrapper: :horizontal_form do |f|
+= simple_form_for @song, url: artist_songs_path, html: { id: 'songForm', class: 'form-horizontal' }, authenticity_token: true, wrapper: :horizontal_form do |f|
   = f.input :name
 
   hr

@@ -19,7 +19,7 @@ class SongImageUploader < CarrierWave::Uploader::Base
   end
 
   def asset_host
-    Rails.application.secrets.rackspace_images_asset_host
+    model.image_changed? ? Rails.application.secrets.host_url : Rails.application.secrets.rackspace_images_asset_host
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
