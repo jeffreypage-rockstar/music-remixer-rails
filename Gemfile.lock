@@ -439,6 +439,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-fileupload-rails
   jquery-rails
+  kaminari
   mini_magick
   mysql2 (~> 0.3.18)
   omniauth

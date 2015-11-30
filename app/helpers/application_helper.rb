@@ -12,6 +12,37 @@ module ApplicationHelper
 		content_for(:title) { page_title }
 	end
 
+	def provider_name(provider)
+		case provider
+			when 'google_oauth2'
+				'Google+'
+			when 'soundcloud'
+				'SoundCloud'
+			when 'lastfm'
+				'Last.fm'
+			else
+				provider.titleize
+		end
+	end
+
+	def provider_icon(provider)
+		case provider
+			when 'google_oauth2'
+				'google-plus'
+			else
+				provider
+		end
+	end
+
+	def provider_btn_class(provider)
+		case provider
+			when 'google_oauth2'
+				'btn-google-plus'
+			else
+				"btn-#{provider}"
+		end
+	end
+
 	def sortable(column, title = nil)
 		title ||= column.titleize
 		css_class = column == sort_column ? "current #{sort_direction}" : nil

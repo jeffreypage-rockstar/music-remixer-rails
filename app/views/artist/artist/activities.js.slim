@@ -1,0 +1,7 @@
+| var activities = $('#artistConnectPage .history');
+| activities.find('.activities').append("#{escape_javascript(render_activities @activities)}");
+| if (#{@activities.last_page?}) {
+|   activities.find('.load-more').hide();
+| } else {
+|   activities.find('.load-more').attr('href', "#{escape_javascript(artist_activities_path(page: @activities.next_page))}");
+| }

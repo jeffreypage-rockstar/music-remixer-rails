@@ -32,6 +32,7 @@ class Artist::SongsController < Artist::BaseController
     @song = Song.new(song_params)
     @song.user = current_user
     if @song.save
+      @song.create_activity :create, owner: current_user
       flash[:success] = 'Song was successfully created.'
       flash.keep(:success)
 
@@ -94,8 +95,18 @@ class Artist::SongsController < Artist::BaseController
     respond_modal_with @song
   end
 
+  def share
+    if %w(facebook twitter google-plus tumblr pinterest email).include? params[:channel]
+      @song.create_activity :share, owner: current_user, parameters: { channel: params[:channel] }
+      respond_to do |format|
+        format.json { render json: { song_id: @song.id, channel: params[:channel] } }
+      end
+    end
+  end
+
   def toggle_like_song
     current_user.toggle_like!(@song)
+    @song.create_activity current_user.likes?(@song) ? :like : :unlike, owner: current_user
     respond_to do |format|
       format.js { render :like_unlike_song }
     end

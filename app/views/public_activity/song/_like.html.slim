@@ -1,0 +1,12 @@
+li.list-group-item.activity.follow
+  .row
+    .col-sm-4
+      = render partial: 'public_activity/user_name_with_avatar', locals: { user: activity.owner, channel: '8stem', activity: 'like' }
+    .col-sm-8
+      span.title
+        => 'Liked'
+        strong
+          => fa_icon 'music'
+          = activity.trackable.name
+        =< "by #{activity.trackable.user.name}"
+      span.when.pull-right #{time_ago_in_words activity.created_at}
