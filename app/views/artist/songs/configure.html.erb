@@ -1,7 +1,7 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
 
-<% if @song.processing_done? %>
+<% if @song.pending? %>
     <div class="container">
       <div id="song-clips" class="row song-clips" data-id="<%= @song.id %>">
         <div class="row" style="margin-bottom: 15px;">
@@ -73,13 +73,13 @@
         });
         <% end %>
     </script>
-<% elsif @song.processing_failed? %>
+<% elsif @song.failed? %>
     <div class="container">
       <div class="alert alert-danger">
         Processing failed
       </div>
     </div>
-<% elsif @song.processing_pending? %>
+<% elsif @song.pending? %>
     <div class="container">
       <div class="alert alert-danger">
         Under Processing
