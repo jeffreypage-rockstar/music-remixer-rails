@@ -65,39 +65,11 @@
 
   return
 
-@songFormReady = ->
-  $('#song_image').filestyle
-    icon: false
-    badge: false
-    input: false
-    buttonText: 'Update Image'
-    buttonName: 'btn-primary btn-round'
-
-  $('#song_zipfile').filestyle
-    icon: false
-    badge: false
-    input: false
-    buttonText: 'Update Zipfile'
-    buttonName: 'btn-primary btn-round'
-
-  $('#song_genre_list').tagsinput()
-
-  $('#songForm').submit ->
-    submitSong = $('[type="submit"]')
-    submitSong.attr('data-loading', true)
-    submitSong.attr('disabled', true)
-    return
-
-  return
-
 $(document).on 'ready page:load', ->
   if $('#artistProfilePage').length > 0
     artistProfilePageReady()
 
   if $('#editArtistProfilePage').length > 0
     editArtistProfilePageReady()
-
-  if $('#songForm').length > 0
-    songFormReady()
 
   return

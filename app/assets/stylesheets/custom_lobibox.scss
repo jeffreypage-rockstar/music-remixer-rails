@@ -1,0 +1,22 @@
+.lobibox {
+  &.lobibox-progress {
+    .lobibox-header {
+      background-color: #41c7ff;
+    }
+
+    .lobibox-body {
+      .lobibox-progress-bar-wrapper {
+        background-color: #f9f9f9;
+        border-color: #9f9f9f;
+
+        .lobibox-progress-bar {
+          background-color: #41c7ff;
+        }
+
+        .lobibox-progress-text {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

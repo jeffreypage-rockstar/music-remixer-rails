@@ -20,4 +20,6 @@
 //= require bootstrap-filestyle
 //= require bootstrap-tagsinput
 //= require zeroclipboard
+//= require jquery-fileupload/basic
+//= require lobibox
 //= require_tree .
