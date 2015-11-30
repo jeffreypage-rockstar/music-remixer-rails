@@ -62,7 +62,8 @@ Rails.application.routes.draw do
 					end
 				end
 			end
-		end
+    end
+		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
 	end
 
 	# Normal site (no subdomain or www)

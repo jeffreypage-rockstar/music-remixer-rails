@@ -1,5 +1,4 @@
 class Artist::ArtistController < Artist::BaseController
-	before_action :require_login
 	before_action :validate_artist
 	before_action :set_activities, only: [:connect, :activities]
 
