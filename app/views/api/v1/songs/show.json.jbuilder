@@ -2,7 +2,7 @@
 json.id @song.id
 json.name @song.name
 json.duration @song.duration.to_s
-json.mixaudio @song.mixaudio
+json.mixaudio @song.mixaudio.url
 json.created_at @song.created_at
 
 

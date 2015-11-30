@@ -32,7 +32,7 @@ class Artist::SongsController < Artist::BaseController
     @song = Song.new(song_params)
     @song.user = current_user
     if @song.save
-      @song.create_activity :create, owner: current_user
+      # @song.create_activity :create, owner: current_user
       flash[:success] = 'Song was successfully created.'
       flash.keep(:success)
 
