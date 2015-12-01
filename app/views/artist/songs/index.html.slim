@@ -8,7 +8,6 @@
         table.table.table-mix8
           thead
             tr
-              th
               th #{sortable 'name', 'Track Name'}
               th.text-center #{sortable 'duration', 'Duration'}
               th.text-center #{sortable 'plays_count', 'Plays'}
@@ -20,8 +19,9 @@
             - selected_songs = @artist.songs.decorate
             - selected_songs.each_with_index do |song, index|
               tr
-                td #{index + 1}
                 td
+                  = link_to configure_artist_song_path(song) do
+                    = image_tag song.image.url(:thumb), class: 'img-cover'
                   = link_to song.name, configure_artist_song_path(song)
                 td.duration.text-center #{song.duration}
                 td.plays.text-center #{song.plays_count}

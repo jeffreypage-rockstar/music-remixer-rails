@@ -319,6 +319,12 @@
     margin-bottom: 30px;
   }
 
+  img.img-cover {
+	height: 30px;
+	width: 30px;
+	margin-right: 5px;
+  }
+
   .selected-songs {
     .duration, .plays, .downloads, .remixes, .status {
       font-size: .8em;

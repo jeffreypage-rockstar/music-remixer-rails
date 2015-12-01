@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 	has_many :authentications, :dependent => :destroy
 
 	# has many songs and remixes
-	has_many :songs
+	has_many :songs, -> { order 'songs.created_at desc' }
 	has_many :remixes
 
 	attr_accessor :invite_code
