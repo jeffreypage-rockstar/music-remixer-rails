@@ -104,6 +104,9 @@ gem 'grape-entity'
 gem 'grape-kaminari'
 gem 'hashie-forbidden_attributes'
 
+# facebook library
+gem 'koala'
+
 group :development, :test do
   gem 'puma'
   

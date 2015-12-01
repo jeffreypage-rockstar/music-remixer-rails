@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 	has_many :songs
 	has_many :remixes
 
-	attr_accessor :invite_code
+	attr_accessor :invite_code, :invite_only
 
 	# artist genres
 	acts_as_taggable_on :genres
@@ -24,15 +24,14 @@ class User < ActiveRecord::Base
 	mount_uploader :profile_image, ProfileImageUploader
 	mount_uploader :profile_background_image, ProfileBackgroundImageUploader
 
-	default_value_for :uuid do
-		SecureRandom.uuid
-	end
+	default_values uuid: SecureRandom.uuid, invite_only: false
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}
-	validates :invite_code, presence: true
-	validate :invite_code_should_be_available
+
+	validates :invite_code, presence: true, if: :invite_only
+	validate :invite_code_should_be_available, if: :invite_only
 
 	after_create :send_welcome_email
 
@@ -101,4 +100,24 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def self.find_for_facebook_oauth(profile)
+		authentication = Authentication.find_for_oauth('facebook', profile['id'])
+		user = authentication.user
+
+		if user.nil?
+			user = User.find_by(email: profile[:email]) || User.create(
+					name: "#{profile['first_name']} #{profile['last_name']}",
+					email: profile['email'],
+					username: self.create_unique_username(profile['email']),
+					encrypted_password: SecureRandom.hex(20),
+					confirmed_at: Time.now
+			)
+		end
+
+		if authentication.user != user
+			authentication.user = user
+			authentication.save
+		end
+		user
+	end
 end

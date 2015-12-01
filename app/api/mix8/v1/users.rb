@@ -4,7 +4,7 @@ module Mix8
       include Mix8::V1::Defaults
 
       resource :users, desc: 'Users' do
-        desc 'Return token if valid login'
+        desc 'Return token if valid sign in'
         params do
           requires :login, type: String, desc: 'Username or Email'
           requires :password, type: String, desc: 'Password'
@@ -16,6 +16,17 @@ module Mix8
           else
             error!('Unauthorized (Invalid credentials)', 401)
           end
+        end
+
+        desc 'Return token if successful sign in with facebook'
+        params do
+          requires :oauth_access_token, type: String, desc: 'facebook oauth access token'
+        end
+        post :sign_in_with_facebook do
+          graph = Koala::Facebook::API.new(params[:oauth_access_token])
+          profile = graph.get_object('me')
+          user = User.find_for_facebook_oauth(profile)
+          present user, with: Mix8::V1::Entities::User, expose_token: true
         end
 
         desc 'Reset token', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
