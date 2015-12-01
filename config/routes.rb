@@ -1,6 +1,8 @@
 require 'api_constraints'
 
 Rails.application.routes.draw do
+	mount Mix8::Base => '/api'
+	mount GrapeSwaggerRails::Engine => '/swagger'
 
 	# API subdomain
 	constraints :subdomain => 'api' do

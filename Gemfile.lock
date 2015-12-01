@@ -51,6 +51,10 @@ GEM
     autoprefixer-rails (6.1.0.1)
       execjs
       json
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -86,6 +90,8 @@ GEM
       bcrypt
       email_validator (~> 1.4)
       rails (>= 3.1)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -99,6 +105,8 @@ GEM
     debug_inspector (0.0.2)
     default_value_for (3.0.1)
       activerecord (>= 3.2.0, < 5.0)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     draper (2.1.0)
       actionpack (>= 3.0)
       activemodel (>= 3.0)
@@ -106,6 +114,7 @@ GEM
       request_store (~> 1.0)
     email_validator (1.6.0)
       activemodel
+    equalizer (0.0.11)
     erubis (2.7.0)
     excon (0.45.4)
     execjs (2.6.0)
@@ -225,10 +234,35 @@ GEM
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    grape (0.13.0)
+      activesupport
+      builder
+      hashie (>= 2.1.0)
+      multi_json (>= 1.3.2)
+      multi_xml (>= 0.5.2)
+      rack (>= 1.3.0)
+      rack-accept
+      rack-mount
+      virtus (>= 1.0.0)
+    grape-entity (0.4.8)
+      activesupport
+      multi_json (>= 1.3.2)
+    grape-kaminari (0.1.8)
+      grape
+      kaminari
+    grape-swagger (0.10.2)
+      grape (>= 0.8.0)
+      grape-entity
+    grape-swagger-rails (0.1.0)
+      grape-swagger (>= 0.7.2)
+      railties (>= 3.2.12)
     haml (4.0.7)
       tilt
     hashie (3.4.3)
+    hashie-forbidden_attributes (0.1.1)
+      hashie (>= 3.0)
     i18n (0.7.0)
+    ice_nine (0.11.1)
     inflecto (0.0.2)
     ipaddress (0.8.0)
     jbuilder (2.3.2)
@@ -293,6 +327,11 @@ GEM
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
+    rack-cors (0.4.0)
+    rack-mount (0.8.3)
+      rack (>= 1.0.0)
     rack-pjax (0.8.0)
       nokogiri (~> 1.5)
       rack (~> 1.1)
@@ -404,6 +443,11 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -436,6 +480,12 @@ DEPENDENCIES
   draper
   fog
   font-awesome-rails (~> 4.4.0.0)
+  grape
+  grape-entity
+  grape-kaminari
+  grape-swagger
+  grape-swagger-rails
+  hashie-forbidden_attributes
   jbuilder (~> 2.0)
   jquery-fileupload-rails
   jquery-rails
@@ -448,6 +498,7 @@ DEPENDENCIES
   puma
   pundit
   quiet_assets
+  rack-cors
   rails (= 4.2.4)
   rails_admin
   responders

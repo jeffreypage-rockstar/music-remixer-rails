@@ -95,6 +95,15 @@ gem 'default_value_for'
 
 gem 'jquery-fileupload-rails'
 
+# rest apis
+gem 'rack-cors', require: 'rack/cors'
+gem 'grape'
+gem 'grape-swagger'
+gem 'grape-swagger-rails'
+gem 'grape-entity'
+gem 'grape-kaminari'
+gem 'hashie-forbidden_attributes'
+
 group :development, :test do
   gem 'puma'
   
