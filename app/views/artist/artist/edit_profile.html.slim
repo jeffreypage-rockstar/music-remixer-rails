@@ -76,7 +76,7 @@
                   - if @artist.identity provider
                     a.btn.btn-grey href="#{artist_disconnect_identity_path(provider: provider)}" data-method="delete"
                       => fa_icon 'unlink'
-                      | Disconnect
+                      | Disconnect from #{provider_name(provider)}
                   - else
                     a.btn class="#{provider_btn_class(provider)}" href="/auth/#{provider}"
                       => fa_icon provider_icon(provider)

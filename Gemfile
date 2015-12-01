@@ -60,7 +60,7 @@ gem 'sidekiq'
 gem 'simple_form'
 
 # public activity stream
-gem 'public_activity', '~> 1.4.2'
+gem 'public_activity', github: 'pokonski/public_activity'
 
 # likes, follows, mentions
 gem 'socialization', '~> 1.2.0'

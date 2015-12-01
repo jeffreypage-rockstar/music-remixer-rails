@@ -1,5 +1,5 @@
 | var activities = $('#artistConnectPage .history');
-| activities.find('.activities').append("#{escape_javascript(render_activities @activities)}");
+| activities.find('.activities').append("#{escape_javascript(render_activities @activities, fallback: 'default')}");
 | if (#{@activities.last_page?}) {
 |   activities.find('.load-more').hide();
 | } else {

@@ -18,13 +18,13 @@
 
         .white-section.recent-activity
           ul.list-group.activities
-            = render_activities(@activities.limit(2))
+            = render_activities(@activities.limit(2), fallback: 'default')
 
         h4 History
 
         .white-section.history
           ul.list-group.activities
-            = render_activities(@activities)
+            = render_activities(@activities, fallback: 'default')
 
           - unless @activities.last_page?
             a.btn.btn-block.btn-grey.load-more data-remote="true" data-loading="false" href="#{artist_activities_path(page: @activities.next_page)}"
