@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
 		is_admin
 	end
 
+	def title
+		name
+	end
+
 	def send_welcome_email
 		# TODO send_welcome_email
 	end
