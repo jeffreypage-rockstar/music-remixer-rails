@@ -52,7 +52,7 @@ module Mix8
         expose :image do |instance|
           instance.image_url(:thumb)
         end
-        expose :artist, using: Artist
+        expose :user, using: User, as: :artist
         expose :parts, using: Part, if: lambda { |instance, options| options[:type] == :full }
         expose :clips, using: Clip, if: lambda { |instance, options| options[:type] == :full }
         expose :clip_types, using: ClipType, if: lambda { |instance, options| options[:type] == :full }
