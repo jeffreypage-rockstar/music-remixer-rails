@@ -1,9 +1,7 @@
 RailsAdmin.config do |config|
 	config.authorize_with do
 		unless current_user && current_user.admin?
-			redirect_to(
-					main_app.root_path
-			)
+			redirect_to main_app.sign_in_url, alert: 'You are not permitted to view this page'
 		end
 	end
 

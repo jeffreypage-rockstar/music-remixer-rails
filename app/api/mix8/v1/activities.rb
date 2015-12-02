@@ -5,7 +5,7 @@ module Mix8
       include Grape::Kaminari
 
       resource :activities, desc: 'Activities' do
-        desc 'Get list of activities'
+        desc 'Get list of activities', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
         paginate per_page: 20, max_per_page: 30, offset: 5
         get do
           authenticate!
