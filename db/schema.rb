@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130025136) do
+ActiveRecord::Schema.define(version: 20151202124303) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -148,15 +148,32 @@ ActiveRecord::Schema.define(version: 20151130025136) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "referrals", force: :cascade do |t|
+    t.string   "email",        limit: 255, null: false
+    t.string   "name",         limit: 255
+    t.string   "invite_code",  limit: 255, null: false
+    t.string   "message",      limit: 255
+    t.integer  "referring_id", limit: 4
+    t.integer  "referred_id",  limit: 4
+    t.datetime "clicked_at"
+    t.datetime "signed_up_at"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "referrals", ["referred_id"], name: "index_referrals_on_referred_id", using: :btree
+  add_index "referrals", ["referring_id"], name: "index_referrals_on_referring_id", using: :btree
+
   create_table "remixes", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
     t.integer  "song_id",         limit: 4
     t.string   "name",            limit: 255
+    t.text     "config",          limit: 65535
     t.boolean  "is_public"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "downloads_count", limit: 4,   default: 0
-    t.integer  "plays_count",     limit: 4,   default: 0
+    t.integer  "downloads_count", limit: 4,     default: 0
+    t.integer  "plays_count",     limit: 4,     default: 0
   end
 
   create_table "songs", force: :cascade do |t|
@@ -169,9 +186,8 @@ ActiveRecord::Schema.define(version: 20151130025136) do
     t.text     "mixaudio2",           limit: 65535
     t.text     "mixaudio3",           limit: 65535
     t.integer  "user_id",             limit: 4
-    t.integer  "status",              limit: 4,     default: 0
     t.string   "image",               limit: 255
-    t.string   "slug",                limit: 255
+    t.integer  "status",              limit: 4,     default: 0
     t.string   "uuid",                limit: 255
     t.string   "zipfile_tmp",         limit: 255
     t.string   "mixaudio_tmp",        limit: 255
@@ -181,8 +197,6 @@ ActiveRecord::Schema.define(version: 20151130025136) do
     t.integer  "plays_count",         limit: 4,     default: 0
     t.integer  "remixes_count",       limit: 4,     default: 0
   end
-
-  add_index "songs", ["slug"], name: "index_songs_on_slug", unique: true, using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
@@ -219,11 +233,11 @@ ActiveRecord::Schema.define(version: 20151130025136) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
-    t.string   "location",                 limit: 128
-    t.text     "bio",                      limit: 65535
     t.integer  "followees_count",          limit: 4,     default: 0
     t.integer  "followers_count",          limit: 4,     default: 0
     t.integer  "songs_count",              limit: 4,     default: 0
+    t.string   "location",                 limit: 128
+    t.text     "bio",                      limit: 65535
     t.string   "facebook",                 limit: 255
     t.string   "twitter",                  limit: 255
     t.string   "soundcloud",               limit: 255

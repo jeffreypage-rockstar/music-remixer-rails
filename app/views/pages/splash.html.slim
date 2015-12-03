@@ -1,0 +1,16 @@
+.container.splash.row
+  - if signed_in?
+    .text-center
+      | Welcome.  If you haven't already done so, install our app!
+      p TODO: need content here
+
+    .white-section
+      h3 Invite others here
+      #referralWrapper
+        = render partial: 'referrals/form', locals: { referral: Referral.new }
+  - else
+    .blurb.col-xs-12.col-sm-6
+      h1 Welcome to the future of music.
+      p This is a blurb saying cool things about Mix8.
+    .well.signup.form400.col-xs-12.col-sm-6
+      .h4.text-center Join our Beta Program!

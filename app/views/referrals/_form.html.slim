@@ -1,0 +1,4 @@
+= simple_form_for referral, url: referrals_path, html: { id: 'referralForm' }, remote: true do |f|
+  = f.input :emails
+  = f.input :message, as: :text
+  = f.button :submit

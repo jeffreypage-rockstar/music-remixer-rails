@@ -1,0 +1,5 @@
+= simple_form_for @beta_user, url: beta_sign_up_path do |f|
+  = f.input :name
+  = f.input :email
+  = f.input :message, as: :text
+  = f.button :submit, 'Submit'

@@ -72,9 +72,9 @@ Rails.application.routes.draw do
 		# get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
 		post 'beta/artist' => 'beta_artists#join'
 
-		get 'beta/join' => 'beta_users#join', as: 'beta_users'
+		get 'beta/sign_up/:invite_code' => 'beta_users#new', as: 'beta_sign_up'
+		post 'beta/sign_up/:invite_code' => 'beta_users#create'
 		get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
-		post 'beta/join' => 'beta_users#join'
 
 		# You can have the root of your site routed with "root"
 		root 'pages#splash'
@@ -96,7 +96,11 @@ Rails.application.routes.draw do
 	# ADMIN
 	constraints :subdomain => 'admin' do
 		mount RailsAdmin::Engine => '/', as: 'rails_admin'
-	end
+  end
+
+  get 'referrals/:invite_code' => 'referrals#track'
+  get 'referrals/thanks' => 'referrals#thanks'
+  post 'referrals' => 'referrals#create'
 
 	require 'sidekiq/web'
 	mount Sidekiq::Web => '/sidekiq'
