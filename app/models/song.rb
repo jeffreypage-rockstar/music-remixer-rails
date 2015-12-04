@@ -199,7 +199,7 @@ class Song < ActiveRecord::Base
 
                 part = clips[column][:part]
 
-                clip = self.clips.find_or_initialize_by(row: row, column: column)
+                clip = self.clips.find_or_initialize_by(name: "Clip #{column}-#{row}", duration: properties.length, row: row, column: column)
                 clip.attributes = {file: File.open(clip_file_path), state: 0, part: part}
               end
             end
