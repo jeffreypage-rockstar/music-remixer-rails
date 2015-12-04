@@ -20,7 +20,7 @@ class Song < ActiveRecord::Base
   store_in_background :zipfile
 
   # songs status
-  enum status: {processing: 0, failed: 1, pending: 2, released: 3, archived: 4}
+  enum status: { processing: 0, failed: 1, pending: 2, released: 3, archived: 4 }
 
   # artist genres
   acts_as_taggable_on :genres
@@ -31,7 +31,10 @@ class Song < ActiveRecord::Base
   has_many :clips, dependent: :delete_all
   has_many :clip_types, dependent: :delete_all
 
-  default_values uuid: SecureRandom.uuid, status: Song.statuses[:pending]
+  default_values status: Song.statuses[:pending]
+  default_value_for :uuid do
+    SecureRandom.uuid
+  end
 
   # audio uploader
   validates :name, presence: true

@@ -4,7 +4,10 @@ class Referral < ActiveRecord::Base
 
   attr_accessor :emails
 
-  default_value_for :invite_code, SecureRandom.hex(5)
+  default_value_for :invite_code do
+    SecureRandom.hex(5)
+  end
+
   scope :virgin, -> { where(referred_id: nil, signed_up_at: nil) }
 
   validates :emails, presence: true, if: Proc.new { |r| r.email.blank? }

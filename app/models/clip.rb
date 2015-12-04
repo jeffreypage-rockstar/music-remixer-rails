@@ -5,7 +5,10 @@ class Clip < ActiveRecord::Base
 
 	enum storing_status: { storing_pending: 0, storing_done: 1, storing_failed: 2 }
 
-	default_values uuid: SecureRandom.uuid, storing_status: Clip.storing_statuses[:storing_pending]
+	default_values storing_status: Clip.storing_statuses[:storing_pending]
+	default_value_for :uuid do
+		SecureRandom.uuid
+	end
 
 	belongs_to :song
 	belongs_to :part

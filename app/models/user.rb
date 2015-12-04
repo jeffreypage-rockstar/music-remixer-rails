@@ -7,8 +7,11 @@ class User < ActiveRecord::Base
 	# has many songs and remixes
 	has_many :songs, -> { order 'songs.created_at desc' }
 	has_many :remixes
+  has_one :beta_user
+  accepts_nested_attributes_for :beta_user
 
 	attr_accessor :invite_code
+	enum status: { beta_waitlisted: 0, active: 1, blacklisted: 2, deleted: 3 }
 
 	# artist genres
 	acts_as_taggable_on :genres
@@ -24,23 +27,13 @@ class User < ActiveRecord::Base
 	mount_uploader :profile_image, ProfileImageUploader
 	mount_uploader :profile_background_image, ProfileBackgroundImageUploader
 
-	default_value_for :uuid do
-		SecureRandom.uuid
-	end
+	default_values uuid: SecureRandom.uuid, status: User.statuses[:beta_waitlisted]
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}
-	validates :invite_code, presence: true
-	validate :invite_code_should_be_available
 
 	after_create :send_welcome_email
-
-	def invite_code_should_be_available
-		unless BetaUser.exists?(invite_code: self.invite_code, user_id: nil)
-			self.errors.add :invite_code, 'Sorry, this invite code is no longer valid.'
-		end
-	end
 
 	def admin?
 		is_admin

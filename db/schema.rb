@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202124303) do
+ActiveRecord::Schema.define(version: 20151203131745) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -54,13 +54,16 @@ ActiveRecord::Schema.define(version: 20151202124303) do
   end
 
   create_table "beta_users", force: :cascade do |t|
-    t.string   "name",        limit: 255, null: false
-    t.string   "email",       limit: 255, null: false
-    t.string   "message",     limit: 255
-    t.string   "invite_code", limit: 255, null: false
-    t.integer  "user_id",     limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name",             limit: 255, null: false
+    t.string   "email",            limit: 255, null: false
+    t.string   "message",          limit: 255
+    t.string   "invite_code",      limit: 255, null: false
+    t.integer  "user_id",          limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "age",              limit: 4
+    t.integer  "phone_type",       limit: 4
+    t.integer  "music_background", limit: 4
   end
 
   add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id", using: :btree
@@ -244,6 +247,7 @@ ActiveRecord::Schema.define(version: 20151202124303) do
     t.string   "instagram",                limit: 255
     t.string   "uuid",                     limit: 255
     t.integer  "remixes_count",            limit: 4,     default: 0
+    t.integer  "status",                   limit: 4,     default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
