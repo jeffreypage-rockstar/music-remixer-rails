@@ -160,6 +160,6 @@ class Artist::SongsController < Artist::BaseController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def song_params
-    params.require(:song).permit(:name, :duration, :genre_list, :zipfile, :zipfile_cache, :image, :image_cache)
+    params.require(:song).permit(:name, :duration, :genre_list, :zipfile, :zipfile_cache, :image, :image_cache, :status)
   end
 end

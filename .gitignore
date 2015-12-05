@@ -45,4 +45,3 @@ docker-compose.yml
 
 vendor/ruby
 vendor/cache
-
