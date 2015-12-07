@@ -5,7 +5,7 @@ class UsersController < Clearance::UsersController
 	end
 
 	def create
-		user = user_params
+		user = { invite_only: true }.merge(user_params)
 		@user = User.new(user)
 		if @user.save
 			beta_user = BetaUser.find_by(invite_code: user[:invite_code], user_id: nil)

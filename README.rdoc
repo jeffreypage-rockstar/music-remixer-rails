@@ -7,3 +7,6 @@ Uploading audio files are carried out as background tasks using [sidekiq] (https
 $ bundle exec sidekiq -q carrierwave -L log/sidekiq.log
 ```
 To access sidekiq Web UI, go to /sidekiq
+
+### REST Api console
+To REST Api console Web UI, go to /swagger
