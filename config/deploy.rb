@@ -10,6 +10,7 @@ set :branch, "master"
 set :rbenv_type, :user
 set :rbenv_ruby, '2.2.3'
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_path, '/home/deploy/.rbenv/'
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/deploy/mix8'
