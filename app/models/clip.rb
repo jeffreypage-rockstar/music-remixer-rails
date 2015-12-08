@@ -26,6 +26,8 @@ class Clip < ActiveRecord::Base
 	def wing
     # TODO: this is broken, will not work, fix me!
     # mobile preview on song config will not work while this is broken
+    return ''
+
 		fileName = self.file.to_s.split("/").last
 		if fileName[0] =~ /[0-9]/
 			levelType = fileName.split(".").first.gsub(/\d|O-/,"").gsub("-"," ")
