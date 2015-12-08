@@ -15,10 +15,12 @@ module Mix8
           authenticate!
           activities_query = PublicActivity::Activity.order('created_at DESC')
           activities_query = case params[:filter]
-                               when :friends
+                               when 'friends'
                                  activities_query.where(owner_id: current_user.followees.map(&:id))
-                               when :songs
+                               when 'songs'
                                  activities_query.where(key: %w(song.create song.share song.like song.unlike))
+                               else
+                                 activities_query
                              end
           activities_query = activities_query.where('created_at >= ?', params[:since]) if params[:since]
           activities = paginate(activities_query)
