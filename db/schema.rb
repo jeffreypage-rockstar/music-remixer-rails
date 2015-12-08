@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130025136) do
+ActiveRecord::Schema.define(version: 20151126131907) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -67,31 +67,35 @@ ActiveRecord::Schema.define(version: 20151130025136) do
 
   create_table "clip_types", force: :cascade do |t|
     t.integer  "song_id",    limit: 4
-    t.string   "name",       limit: 255
+    t.string   "name",       limit: 40
     t.integer  "row",        limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
+
+  add_index "clip_types", ["song_id"], name: "index_clip_types_on_song_id", using: :btree
 
   create_table "clips", force: :cascade do |t|
     t.integer  "song_id",         limit: 4
-    t.string   "name",            limit: 255
-    t.string   "row",             limit: 255
-    t.string   "column",          limit: 255
-    t.float    "duration",        limit: 24
-    t.boolean  "state",                         default: false
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
     t.integer  "part_id",         limit: 4
-    t.text     "file",            limit: 65535
-    t.boolean  "state2",                        default: false
-    t.boolean  "state3",                        default: false
-    t.boolean  "user_content",                  default: false
+    t.integer  "clip_type_id",    limit: 4
+    t.string   "file",            limit: 255
+    t.integer  "row",             limit: 4
+    t.integer  "column",          limit: 4
     t.string   "uuid",            limit: 255
+    t.boolean  "state",                       default: false
+    t.boolean  "state2",                      default: false
+    t.boolean  "state3",                      default: false
+    t.boolean  "allow_ugc",                   default: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.string   "file_tmp",        limit: 255
-    t.boolean  "file_processing",               default: false, null: false
-    t.integer  "storing_status",  limit: 4,     default: 0
+    t.boolean  "file_processing",             default: false, null: false
+    t.integer  "storing_status",  limit: 4,   default: 0
   end
+
+  add_index "clips", ["part_id"], name: "index_clips_on_part_id", using: :btree
+  add_index "clips", ["song_id"], name: "index_clips_on_song_id", using: :btree
 
   create_table "follows", force: :cascade do |t|
     t.string   "follower_type",   limit: 255
@@ -103,19 +107,6 @@ ActiveRecord::Schema.define(version: 20151130025136) do
 
   add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree
   add_index "follows", ["follower_id", "follower_type"], name: "fk_follows", using: :btree
-
-  create_table "friendly_id_slugs", force: :cascade do |t|
-    t.string   "slug",           limit: 255, null: false
-    t.integer  "sluggable_id",   limit: 4,   null: false
-    t.string   "sluggable_type", limit: 50
-    t.string   "scope",          limit: 255
-    t.datetime "created_at"
-  end
-
-  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
-  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
-  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
-  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "likes", force: :cascade do |t|
     t.string   "liker_type",    limit: 255
@@ -141,48 +132,48 @@ ActiveRecord::Schema.define(version: 20151130025136) do
 
   create_table "parts", force: :cascade do |t|
     t.integer  "song_id",    limit: 4
-    t.string   "name",       limit: 255
-    t.float    "duration",   limit: 24
-    t.string   "column",     limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 40
+    t.integer  "column",     limit: 4
+    t.integer  "duration",   limit: 4
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
+
+  add_index "parts", ["song_id"], name: "index_parts_on_song_id", using: :btree
 
   create_table "remixes", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
     t.integer  "song_id",         limit: 4
     t.string   "name",            limit: 255
+    t.text     "config",          limit: 65535
     t.boolean  "is_public"
+    t.integer  "downloads_count", limit: 4,     default: 0
+    t.integer  "plays_count",     limit: 4,     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "downloads_count", limit: 4,   default: 0
-    t.integer  "plays_count",     limit: 4,   default: 0
   end
 
   create_table "songs", force: :cascade do |t|
-    t.string   "name",                limit: 255,                   null: false
-    t.float    "duration",            limit: 24
-    t.text     "zipfile",             limit: 65535
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.text     "mixaudio",            limit: 65535
-    t.text     "mixaudio2",           limit: 65535
-    t.text     "mixaudio3",           limit: 65535
     t.integer  "user_id",             limit: 4
-    t.integer  "status",              limit: 4,     default: 0
+    t.string   "name",                limit: 255,                 null: false
+    t.integer  "status",              limit: 4,   default: 0
+    t.integer  "duration",            limit: 4
+    t.string   "zipfile",             limit: 255
+    t.string   "mixaudio",            limit: 255
     t.string   "image",               limit: 255
-    t.string   "slug",                limit: 255
     t.string   "uuid",                limit: 255
+    t.integer  "downloads_count",     limit: 4,   default: 0
+    t.integer  "plays_count",         limit: 4,   default: 0
+    t.integer  "remixes_count",       limit: 4,   default: 0
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "zipfile_tmp",         limit: 255
     t.string   "mixaudio_tmp",        limit: 255
-    t.boolean  "zipfile_processing",                default: false, null: false
-    t.boolean  "mixaudio_processing",               default: false, null: false
-    t.integer  "downloads_count",     limit: 4,     default: 0
-    t.integer  "plays_count",         limit: 4,     default: 0
-    t.integer  "remixes_count",       limit: 4,     default: 0
+    t.boolean  "zipfile_processing",              default: false, null: false
+    t.boolean  "mixaudio_processing",             default: false, null: false
   end
 
-  add_index "songs", ["slug"], name: "index_songs_on_slug", unique: true, using: :btree
+  add_index "songs", ["user_id"], name: "index_songs_on_user_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
@@ -206,30 +197,30 @@ ActiveRecord::Schema.define(version: 20151130025136) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                    limit: 255,                   null: false
-    t.string   "username",                 limit: 255,                   null: false
-    t.string   "name",                     limit: 255
+    t.string   "username",                 limit: 50,                    null: false
+    t.string   "name",                     limit: 80
     t.string   "encrypted_password",       limit: 128,                   null: false
     t.string   "confirmation_token",       limit: 128
     t.string   "remember_token",           limit: 128,                   null: false
     t.boolean  "is_admin",                               default: false
     t.boolean  "is_artist_admin",                        default: false
+    t.string   "uuid",                     limit: 255
     t.string   "profile_image",            limit: 255
     t.string   "profile_background_image", limit: 255
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
-    t.string   "location",                 limit: 128
+    t.string   "location",                 limit: 80
     t.text     "bio",                      limit: 65535
-    t.integer  "followees_count",          limit: 4,     default: 0
-    t.integer  "followers_count",          limit: 4,     default: 0
-    t.integer  "songs_count",              limit: 4,     default: 0
     t.string   "facebook",                 limit: 255
     t.string   "twitter",                  limit: 255
     t.string   "soundcloud",               limit: 255
     t.string   "instagram",                limit: 255
-    t.string   "uuid",                     limit: 255
+    t.integer  "followees_count",          limit: 4,     default: 0
+    t.integer  "followers_count",          limit: 4,     default: 0
+    t.integer  "songs_count",              limit: 4,     default: 0
     t.integer  "remixes_count",            limit: 4,     default: 0
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

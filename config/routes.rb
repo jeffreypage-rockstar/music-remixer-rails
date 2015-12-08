@@ -57,6 +57,7 @@ Rails.application.routes.draw do
           delete :toggle_like_song
         end
 				resources :parts
+				resources :clip_types
 				resources :clips do
 					collection do
 						post :state

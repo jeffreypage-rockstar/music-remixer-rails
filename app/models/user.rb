@@ -35,12 +35,6 @@ class User < ActiveRecord::Base
 
 	after_create :send_welcome_email
 
-	def invite_code_should_be_available
-		unless BetaUser.exists?(invite_code: self.invite_code, user_id: nil)
-			self.errors.add :invite_code, 'Sorry, this invite code is no longer valid.'
-		end
-	end
-
 	def admin?
 		is_admin
 	end
@@ -62,25 +56,24 @@ class User < ActiveRecord::Base
 	def self.create_with_auth_and_hash(authentication, auth_hash)
 		puts "in create_with_auth_and_hash: #{auth_hash.inspect}"
 		email = auth_hash["extra"]["raw_info"]["email"]
-		u = self.find_by_email(email)
-		if u.nil?
+		user = self.find_by_email(email)
+		if user.nil?
 			# new user account added via fb connect
 			create! do |u|
-				# u.name = trim("#{auth_hash["info"]["first_name"]} #{auth_hash["info"]["first_name"]}")
 				u.name = auth_hash["info"]["name"]
 				u.email = auth_hash["extra"]["raw_info"]["email"]
 				u.username = self.create_unique_username(u.email)
 				u.encrypted_password = SecureRandom.hex(20)
 				u.confirmed_at = Time.now
 				u.authentications << (authentication)
+				user = u
 			end
 		else
 			# user already has account, just adding FB
-			u.confirmed_at = Time.now if u.confirmed_at.nil?
-			u.authentications << (authentication)
+			user.confirmed_at = Time.now if user.confirmed_at.nil?
+			user.authentications << (authentication)
 		end
-		puts "create_with_auth_and_hash: returning #{u.inspect}"
-		return u
+		return user
 	end
 
 	def fb_token

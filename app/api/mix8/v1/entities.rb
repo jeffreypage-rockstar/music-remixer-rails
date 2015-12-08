@@ -41,7 +41,6 @@ module Mix8
         expose :file do |instance|
           instance.file_url
         end
-        expose :user_content
       end
 
       class Song < Grape::Entity
