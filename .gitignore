@@ -9,6 +9,7 @@ capybara-*.html
 /config/database.yml
 /public/system
 /public/uploads
+/public/development
 /coverage/
 /spec/tmp
 **.orig

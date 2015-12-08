@@ -9,6 +9,7 @@ class Clip < ActiveRecord::Base
 
 	belongs_to :song
 	belongs_to :part
+	belongs_to :clip_type
 	
 	scope :exist, ->(row, column) { where(row: row, column: column) }
 
@@ -23,6 +24,8 @@ class Clip < ActiveRecord::Base
 	end
 	
 	def wing
+    # TODO: this is broken, will not work, fix me!
+    # mobile preview on song config will not work while this is broken
 		fileName = self.file.to_s.split("/").last
 		if fileName[0] =~ /[0-9]/
 			levelType = fileName.split(".").first.gsub(/\d|O-/,"").gsub("-"," ")

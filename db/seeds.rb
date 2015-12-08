@@ -13,7 +13,7 @@ User.create!(
 	password:'asdfasdf',
 	is_admin:true,
 	is_artist_admin:true,
-	confirmed_at:'2015-10-01 10:10',
+	confirmed_at:'2015-10-10 10:10',
 	profile_image: '',
 	profile_background_image: ''
 )

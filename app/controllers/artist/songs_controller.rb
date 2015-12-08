@@ -75,11 +75,6 @@ class Artist::SongsController < Artist::BaseController
     respond_to do |format|
       if @song.build_mixaudio(params[:configuration])
         @mixaudio = @song.mixaudio
-        if @configuration == 'style-up'
-          @mixaudio = @song.mixaudio2
-        elsif @configuration == 'style-down'
-          @mixaudio = @song.mixaudio3
-        end
         # format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.js {}
         # format.json { render json: { song: @song, mixaudio: @mixaudio, state: @state} }
@@ -143,11 +138,6 @@ class Artist::SongsController < Artist::BaseController
     end
 
     @mixaudio = @song.mixaudio
-    # if @configuration == 'style-up'
-    #   @mixaudio = @song.mixaudio2
-    # elsif @configuration == 'style-down'
-    #   @mixaudio = @song.mixaudio3
-    # end
   end
 
   def sort_column

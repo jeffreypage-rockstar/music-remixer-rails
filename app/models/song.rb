@@ -54,6 +54,7 @@ class Song < ActiveRecord::Base
     super(obj)
 
     if self.zipfile_processing_was
+
       self.build_parts_and_clips
       self.build_mixaudio
     end
@@ -157,6 +158,7 @@ class Song < ActiveRecord::Base
     # Open Zip file and read audio clips
     duration = 0
     clip_types = []
+    clip_type = nil
     clips = {}
 
     Zip::File.open(self.zipfile_tmp_path) do |files|
@@ -176,6 +178,7 @@ class Song < ActiveRecord::Base
             level_type = file_name.split('_').first.gsub('O-', '').gsub('-', ' ')
             row_column_extension = file_name.split('_').last
             column, row = row_column_extension.split('.').first.split '' if row_column_extension
+            row = row.ord - 96 # convert a to 1
 
             clip_file_path = File.join dir_path, file.name.to_s
 
@@ -199,8 +202,9 @@ class Song < ActiveRecord::Base
 
                 part = clips[column][:part]
 
-                clip = self.clips.find_or_initialize_by(name: "Clip #{column}-#{row}", duration: properties.length, row: row, column: column)
-                clip.attributes = {file: File.open(clip_file_path), state: 0, part: part}
+                clip = self.clips.find_or_initialize_by(row: row, column: column)
+                clip.attributes = {file: File.open(clip_file_path), part: part}
+                clip.clip_type = clip_type
               end
             end
           end

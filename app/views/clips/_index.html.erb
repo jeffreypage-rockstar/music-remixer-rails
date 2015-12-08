@@ -19,14 +19,14 @@
                     <div class="play-btn"></div>
                 </div>
             <% end %>
-            <div id="clip-part-<%=c%><%=r%>" class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
-				 data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>"
-				 data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
-				 data-filetype="<%=clip.wing%>" data-user-content="<%=clip.user_content%>">
+            <div id="clip-part-<%=c%><%=r%>" class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>" 
+				data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" 
+				data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" 
+				data-filetype="<%=clip.wing%>" data-user-content="<%=clip.allow_ugc%>">
                 <div class="progress"></div>
                 <div class="opaque-gray"></div>
-                <div class="play-btn fa fa-play"></div>
-                <% if clip.user_content %>
+                <div class="play-btn"></div>
+                <% if clip.allow_ugc %>
                 <div class="user-content">0</div>
                 <% end %>
             </div>

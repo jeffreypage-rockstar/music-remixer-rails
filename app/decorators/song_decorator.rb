@@ -3,8 +3,8 @@ class SongDecorator < Draper::Decorator
 
   def duration
     unless object.duration.blank?
-      mins = (object.duration / 60).to_i
-      secs = (object.duration % 60).to_i
+      mins = ((object.duration / 1000) / 60).to_i
+      secs = ((object.duration / 1000) % 60).to_i
       [mins.to_s.rjust(2, '0'), secs.to_s.rjust(2, '0')].reject(&:blank?).join ':'
     end
   end
