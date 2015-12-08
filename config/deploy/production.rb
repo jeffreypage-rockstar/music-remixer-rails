@@ -67,3 +67,7 @@ set :rails_env, "production"
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+set :sidekiq_role, :app
+set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
+set :sidekiq_env, 'production'

@@ -23,6 +23,7 @@ require 'capistrano/faster_assets'
 
 require 'capistrano/rbenv'
 require 'capistrano3/unicorn'
+require 'capistrano/sidekiq'
 
 # require 'capistrano/rvm'
 # require 'capistrano/rbenv'

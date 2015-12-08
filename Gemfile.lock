@@ -16,6 +16,14 @@ GIT
       i18n (>= 0.5.0)
       railties (>= 3.0.0)
 
+GIT
+  remote: git://github.com/seuros/capistrano-sidekiq.git
+  revision: 0794cf99be7bfe7f3e6828c4965db135d7e1c20b
+  specs:
+    capistrano-sidekiq (0.5.4)
+      capistrano
+      sidekiq (>= 3.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -479,6 +487,7 @@ DEPENDENCIES
   capistrano-faster-assets (~> 1.0.2)
   capistrano-rails
   capistrano-rbenv!
+  capistrano-sidekiq!
   capistrano3-unicorn
   carrierwave
   carrierwave_backgrounder
