@@ -5,6 +5,7 @@ class CreateSongs < ActiveRecord::Migration
       t.string :name, null: false
       t.integer :status, default: 0
       t.integer :duration
+      t.integer :bpm
       t.string :zipfile
       t.string :mixaudio
       t.string :image
