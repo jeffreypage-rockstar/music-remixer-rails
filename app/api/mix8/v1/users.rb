@@ -68,6 +68,11 @@ module Mix8
             current_user.authentications.create(declared(params))
           end
         end
+
+        desc 'Get user profile', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
+        get :profile do
+          present current_user, with: Mix8::V1::Entities::User
+        end
       end
     end
   end
