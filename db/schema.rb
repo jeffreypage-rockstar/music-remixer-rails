@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151126131907) do
+ActiveRecord::Schema.define(version: 20151210134537) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -76,22 +76,23 @@ ActiveRecord::Schema.define(version: 20151126131907) do
   add_index "clip_types", ["song_id"], name: "index_clip_types_on_song_id", using: :btree
 
   create_table "clips", force: :cascade do |t|
-    t.integer  "song_id",         limit: 4
-    t.integer  "part_id",         limit: 4
-    t.integer  "clip_type_id",    limit: 4
-    t.string   "file",            limit: 255
-    t.integer  "row",             limit: 4
-    t.integer  "column",          limit: 4
-    t.string   "uuid",            limit: 255
-    t.boolean  "state",                       default: false
-    t.boolean  "state2",                      default: false
-    t.boolean  "state3",                      default: false
-    t.boolean  "allow_ugc",                   default: false
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "file_tmp",        limit: 255
-    t.boolean  "file_processing",             default: false, null: false
-    t.integer  "storing_status",  limit: 4,   default: 0
+    t.integer  "song_id",           limit: 4
+    t.integer  "part_id",           limit: 4
+    t.integer  "clip_type_id",      limit: 4
+    t.string   "file",              limit: 255
+    t.integer  "row",               limit: 4
+    t.integer  "column",            limit: 4
+    t.string   "uuid",              limit: 255
+    t.boolean  "state",                         default: false
+    t.boolean  "state2",                        default: false
+    t.boolean  "state3",                        default: false
+    t.boolean  "allow_ugc",                     default: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.string   "file_tmp",          limit: 255
+    t.boolean  "file_processing",               default: false, null: false
+    t.integer  "storing_status",    limit: 4,   default: 0
+    t.string   "original_filename", limit: 255
   end
 
   add_index "clips", ["part_id"], name: "index_clips_on_part_id", using: :btree
