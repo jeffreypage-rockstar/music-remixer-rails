@@ -1,7 +1,10 @@
-# encoding: utf-8
-
 class ClipFileUploader < CarrierWave::Uploader::Base
   include ::CarrierWave::Backgrounder::Delay
+  before :cache, :save_original_filename
+
+  def save_original_filename(file)
+    model.original_filename ||= file.original_filename if file.respond_to?(:original_filename)
+  end
 
   # Override the directory where uploaded files will be stored.
   def store_dir

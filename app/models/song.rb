@@ -115,7 +115,7 @@ class Song < ActiveRecord::Base
     output = "mix-audio-#{digest}#{file_extension}"
 
     command = outputs.map { |output| "-i '#{output}'" }.join ' '
-    command = "#{ffmpegcmd} #{command} -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y #{output}"
+    command = "#{ffmpegcmd} #{command} -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y '#{output}'"
 
     puts "EXECUTING command: #{command}"
     result = system command
