@@ -169,7 +169,7 @@ class Song < ActiveRecord::Base
             row = row.ord - 96 # convert a to 1
             level_type = ClipType.row_name(row)
 
-            clip_file_path = File.join dir_path, file.name.to_s
+            clip_file_path = File.join dir_path, file.name
 
             # puts "XXX level_type: #{level_type}"
             unless clip_types.include? level_type
@@ -208,9 +208,9 @@ class Song < ActiveRecord::Base
 
   def self.get_parts_from_filename(filename)
     filename = File.basename(filename).strip.downcase
-    re = /^([a-h])\s+([1-8])/
+    re = /^([a-hA-H])\s*([1-8])/
     m = re.match(filename)
-    return [m[1], m[2]]
+    [m[1], m[2]]
   end
 
   # script to rename audio files
