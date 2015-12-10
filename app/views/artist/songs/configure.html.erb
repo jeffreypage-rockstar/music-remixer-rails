@@ -1,6 +1,5 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
-
 <style>
 	.section {
 		padding: 15px 0;
@@ -66,28 +65,28 @@
             $(".full-play-btn, #mixaudio").removeClass('disabled');
         });
 
-		window.topWavesurfer.on('loading', function (_this, progress) {
-			$(_this.container).children(".progress").css("left", progress+"%");
-		});
+        window.topWavesurfer.on('loading', function (_this, progress) {
+            $(_this.container).children(".progress").css("left", progress+"%");
+        });
 
-		window.topWavesurfer.on('finish', function () {
-			updatePreviewPlayBtn(false);
-			$(".full-play-btn").removeClass('playing');
+        window.topWavesurfer.on('finish', function () {
+            updatePreviewPlayBtn(false);
+            $(".full-play-btn").removeClass('playing');
             window.topWavesurfer.seekTo(0);
         });
         window.topWavesurfer.load(mixedFilePath);
     }
 
-	stopTopPlayer = function() {
-		if (window.topWavesurfer) {
-			if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
-				window.topWavesurfer.pause();
-				$(".full-play-btn").removeClass('playing');
-			}
-		}
-	}
+    stopTopPlayer = function() {
+        if (window.topWavesurfer) {
+            if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
+                window.topWavesurfer.pause();
+                $(".full-play-btn").removeClass('playing');
+            }
+        }
+    }
 
-    $(document).ready(function() {
+    $(document).ready(function(){
 		var progress = $("#tracker-compiled").data("progress");
 		var parts = $("#tracker-compiled .tracker-part").length;
 		var updateProgress = function(progress, parts) {
@@ -103,8 +102,6 @@
 			$("#tracker-compiled .tracker-part.part" + current + " .gradient").css("width", fill + "%");
 			$("#tracker-compiled .tracker-part.part" + current + " .gradient").css("outline-width", "2px");
 		}
-		// updateProgress(progress, parts);
-		/* Demo animation */
 
 		/* Mobile Version Toggle */
 		$("a[data-toggle='sidebar']").click(function(e) {
@@ -112,6 +109,7 @@
 			$("#wrapper").toggleClass("toggled");
 		});
     });
+
     $('#release-status').on('click', function(e) {
         if($(e.target).attr("data-status") == "unreleased") {
             $.ajax({
@@ -130,4 +128,4 @@
             });
         }
     });
-</script>
+    </script>
