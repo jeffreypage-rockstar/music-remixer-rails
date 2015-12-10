@@ -165,10 +165,7 @@ class Song < ActiveRecord::Base
           file_extension = File.extname(file_path)
 
           if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
-            file_name = Song.standardize_uploaded_filename(file.name)
-            # puts "xxx standardized file_name: #{file_name}"
-            row_column_extension = file_name.split('_').last
-            column, row = row_column_extension.split('.').first.split '' if row_column_extension
+            row, column = Song.get_parts_from_filename(file.name)
             row = row.ord - 96 # convert a to 1
             level_type = ClipType.row_name(row)
 
@@ -209,24 +206,30 @@ class Song < ActiveRecord::Base
     self.save!
   end
 
-  def self.standardize_uploaded_filename(filename)
-    filename = File.basename(filename).strip
-    # puts "FILENAME BASENAME: #{filename}"
-
-    # 8 - Vox8 - Vox_8a.wav
-    # 6- Inst6 - Inst_6c.wav
-    # 6-Inst_6c.wav
-    # or Inst_6c.wav
-    re = /([a-zA-Z0-9]+)_(\d+)([a-zA-Z])\.[a-z0-9A-Z]+$/
+  def self.get_parts_from_filename(filename)
+    filename = File.basename(filename).strip.downcase
+    re = /^([a-h])\s+([1-8])/
     m = re.match(filename)
-    # puts m.inspect
+    return [m[1], m[2]]
+  end
 
-    short_file = m[0] # Vox_1a.wav
-    # section = m[1]	# Vox (label)
-    # column = m[2].to_i - 1	# 1-8 (column)
-    # row = m[3].ord - 97		# a-h (row)
-
-    return short_file
+  # script to rename audio files
+  def self.rename_files(folder)
+    Dir.glob("#{folder}/*").each do |entry|
+      filename = File.basename(entry)
+      re = /([a-zA-Z0-9]+)_(\d+)([a-zA-Z])\.[a-z0-9A-Z]+$/
+      if m = re.match(filename)
+        short_file = m[0]
+        re = /^([^_]+)_([1-8])([a-h])/
+        m = re.match(short_file)
+        new_file = "#{m[3].upcase} #{m[2]} #{m[1]}#{File.extname(entry)}"
+        puts "original file: #{filename}, new file: #{new_file}"
+        File.rename( entry, "#{folder}/#{new_file}")
+      else
+        puts "skipping #{filename}"
+      end
+    end
+    return false
   end
 
 end
