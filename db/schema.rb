@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 20151210134537) do
     t.string   "name",                limit: 255,                 null: false
     t.integer  "status",              limit: 4,   default: 0
     t.integer  "duration",            limit: 4
+    t.integer  "bpm",                 limit: 4
     t.string   "zipfile",             limit: 255
     t.string   "mixaudio",            limit: 255
     t.string   "image",               limit: 255

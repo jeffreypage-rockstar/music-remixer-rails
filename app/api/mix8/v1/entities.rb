@@ -47,6 +47,7 @@ module Mix8
         expose :id
         expose :name
         expose :duration
+        expose :bpm
         expose :preview_url
         expose :image do |instance|
           instance.image_url(:thumb)

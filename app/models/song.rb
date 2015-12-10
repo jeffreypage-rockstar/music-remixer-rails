@@ -166,17 +166,20 @@ class Song < ActiveRecord::Base
 
           if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
             file_name = Song.standardize_uploaded_filename(file.name)
-            level_type = file_name.split('_').first.gsub('O-', '').gsub('-', ' ')
+            # puts "xxx standardized file_name: #{file_name}"
             row_column_extension = file_name.split('_').last
             column, row = row_column_extension.split('.').first.split '' if row_column_extension
             row = row.ord - 96 # convert a to 1
+            level_type = ClipType.row_name(row)
 
             clip_file_path = File.join dir_path, file.name.to_s
 
+            # puts "XXX level_type: #{level_type}"
             unless clip_types.include? level_type
               clip_types << level_type
               clip_type = self.clip_types.find_or_initialize_by(name: level_type)
               clip_type.row = row
+              # puts "XXX added clip_type: #{clip_type.inspect}"
             end
 
             TagLib::FileRef.open(file_path) do |fileref|
