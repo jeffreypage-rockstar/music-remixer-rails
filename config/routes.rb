@@ -102,6 +102,10 @@ Rails.application.routes.draw do
   get 'referrals/thanks' => 'referrals#thanks'
   post 'referrals' => 'referrals#create'
 
+  get 'about' => 'pages#about'
+  get 'news' => 'pages#news'
+  get 'contact' => 'pages#contact'
+
 	require 'sidekiq/web'
 	mount Sidekiq::Web => '/sidekiq'
 end
