@@ -17,7 +17,7 @@ class Song < ActiveRecord::Base
   mount_uploader :mixaudio, SongMixaudioUploader
   store_in_background :mixaudio, SongProcessWorker
   mount_uploader :zipfile, SongZipfileUploader
-  store_in_background :zipfile
+  store_in_background :zipfile, SongZipfileUploadWorker
 
   # songs status
   enum status: {processing: 0, failed: 1, pending: 2, released: 3, archived: 4}
@@ -35,8 +35,8 @@ class Song < ActiveRecord::Base
 
   # audio uploader
   validates :name, presence: true
-  validates :zipfile, presence: true
-  validate :validate_zip_file, unless: Proc.new { |s| s.zipfile_tmp.blank? || s.zipfile_processing? }
+  validates :zipfile, presence: true, if: Proc.new { |s| s.zipfile_tmp.blank? }
+  validate :validate_zip_file, unless: Proc.new { |s| s.zipfile_tmp.blank? }
 
   def title
     name
@@ -48,16 +48,6 @@ class Song < ActiveRecord::Base
 
   def processed?
     self.mixaudio_tmp.blank?
-  end
-
-  def zipfile=(obj)
-    super(obj)
-
-    if self.zipfile_processing_was
-
-      self.build_parts_and_clips
-      self.build_mixaudio
-    end
   end
 
   def zipfile_tmp_path
@@ -134,6 +124,7 @@ class Song < ActiveRecord::Base
     else
       puts "Error was #{$?}"
     end
+    self.save!
   end
 
   def self.valid_zip?(file)
@@ -212,6 +203,7 @@ class Song < ActiveRecord::Base
       end
     end
     self.duration = duration
+    self.save!
   end
 
   def self.standardize_uploaded_filename(filename)
