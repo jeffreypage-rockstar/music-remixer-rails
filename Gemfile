@@ -107,6 +107,9 @@ gem 'hashie-forbidden_attributes'
 # facebook library
 gem 'koala'
 
+# ffmpeg
+gem 'streamio-ffmpeg'
+
 group :development, :test do
   gem 'puma'
   

@@ -2,6 +2,8 @@ class ClipFileUploader < CarrierWave::Uploader::Base
   include ::CarrierWave::Backgrounder::Delay
   before :cache, :save_original_filename
 
+  process encode_audio: [:m4a]
+
   def save_original_filename(file)
     model.original_filename ||= file.original_filename if file.respond_to?(:original_filename)
   end
@@ -38,4 +40,21 @@ class ClipFileUploader < CarrierWave::Uploader::Base
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end
 
+  def encode_audio(format='m4a')
+    directory = File.dirname(current_path)
+    tmpfile = File.join(directory, 'tmpfile')
+    File.rename(current_path, tmpfile)
+
+    file = ::FFMPEG::Movie.new(tmpfile)
+    new_name = File.basename(current_path, '.*') + '.' + format.to_s
+    current_extension = File.extname(current_path).gsub('.', '')
+    encoded_file = File.join(directory, new_name)
+
+    file.transcode(encoded_file)
+
+    self.filename[-current_extension.size..-1] = format.to_s
+    self.file.file[-current_extension.size..-1] = format.to_s
+
+    File.delete(tmpfile)
+  end
 end

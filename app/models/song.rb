@@ -78,15 +78,16 @@ class Song < ActiveRecord::Base
     commands = []
     outputs = []
     ffmpegcmd = "cd #{dir_path} && ffmpeg "
-    file_extension = File.extname self.clips.first.file_tmp_path
 
     self.parts.each do |part|
       clips = part.clips
-      clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| clip.file_tmp_path }
+      clip_file_paths = clips.select { |clip| !clip.state }.map do |clip|
+        File.join(self.extracted_audio_directory_path, clip.original_filename)
+      end
       command = clip_file_paths.map { |file_path| "-i '#{file_path}'" }.join ' '
 
       # If at least a single clip is not mute
-      output = "mix_audio_part_#{part.column}#{file_extension}"
+      output = "mix_audio_part_#{part.column}"
       if command.present?
         command += " -filter_complex amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3,volume=#{clip_file_paths.count} -y '#{output}'"
         command = ffmpegcmd + command
@@ -112,7 +113,7 @@ class Song < ActiveRecord::Base
     # File Upload path
     dir_path = File.dirname self.zipfile_tmp_path
     digest = Digest::MD5.hexdigest("#{Time.now}")
-    output = "mix-audio-#{digest}#{file_extension}"
+    output = "mix-audio-#{digest}"
 
     command = outputs.map { |output| "-i '#{output}'" }.join ' '
     command = "#{ffmpegcmd} #{command} -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y '#{output}'"
@@ -140,11 +141,27 @@ class Song < ActiveRecord::Base
     ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include?(File.extname(filename)) && !filename.include?('MACOSX')
   end
 
+  def extracted_audio_directory_path
+    cache_directory = File.expand_path(self.zipfile.cache_dir, self.zipfile.root)
+    File.join(cache_directory, self.uuid)
+  end
+
+  def extract_zipfile!
+    Zip::File.open(self.zipfile_tmp_path) do |files|
+      files.each do |file|
+        if Song.valid_clip_file? file.name
+          cache_directory = File.expand_path(self.zipfile.cache_dir, self.zipfile.root)
+          dir_path = File.join(cache_directory, self.uuid)
+          FileUtils.mkdir_p(dir_path) unless File.directory?(dir_path)
+          file_path = File.join(dir_path, File.basename(file.name))
+          files.extract(file, file_path) unless File.exist?(file_path)
+        end
+      end
+    end
+  end
+
   def build_parts_and_clips
     return unless Song.valid_zip?(self.zipfile_tmp_path)
-
-    # zipfile directory path
-    dir_path = File.dirname self.zipfile_tmp_path
 
     # Open Zip file and read audio clips
     duration = 0
@@ -152,51 +169,43 @@ class Song < ActiveRecord::Base
     clip_type = nil
     clips = {}
 
-    Zip::File.open(self.zipfile_tmp_path) do |files|
+    Dir.foreach(self.extracted_audio_directory_path) do |file|
+      file_path = File.join(self.extracted_audio_directory_path, file)
 
-      # read files inside zipfile
-      files.each do |file|
+      if Song.valid_clip_file? file_path
+        file_extension = File.extname(file_path)
 
-        # extract files in zipfile directory
-        file_path = File.join(dir_path, file.name)
-        files.extract(file, file_path) unless File.exist?(file_path)
+        if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
+          row, column = Song.get_parts_from_filename(file)
+          row = row.ord - 96 # convert a to 1
+          level_type = ClipType.row_name(row)
 
-        if Song.valid_clip_file? file_path
-          file_extension = File.extname(file_path)
+          clip_file_path = File.join self.extracted_audio_directory_path, file
 
-          if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
-            row, column = Song.get_parts_from_filename(file.name)
-            row = row.ord - 96 # convert a to 1
-            level_type = ClipType.row_name(row)
+          # puts "XXX level_type: #{level_type}"
+          unless clip_types.include? level_type
+            clip_types << level_type
+            clip_type = self.clip_types.find_or_initialize_by(name: level_type)
+            clip_type.row = row
+            # puts "XXX added clip_type: #{clip_type.inspect}"
+          end
+          TagLib::FileRef.open(file_path) do |fileref|
+            unless fileref.nil?
+              properties = fileref.audio_properties
+              clip_column = clips[column] || {}
 
-            clip_file_path = File.join dir_path, file.name
-
-            # puts "XXX level_type: #{level_type}"
-            unless clip_types.include? level_type
-              clip_types << level_type
-              clip_type = self.clip_types.find_or_initialize_by(name: level_type)
-              clip_type.row = row
-              # puts "XXX added clip_type: #{clip_type.inspect}"
-            end
-
-            TagLib::FileRef.open(file_path) do |fileref|
-              unless fileref.nil?
-                properties = fileref.audio_properties
-                clip_column = clips[column] || {}
-
-                unless clip_column[:part]
-                  duration += properties.length
-                  part = self.parts.find_or_initialize_by(column: column)
-                  part.attributes = {name: "Part #{column}", duration: properties.length}
-                  clips[column] = {part: part}
-                end
-
-                part = clips[column][:part]
-
-                clip = self.clips.find_or_initialize_by(row: row, column: column)
-                clip.attributes = {file: File.open(clip_file_path), part: part}
-                clip.clip_type = clip_type
+              unless clip_column[:part]
+                duration += properties.length
+                part = self.parts.find_or_initialize_by(column: column)
+                part.attributes = {name: "Part #{column}", duration: properties.length}
+                clips[column] = {part: part}
               end
+
+              part = clips[column][:part]
+
+              clip = self.clips.find_or_initialize_by(row: row, column: column)
+              clip.attributes = {file: File.open(clip_file_path), part: part}
+              clip.clip_type = clip_type
             end
           end
         end
