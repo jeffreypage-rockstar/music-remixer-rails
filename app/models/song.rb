@@ -27,9 +27,9 @@ class Song < ActiveRecord::Base
   acts_as_likeable
 
   belongs_to :user, counter_cache: true
-  has_many :parts, dependent: :delete_all
+  has_many :parts, -> { order 'parts.column' }, dependent: :delete_all
   has_many :clips, dependent: :delete_all
-  has_many :clip_types, dependent: :delete_all
+  has_many :clip_types, -> { order 'clip_types.row' }, dependent: :delete_all
 
   default_values uuid: SecureRandom.uuid, status: Song.statuses[:pending]
 
