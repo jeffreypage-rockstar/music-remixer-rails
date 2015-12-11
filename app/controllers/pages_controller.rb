@@ -4,7 +4,11 @@ class PagesController < ApplicationController
 	end
 
   def splash
-    @beta_user = BetaUser.new
+    if signed_in?
+      render :beta_blocker
+    else
+      @beta_user = BetaUser.new
+    end
   end
 
   def about
