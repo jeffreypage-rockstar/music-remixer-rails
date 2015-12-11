@@ -74,20 +74,18 @@ class Song < ActiveRecord::Base
   end
 
   def build_mixaudio(configuration='source')
-    dir_path = File.dirname self.zipfile_tmp_path
+    dir_path = self.song_tmp_directory_path
     commands = []
     outputs = []
     ffmpegcmd = "cd #{dir_path} && ffmpeg "
 
     self.parts.each do |part|
       clips = part.clips
-      clip_file_paths = clips.select { |clip| !clip.state }.map do |clip|
-        File.join(self.extracted_audio_directory_path, clip.original_filename)
-      end
+      clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(clip.song.song_tmp_directory_path, clip.original_filename) }
       command = clip_file_paths.map { |file_path| "-i '#{file_path}'" }.join ' '
 
       # If at least a single clip is not mute
-      output = "mix_audio_part_#{part.column}"
+      output = "mix_audio_part_#{part.column}.m4a"
       if command.present?
         command += " -filter_complex amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3,volume=#{clip_file_paths.count} -y '#{output}'"
         command = ffmpegcmd + command
@@ -111,9 +109,8 @@ class Song < ActiveRecord::Base
     end
 
     # File Upload path
-    dir_path = File.dirname self.zipfile_tmp_path
     digest = Digest::MD5.hexdigest("#{Time.now}")
-    output = "mix-audio-#{digest}"
+    output = "mix-audio-#{digest}.m4a"
 
     command = outputs.map { |output| "-i '#{output}'" }.join ' '
     command = "#{ffmpegcmd} #{command} -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y '#{output}'"
@@ -141,7 +138,7 @@ class Song < ActiveRecord::Base
     ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include?(File.extname(filename)) && !filename.include?('MACOSX')
   end
 
-  def extracted_audio_directory_path
+  def song_tmp_directory_path
     cache_directory = File.expand_path(self.zipfile.cache_dir, self.zipfile.root)
     File.join(cache_directory, self.uuid)
   end
@@ -169,8 +166,8 @@ class Song < ActiveRecord::Base
     clip_type = nil
     clips = {}
 
-    Dir.foreach(self.extracted_audio_directory_path) do |file|
-      file_path = File.join(self.extracted_audio_directory_path, file)
+    Dir.foreach(self.song_tmp_directory_path) do |file|
+      file_path = File.join(self.song_tmp_directory_path, file)
 
       if Song.valid_clip_file? file_path
         file_extension = File.extname(file_path)
@@ -180,7 +177,7 @@ class Song < ActiveRecord::Base
           row = row.ord - 96 # convert a to 1
           level_type = ClipType.row_name(row)
 
-          clip_file_path = File.join self.extracted_audio_directory_path, file
+          clip_file_path = File.join self.song_tmp_directory_path, file
 
           # puts "XXX level_type: #{level_type}"
           unless clip_types.include? level_type
