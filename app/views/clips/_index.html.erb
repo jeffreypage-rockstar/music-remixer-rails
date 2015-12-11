@@ -22,7 +22,7 @@
 			<div id="clip-part-<%=c%><%=r%>" class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
 				 data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>"
 				 data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
-				 data-filetype="<%=clip.wing%>" data-user-content="<%=clip.allow_ugc%>">
+				 data-user-content="<%=clip.allow_ugc%>">
 				<div class="progress"></div>
 				<div class="opaque-gray"></div>
 				<div class="play-btn fa fa-play"></div>
@@ -120,10 +120,8 @@
 		$("#tracker-mixer #clips-"+sColumn).each(function(){
 			$(this).find('.clip').each(function(){
 				if ($(this).state()) {
-					var filetype = $(this).data('filetype');
-					if (filetype.length > 0) {
-						$(".wing."+filetype).addClass('muted');
-					}
+					var row = $(this).data('row');
+					$(".wing"+row).addClass('muted');
 				}
 			});
 		});
@@ -136,12 +134,10 @@
 		}
 	}
 
-	updatePreviewForClip = function(clipFileType, state) {
-		if (clipFileType.length > 0) {
-			$(".wing."+clipFileType).removeClass('muted');
-			if (state) {
-				$(".wing."+clipFileType).addClass('muted');
-			}
+	updatePreviewForClip = function(row, state) {
+		$(".wing"+row).removeClass('muted');
+		if (state) {
+			$(".wing"+row).addClass('muted');
 		}
 	}
 
@@ -525,7 +521,7 @@
 				clip = { clip: { state3: state } }
 			}
 			if (column == sColumn) {
-				updatePreviewForClip($(event.target).data('filetype'), state);
+				updatePreviewForClip($(event.target).data('row'), state);
 			}
 			updateClip(clip, updateClipUrl);
 		});

@@ -588,19 +588,19 @@ body.songs.configure {
 	background-repeat: no-repeat;
   }
 
-  .iPhone .screen .wing1,
+  .iPhone .screen .wing4,
   .iPhone .screen .wing2 {
 	width: 49px;
 	height: 68px;
 	top: 96px;
   }
 
-  .iPhone .screen .wing1 {
+  .iPhone .screen .wing4 {
 	left: 33px;
 	background-image: image-url('wing_1_s@2x.png');
   }
 
-  .iPhone .screen .wing1.muted {
+  .iPhone .screen .wing4.muted {
 	background-image: image-url('wing_1@2x.png');
   }
 
@@ -613,35 +613,35 @@ body.songs.configure {
 	background-image: image-url('wing_2@2x.png');
   }
 
-  .iPhone .screen .wing3,
-  .iPhone .screen .wing4 {
+  .iPhone .screen .wing1,
+  .iPhone .screen .wing3 {
 	width: 68px;
 	height: 50px;
 	left: 65px;
   }
 
-  .iPhone .screen .wing3 {
+  .iPhone .screen .wing1 {
 	top: 63px;
 	background-image: image-url('wing_3_s@2x.png');
   }
 
-  .iPhone .screen .wing3.muted {
+  .iPhone .screen .wing1.muted {
 	background-image: image-url('wing_3@2x.png');
   }
 
-  .iPhone .screen .wing4 {
+  .iPhone .screen .wing3 {
 	top: 147px;
 	background-image: image-url('wing_4_s@2x.png');
   }
 
-  .iPhone .screen .wing4.muted {
+  .iPhone .screen .wing3.muted {
 	background-image: image-url('wing_4@2x.png');
   }
 
   .iPhone .screen .wing5,
   .iPhone .screen .wing6,
-  .iPhone .screen .wing7,
-  .iPhone .screen .wing8 {
+  .iPhone .screen .wing8,
+  .iPhone .screen .wing7 {
 	width: 41px;
 	height: 41px;
   }
@@ -669,26 +669,26 @@ body.songs.configure {
 	background-image: image-url('wing_6@2x.png');
   }
 
-  .iPhone .screen .wing7,
-  .iPhone .screen .wing8 {
+  .iPhone .screen .wing8,
+  .iPhone .screen .wing7 {
 	top: 161px;
   }
 
-  .iPhone .screen .wing7 {
+  .iPhone .screen .wing8 {
 	left: 27px;
 	background-image: image-url('wing_7_s@2x.png');
   }
 
-  .iPhone .screen .wing7.muted {
+  .iPhone .screen .wing8.muted {
 	background-image: image-url('wing_7@2x.png');
   }
 
-  .iPhone .screen .wing8 {
+  .iPhone .screen .wing7 {
 	left: 130px;
 	background-image: image-url('wing_8_s@2x.png');
   }
 
-  .iPhone .screen .wing8.muted {
+  .iPhone .screen .wing7.muted {
 	background-image: image-url('wing_8@2x.png');
   }
 
