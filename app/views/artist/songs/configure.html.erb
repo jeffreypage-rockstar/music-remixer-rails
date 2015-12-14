@@ -29,10 +29,10 @@
 	<div id="page-content-wrapper">
 		<div id="song-clips" data-id="<%=@song.id%>" style="display:none"></div>
 		<div id="tracker-desktop" class="section">
-			<div class="container-fluid">
-				<h5 class="tab active"><a href="#">Original</a></h5>
-				<h5 class="tab"><a href="#">My Mix</a></h5>
-				<h5 class="tab plus"><a href="#">+</a></h5>
+			<div id="mix-tabs" class="container">
+				<h5 class="tab active"><a href="#" data-mix="original">Original</a></h5>
+				<h5 class="tab"><a href="#" data-mix="mix2">Mix2</a></h5>
+                <h5 class="tab"><a href="#" data-mix="mix3">Mix3</a></h5>
 				<div id="tracker-mixer" class="shadow">
 					<div class="mixer-row">
 						<div class="clearfix">
@@ -108,24 +108,34 @@
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
-    });
 
-    $('#release-status').on('click', function(e) {
-        if($(e.target).attr("data-status") == "unreleased") {
-            $.ajax({
-                type: "PUT",
-                dataType: "json",
-                url: '/songs/<%=@song.id%>',
-                contentType: 'application/json',
-                data: JSON.stringify({status: "released"})
-            })
-            .done(function( msg ) {
-                console.log( "Data Saved: " + msg );
-                $(e.target).html('Released').css('background', 'green')
-            })
-            .fail(function( msg ) {
-                console.log(  msg );
-            });
-        }
+        $('#release-status').on('click', function(e) {
+            if($(e.target).attr("data-status") == "unreleased") {
+                $.ajax({
+                    type: "PUT",
+                    dataType: "json",
+                    url: '/songs/<%=@song.id%>',
+                    contentType: 'application/json',
+                    data: JSON.stringify({status: "released"})
+                })
+                        .done(function( msg ) {
+                            console.log( "Data Saved: " + msg );
+                            $(e.target).html('Released').css('background', 'green')
+                        })
+                        .fail(function( msg ) {
+                            console.log(  msg );
+                        });
+            }
+        });
+
+        $('#mix-tabs .tab a').click(function (e) {
+            event.preventDefault();
+            $('#mix-tabs .tab').removeClass('active');
+            $(this).closest('.tab').addClass('active');
+            window.configuration = $(this).data('mix');
+            reInitializeClipsState();
+            updatePreview();
+            window.configurationBtn = this;
+        });
     });
     </script>

@@ -95,9 +95,9 @@
 
 	$.fn.state = function() {
 		var state = false;
-		if (window.configuration == 'style-up') {
+		if (window.configuration == 'mix2') {
 			state = $(this).attr('data-state2');
-		} else if (window.configuration == 'style-down') {
+		} else if (window.configuration == 'mix3') {
 			state = $(this).attr('data-state3');
 		} else {
 			state = $(this).attr('data-state1');
@@ -106,9 +106,9 @@
 	}
 
 	$.fn.updateState = function(state) {
-		if (window.configuration == 'style-up') {
+		if (window.configuration == 'mix2') {
 			$(this).attr('data-state2', state);
-		} else if (window.configuration == 'style-down') {
+		} else if (window.configuration == 'mix3') {
 			$(this).attr('data-state3', state);
 		} else {
 			$(this).attr('data-state1', state);
