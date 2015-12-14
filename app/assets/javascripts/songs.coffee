@@ -56,7 +56,9 @@ uploadProgressBox = null
 
   $('#songForm').submit (event) ->
     event.preventDefault()
-    $('#songForm').fileupload 'send', files: uploadable, paramName: paramNames
+    $('#songForm').fileupload 'send',
+      files: uploadable
+      paramName: paramNames
     return
 
   return
