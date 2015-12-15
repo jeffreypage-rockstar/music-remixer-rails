@@ -5,7 +5,7 @@
 Rails.application.config.session_store :cookie_store, {
 	:key => '_mix8_session',
 	:expire_after => 30.days,
-	:domain => '.mix8.dev',
+	:domain => 'mix8.com',
 	:tld_length => 2
 }
 
