@@ -173,8 +173,7 @@ class Song < ActiveRecord::Base
         file_extension = File.extname(file_path)
 
         if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
-          row, column = Song.get_parts_from_filename(file)
-          row = row.ord - 96 # convert a to 1
+          column, row = Song.get_parts_from_filename(file)
           level_type = ClipType.row_name(row)
 
           clip_file_path = File.join self.song_tmp_directory_path, file
@@ -214,9 +213,11 @@ class Song < ActiveRecord::Base
 
   def self.get_parts_from_filename(filename)
     filename = File.basename(filename).strip.downcase
-    re = /^([a-hA-H])\s*([1-8])/
+    re = /^([a-h])\s*([1-8])/
     m = re.match(filename)
-    [m[1], m[2]]
+    col = m[1].ord-96 # convert alpha to numeric
+    row = m[2]
+    return [col.to_i, row.to_i]
   end
 
   # script to rename audio files
