@@ -22,4 +22,5 @@
 //= require zeroclipboard
 //= require jquery-fileupload/basic
 //= require lobibox
+//= require wavesurfer.min
 //= require_tree .
