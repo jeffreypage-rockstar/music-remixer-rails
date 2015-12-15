@@ -59,9 +59,9 @@ uploadProgressBox = null
     $('#songForm').fileupload 'send',
       files: uploadable
       paramName: paramNames
-      formData: [
-        { name: 'authenticity_token', value: $('meta[name="csrf-token"]').attr('content') }
-      ]
+#      formData: [
+#        { name: 'authenticity_token', value: $('meta[name="csrf-token"]').attr('content') }
+#      ]
     return
 
   return
