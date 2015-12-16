@@ -58,6 +58,16 @@ module Mix8
         expose :clip_types, using: ClipType, if: lambda { |instance, options| options[:type] == :full }
       end
 
+      class Remix < Grape::Entity
+        expose :id
+        expose :name
+        expose :config
+        expose :audio do |instance|
+          instance.audio_url
+        end
+        expose :status
+      end
+
       class Trackable < Grape::Entity
         expose :id
         expose :name

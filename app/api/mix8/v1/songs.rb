@@ -14,6 +14,9 @@ module Mix8
         end
 
         desc 'Get a song', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
+        params do
+          requires :id, type: Integer, desc: 'Song id'
+        end
         get ':id' do
           authenticate!
           song = Song.includes(:clip_types, :parts, :clips).released.find_by(id: params[:id])

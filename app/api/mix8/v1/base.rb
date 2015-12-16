@@ -6,6 +6,7 @@ module Mix8
       mount Mix8::V1::App
       mount Mix8::V1::Users
       mount Mix8::V1::Songs
+      mount Mix8::V1::Remixes
       mount Mix8::V1::Activities
     end
   end

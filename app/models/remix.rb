@@ -1,7 +1,9 @@
 class Remix < ActiveRecord::Base
+	mount_uploader :audio, RemixAudioUploader
+	store_in_background :audio, SongProcessWorker
+
+	enum status: {processing: 0, failed: 1, published: 2}
+
 	belongs_to :user, counter_cache: true
 	belongs_to :song
-	# do we care about tracking remixes of remixes?
-	# belongs_to :parent_remix, foreign_key: 'parent_remix_id'
-	# has_many :derivative_remixes, class_name: 'Remix', primary_key: 'id', foreign_key: 'parent_remix_id'
 end
