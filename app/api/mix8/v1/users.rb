@@ -24,7 +24,7 @@ module Mix8
         end
         post :sign_in_with_facebook do
           graph = Koala::Facebook::API.new(params[:oauth_access_token])
-          profile = graph.get_object('me')
+          profile = graph.get_object('me', fields: 'first_name,last_name,email')
           user = User.find_for_facebook_oauth(profile)
           present user, with: Mix8::V1::Entities::User, expose_token: true
         end
