@@ -162,9 +162,8 @@ class Song < ActiveRecord::Base
 
     # Open Zip file and read audio clips
     duration = 0
-    clip_types = []
-    clip_type = nil
-    clips = {}
+    parts = {}
+    clip_types = {}
 
     Dir.foreach(self.song_tmp_directory_path) do |file|
       file_path = File.join(self.song_tmp_directory_path, file)
@@ -173,35 +172,29 @@ class Song < ActiveRecord::Base
         file_extension = File.extname(file_path)
 
         if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
-          column, row = Song.get_parts_from_filename(file)
-          level_type = ClipType.row_name(row)
-
           clip_file_path = File.join self.song_tmp_directory_path, file
+          column, row = Song.get_parts_from_filename(file)
 
-          # puts "XXX level_type: #{level_type}"
-          unless clip_types.include? level_type
-            clip_types << level_type
+          unless clip_types[row]
+            level_type = ClipType.row_name(row)
             clip_type = self.clip_types.find_or_initialize_by(name: level_type)
-            clip_type.row = row
-            # puts "XXX added clip_type: #{clip_type.inspect}"
+            clip_type.attributes = {row: row}
+            clip_types[row] = clip_type
           end
+
           TagLib::FileRef.open(file_path) do |fileref|
             unless fileref.nil?
               properties = fileref.audio_properties
-              clip_column = clips[column] || {}
 
-              unless clip_column[:part]
+              unless parts[column]
                 duration += properties.length
                 part = self.parts.find_or_initialize_by(column: column)
                 part.attributes = {name: "Part #{column}", duration: properties.length}
-                clips[column] = {part: part}
+                parts[column] = part
               end
 
-              part = clips[column][:part]
-
               clip = self.clips.find_or_initialize_by(row: row, column: column)
-              clip.attributes = {file: File.open(clip_file_path), part: part}
-              clip.clip_type = clip_type
+              clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
             end
           end
         end
@@ -215,8 +208,8 @@ class Song < ActiveRecord::Base
     filename = File.basename(filename).strip.downcase
     re = /^([a-h])\s*([1-8])/
     m = re.match(filename)
-    col = m[1].ord-96 # convert alpha to numeric
-    row = m[2]
+    row = m[1].ord-96 # convert alpha to numeric
+    col = m[2]
     return [col.to_i, row.to_i]
   end
 

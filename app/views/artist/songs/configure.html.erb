@@ -49,6 +49,15 @@
 </div>
 
 <script type="text/javascript">
+    $(window).keypress(function(e) {
+        if ($('#mixaudioplayer').length > 0) {
+            if (e.keyCode == 0 || e.keyCode == 32) {
+                e.preventDefault();
+                playOrPauseTopWavesurferPlayer();
+            }
+        }
+    });
+
     window.configuration = "<%=@configuration%>";
     initializeTopPlayer = function(mixedFilePath) {
         window.topWavesurfer = Object.create(WaveSurfer);
