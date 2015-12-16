@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class RemixAudioUploader < CarrierWave::Uploader::Base
   include ::CarrierWave::Backgrounder::Delay
 

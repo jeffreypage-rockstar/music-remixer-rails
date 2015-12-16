@@ -15,12 +15,9 @@ module Mix8
         params do
           requires :id, type: Integer, desc: 'Remix id'
           optional :name, type: String, desc: 'Name of remix'
-          optional :config, type: Hash, desc: 'Config' do
-            optional :first_param, type: String
-          end
+          optional :config, type: String, desc: 'Config'
           optional :audio, type: File, desc: 'Audio file'
         end
-
         put ':id' do
           remix = Remix.find(params[:id])
           present remix, with: Mix8::V1::Entities::Remix
@@ -36,9 +33,7 @@ module Mix8
             desc 'Create new remix', {headers: {'Authorization' => {description: 'Access Token', required: true}}}
             params do
               requires :name, type: String, desc: 'Name of remix'
-              requires :config, type: Hash, desc: 'Config' do
-                requires :first_param, type: String
-              end
+              requires :config, type: String, desc: 'Config'
               requires :audio, type: File, desc: 'Audio file'
             end
             post do
