@@ -14,9 +14,9 @@ module Mix8
         get do
           authenticate!
           activities_query = PublicActivity::Activity.order('created_at DESC')
-          activities_query = case params[:filter]
+          activities_query = case params[:filter].to_s
                                when 'friends'
-                                 activities_query.where(owner_id: current_user.followees.map(&:id))
+                                 activities_query.where(owner_id: current_user.followees(User).map(&:id))
                                when 'songs'
                                  activities_query.where(key: %w(song.create song.share song.like song.unlike))
                                else
