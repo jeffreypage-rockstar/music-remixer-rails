@@ -38,6 +38,10 @@ class Song < ActiveRecord::Base
   validates :zipfile, presence: true, if: Proc.new { |s| s.zipfile_tmp.blank? }
   validate :validate_zip_file, unless: Proc.new { |s| s.zipfile_tmp.blank? }
 
+  def bpm
+    self[:bpm].nil? ? 0 : self[:bpm]
+  end
+
   def title
     name
   end
