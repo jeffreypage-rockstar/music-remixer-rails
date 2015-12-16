@@ -6,29 +6,6 @@ Rails.application.routes.draw do
 
 	# API subdomain
 	constraints :subdomain => 'api' do
-		namespace :api, path:'/', defaults: {format: :json} do
-			scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
-				# root to: "sessions#new"
-				get '/app/install' => 'app#install'
-				get '/app/startup' => 'app#startup'
-
-				post '/users/signup' => 'users#signup'
-				post '/users/login' => 'users#login'
-				post '/users/logout' => 'users#logout'
-			  post '/users/connect' => 'users#connect'
-
-				get '/social/stream' => 'social#stream'
-
-				post '/publish/mix'		=> 'publish#mix'
-				post '/publish/audio' => 'publish#audio'
-
-				resources :songs, :only => [:index, :show]
-
-#				resources :users, :only => [:show, :create]
-#				resources :sessions, :only => [:create, :destroy]
-#				resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy]
-			end
-		end
 	end
 
 	# Artist subdomain

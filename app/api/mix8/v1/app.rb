@@ -4,14 +4,17 @@ module Mix8
       include Mix8::V1::Defaults
 
       resource :app, desc: 'App' do
-        desc 'Track app installs', { headers: { 'Authorization' => { description: 'Access Token', required: false } } }
-        get 'install' do
-          "ok"
+        desc 'Track app installs'
+        post 'install' do
+          response = {"success" => true}
+          return response
         end
 
-        desc 'Return app configuration information', { headers: { 'Authorization' => { description: 'Access Token', required: false } } }
-        get 'config' do
-          "ok"
+        desc 'Return app configuration information'
+        get 'startup' do
+          response = {"token" => ""}
+          response["token"] = current_user.remember_token if current_user
+          return response
         end
       end
     end
