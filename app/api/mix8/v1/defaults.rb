@@ -5,6 +5,8 @@ module Mix8
 
       included do
         version 'v1'
+        default_format :json
+        format :json
 
         helpers do
           def authenticate!
