@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151216193720) do
+ActiveRecord::Schema.define(version: 20151216200245) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -54,13 +54,16 @@ ActiveRecord::Schema.define(version: 20151216193720) do
   end
 
   create_table "beta_users", force: :cascade do |t|
-    t.string   "name",        limit: 255, null: false
-    t.string   "email",       limit: 255, null: false
-    t.string   "message",     limit: 255
-    t.string   "invite_code", limit: 255, null: false
-    t.integer  "user_id",     limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name",             limit: 255, null: false
+    t.string   "email",            limit: 255, null: false
+    t.string   "message",          limit: 255
+    t.string   "invite_code",      limit: 255, null: false
+    t.integer  "user_id",          limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "age",              limit: 4
+    t.integer  "phone_type",       limit: 4
+    t.integer  "music_background", limit: 4
   end
 
   add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id", using: :btree
@@ -142,6 +145,22 @@ ActiveRecord::Schema.define(version: 20151216193720) do
 
   add_index "parts", ["song_id"], name: "index_parts_on_song_id", using: :btree
 
+  create_table "referrals", force: :cascade do |t|
+    t.string   "email",        limit: 255, null: false
+    t.string   "name",         limit: 255
+    t.string   "invite_code",  limit: 255, null: false
+    t.string   "message",      limit: 255
+    t.integer  "referring_id", limit: 4
+    t.integer  "referred_id",  limit: 4
+    t.datetime "clicked_at"
+    t.datetime "signed_up_at"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "referrals", ["referred_id"], name: "index_referrals_on_referred_id", using: :btree
+  add_index "referrals", ["referring_id"], name: "index_referrals_on_referring_id", using: :btree
+
   create_table "remixes", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
     t.integer  "song_id",         limit: 4
@@ -155,6 +174,7 @@ ActiveRecord::Schema.define(version: 20151216193720) do
     t.string   "audio",           limit: 255
     t.integer  "status",          limit: 4,     default: 0
     t.string   "audio_tmp",       limit: 255
+    t.string   "uuid",            limit: 255
   end
 
   create_table "songs", force: :cascade do |t|
@@ -226,6 +246,7 @@ ActiveRecord::Schema.define(version: 20151216193720) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.integer  "status",                   limit: 4,     default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
