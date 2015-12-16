@@ -5,7 +5,10 @@ class Clip < ActiveRecord::Base
 
 	enum storing_status: { storing_pending: 0, storing_done: 1, storing_failed: 2 }
 
-	default_values uuid: SecureRandom.uuid, storing_status: Clip.storing_statuses[:storing_pending]
+	default_value_for :uuid do
+		SecureRandom.uuid
+	end
+	default_value_for :storing_status, Clip.storing_statuses[:storing_pending]
 
 	belongs_to :song
 	belongs_to :part
@@ -23,17 +26,4 @@ class Clip < ActiveRecord::Base
 		file_tmp_path
 	end
 	
-	def wing
-    # TODO: this is broken, will not work, fix me!
-    # mobile preview on song config will not work while this is broken
-    return ''
-
-		fileName = self.file.to_s.split("/").last
-		if fileName[0] =~ /[0-9]/
-			levelType = fileName.split(".").first.gsub(/\d|O-/,"").gsub("-"," ")
-		else 
-			levelType = fileName.split("_").first.gsub('O-','').gsub('-',' ')
-		end
-		levelType.gsub(' ','-').downcase
-	end
 end

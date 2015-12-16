@@ -6,6 +6,7 @@ class SongProcessWorker < ::CarrierWave::Workers::StoreAsset
 
     song = constantized_resource.find id
     if song.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
+      FileUtils.rm_r(song.song_tmp_directory_path, :force => true)
       song.update_attribute(:status, :pending)
     end
   end

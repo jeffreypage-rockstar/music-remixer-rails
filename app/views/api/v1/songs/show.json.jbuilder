@@ -2,7 +2,8 @@
 json.id @song.id
 json.name @song.name
 json.duration @song.duration.to_s
-json.mixaudio @song.mixaudio.url
+json.bpm @song.bpm
+json.preview_url @song.preview_url
 json.created_at @song.created_at
 
 # who's song is it

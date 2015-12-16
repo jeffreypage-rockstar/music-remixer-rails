@@ -107,6 +107,9 @@ gem 'hashie-forbidden_attributes'
 # facebook library
 gem 'koala'
 
+# ffmpeg
+gem 'streamio-ffmpeg'
+
 group :development, :test do
   gem 'puma'
   
@@ -130,6 +133,7 @@ group :development, :test do
   gem 'capistrano-faster-assets', '~> 1.0.2'
   gem 'capistrano-rbenv', github: "capistrano/rbenv"
   gem 'capistrano3-unicorn', require: false
+  gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 end
 
 group :production do

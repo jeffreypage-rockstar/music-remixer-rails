@@ -1,562 +1,566 @@
 <!-- Clips Segment Area Start -->
 <div class="tracker-info">
-    <% @song.clip_types.each_with_index do |clip_type, r| %>
-        <% r += 1 %>
-        <% if r == 5 %>
-        <h6 id="level-blank">&nbsp</h6>
-        <% end %>
-        <h6 id="level-<%=r%>" data-id="<%= clip_type.id %>" class="<%='editable-text' if r >= 5%>"><span><%=clip_type.name%></span></h6>
-    <% end %>
+	<% @song.clip_types.each_with_index do |clip_type, r| %>
+		<% r += 1 %>
+		<% if r == 5 %>
+			<h6 id="level-blank">&nbsp</h6>
+		<% end %>
+		<h6 id="level-<%=r%>" data-id="<%= clip_type.id %>" class="<%='editable-text' if r >= 5%>"><span><%=clip_type.name%></span></h6>
+	<% end %>
 </div>
 <% @song.parts.each_with_index do |part, c| %>
-    <% c += 1 %>
-    <div id="clips-<%=c%>" class="tracker-part part<%=c%> clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
-        <div class="part-play-btn disabled"></div>
-        <% part.clips.each_with_index do |clip, r| %>
-            <% r += 1 %>
-            <% if r == 5 %>
-                <div class="blank">
-                    <div class="play-btn"></div>
-                </div>
-            <% end %>
-            <div id="clip-part-<%=c%><%=r%>" class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>" 
-				data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>" 
-				data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" 
-				data-filetype="<%=clip.wing%>" data-user-content="<%=clip.allow_ugc%>">
-                <div class="progress"></div>
-                <div class="opaque-gray"></div>
-                <div class="play-btn"></div>
-                <% if clip.allow_ugc %>
-                <div class="user-content">0</div>
-                <% end %>
-            </div>
-        <% end %>
-        <div class="level column editable-text" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
-            <span><%=part.name%></span>
-        </div>
-    </div>
+	<% c += 1 %>
+	<div id="clips-<%=c%>" class="tracker-part part<%=c%> clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
+		<div class="part-play-btn disabled"></div>
+		<% part.clips.each_with_index do |clip, r| %>
+			<% r += 1 %>
+			<% if r == 5 %>
+				<div class="blank">
+					<div class="play-btn"></div>
+				</div>
+			<% end %>
+			<div id="clip-part-<%=c%><%=r%>" class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
+				 data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>"
+				 data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
+				 data-user-content="<%=clip.allow_ugc%>">
+				<div class="progress"></div>
+				<div class="opaque-gray"></div>
+				<div class="play-btn fa fa-play"></div>
+				<% if clip.allow_ugc %>
+					<div class="user-content">0</div>
+				<% end %>
+			</div>
+		<% end %>
+		<div class="level column editable-text" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
+			<span><%=part.name%></span>
+		</div>
+	</div>
 <% end %>
 <script type="text/javascript">
-$('.editable-text').on('click', 
-                       'span', 
-                       function(e) {
-                        var topparent = $($(e.target).parent());
-                            $($(e.target).parent()).html('<input type="text" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
-                            .on('blur keyup',
-                                'input', 
-                                function(e) { 
-                                    var key = e.keyCode || e.which;
-                                    if (e.type == 'keyup' && (key !== 13 || 0)) return;
-                                    var parent = $(e.target).parent();
-                                    e.stopPropagation(); 
-                                    $($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
-                                    var url = '/songs/' + <%=@song.id%> + '/clip_types/' + parent.attr('data-id');
-                                    if (parent.hasClass("level")) {
-                                        url = '/songs/' + <%=@song.id%> + '/parts/' + parent.attr('data-id');
-                                    }
-                                    if (parent.hasClass("songtitle")) {
-                                        url = '/songs/' + <%=@song.id%>;
-                                    }
-                                    console.log(url);
-									$.ajax({
-										type: "PUT",
-										dataType: "json",
-										url: url,
-										contentType: 'application/json',
-										data: JSON.stringify({name: $(e.target).val() })
+	$('.editable-text').on('click',
+			'span',
+			function(e) {
+				var topparent = $($(e.target).parent());
+				$($(e.target).parent()).html('<input type="text" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
+						.on('blur keyup',
+						'input',
+						function(e) {
+							if (e.type == 'keyup') {
+								var key = e.keyCode || e.which;
+								if (key == 13 || 0) {
+									$(this).blur();
+								}
+								return;
+							}
+
+							var parent = $(e.target).parent();
+							e.stopPropagation();
+							$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
+
+							var url = '/songs/' + <%=@song.id%> + '/clip_types/' + parent.attr('data-id');
+							if (parent.hasClass("level")) {
+								url = '/songs/' + <%=@song.id%> + '/parts/' + parent.attr('data-id');
+							}
+							if (parent.hasClass("songtitle")) {
+								url = '/songs/' + <%=@song.id%>;
+							}
+							// console.log(url);
+
+							$.ajax({
+								type: "PUT",
+								dataType: "json",
+								url: url,
+								contentType: 'application/json',
+								data: JSON.stringify({name: $(e.target).val() })
+							})
+									.done(function( msg ) {
+										console.log( "Data Saved: " + msg );
 									})
-                                      .done(function( msg ) {
-                                        console.log( "Data Saved: " + msg );
-                                    })
-                                      .fail(function( msg ) {
-                                        console.log(  msg );
-                                    });
-                                });
-								topparent.children('input')[0].focus();
-								var tmpStr = $(topparent.children('input')[0]).val();
-								$(topparent.children('input')[0]).val('');
-								$(topparent.children('input')[0]).val(tmpStr);
-                        });
+									.fail(function( msg ) {
+										console.log(  msg );
+									});
+						});
+				topparent.children('input')[0].focus();
+				var tmpStr = $(topparent.children('input')[0]).val();
+				$(topparent.children('input')[0]).val('');
+				$(topparent.children('input')[0]).val(tmpStr);
+			});
 
-    // Predefined Varibales
-    var loadColumn = 1;
-    window.sColumn = <%= @currentIndex %>;
-    window.clipPreviewPlayer = false;
-    window.clipPreviewPlayerRow = 0;
-    window.clipPreviewPlayerColumn = 0;
+	// Predefined Varibales
+	var loadColumn = 1;
+	window.sColumn = <%= @currentIndex %>;
+	window.clipPreviewPlayer = false;
+	window.clipPreviewPlayerRow = 0;
+	window.clipPreviewPlayerColumn = 0;
 
-    $.fn.state = function() {
-        var state = false;
-        if (window.configuration == 'style-up') {
-            state = $(this).attr('data-state2');
-        } else if (window.configuration == 'style-down') {
-            state = $(this).attr('data-state3');
-        } else {
-            state = $(this).attr('data-state1');    
-        }
-        return (state == 'true');
-    }
+	$.fn.state = function() {
+		var state = false;
+		if (window.configuration == 'mix2') {
+			state = $(this).attr('data-state2');
+		} else if (window.configuration == 'mix3') {
+			state = $(this).attr('data-state3');
+		} else {
+			state = $(this).attr('data-state1');
+		}
+		return (state == 'true');
+	}
 
-    $.fn.updateState = function(state) {
-        if (window.configuration == 'style-up') {
-            $(this).attr('data-state2', state);
-        } else if (window.configuration == 'style-down') {
-            $(this).attr('data-state3', state);
-        } else {
-            $(this).attr('data-state1', state);    
-        }
-    }
+	$.fn.updateState = function(state) {
+		if (window.configuration == 'mix2') {
+			$(this).attr('data-state2', state);
+		} else if (window.configuration == 'mix3') {
+			$(this).attr('data-state3', state);
+		} else {
+			$(this).attr('data-state1', state);
+		}
+	}
 
-    updatePreview = function() {
-        $(".wing").removeClass('muted');
-        $("#tracker-mixer #clips-"+sColumn).each(function(){
-            $(this).find('.clip').each(function(){
-                if ($(this).state()) {
-					var filetype = $(this).data('filetype');
-					if (filetype.length > 0) {
-						$(".wing."+filetype).addClass('muted');
+	updatePreview = function() {
+		$(".wing").removeClass('muted');
+		$("#tracker-mixer #clips-"+sColumn).each(function(){
+			$(this).find('.clip').each(function(){
+				if ($(this).state()) {
+					var row = $(this).data('row');
+					$(".wing"+row).addClass('muted');
+				}
+			});
+		});
+	}
+
+	updatePreviewPlayBtn = function(playing) {
+		$("#preview .playBtn").removeClass('playing');
+		if (playing) {
+			$("#preview .playBtn").addClass('playing');
+		}
+	}
+
+	updatePreviewForClip = function(row, state) {
+		$(".wing"+row).removeClass('muted');
+		if (state) {
+			$(".wing"+row).addClass('muted');
+		}
+	}
+
+	loadPartClips = function() {
+		var wavesurfer = null;
+		$("#tracker-mixer #clips-"+loadColumn).each(function(){
+			var column = $(this).attr('data-column');
+			if (!wavesurfers[column]) wavesurfers[column] = {};
+			$(this).find('.clip').each(function(){
+				wavesurferPlayer(this, $(this).data('path'), $(this).state(), column, $(this).attr('data-row'));
+			})
+		});
+	}
+
+	reInitializeClipsState = function() {
+		$("#tracker-mixer .clips").each(function(){
+			var column = $(this).attr('data-column');
+			$(this).find('.clip').each(function(){
+				$(this).removeClass('muted');
+				if ($(this).state()) { $(this).addClass('muted'); }
+				if (wavesurfers[column]) {
+					var row = $(this).attr('data-row');
+					var wavesurfer = wavesurfers[column][row];
+					if (wavesurfer) {
+						if (($(this).state() && !wavesurfer.isMuted) || (!$(this).state() && wavesurfer.isMuted)) {
+							wavesurfer.toggleMute();
+						}
 					}
-                }
-            });
-        });
-    }
+				}
+			});
+		});
+	}
 
-    updatePreviewPlayBtn = function(playing) {
-        $("#preview .playBtn").removeClass('playing');
-        if (playing) {
-            $("#preview .playBtn").addClass('playing');
-        }
-    }
+	wavesurferPlayer = function(container, src, mute, column, row) {
+		var wavesurfer = Object.create(WaveSurfer);
+		wavesurfer.row = row;
+		wavesurfer.column = column;
+		wavesurfer.init({
+			container: container,
+			fillParent: true,
+			height: 18,
+			waveColor: 'black',
+			progressColor: 'black',
+			splitChannels: true,
+			cursorWidth: 2,
+			cursorColor: "yellow"
+		});
+		wavesurfer.on('ready', function (_this) {
+			$(_this.container).addClass('loaded');
+			if ($(_this.container).state()) {
+				if (!_this.isMuted) {
+					_this.toggleMute();
+				}
+			}
 
-    updatePreviewForClip = function(clipFileType, state) {
-		if (clipFileType.length > 0) {
-			$(".wing."+clipFileType).removeClass('muted');
-			if (state) {
-				$(".wing."+clipFileType).addClass('muted');
+			if (wavesurfers[_this.column][0]) {
+				var tWavesurfer = wavesurfers[_this.column][0];
+				if (tWavesurfer && tWavesurfer.getCurrentTime() > 0) {
+					_this.seekTo(tWavesurfer.getCurrentTime() / tWavesurfer.getDuration());
+				}
+			}
+
+			isPartPlayerReady(_this.column);
+			if (isAllClipsLoadedOfThisPart(_this.column)) {
+				// console.log(_this.column+" Part player is ready!");
+				if (sColumn == _this.column) addRemoveEventListener(true);
+				if (loadColumn <= 7) {
+					loadColumn++;
+					loadPartClips();
+				}
+			}
+		});
+
+		wavesurfer.on('loading', function (_this, progress) {
+			$(_this.container).children(".progress").css("left", progress+"%");
+		});
+
+		wavesurfer.load(src);
+		wavesurfers[column][row] = wavesurfer;
+	}
+
+	isAllClipsLoadedOfThisPart = function(column) {
+		var clipColumn = $("#clips-"+column);
+		if (clipColumn.children(".clip.loaded").length == 8) return true;
+		return false;
+	}
+
+	isPartPlayerReady = function(column) {
+		if (isAllClipsLoadedOfThisPart(column)) {
+			$("#clips-"+column).children(".part-play-btn").removeClass('disabled');
+		}
+	}
+
+	playNext = function() {
+		if (sColumn > $("#tracker-mixer .clips").length) { return }
+		addRemoveEventListener(true);
+	}
+
+	function addRemoveEventListener(addListener) {
+		if (!wavesurfers[sColumn]) { return }
+		var wavesurfer = wavesurfers[sColumn]['0'];
+		if (wavesurfer) {
+			wavesurfer.un('finish', clipEndedCallback);
+			wavesurfer.un('finish', singleClipEndedCallback);
+			if (addListener) {
+				wavesurfer.on('finish', clipEndedCallback);
 			}
 		}
-    }
+	}
 
-    loadPartClips = function() {
-        var wavesurfer = null;
-        $("#tracker-mixer #clips-"+loadColumn).each(function(){
-            var column = $(this).attr('data-column');
-            if (!wavesurfers[column]) wavesurfers[column] = {};
-            $(this).find('.clip').each(function(){
-                wavesurferPlayer(this, $(this).data('path'), $(this).state(), column, $(this).attr('data-row'));
-            })
-        });
-    }
+	clipEndedCallback = function() {
+		if (sColumn == 8) {
+			$(".full-play-btn").removeClass('playing');
+			$("#clips-"+sColumn).removeClass('playing');
+			stopPartPlayers(true);
+			return;
+		}
+		$("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
 
-    reInitializeClipsState = function() {
-        $("#tracker-mixer .clips").each(function(){
-            var column = $(this).attr('data-column');
-            $(this).find('.clip').each(function(){
-                $(this).removeClass('muted');
-                if ($(this).state()) { $(this).addClass('muted'); }
-                if (wavesurfers[column]) {
-                    var row = $(this).attr('data-row');
-                    var wavesurfer = wavesurfers[column][row];
-                    if (wavesurfer) {
-                        if (($(this).state() && !wavesurfer.isMuted) || (!$(this).state() && wavesurfer.isMuted)) {
-                            wavesurfer.toggleMute();
-                        }
-                    }
-                }
-            });
-        });
-    }
+		if (sColumn < 8) sColumn++;
+		$("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
+		showCurrentPartDetails();
+		playNext();
 
-    wavesurferPlayer = function(container, src, mute, column, row) {
-        var wavesurfer = Object.create(WaveSurfer);
-        wavesurfer.row = row;
-        wavesurfer.column = column;
-        wavesurfer.init({
-            container: container,
-            fillParent: true,
-            height: 18,
-            waveColor: 'black',
-            progressColor: 'black',
-            splitChannels: true,
-            cursorWidth: 2,
-            cursorColor: "yellow"
-        });
-        wavesurfer.on('ready', function (_this) {
-            $(_this.container).addClass('loaded');
-            if ($(_this.container).state()) {
-                if (!_this.isMuted) {
-                    _this.toggleMute();    
-                }
-            }
+		for (var i = 0; i <= 8; i++) {
+			var wavesurfer = wavesurfers[sColumn][i];
+			if (wavesurfer) {
+				wavesurfer.play();
+			}
+		}
+		// topWavesurfers[sColumn].play();;
+	}
 
-            if (wavesurfers[_this.column][0]) {
-                var tWavesurfer = wavesurfers[_this.column][0];
-                if (tWavesurfer && tWavesurfer.getCurrentTime() > 0) {
-                    _this.seekTo(tWavesurfer.getCurrentTime() / tWavesurfer.getDuration());
-                }
-            }
-            
-            isPartPlayerReady(_this.column);
-            if (isAllClipsLoadedOfThisPart(_this.column)) {
-                // console.log(_this.column+" Part player is ready!");
-                if (sColumn == _this.column) addRemoveEventListener(true);
-                if (loadColumn <= 7) {
-                    loadColumn++;
-                    loadPartClips();
-                }
-            }
-        });
+	pausePartPlayer = function() {
+		if (!wavesurfers[sColumn]) { return }
+		$(".clips.focus").removeClass('playing');
+		for (var i = 0; i <= 8; i++) {
+			var wavesurfer = wavesurfers[sColumn][i];
+			if (wavesurfer) {
+				if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
+			}
+		}
+	}
 
-        wavesurfer.on('loading', function (_this, progress) {
-            $(_this.container).children(".progress").css("left", progress+"%");
-        });
+	stopPartPlayers = function(seek) {
+		if (!wavesurfers[sColumn]) { return }
+		for (var i = 0; i <= 8; i++) {
+			var wavesurfer = wavesurfers[sColumn][i];
+			if (wavesurfer) {
+				wavesurfer.seekTo(0);
+				if (!wavesurfer.backend.isPaused()) wavesurfer.pause();
+			}
+		}
+	}
 
-        wavesurfer.load(src);
-        wavesurfers[column][row] = wavesurfer;
-    }
+	// Intialize all sound clips for play
+	// intializeSoundClips();
+	showCurrentPartDetails = function() {
+		var partElement = $("#clips-"+sColumn).children(".level.column");
+		$("#part-time").html("Time: "+partElement.data('time'));
+		$("#part-info .name")
+				.attr('data-name', partElement.attr('data-name'))
+				.text("Name: "+partElement.attr('data-name'))
+		var songID = $("#song-clips").data('id');
+		var partID = partElement.data('id');
+		$("#part-info form").attr('action', "/songs/"+songID+"/parts/"+partID);
+		showUserContent();
+	}
 
-    isAllClipsLoadedOfThisPart = function(column) {
-        var clipColumn = $("#clips-"+column);
-        if (clipColumn.children(".clip.loaded").length == 8) return true;
-        return false;
-    }
+	function showUserContent() {
+		var userContents = "";
+		$("#audio-clips #clips-"+sColumn+" .clip").each(function(){
+			console.log("", $(this).data('user-content'));
+			if ($(this).data('user-content')) {
+				var row = $(this).data('row');
+				levelName = $("#level-"+row).text();
+				userContents += " ["+levelName+"]";
+			}
+		});
+		$("p#user-content").text("User Content :"+userContents);
+	}
 
-    isPartPlayerReady = function(column) {
-        if (isAllClipsLoadedOfThisPart(column)) {
-            $("#clips-"+column).children(".part-play-btn").removeClass('disabled');
-        }
-    }
+	singleClipEndedCallback = function() {
+		if (clipPreviewPlayer) {
+			clipPreviewPlayer.seekTo(0);
+			if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
+			$(".play-btn").removeClass("paused");
+		}
+	}
 
-    playNext = function() {
-        if (sColumn > $("#tracker-mixer .clips").length) { return }
-        addRemoveEventListener(true);
-    }
+	pauseClipPreviewPlayer = function() {
+		if (clipPreviewPlayer) {
+			$(".play-btn").removeClass("paused");
+			if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
+		}
+	}
 
-    function addRemoveEventListener(addListener) {
-        if (!wavesurfers[sColumn]) { return }
-        var wavesurfer = wavesurfers[sColumn]['0'];
-        if (wavesurfer) {
-            wavesurfer.un('finish', clipEndedCallback);
-            wavesurfer.un('finish', singleClipEndedCallback);
-            if (addListener) {
-                wavesurfer.on('finish', clipEndedCallback);
-            } 
-        }
-    }
+	stopClipPreviewPlayer = function(reset) {
+		if (clipPreviewPlayer) {
+			$(".play-btn").removeClass("paused");
+			clipPreviewPlayer.seekTo(0);
+			if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
+			clipPreviewPlayer.un('finish', singleClipEndedCallback);
+			if (reset && clipPreviewPlayerRow != 0) {
+				clipPreviewPlayerRow = clipPreviewPlayerColumn= 0;
+				playNext();
+			}
+			clipPreviewPlayer = false;
+		}
+	}
 
-    clipEndedCallback = function() {
-        if (sColumn == 8) { 
-            $(".full-play-btn").removeClass('playing');
-            $("#clips-"+sColumn).removeClass('playing');
-            stopPartPlayers(true);
-            return; 
-        }
-        $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
+	function clipDraggable(element, containment) {
+		element.draggable({
+			revert: true,
+			containment: containment,
+			axis: "y",
+			zIndex: 1000
+		});
+	}
 
-        if (sColumn < 8) sColumn++; 
-        $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
-        showCurrentPartDetails();
-        playNext();
-        
-        for (var i = 0; i <= 8; i++) {
-            var wavesurfer = wavesurfers[sColumn][i];
-            if (wavesurfer) {
-                wavesurfer.play();    
-            }
-        }
-        // topWavesurfers[sColumn].play();;
-    }
+	function blankDroppable(element) {
+		element.droppable({
+			drop: function( event, ui ) {
+				var column = $(this).parent().data('column');
+				if (!window.draggableElm[column]) { window.draggableElm[column] = []}
 
-    pausePartPlayer = function() {
-        if (!wavesurfers[sColumn]) { return }
-        $(".clips.focus").removeClass('playing');
-        for (var i = 0; i <= 8; i++) {
-            var wavesurfer = wavesurfers[sColumn][i];
-            if (wavesurfer) {
-                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
-            }
-        }
-    }
+				if (window.draggableElm[column].length <= 0) {
+					var blankDroppableElement = blankDroppable($("<div class='blank dotted-border'></div>"));
+					blankDroppableElement.insertBefore(ui.draggable);
+					ui.draggable.attr('style', '');
+					$(ui.draggable).insertBefore($(this));
+				} else {
+					var cloneElement = ui.draggable.clone(true).attr('style', '');
+					var oldClipElement = window.draggableElm[column][0];
+					$(cloneElement).insertBefore($(ui.draggable));
 
-    stopPartPlayers = function(seek) {
-        if (!wavesurfers[sColumn]) { return }
-        for (var i = 0; i <= 8; i++) {
-            var wavesurfer = wavesurfers[sColumn][i];
-            if (wavesurfer) {
-                wavesurfer.seekTo(0);
-                if (!wavesurfer.backend.isPaused()) wavesurfer.pause();    
-            }
-        }
-    }
+					$(ui.draggable)
+							.attr('style', '')
+							.insertBefore($(this));
 
-     // Intialize all sound clips for play
-     // intializeSoundClips();
-    showCurrentPartDetails = function() {
-        var partElement = $("#clips-"+sColumn).children(".level.column");
-        $("#part-time").html("Time: "+partElement.data('time'));
-        $("#part-info .name")
-            .attr('data-name', partElement.attr('data-name'))
-            .text("Name: "+partElement.attr('data-name'))
-        var songID = $("#song-clips").data('id');
-        var partID = partElement.data('id');
-        $("#part-info form").attr('action', "/songs/"+songID+"/parts/"+partID);
-        showUserContent();
-    }
+					if (cloneElement.data('row') != oldClipElement.data('row')) {
+						$(this)
+								.insertBefore(oldClipElement)
+								.removeClass('dotted-border no-border');
 
-    function showUserContent() {
-        var userContents = "";
-        $("#audio-clips #clips-"+sColumn+" .clip").each(function(){
-            console.log("", $(this).data('user-content'));
-            if ($(this).data('user-content')) {
-                var row = $(this).data('row');
-                levelName = $("#level-"+row).text();
-                userContents += " ["+levelName+"]";
-            }
-        });
-        $("p#user-content").text("User Content :"+userContents);
-    }
+						oldClipElement
+								.insertBefore(cloneElement)
+								.draggable( "enable" );
+						cloneElement.remove();
+					} else {
+						$(this)
+								.insertBefore(cloneElement)
+								.removeClass('dotted-border no-border');
+						delete window.draggableElm[column];
+						cloneElement.remove();
+						return;
+					}
+				}
+				window.draggableElm[column].push(ui.draggable);
+				if (window.draggableElm[column].length == 2) {
+					updateClipRow(window.draggableElm[column]);
+					delete window.draggableElm[column];
+					return;
+				}
+				$(this).remove();
+			}
+		});
+		return element;
+	}
 
-    singleClipEndedCallback = function() {
-        if (clipPreviewPlayer) {
-            clipPreviewPlayer.seekTo(0);
-            if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
-            $(".play-btn").removeClass("paused");
-        }
-    }
+	function updateClipRow(clips) {
+		var dbRow = clips[0].attr('data-db-row');
+		clips[0].attr('data-db-row', clips[1].attr('data-db-row'));
+		clips[1].attr('data-db-row', dbRow);
 
-    pauseClipPreviewPlayer = function() {
-        if (clipPreviewPlayer) {
-            $(".play-btn").removeClass("paused");
-            if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
-        }
-    }
+		var song_id = $("#song-clips").data('id');
+		var clip = { clip: { row: clips[0].attr('data-db-row') } };
+		var updateClipUrl = "/songs/"+song_id+"/clips/"+clips[0].data('id');
+		updateClip(clip, updateClipUrl);
 
-    stopClipPreviewPlayer = function(reset) {
-        if (clipPreviewPlayer) {
-            $(".play-btn").removeClass("paused");
-            clipPreviewPlayer.seekTo(0);
-            if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
-            clipPreviewPlayer.un('finish', singleClipEndedCallback);
-            if (reset && clipPreviewPlayerRow != 0) {
-                clipPreviewPlayerRow = clipPreviewPlayerColumn= 0;
-                playNext();
-            }
-            clipPreviewPlayer = false;
-        }
-    }
+		clip = { clip: { row: clips[1].attr('data-db-row') } };
+		updateClipUrl = "/songs/"+song_id+"/clips/"+clips[1].data('id');
+		updateClip(clip, updateClipUrl);
+	}
 
-    function clipDraggable(element, containment) {
-        element.draggable({ 
-            revert: true,
-            containment: containment,
-            axis: "y",
-            zIndex: 1000
-        });
-    }
+	function updateClip(clip, url) {
+		$.ajax({
+			type: "PUT",
+			dataType: "json",
+			url: url,
+			contentType: 'application/json',
+			data: JSON.stringify(clip)
+		}).done(function( clip ){
+			// console.log("Clip updated!!!", clip);
+		});
+	}
 
-    function blankDroppable(element) {
-        element.droppable({
-            drop: function( event, ui ) {
-                var column = $(this).parent().data('column');
-                if (!window.draggableElm[column]) { window.draggableElm[column] = []}
+	$(document).on('ready page:load', function () {
+		// window.wavesurfers = wavesurfers = {};
+		// window.draggableElm = {};
+		updatePreview();
+		// Intialize all sound clips for play
+		setTimeout(function(){
+			loadPartClips();
+			showUserContent();
+		}, 500);
 
-                if (window.draggableElm[column].length <= 0) {
-                    var blankDroppableElement = blankDroppable($("<div class='blank dotted-border'></div>"));
-                    blankDroppableElement.insertBefore(ui.draggable);  
-                    ui.draggable.attr('style', '');
-                    $(ui.draggable).insertBefore($(this));
-                } else {
-                    var cloneElement = ui.draggable.clone(true).attr('style', '');
-                    var oldClipElement = window.draggableElm[column][0];    
-                    $(cloneElement).insertBefore($(ui.draggable));
+		clipDraggable($("#tracker-mixer .clip"), 'parent');
+		blankDroppable($("#tracker-mixer .blank"));
 
-                    $(ui.draggable)
-                        .attr('style', '')
-                        .insertBefore($(this));
-                        
-                    if (cloneElement.data('row') != oldClipElement.data('row')) {
-                        $(this)
-                            .insertBefore(oldClipElement)
-                            .removeClass('dotted-border no-border');
-                    
-                        oldClipElement
-                            .insertBefore(cloneElement)
-                            .draggable( "enable" );
-                        cloneElement.remove();
-                    } else {
-                        $(this)
-                            .insertBefore(cloneElement)
-                            .removeClass('dotted-border no-border');
-                        delete window.draggableElm[column];
-                        cloneElement.remove();
-                        return;
-                    }
-                }
-                window.draggableElm[column].push(ui.draggable);
-                if (window.draggableElm[column].length == 2) {
-                    updateClipRow(window.draggableElm[column]);
-                    delete window.draggableElm[column];
-                    return;
-                }
-                $(this).remove();
-            }
-        });
-        return element;
-    }
+		$(".clips .level.column").click(function(event){
+			event.stopPropagation();
+			var column = $(event.target).parent().data('column');
+			if (!column) { return }
+			if (column == sColumn) { return }
 
-    function updateClipRow(clips) {
-        var dbRow = clips[0].attr('data-db-row');
-        clips[0].attr('data-db-row', clips[1].attr('data-db-row'));
-        clips[1].attr('data-db-row', dbRow);
+			// Paused Sound Clips
+			$(".full-play-btn").removeClass('playing');
+			stopPartPlayers(true);
 
-        var song_id = $("#song-clips").data('id');
-        var clip = { clip: { row: clips[0].attr('data-db-row') } };
-        var updateClipUrl = "/songs/"+song_id+"/clips/"+clips[0].data('id');
-        updateClip(clip, updateClipUrl);
+			$("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
+			sColumn = column;
 
-        clip = { clip: { row: clips[1].attr('data-db-row') } };
-        updateClipUrl = "/songs/"+song_id+"/clips/"+clips[1].data('id');
-        updateClip(clip, updateClipUrl);
-    }
+			isPartPlayerReady(column);
+			showCurrentPartDetails();
+			$("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
+			playNext();
 
-    function updateClip(clip, url) {
-        $.ajax({
-            type: "PUT",
-            dataType: "json",
-            url: url,
-            contentType: 'application/json',
-            data: JSON.stringify(clip)
-        }).done(function( clip ){
-            // console.log("Clip updated!!!", clip);
-        });
-    }
+			updatePreview();
+		});
 
-    $(document).on('ready page:load', function () { 
-        // window.wavesurfers = wavesurfers = {};
-        // window.draggableElm = {};
-        updatePreview();
-        // Intialize all sound clips for play
-        setTimeout(function(){
-            loadPartClips();
-            showUserContent();    
-        }, 500);
+		$(".clips .part-play-btn").click(function(event){
+			event.stopPropagation();
+			var column = $(event.target).parent().data('column');
+			if (!column) { return }
+			if (column != sColumn) { return }
 
-        clipDraggable($("#tracker-mixer .clip"), 'parent');
-        blankDroppable($("#tracker-mixer .blank"));
-        
-        $(".clips .level.column").click(function(event){
-            event.stopPropagation();
-            var column = $(event.target).parent().data('column');
-            if (!column) { return }
-            if (column == sColumn) { return }
+			// Stop any signle player
+			stopTopPlayer();
+			stopClipPreviewPlayer(true);
 
-            // Paused Sound Clips
-            $(".full-play-btn").removeClass('playing');
-            stopPartPlayers(true);
+			// Attach Listener
+			addRemoveEventListener(true);
 
-            $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
-            sColumn = column;
+			// Play or Paused Sound Clips
+			for (var i = 1; i <= 8; i++) {
+				var wavesurfer = wavesurfers[sColumn][i];
+				if (wavesurfer.backend.isPaused()) {
+					$(event.target).parent().addClass('playing');
+					wavesurfer.play();
+				} else {
+					$(event.target).parent().removeClass('playing');
+					wavesurfer.pause();
+				}
+			}
+		});
 
-            isPartPlayerReady(column);
-            showCurrentPartDetails();
-            $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
-            playNext();
+		$(".clip").click(function(event){
+			event.stopPropagation();
+			var row = $(event.target).data('row');
+			var column = $(event.target).parent().data('column');
+			if (!row || !column) { return }
+			if (!wavesurfers[column]) { return }
 
-            updatePreview();
-        });
+			var wavesurfer = wavesurfers[column][row];
+			if (!wavesurfer) { return }
 
-        $(".clips .part-play-btn").click(function(event){
-            event.stopPropagation();
-            var column = $(event.target).parent().data('column');
-            if (!column) { return }
-            if (column != sColumn) { return }
+			$(event.target).toggleClass('muted');
+			wavesurfer.toggleMute();
 
-            // Stop any signle player
-            stopTopPlayer();
-            stopClipPreviewPlayer(true);
+			var state = wavesurfer.isMuted ? true : false;
+			$(event.target).updateState(state);
+			var song_id = $("#song-clips").data('id');
+			var updateClipUrl = "/songs/"+song_id+"/clips/"+$(event.target).data('id')
 
-            // Attach Listener
-            addRemoveEventListener(true);
+			// Update song name
+			var clip = { clip: { state: state } };
+			if (configuration == 'mix2') {
+				clip = { clip: { state2: state } }
+			} else if (configuration == 'mix3') {
+				clip = { clip: { state3: state } }
+			}
+			if (column == sColumn) {
+				updatePreviewForClip($(event.target).data('row'), state);
+			}
+			updateClip(clip, updateClipUrl);
+		});
 
-            // Play or Paused Sound Clips
-            for (var i = 1; i <= 8; i++) {
-                var wavesurfer = wavesurfers[sColumn][i];
-                if (wavesurfer.backend.isPaused()) {
-                    $(event.target).parent().addClass('playing');
-                    wavesurfer.play();
-                } else {
-                    $(event.target).parent().removeClass('playing');
-                    wavesurfer.pause();
-                }
-            }
-        });
+		$(".clip .play-btn").click(function(event){
+			event.stopPropagation();
+			var row = $(event.target).parents('.clip').data('row');
+			var column = $(event.target).parents('.clips').data('column');
+			if (!row || !column) { return }
 
-        $(".clip").click(function(event){
-            event.stopPropagation();
-            var row = $(event.target).data('row');
-            var column = $(event.target).parent().data('column');
-            if (!row || !column) { return }
-            if (!wavesurfers[column]) { return }
+			stopTopPlayer();
 
-            var wavesurfer = wavesurfers[column][row];
-            if (!wavesurfer) { return }
+			// If already playing same audio file
+			if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {
+				if (clipPreviewPlayer.backend.isPaused()) {
+					$(event.target).addClass('paused');
+					clipPreviewPlayer.play();
+				} else {
+					$(event.target).removeClass('paused');
+					clipPreviewPlayer.pause();
+				}
+				return;
+			}
 
-            $(event.target).toggleClass('muted');
-            wavesurfer.toggleMute();
-            
-            var state = wavesurfer.isMuted ? true : false;
-            $(event.target).updateState(state);
-            var song_id = $("#song-clips").data('id');
-            var updateClipUrl = "/songs/"+song_id+"/clips/"+$(event.target).data('id')
+			addRemoveEventListener(false);
+			$(".clips.playing").removeClass('playing');
+			stopPartPlayers(true);
 
-            // Update song name
-            var clip = { clip: { state: state } };
-            if (configuration == 'style-up') {
-              clip = { clip: { state2: state } }
-            } else if (configuration == 'style-down') {
-              clip = { clip: { state3: state } }
-            }
-            if (column == sColumn) {
-                updatePreviewForClip($(event.target).data('filetype'), state);    
-            }
-            updateClip(clip, updateClipUrl);
-        });
+			clipPreviewPlayerRow = row;
+			clipPreviewPlayerColumn = column;
+			stopClipPreviewPlayer(false);
 
-        $(".clip .play-btn").click(function(event){
-            event.stopPropagation();
-            var row = $(event.target).parents('.clip').data('row');
-            var column = $(event.target).parents('.clips').data('column');
-            if (!row || !column) { return }
-
-            stopTopPlayer();
-            
-            // If already playing same audio file
-            if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {
-                if (clipPreviewPlayer.backend.isPaused()) {
-                    $(event.target).addClass('paused');
-                    clipPreviewPlayer.play();
-                } else {
-                    $(event.target).removeClass('paused');
-                    clipPreviewPlayer.pause();    
-                }
-                return;
-            }
-
-            addRemoveEventListener(false);
-            $(".clips.playing").removeClass('playing');
-            stopPartPlayers(true);
-
-            clipPreviewPlayerRow = row;
-            clipPreviewPlayerColumn = column;
-            stopClipPreviewPlayer(false);
-
-            $(event.target).addClass('paused');
-            clipPreviewPlayer = wavesurfers[column][row];
-            clipPreviewPlayer.seekTo(0);
-            clipPreviewPlayer.play();
-            clipPreviewPlayer.on('finish', singleClipEndedCallback);
-            window.isPartPlayerStarted = false;
-        });
-    });
- </script>
- <!-- Clips Segment Area End -->
+			$(event.target).addClass('paused');
+			clipPreviewPlayer = wavesurfers[column][row];
+			clipPreviewPlayer.seekTo(0);
+			clipPreviewPlayer.play();
+			clipPreviewPlayer.on('finish', singleClipEndedCallback);
+			window.isPartPlayerStarted = false;
+		});
+	});
+</script>
+<!-- Clips Segment Area End -->

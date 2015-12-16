@@ -1,6 +1,5 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
-
 <style>
 	.section {
 		padding: 15px 0;
@@ -30,10 +29,10 @@
 	<div id="page-content-wrapper">
 		<div id="song-clips" data-id="<%=@song.id%>" style="display:none"></div>
 		<div id="tracker-desktop" class="section">
-			<div class="container-fluid">
-				<h5 class="tab active"><a href="#">Original</a></h5>
-				<h5 class="tab"><a href="#">My Mix</a></h5>
-				<h5 class="tab plus"><a href="#">+</a></h5>
+			<div id="mix-tabs" class="container">
+				<h5 class="tab active"><a href="#" data-mix="original">Original</a></h5>
+				<h5 class="tab"><a href="#" data-mix="mix2">Mix2</a></h5>
+                <h5 class="tab"><a href="#" data-mix="mix3">Mix3</a></h5>
 				<div id="tracker-mixer" class="shadow">
 					<div class="mixer-row">
 						<div class="clearfix">
@@ -66,28 +65,28 @@
             $(".full-play-btn, #mixaudio").removeClass('disabled');
         });
 
-		window.topWavesurfer.on('loading', function (_this, progress) {
-			$(_this.container).children(".progress").css("left", progress+"%");
-		});
+        window.topWavesurfer.on('loading', function (_this, progress) {
+            $(_this.container).children(".progress").css("left", progress+"%");
+        });
 
-		window.topWavesurfer.on('finish', function () {
-			updatePreviewPlayBtn(false);
-			$(".full-play-btn").removeClass('playing');
+        window.topWavesurfer.on('finish', function () {
+            updatePreviewPlayBtn(false);
+            $(".full-play-btn").removeClass('playing');
             window.topWavesurfer.seekTo(0);
         });
         window.topWavesurfer.load(mixedFilePath);
     }
 
-	stopTopPlayer = function() {
-		if (window.topWavesurfer) {
-			if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
-				window.topWavesurfer.pause();
-				$(".full-play-btn").removeClass('playing');
-			}
-		}
-	}
+    stopTopPlayer = function() {
+        if (window.topWavesurfer) {
+            if (window.topWavesurfer.backend && !window.topWavesurfer.backend.isPaused()) {
+                window.topWavesurfer.pause();
+                $(".full-play-btn").removeClass('playing');
+            }
+        }
+    }
 
-    $(document).ready(function() {
+    $(document).ready(function(){
 		var progress = $("#tracker-compiled").data("progress");
 		var parts = $("#tracker-compiled .tracker-part").length;
 		var updateProgress = function(progress, parts) {
@@ -103,31 +102,40 @@
 			$("#tracker-compiled .tracker-part.part" + current + " .gradient").css("width", fill + "%");
 			$("#tracker-compiled .tracker-part.part" + current + " .gradient").css("outline-width", "2px");
 		}
-		// updateProgress(progress, parts);
-		/* Demo animation */
 
 		/* Mobile Version Toggle */
 		$("a[data-toggle='sidebar']").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
+
+        $('#release-status').on('click', function(e) {
+            if($(e.target).attr("data-status") == "unreleased") {
+                $.ajax({
+                    type: "PUT",
+                    dataType: "json",
+                    url: '/songs/<%=@song.id%>',
+                    contentType: 'application/json',
+                    data: JSON.stringify({status: "released"})
+                })
+                        .done(function( msg ) {
+                            console.log( "Data Saved: " + msg );
+                            $(e.target).html('Released').css('background', 'green')
+                        })
+                        .fail(function( msg ) {
+                            console.log(  msg );
+                        });
+            }
+        });
+
+        $('#mix-tabs .tab a').click(function (event) {
+            event.preventDefault();
+            $('#mix-tabs .tab').removeClass('active');
+            $(this).closest('.tab').addClass('active');
+            window.configuration = $(this).data('mix');
+            reInitializeClipsState();
+            updatePreview();
+            window.configurationBtn = this;
+        });
     });
-    $('#release-status').on('click', function(e) {
-        if($(e.target).attr("data-status") == "unreleased") {
-            $.ajax({
-                type: "PUT",
-                dataType: "json",
-                url: '/songs/<%=@song.id%>',
-                contentType: 'application/json',
-                data: JSON.stringify({status: "released"})
-            })
-            .done(function( msg ) {
-                console.log( "Data Saved: " + msg );
-                $(e.target).html('Released').css('background', 'green')
-            })
-            .fail(function( msg ) {
-                console.log(  msg );
-            });
-        }
-    });
-</script>
+    </script>
