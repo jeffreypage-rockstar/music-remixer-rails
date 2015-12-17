@@ -3,8 +3,6 @@
 class SongZipfileUploader < CarrierWave::Uploader::Base
   include ::CarrierWave::Backgrounder::Delay
 
-  storage :fog
-
   # Override the directory where uploaded files will be stored.
   def store_dir
     "#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"

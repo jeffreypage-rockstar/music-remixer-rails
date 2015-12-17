@@ -15,4 +15,8 @@ class Authentication < ActiveRecord::Base
 		self.save
 	end
 
+  def self.find_for_oauth(provider, uid)
+		authentication = find_or_create_by(provider: provider, uid: uid)
+		authentication
+	end
 end

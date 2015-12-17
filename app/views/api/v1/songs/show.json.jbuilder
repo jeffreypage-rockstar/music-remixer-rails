@@ -2,9 +2,9 @@
 json.id @song.id
 json.name @song.name
 json.duration @song.duration.to_s
-json.mixaudio @song.mixaudio.url
+json.bpm @song.bpm
+json.preview_url @song.preview_url
 json.created_at @song.created_at
-
 
 # who's song is it
 json.artist do
@@ -16,14 +16,14 @@ end
 # TODO: expose song stats
 
 # Vocals, Drums, etc
-json.parts do
+json.sections do
 	json.array! @song.clip_types do |clip_type|
 		json.extract! clip_type, :id, :name, :row
 	end
 end
 
 # Intro, Chorus, etc
-json.sections do
+json.parts do
 	json.array! @song.parts do |part|
 		json.extract! part, :id, :name, :duration, :column
 	end
@@ -32,7 +32,10 @@ end
 # the 8x8 grid of audio clips
 json.clips do
 	json.array! @song.clips do |clip|
-		json.extract! clip, :id, :row, :column, :part_id, :state, :state2, :state3, :file, :user_content
+		json.extract! clip, :id, :row, :column, :state, :state2, :state3, :allow_ugc
+		json.section_id clip.clip_type_id
+		json.part_id clip.part_id
+		json.url clip.file.to_s
 	end
 end
 

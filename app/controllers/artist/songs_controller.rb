@@ -75,11 +75,6 @@ class Artist::SongsController < Artist::BaseController
     respond_to do |format|
       if @song.build_mixaudio(params[:configuration])
         @mixaudio = @song.mixaudio
-        if @configuration == 'style-up'
-          @mixaudio = @song.mixaudio2
-        elsif @configuration == 'style-down'
-          @mixaudio = @song.mixaudio3
-        end
         # format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.js {}
         # format.json { render json: { song: @song, mixaudio: @mixaudio, state: @state} }
@@ -143,11 +138,6 @@ class Artist::SongsController < Artist::BaseController
     end
 
     @mixaudio = @song.mixaudio
-    # if @configuration == 'style-up'
-    #   @mixaudio = @song.mixaudio2
-    # elsif @configuration == 'style-down'
-    #   @mixaudio = @song.mixaudio3
-    # end
   end
 
   def sort_column
@@ -160,6 +150,6 @@ class Artist::SongsController < Artist::BaseController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def song_params
-    params.require(:song).permit(:name, :duration, :genre_list, :zipfile, :zipfile_cache, :image, :image_cache)
+    params.require(:song).permit(:name, :duration, :bpm, :genre_list, :zipfile, :zipfile_cache, :image, :image_cache, :status)
   end
 end

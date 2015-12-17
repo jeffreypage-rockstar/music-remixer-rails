@@ -4,40 +4,37 @@
         <% word = "creat" %>
         <% word = "updat" if mixaudio.present? %>
         <a id="mixaudio" data-remote="true" href="/songs/<%=@song.id%>/mixaudio?configuration=<%=@configuration%>" class="mixaudio loading pull-right<%=" disabled" if mixaudio.present? %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=word%>ing mix">
-            <span><%=word%>e mix</span>
+            <!-- <span><%=word%>e mix</span> -->
         </a>
     </div>
 </div>
-<div class="col-md-9">
-    <div class="main-player-bg"></div>
-    <div class="main-player-clips">
-        <% song_start_time = 0.0 %>
-        <% @song.parts.each_with_index do |part, c| %>
-            <% c += 1 %>
-            <div id="clips-<%=c%>0" class="clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
-                <% clip = part.clips.first %>
-                <% time_increment = 1.0 %>
-                <% if c == 1 %>
-                    <% time_increment = 0.0 %>
-                <% end %>
-                <div id="clip-part-<%=c%>" class="clip" data-id="<%=clip.id%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-filetype="<%=clip.wing%>">
-                    <div class="progress"></div>
-                    <div class="time-line"></div>
-                    <div class="time-inline">
-                        <p class="left-time-inline"><%= Time.at(song_start_time + time_increment).utc.strftime("%M:%S") %></p>
-                        <p class="right-time-inline"><%= Time.at(song_start_time = song_start_time + part.duration).utc.strftime("%M:%S") %></p>
+    <div id="tracker-compiled" data-progress="68">
+        <div class="clearfix">
+        <a href="#" class="tracker-info">
+            <i class="full-play-btn fa fa-play" id="top-play"></i>
+        </a>
+            <% song_start_time = 0.0 %>
+            <% @song.parts.each_with_index do |part, c| %>
+                <% c += 1 %>
+                <a id="clips-<%=c%>0" class="tracker-part part<%=c%> <%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
+                    <% clip = part.clips.first %>
+                    <% time_increment = 1.0 %>
+                    <% if c == 1 %>
+                        <% time_increment = 0.0 %>
+                    <% end %>
+                    <div id="clip-part-<%=c%>" class="clip" data-id="<%=clip.id%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>">
+                            <!-- <p class="left-time-inline"><%= Time.at(song_start_time + time_increment).utc.strftime("%M:%S") %></p> -->
+                            <span class="time"><%= Time.at(song_start_time = song_start_time + part.duration).utc.strftime("%M:%S") %></span>
+                            <span class="gradient"></span>
                     </div>
-                </div>
-            </div>
-        <% end %>
+                </a>
+            <% end %>
+        </div> 
+           
     </div>
-    <div id="main-player" class="row">
-        <div class="full-play-btn"></div>
-    </div>
-</div>
-<div id="configurationbtn" class="col-md-3">
-    <%= render 'configurationbtn' %>          
-</div>
+
+    
+
 <script type="text/javascript">
     window.topWavesurfers = {};
     window.seekingColumn = 0;
@@ -58,7 +55,7 @@
             cursorWidth: 2,
             cursorColor: "yellow"
         });
-        
+
         wavesurfer.on('ready', function (_this) {
             $(_this.container).addClass('loaded');
             if (!_this.isMuted) {
@@ -131,7 +128,28 @@
                 topWavesurferPlayer(this, $(this).data('path'), parseInt(column));
             })
         }); 
-    }
+    };
+
+    var playOrPauseTopWavesurferPlayer = function () {
+        // Stop any signle player
+        stopClipPreviewPlayer(true);
+
+        // Attach Listener
+        addRemoveEventListener(true);
+        $(".full-play-btn").toggleClass('playing');
+
+        // Play or Pause Sound Clips
+        for (var i = 0; i <= 8; i++) {
+            var wavesurfer = wavesurfers[sColumn][i];
+            if (wavesurfer.backend.isPaused()) {
+                $("#clips-"+sColumn).addClass('playing');
+                wavesurfer.play();
+            } else {
+                $("#clips-"+sColumn).removeClass('playing');
+                wavesurfer.pause();
+            }
+        };
+    };
 
     $(document).ready(function(){
         // Intialize all sound clips for play
@@ -146,24 +164,7 @@
 
         $(".full-play-btn").on('click', function(event){
             event.stopPropagation();
-            // Stop any signle player
-            stopClipPreviewPlayer(true);
-
-            // Attach Listener
-            addRemoveEventListener(true);
-            $(".full-play-btn").toggleClass('playing');
-
-            // Play or Paused Sound Clips
-            for (var i = 0; i <= 8; i++) {
-                var wavesurfer = wavesurfers[sColumn][i];
-                if (wavesurfer.backend.isPaused()) {
-                    $("#clips-"+sColumn).addClass('playing');
-                    wavesurfer.play();
-                } else {
-                    $("#clips-"+sColumn).removeClass('playing');
-                    wavesurfer.pause();
-                }
-            };
+            playOrPauseTopWavesurferPlayer();
         });
     });
 </script>

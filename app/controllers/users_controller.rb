@@ -36,8 +36,6 @@ class UsersController < Clearance::UsersController
       referral = Referral.virgin.find_by(invite_code: params[:invite_code])
       @referral = referral if referral
     end
-
-    # redirect_to root_path, alert: 'Invalid invite code or already occupied.' if @referral.nil?
   end
 
 	def user_params

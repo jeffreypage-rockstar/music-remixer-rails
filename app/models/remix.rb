@@ -1,7 +1,13 @@
 class Remix < ActiveRecord::Base
-	belongs_to :user, counter_cache: true
+	mount_uploader :audio, RemixAudioUploader
+	store_in_background :audio, RemixAudioUploadWorker
+
+	enum status: {processing: 0, failed: 1, published: 2}
+
+  default_value_for :uuid do
+    SecureRandom.uuid
+  end
+
+  belongs_to :user, counter_cache: true
 	belongs_to :song
-	# do we care about tracking remixes of remixes?
-	# belongs_to :parent_remix, foreign_key: 'parent_remix_id'
-	# has_many :derivative_remixes, class_name: 'Remix', primary_key: 'id', foreign_key: 'parent_remix_id'
 end

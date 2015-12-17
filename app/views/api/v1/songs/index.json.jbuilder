@@ -2,6 +2,7 @@ json.array!(@songs) do |song|
 	json.id song.id
 	json.name song.name
 	json.duration song.duration.to_s
+	json.bpm song.bpm
 	json.preview_url song.preview_url
 	json.image song.image
 	json.artist do

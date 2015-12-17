@@ -3,10 +3,8 @@ class ClipType < ActiveRecord::Base
 	
 	belongs_to :song
 
-	def self.index type = nil
-		clipTypeNames = ["vocals", "bass", "drums", "instruments", "upperc", "dtperc", "dive", "crash"]
-		match = clipTypeNames.find { |n| n.match(type) }
-		match_index = clipTypeNames.index(match)
-		match_index + 1
-	end
+  def self.row_name(row=nil)
+    clipTypeNames = %w(Lead Bass Drums Instruments Rmx1 Rmx2 Rmx3 Rmx4)
+    clipTypeNames[row - 1]
+  end
 end

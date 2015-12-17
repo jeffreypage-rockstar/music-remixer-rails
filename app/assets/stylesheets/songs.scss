@@ -12,10 +12,6 @@ body.songs.configure > .container-fluid  {
   width: 1170px !important;
 }
 
-#song-clips {
-  margin: 0 78px 35px;
-}
-
 body.songs.configure {
 
   .row, [class*="col-"] {
@@ -44,23 +40,37 @@ body.songs.configure {
 	width: 100%;
   }
 
-  .full-play-btn {
-	position: absolute;
-	width: 33px;
-	height: 32px;
-	left: -42px;
-	background-image: image-url('play.png');
-	background-size: contain;
+  #release-status {
+	height: 37px;
+	width: 85px;
+	margin-left: 500px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 32px;
+	background: red;
   }
+
+  #release-status.released {
+	background: green;
+  }
+
+  //.full-play-btn {
+	//position: absolute;
+	//width: 33px;
+	//height: 32px;
+	//left: -42px;
+	//background-image: image-url('play.png');
+	//background-size: contain;
+  //}
 
   .full-play-btn.disabled {
 	pointer-events: none;
 	opacity: 0.5;
   }
 
-  .full-play-btn.playing {
-	background-image: image-url('pause.png');
-  }
+  //.full-play-btn.playing {
+	//background-image: image-url('pause.png');
+  //}
 
   .full-waveform {
 	position: relative;
@@ -87,8 +97,10 @@ body.songs.configure {
   }
 
   .clips.focus {
-	background-color: black;
-  }
+    /* background-color: #737373; #mixer_focus    
+    opacity: 1!important;
+    box-shadow: 0px 0px 0px 3px;   */
+    }
 
   #mixaudioplayer .clips {
 	background-color: transparent;
@@ -107,11 +119,12 @@ body.songs.configure {
 
   .level {
 	position: relative;
-	width: 82px;
+	width: 100%;
 	margin-bottom: 3px;
 	display: block;
-	color: white;
+	color: black;
 	text-align: center;
+        opacity: 1;
   }
 
   .level.left {
@@ -131,7 +144,7 @@ body.songs.configure {
 	cursor: pointer;
   }
 
-  .clip, .blank {
+  clipstyle, .blank {
 	position: relative;
 	width: 96%;
 	height: 34px;
@@ -141,48 +154,57 @@ body.songs.configure {
 	margin: 0 auto 4px;
   }
 
-  .clip.clip-0 {
+  .clipstyle.clip-0 {
 	background-image: image-url('0.png');
+	background-size: cover;
   }
 
-  .clip.clip-a, .clip.clip-1 {
+  .clipstyle.clip-a, .clipstyle.clip-1 {
 	background-image: image-url('1.png');
+	background-size: cover;
   }
 
-  .clip.clip-b, .clip.clip-2 {
+  .clipstyle.clip-b, .clipstyle.clip-2 {
 	background-image: image-url('2.png');
+	background-size: cover;
   }
 
-  .clip.clip-c, .clip.clip-3 {
+  .clipstyle.clip-c, .clipstyle.clip-3 {
 	background-image: image-url('3.png');
+	background-size: cover;
   }
 
-  .clip.clip-d, .clip.clip-4 {
+  .clipstyle.clip-d, .clipstyle.clip-4 {
 	background-image: image-url('4.png');
+	background-size: cover;
   }
 
-  .clip.clip-e, .clip.clip-5 {
+  .clipstyle.clip-e, .clipstyle.clip-5 {
 	background-image: image-url('5.png');
+	background-size: cover;
   }
 
-  .clip.clip-f, .clip.clip-6 {
+  .clipstyle.clip-f, .clipstyle.clip-6 {
 	background-image: image-url('6.png');
+	background-size: cover;
   }
 
-  .clip.clip-g, .clip.clip-7 {
+  .clipstyle.clip-g, .clipstyle.clip-7 {
 	background-image: image-url('7.png');
+	background-size: cover;
   }
 
-  .clip.clip-h, .clip.clip-8 {
+  .clipstyle.clip-h, .clipstyle.clip-8 {
 	background-image: image-url('8.png');
+	background-size: cover;
   }
 
-  #mixaudioplayer .clip {
+  #mixaudioplayer .clipstyle {
 	background: rebeccapurple;
 	/* border: 2px solid black; */
   }
 
-  #mixaudioplayer .clip .time-line {
+  #mixaudioplayer .clipstyle .time-line {
 	height: 8px;
 	background: white;
 	position: absolute;
@@ -194,11 +216,11 @@ body.songs.configure {
 	z-index: 101;
   }
 
-  #mixaudioplayer .clips:last-child .clip .time-line {
+  #mixaudioplayer .clips:last-child .clipstyle .time-line {
 	width: 100%;
   }
 
-  #mixaudioplayer .clip .time-inline p {
+  #mixaudioplayer .clipstyle .time-inline p {
 	position: absolute;
 	bottom: 0px;
 	color: white;
@@ -207,11 +229,11 @@ body.songs.configure {
 	z-index: 101;
   }
 
-  #mixaudioplayer .clip .time-inline p.left-time-inline {
+  #mixaudioplayer .clipstyle .time-inline p.left-time-inline {
 	left: 4px;
   }
 
-  #mixaudioplayer .clip .time-inline p.right-time-inline {
+  #mixaudioplayer .clipstyle .time-inline p.right-time-inline {
 	right: 4px;
   }
 
@@ -219,6 +241,8 @@ body.songs.configure {
 	border: 2px solid white;
 	border-radius: 5px;
 	background-image: none !important;
+	height: 42px;
+	margin-top: 4px;
   }
 
   .blank.no-border {
@@ -229,7 +253,7 @@ body.songs.configure {
 	border: 2px dotted red;
   }
 
-  .blank .clip {
+  .blank .clipstyle {
 	width: 100%;
   }
 
@@ -238,15 +262,15 @@ body.songs.configure {
 	border: none;
   }
 
-  .clip.paused {
+  .clipstyle.paused {
 	background-image: image-url ('');
   }
 
-  .clip wave {
+  .clipstyle wave {
 	pointer-events: none;
   }
 
-  #mixaudioplayer .clip wave {
+  #mixaudioplayer .clipstyle wave {
 	pointer-events: all;
 	z-index: 102;
   }
@@ -261,11 +285,11 @@ body.songs.configure {
 	z-index: 99;
   }
 
-  .clip.muted .opaque-gray {
+  .clipstyle.muted .opaque-gray {
 	display: block;
   }
 
-  .clip > .progress {
+  .clipstyle > .progress {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -277,33 +301,33 @@ body.songs.configure {
 	box-shadow: none;
   }
 
-  .play-btn {
+  .play-btn, .full-play-btn {
 	position: absolute;
 	top: 50%;
 	left: 5px;
 	width: 19px;
 	height: 18px;
-	margin-top: -9px;
-	background-image: image-url('play_small.png');
+	margin-top: -7px;
+	/*background-image: image-url('play_small.png');*/
 	z-index: 100;
-	display: none;
+	display: none!important;
   }
 
-  .clips.focus .loaded .play-btn {
-	display: block;
+  .clip.loaded:hover .play-btn {
+    display: block!important;
+	color: #fff;
   }
 
-  .clips.focus.playing .loaded .play-btn {
-	display: none;
-  }
-
-  .clip.bordered .play-btn {
+  .clipstyle.bordered .play-btn {
 	left: 3px;
   }
 
-  .play-btn.paused {
-	background-image: image-url('pause_small.png');
-  }
+.play-btn.paused:before {
+	/* background-image: url(/assets/pause_small-7a9c88bcc09ee9e6e2daffc8b73741efb6c70143b1c33a4776e2e8deb22ae5aa.png); */
+	content: '\f04c'!important;
+	/* color: black; */
+	/* font-family: Font Awesome; */
+}
 
   .user-content {
 	position: absolute;
@@ -400,7 +424,7 @@ body.songs.configure {
 
   .mixaudio {
 	color: white;
-	background-color: black;
+	/* background-color: black; */
 	padding: 2px 20px 0px;
 	border-top-left-radius: 18px;
 	border-top-right-radius: 18px;
@@ -518,6 +542,9 @@ body.songs.configure {
 	width: 100%;
 	height: 37px;
 	line-height: 37px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 16px;
   }
 
   .iPhone .navigation-bar i.fa {
@@ -561,19 +588,19 @@ body.songs.configure {
 	background-repeat: no-repeat;
   }
 
-  .iPhone .screen .wing1,
+  .iPhone .screen .wing4,
   .iPhone .screen .wing2 {
 	width: 49px;
 	height: 68px;
 	top: 96px;
   }
 
-  .iPhone .screen .wing1 {
+  .iPhone .screen .wing4 {
 	left: 33px;
 	background-image: image-url('wing_1_s@2x.png');
   }
 
-  .iPhone .screen .wing1.muted {
+  .iPhone .screen .wing4.muted {
 	background-image: image-url('wing_1@2x.png');
   }
 
@@ -586,35 +613,35 @@ body.songs.configure {
 	background-image: image-url('wing_2@2x.png');
   }
 
-  .iPhone .screen .wing3,
-  .iPhone .screen .wing4 {
+  .iPhone .screen .wing1,
+  .iPhone .screen .wing3 {
 	width: 68px;
 	height: 50px;
 	left: 65px;
   }
 
-  .iPhone .screen .wing3 {
+  .iPhone .screen .wing1 {
 	top: 63px;
 	background-image: image-url('wing_3_s@2x.png');
   }
 
-  .iPhone .screen .wing3.muted {
+  .iPhone .screen .wing1.muted {
 	background-image: image-url('wing_3@2x.png');
   }
 
-  .iPhone .screen .wing4 {
+  .iPhone .screen .wing3 {
 	top: 147px;
 	background-image: image-url('wing_4_s@2x.png');
   }
 
-  .iPhone .screen .wing4.muted {
+  .iPhone .screen .wing3.muted {
 	background-image: image-url('wing_4@2x.png');
   }
 
   .iPhone .screen .wing5,
   .iPhone .screen .wing6,
-  .iPhone .screen .wing7,
-  .iPhone .screen .wing8 {
+  .iPhone .screen .wing8,
+  .iPhone .screen .wing7 {
 	width: 41px;
 	height: 41px;
   }
@@ -642,26 +669,26 @@ body.songs.configure {
 	background-image: image-url('wing_6@2x.png');
   }
 
-  .iPhone .screen .wing7,
-  .iPhone .screen .wing8 {
+  .iPhone .screen .wing8,
+  .iPhone .screen .wing7 {
 	top: 161px;
   }
 
-  .iPhone .screen .wing7 {
+  .iPhone .screen .wing8 {
 	left: 27px;
 	background-image: image-url('wing_7_s@2x.png');
   }
 
-  .iPhone .screen .wing7.muted {
+  .iPhone .screen .wing8.muted {
 	background-image: image-url('wing_7@2x.png');
   }
 
-  .iPhone .screen .wing8 {
+  .iPhone .screen .wing7 {
 	left: 130px;
 	background-image: image-url('wing_8_s@2x.png');
   }
 
-  .iPhone .screen .wing8.muted {
+  .iPhone .screen .wing7.muted {
 	background-image: image-url('wing_8@2x.png');
   }
 

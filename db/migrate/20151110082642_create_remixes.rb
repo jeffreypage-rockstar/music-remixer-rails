@@ -9,7 +9,10 @@ class CreateRemixes < ActiveRecord::Migration
 	    t.text        :config
 	    t.integer     :status
 
-	    t.timestamps
+      t.integer :downloads_count, default: 0
+      t.integer :plays_count, default: 0
+
+      t.timestamps
     end
   end
 end
