@@ -1,20 +1,3 @@
-/.container.splash.row
-/  - if signed_in?
-/    .text-center
-/      | Welcome.  If you haven't already done so, install our app!
-/      p TODO: need content here
-/
-/    .white-section
-/      h3 Invite others here
-/      #referralWrapper
-/        = render partial: 'referrals/form', locals: { referral: Referral.new }
-/  - else
-/    .blurb.col-xs-12.col-sm-6
-/      h1 Welcome to the future of music.
-/      p This is a blurb saying cool things about Mix8.
-/    .well.signup.form400.col-xs-12.col-sm-6
-/      .h4.text-center Join our Beta Program!
-
 .jumbotron.jumbotron-inverse
   .container
     .col-xs-12.col-sm-7.col-md-5.col-md-offset-1.col-lg-5.col-lg-offset-1
@@ -62,25 +45,3 @@
         p.lead By providing the content, tracking, and remixing platform, 8Stem will become the source for artists to promote their songs to be remixed - and for aspiring remixers to gain recognition from friends, peers, or the original artist.
         p.lead We can’t wait to show you what the next generation of music sounds like. A global audience of artists, fans, producers and DJs is ready.
         p.lead Available early 2016.
-        p.lead Are you in?
-  .container
-    h5 style=("margin-bottom: 40px;")  Become a beta tester today! Or hit us up with questions or comments.
-    form#contact-form role="form"
-      .row
-        .col-md-6
-          .form-group
-            label.control-label for="name"  Name
-            input#name.form-control aria-required="true" minlength="2" name="name" placeholder=("Bubba Smith") required="" type="text" /
-            .help-block.with-errors
-          .form-group
-            label.control-label for="email"  Email
-            input#email.form-control data-error="Sorry, that email address is invalid" name="email" placeholder="bubba@example.com" required="" type="email" /
-            .help-block.with-errors
-          .form-group
-            label.control-label for="subject"  Subject
-            input#subject.form-control name="subject" placeholder=("Sign me up") required="" type="text" /
-            .help-block.with-errors
-          .form-group
-            label.control-label for="message"  Message
-            textarea#message.form-control maxlength="140" name="message" placeholder=("This sounds amazing!") rows="7" type="textarea"
-          button#submit.btn.btn-block.btn-primary name="submit" style=("margin-top: 15px; margin-bottom: 25px;") type="button"  Submit

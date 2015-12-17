@@ -1,0 +1,13 @@
+.container.splash.row
+  - if request.query_string == 'thanks'
+    .text-center
+      p
+      p Nice work, Bubba!
+      p Your registration form has been accepted. Welcome to the Beta Team!
+      p We’re glad you joined us. Revolutions are fun!
+      p You’ll receive a confirmation email shortly.
+
+  .white-section
+    h3 Invite others here
+    #referralWrapper
+      = render partial: 'referrals/form', locals: { referral: Referral.new }

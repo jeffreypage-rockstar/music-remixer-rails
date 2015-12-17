@@ -89,6 +89,7 @@ Rails.application.routes.draw do
 		get '/sign_up' => 'users#new', as: 'sign_up'
 		get '/sign_out' => 'sessions#destroy', as: 'sign_out'
 		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
+    get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
 
 		match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 	end
