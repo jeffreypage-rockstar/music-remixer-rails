@@ -14,6 +14,7 @@
  *= require bootstrap-tagsinput
  *= require lobibox
  *= require_tree .
+ *= stub 8stem.scss
  *= stub signup
  *= require_self
  */
@@ -23,7 +24,7 @@
 @import "font-awesome";
 
 #main {
-  margin-top: 84px;
+  margin-top: 65px;
 }
 
 body.sessions #navbar-collapse,

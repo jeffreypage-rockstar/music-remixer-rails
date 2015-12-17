@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  layout '8stem'
+
 	def lbstatus
 		render :text => 'ok', :layout => false
 	end

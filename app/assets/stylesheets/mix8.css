@@ -182,6 +182,12 @@ td,
 th {
 	padding: 0;
 }
+footer {
+    text-align: center;
+    font-size: 12px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
 @media print {
 	*,
@@ -4016,6 +4022,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 	display: block;
 	padding: 10px 15px;
 }
+.nav > li.active > a,
 .nav > li > a:hover,
 .nav > li > a:focus {
 	text-decoration: none;
@@ -4618,7 +4625,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 	color: #cccccc;
 }
 .navbar-inverse {
-	background-color: #414a51;
+    background-color: white;
 	border-color: transparent;
 }
 .navbar-inverse .navbar-brand {
@@ -4635,17 +4642,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > li > a {
 	color: #71787d;
 }
-.navbar-inverse .navbar-nav > li > a:hover,
-.navbar-inverse .navbar-nav > li > a:focus {
-	color: #ffffff;
-	background-color: #2a3035;
-}
-.navbar-inverse .navbar-nav > .active > a,
-.navbar-inverse .navbar-nav > .active > a:hover,
-.navbar-inverse .navbar-nav > .active > a:focus {
-	color: #ffffff;
-	background-color: #2a3035;
-}
+
 .navbar-inverse .navbar-nav > .disabled > a,
 .navbar-inverse .navbar-nav > .disabled > a:hover,
 .navbar-inverse .navbar-nav > .disabled > a:focus {
@@ -4666,12 +4663,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-form {
 	border-color: #31383d;
 }
-.navbar-inverse .navbar-nav > .open > a,
-.navbar-inverse .navbar-nav > .open > a:hover,
-.navbar-inverse .navbar-nav > .open > a:focus {
-	background-color: #2a3035;
-	color: #ffffff;
-}
+
 @media (max-width: 767px) {
 	.navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
 		border-color: transparent;
@@ -4681,17 +4673,6 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 	}
 	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
 		color: #71787d;
-	}
-	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
-		color: #ffffff;
-		background-color: #2a3035;
-	}
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
-		color: #ffffff;
-		background-color: #2a3035;
 	}
 	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,
 	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,
