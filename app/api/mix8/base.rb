@@ -6,7 +6,7 @@ module Mix8
 
     add_swagger_documentation(
         api_version: 'v1',
-        base_path: '/api',
+        base_path: false,
         hide_format: true
     )
   end

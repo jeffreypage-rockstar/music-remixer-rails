@@ -2,10 +2,9 @@ require 'api_constraints'
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-	mount Mix8::Base => '/api'
-
 	# API subdomain
 	constraints :subdomain => 'api' do
+		mount Mix8::Base => '/'
 	end
 
 	# Artist subdomain
