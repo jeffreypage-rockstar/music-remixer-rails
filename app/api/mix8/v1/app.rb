@@ -6,15 +6,15 @@ module Mix8
       resource :app, desc: 'App' do
         desc 'Track app installs'
         post 'install' do
-          response = {"success" => true}
-          return response
+          response = {success: true}
+          response
         end
 
         desc 'Return app configuration information'
         get 'startup' do
-          response = {"token" => ""}
-          response["token"] = current_user.remember_token if current_user
-          return response
+          response = {token: ''}
+          response[:token] = current_user.remember_token if current_user
+          response
         end
       end
     end
