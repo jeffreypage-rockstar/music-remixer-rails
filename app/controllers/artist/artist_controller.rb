@@ -64,7 +64,7 @@ class Artist::ArtistController < Artist::BaseController
 	end
 
 	def connect
-		@active_tab = 'all'
+		@active_tab = params[:tab] || 'all'
 	end
 
 	def activities
@@ -76,7 +76,16 @@ class Artist::ArtistController < Artist::BaseController
 	protected
 
 	def set_activities
-		@activities = PublicActivity::Activity.order('created_at DESC').page(params[:page]).per(2)
+		activities_query = PublicActivity::Activity.order('created_at DESC')
+		activities_query = case params[:tab]
+												 when 'friends'
+													 activities_query.where(owner_id: current_user.followees(User).map(&:id))
+												 when 'songs'
+													 activities_query.where(key: %w(song.create song.share song.like song.unlike))
+												 else
+													 activities_query
+											 end
+		@activities = activities_query.page(params[:page])
   end
 
 	def validate_artist

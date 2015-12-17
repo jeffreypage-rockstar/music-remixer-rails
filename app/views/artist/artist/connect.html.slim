@@ -3,34 +3,28 @@
   #connectTabs.white-section
     .nav-center
       ul.nav.nav-tabs role="tablist"
-        li role="presentation" class=('active' if @active_tab == 'all')
-          a aria-controls="all" data-toggle="tab" href="#all" role="tab" All
-        li role="presentation" class=('active' if @active_tab == 'songs')
-          a aria-controls="songs" data-toggle="tab" href="#songs" role="tab" Songs
-        li role="presentation" class=('active' if @active_tab == '8stem')
-          a aria-controls="8stem" data-toggle="tab" href="#8stem" role="tab" 8Stem
-        li role="presentation" class=('active' if @active_tab == 'friends')
-          a aria-controls="friends" data-toggle="tab" href="#friends" role="tab" Friends
-  .tab-content
-    #all.tab-pane role="tabpanel" class=('active' if @active_tab == 'all')
-      .container
-        h4 Recent Activity
+        li class=('active' if @active_tab == 'all')
+          a href="#{artist_connect_path(tab: 'all')}" All
+        li class=('active' if @active_tab == 'songs')
+          a href="#{artist_connect_path(tab: 'songs')}" Songs
+        li class=('active' if @active_tab == '8stem')
+          a href="#{artist_connect_path(tab: '8stem')}" 8Stem
+        li class=('active' if @active_tab == 'friends')
+          a href="#{artist_connect_path(tab: 'friends')}" Friends
+  .container
+    h4 Recent Activity
 
-        .white-section.recent-activity
-          ul.list-group.activities
-            = render_activities(@activities.limit(2), fallback: 'default')
+    .white-section.recent-activity
+      ul.list-group.activities
+        = render_activities(@activities.limit(2), fallback: 'default')
 
-        h4 History
+    h4 History
 
-        .white-section.history
-          ul.list-group.activities
-            = render_activities(@activities, fallback: 'default')
+    .white-section.history
+      ul.list-group.activities
+        = render_activities(@activities, fallback: 'default')
 
-          - unless @activities.last_page?
-            a.btn.btn-block.btn-grey.load-more data-remote="true" data-loading="false" href="#{artist_activities_path(page: @activities.next_page)}"
-              => fa_icon 'spinner spin', class: 'loading'
-              | Load more ...
-
-    #songs.tab-pane role="tabpanel" class=('active' if @active_tab == 'songs')
-    .tab-pane id="8stem" role="tabpanel" class=('active' if @active_tab == '8stem')
-    #friends.tab-pane role="tabpanel" class=('active' if @active_tab == 'friends')
+      - unless @activities.last_page?
+        a.btn.btn-block.btn-grey.load-more data-remote="true" data-loading="false" href="#{artist_activities_path(page: @activities.next_page)}"
+          => fa_icon 'spinner spin', class: 'loading'
+          | Load more ...
