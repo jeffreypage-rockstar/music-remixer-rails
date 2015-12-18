@@ -1,8 +1,14 @@
 class ClipFileUploader < CarrierWave::Uploader::Base
   include ::CarrierWave::Backgrounder::Delay
+  before :cache, :save_duration
   before :cache, :save_original_filename
 
   process encode_audio: [:m4a]
+
+  def save_duration(file)
+    file = ::FFMPEG::Movie.new(file.path)
+    model.duration = file.duration
+  end
 
   def save_original_filename(file)
     model.original_filename ||= file.original_filename if file.respond_to?(:original_filename)

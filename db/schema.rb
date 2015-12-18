@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151216200245) do
+ActiveRecord::Schema.define(version: 20151218030827) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.boolean  "file_processing",               default: false, null: false
     t.integer  "storing_status",    limit: 4,   default: 0
     t.string   "original_filename", limit: 255
+    t.float    "duration",          limit: 24
   end
 
   add_index "clips", ["part_id"], name: "index_clips_on_part_id", using: :btree
@@ -135,7 +136,7 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.integer  "song_id",    limit: 4
     t.string   "name",       limit: 40
     t.integer  "column",     limit: 4
-    t.integer  "duration",   limit: 4
+    t.float    "duration",   limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -162,7 +163,7 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.integer  "user_id",             limit: 4
     t.string   "name",                limit: 255,                 null: false
     t.integer  "status",              limit: 4,   default: 0
-    t.integer  "duration",            limit: 4
+    t.float    "duration",            limit: 24
     t.integer  "bpm",                 limit: 4
     t.string   "zipfile",             limit: 255
     t.string   "mixaudio",            limit: 255
@@ -177,6 +178,8 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.string   "mixaudio_tmp",        limit: 255
     t.boolean  "zipfile_processing",              default: false, null: false
     t.boolean  "mixaudio_processing",             default: false, null: false
+    t.string   "waveform",            limit: 255
+    t.string   "waveform_data",       limit: 255
   end
 
   add_index "songs", ["user_id"], name: "index_songs_on_user_id", using: :btree

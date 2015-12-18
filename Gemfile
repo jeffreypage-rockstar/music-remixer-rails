@@ -76,6 +76,7 @@ gem 'carrierwave'
 gem 'carrierwave_backgrounder'
 gem 'fog'
 gem 'mini_magick'
+gem 'cocaine'
 
 gem 'slim-rails'
 gem 'draper'
@@ -131,7 +132,7 @@ group :development, :test do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-ext',     require: false
   gem 'capistrano-faster-assets', '~> 1.0.2'
-  gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  gem 'capistrano-rbenv', github: 'capistrano/rbenv'
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 end

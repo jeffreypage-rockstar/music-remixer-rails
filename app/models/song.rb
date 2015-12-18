@@ -14,6 +14,8 @@ class Song < ActiveRecord::Base
 
   ACCEPTED_CLIP_FORMATS = %w(m4a mp3 aac amr aiff ogg oga wav flac act 3gp mp4)
   mount_uploader :image, SongImageUploader
+  mount_uploader :waveform, SongWaveformUploader
+  mount_uploader :waveform_data, SongWaveformDataUploader
   mount_uploader :mixaudio, SongMixaudioUploader
   store_in_background :mixaudio, SongProcessWorker
   mount_uploader :zipfile, SongZipfileUploader
@@ -36,7 +38,7 @@ class Song < ActiveRecord::Base
   # audio uploader
   validates :name, presence: true
   validates :zipfile, presence: true, if: Proc.new { |s| s.zipfile_tmp.blank? }
-  validate :validate_zip_file, unless: Proc.new { |s| s.zipfile_tmp.blank? }
+  validate :validate_zip_file, if: Proc.new { |s| s.zipfile_tmp.blank? && s.zipfile_changed? }
 
   def bpm
     self[:bpm].nil? ? 0 : self[:bpm]
@@ -79,52 +81,53 @@ class Song < ActiveRecord::Base
 
   def build_mixaudio(configuration='source')
     dir_path = self.song_tmp_directory_path
-    commands = []
-    outputs = []
-    ffmpegcmd = "cd #{dir_path} && ffmpeg "
+    part_audio_paths = []
 
-    self.parts.each do |part|
+    self.parts.each_with_index do |part, index|
       clips = part.clips
-      clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(clip.song.song_tmp_directory_path, clip.original_filename) }
-      command = clip_file_paths.map { |file_path| "-i '#{file_path}'" }.join ' '
+      clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
+      part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
 
-      # If at least a single clip is not mute
-      output = "mix_audio_part_#{part.column}.m4a"
-      if command.present?
-        command += " -filter_complex amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3,volume=#{clip_file_paths.count} -y '#{output}'"
-        command = ffmpegcmd + command
-        # If all clips are muted, Create a blank audio
-      else
-        command = "#{ffmpegcmd} -filter_complex aevalsrc=0 -t #{part.duration+1} -y '#{output}'"
+      begin
+        interpolations = {output: part_audio_path}
+        if clip_file_paths.any?
+          input_params = []
+          clip_file_paths.each_with_index do |file_path, index|
+            input_params << "-i :input#{index}"
+            interpolations[:"input#{index}"] = file_path
+          end
+          interpolations[:filters] = "amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3,volume=#{clip_file_paths.count}"
+          part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
+          puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
+          part_audio_line.run(interpolations)
+        else
+          interpolations[:filters] = "aevalsrc=0 -t #{part.duration}"
+          part_audio_line = Cocaine::CommandLine.new('ffmpeg', '-filter_complex :filters -y :output')
+          puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
+          part_audio_line.run(interpolations)
+        end
+      rescue Cocaine::ExitStatusError => e
+        puts "error while running command #{part_audio_line.command(interpolations)}: #{e}"
       end
-      outputs.push(output)
-      commands.push(command)
+      part_audio_paths << part_audio_path
     end
 
-    result = []
-    commands.each_with_index do |command, index|
-      puts "EXECUTING command #{index+1}: #{command}"
-      result[index] = system command
-      if result[index].nil?
-        puts "Error was #{$?}"
-      elsif result[index]
-        puts "===================== You made it! #{index + 1}"
-      end
-    end
-
-    # File Upload path
     digest = Digest::MD5.hexdigest("#{Time.now}")
-    output = "mix-audio-#{digest}.m4a"
+    interpolations = {output: File.join(dir_path, "mix-audio-#{digest}.m4a")}
+    input_params = []
+    part_audio_paths.each_with_index do |audio_path, index|
+      input_params << "-i :input#{index}"
+      interpolations[:"input#{index}"] = audio_path
+    end
+    mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
+    interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
 
-    command = outputs.map { |output| "-i '#{output}'" }.join ' '
-    command = "#{ffmpegcmd} #{command} -filter_complex concat=n=#{outputs.length}:v=0:a=1 -y '#{output}'"
-
-    puts "EXECUTING command: #{command}"
-    result = system command
-    if result
-      self.mixaudio = File.open File.join(dir_path, output)
-    else
-      puts "Error was #{$?}"
+    begin
+      puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
+      mixaudio_line.run(interpolations)
+      self.mixaudio = File.open(interpolations[:output])
+    rescue Cocaine::ExitStatusError => e
+      puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
     end
     self.save!
   end
@@ -165,7 +168,6 @@ class Song < ActiveRecord::Base
     return unless Song.valid_zip?(self.zipfile_tmp_path)
 
     # Open Zip file and read audio clips
-    duration = 0
     parts = {}
     clip_types = {}
 
@@ -186,25 +188,17 @@ class Song < ActiveRecord::Base
             clip_types[row] = clip_type
           end
 
-          TagLib::FileRef.open(file_path) do |fileref|
-            unless fileref.nil?
-              properties = fileref.audio_properties
-
-              unless parts[column]
-                duration += properties.length
-                part = self.parts.find_or_initialize_by(column: column)
-                part.attributes = {name: "Part #{column}", duration: properties.length}
-                parts[column] = part
-              end
-
-              clip = self.clips.find_or_initialize_by(row: row, column: column)
-              clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
-            end
+          unless parts[column]
+            part = self.parts.find_or_initialize_by(column: column)
+            part.attributes = {name: "Part #{column}"}
+            parts[column] = part
           end
+
+          clip = self.clips.find_or_initialize_by(row: row, column: column)
+          clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
         end
       end
     end
-    self.duration = duration
     self.save!
   end
 

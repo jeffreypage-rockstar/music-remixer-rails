@@ -109,6 +109,10 @@ GEM
       bcrypt
       email_validator (~> 1.4)
       rails (>= 3.1)
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
+    cocaine (0.5.8)
+      climate_control (>= 0.0.3, < 1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     coffee-rails (4.1.0)
@@ -493,6 +497,7 @@ DEPENDENCIES
   carrierwave
   carrierwave_backgrounder
   clearance (~> 1.11)
+  cocaine
   coffee-rails (~> 4.1.0)
   default_value_for
   draper
