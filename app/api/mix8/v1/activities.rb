@@ -10,7 +10,7 @@ module Mix8
           optional :since, type: DateTime, desc: 'since the specific datetime'
           requires :filter, type: Symbol, values: [:all, :friends, :songs], default: :all, desc: 'filter'
         end
-        paginate per_page: 20, max_per_page: 30, offset: 5
+        paginate per_page: 20, max_per_page: 30, offset: 0
         get do
           authenticate!
           activities_query = PublicActivity::Activity.order('created_at DESC')

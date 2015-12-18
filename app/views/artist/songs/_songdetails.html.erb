@@ -10,7 +10,7 @@
             <% end %>
         </div>
     </li>
-    <li><p>Time: <%= Time.at(@song.duration).utc.strftime("%M:%S") %></p></li>
+    <li><p>Time: <%= Time.at(@song.duration/1000).utc.strftime("%M:%S") %></p></li>
 </ul>
 <script type="text/javascript">
     function updateSongName(event, name) {

@@ -206,8 +206,9 @@ class Song < ActiveRecord::Base
     filename = File.basename(filename).strip.downcase
     re = /^([a-h])\s*([1-8])/
     m = re.match(filename)
-    row = m[1].ord-96 # convert alpha to numeric
-    col = m[2]
+    # new new new format, col (a-h) row (1-8)
+    col = m[1].ord-96 # convert alpha to numeric
+    row = m[2]
     return [col.to_i, row.to_i]
   end
 
