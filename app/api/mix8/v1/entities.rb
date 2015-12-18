@@ -20,7 +20,9 @@ module Mix8
       class Part < Grape::Entity
         expose :id
         expose :name
-        expose :duration
+        expose :duration do |instance|
+          (instance.duration/1000.0).to_s
+        end
         expose :column
       end
 
@@ -46,7 +48,9 @@ module Mix8
       class Song < Grape::Entity
         expose :id
         expose :name
-        expose :duration
+        expose :duration do |instance|
+          (instance.duration/1000.0).to_s
+        end
         expose :bpm
         expose :preview_url
         expose :image do |instance|

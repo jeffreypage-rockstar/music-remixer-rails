@@ -95,7 +95,7 @@ class Song < ActiveRecord::Base
         command = ffmpegcmd + command
         # If all clips are muted, Create a blank audio
       else
-        command = "#{ffmpegcmd} -filter_complex aevalsrc=0 -t #{part.duration+1} -y '#{output}'"
+        command = "#{ffmpegcmd} -filter_complex aevalsrc=0 -t #{(part.duration/1000)+1} -y '#{output}'"
       end
       outputs.push(output)
       commands.push(command)
@@ -165,7 +165,7 @@ class Song < ActiveRecord::Base
     return unless Song.valid_zip?(self.zipfile_tmp_path)
 
     # Open Zip file and read audio clips
-    duration = 0
+    duration_ms = 0
     parts = {}
     clip_types = {}
 
@@ -186,26 +186,35 @@ class Song < ActiveRecord::Base
             clip_types[row] = clip_type
           end
 
-          TagLib::FileRef.open(file_path) do |fileref|
-            unless fileref.nil?
-              properties = fileref.audio_properties
-
-              unless parts[column]
-                duration += properties.length
-                part = self.parts.find_or_initialize_by(column: column)
-                part.attributes = {name: "Part #{column}", duration: properties.length}
-                parts[column] = part
-              end
-
-              clip = self.clips.find_or_initialize_by(row: row, column: column)
-              clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
-            end
+          unless parts[column]
+            clip_duration_ms = Song.get_audio_length_ms(file_path)
+            duration_ms += clip_duration_ms
+            part = self.parts.find_or_initialize_by(column: column)
+            part.attributes = {name: "Part #{column}", duration: clip_duration_ms}
+            parts[column] = part
           end
+
+          clip = self.clips.find_or_initialize_by(row: row, column: column)
+          clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
         end
       end
     end
-    self.duration = duration
+    self.duration = duration_ms
     self.save!
+  end
+
+  def self.get_audio_length_ms(filepath)
+    duration = 0
+    command = "ffmpeg -i \"#{filepath.to_s}\" 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | sed s/,//"
+    # puts "COMMAND: #{command}"
+    result = `#{command}`
+    # puts "RESULT: #{result}"
+    if result =~ /([\d][\d]):([\d][\d]):([\d][\d]).([\d]+)/
+      # puts "XXX duration #{$1}, #{$2.to_i}, #{$3.to_i}, #{$4.to_f}"
+      duration = ($2.to_i * 60) + $3.to_i + (($4.to_i)*0.01)
+    end
+    # puts "XXX get_audio_length for #{filepath}: #{duration}"
+    return (duration*1000).to_i
   end
 
   def self.get_parts_from_filename(filename)

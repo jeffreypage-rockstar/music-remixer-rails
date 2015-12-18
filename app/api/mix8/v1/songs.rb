@@ -6,7 +6,7 @@ module Mix8
 
       resource :songs, desc: 'Songs' do
         desc 'Get list of songs', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
-        paginate per_page: 20, max_per_page: 30, offset: 5
+        paginate per_page: 20, max_per_page: 100, offset: 0
         get do
           authenticate!
           songs = paginate(Song.released)

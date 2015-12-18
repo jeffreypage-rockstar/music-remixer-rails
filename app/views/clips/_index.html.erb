@@ -31,7 +31,7 @@
 				<% end %>
 			</div>
 		<% end %>
-		<div class="level column editable-text" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
+		<div class="level column editable-text" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration/1000).utc.strftime("%M:%S") %>">
 			<span><%=part.name%></span>
 		</div>
 	</div>

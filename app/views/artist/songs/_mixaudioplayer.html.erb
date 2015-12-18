@@ -24,7 +24,7 @@
                     <% end %>
                     <div id="clip-part-<%=c%>" class="clip" data-id="<%=clip.id%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>">
                             <!-- <p class="left-time-inline"><%= Time.at(song_start_time + time_increment).utc.strftime("%M:%S") %></p> -->
-                            <span class="time"><%= Time.at(song_start_time = song_start_time + part.duration).utc.strftime("%M:%S") %></span>
+                            <span class="time"><%= Time.at(song_start_time = song_start_time + (part.duration/1000)).utc.strftime("%M:%S") %></span>
                             <span class="gradient"></span>
                     </div>
                 </a>
