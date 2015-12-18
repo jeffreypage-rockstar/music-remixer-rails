@@ -1,6 +1,87 @@
 # akashic-nga
 
 ## Developer Guide
+### Installation
+#### Audio Waveform Image Generator
+Audio Waveform is being generated using [Audio Waveform Image Generator] (https://github.com/bbcrd/audiowaveform)
+Please go through the following steps.
+The lastest on is available on https://github.com/bbcrd/audiowaveform
+##### Install package dependencies
+###### Fedora
+
+libmad is available from the RPM Fusion **free** repository. Before running the
+following `yum` command you should follow the instructions
+[here](http://rpmfusion.org/Configuration) to add this repository, if you have
+not already done so.
+
+    $ sudo yum install git cmake libmad-devel libsndfile-devel \
+      gd-devel boost-devel
+
+###### Ubuntu
+
+    $ sudo apt-get install git-core make cmake gcc g++ libmad0-dev libsndfile1-dev \
+      libgd2-xpm-dev libboost-filesystem-dev libboost-program-options-dev \
+      libboost-regex-dev
+
+###### Mac OSX
+
+Install [XCode](https://developer.apple.com/xcode/) and
+[Homebrew](http://mxcl.github.io/homebrew/), then:
+
+    $ brew install cmake libmad libsndfile gd
+    $ brew install boost --with-c++11
+
+##### Obtain the source code
+
+    $ git clone https://github.com/bbcrd/audiowaveform.git
+    $ cd audiowaveform
+
+##### Install googletest and googlemock test frameworks
+
+**audiowaveform** uses [googletest](https://code.google.com/p/googletest/) and
+[googlemock](https://code.google.com/p/googlemock/) for unit testing.
+Following [this advice](https://code.google.com/p/googletest/wiki/V1_6_FAQ#Why_is_it_not_recommended_to_install_a_pre-compiled_copy_of_Goog)
+in the googletest FAQ, download the source and unzip:
+
+    $ wget https://googlemock.googlecode.com/files/gmock-1.7.0.zip
+    $ unzip gmock-1.7.0.zip
+    $ ln -s gmock-1.7.0 gmock
+
+##### Build
+
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+
+The default build type is Release. To build in Debug mode add
+`-D CMAKE_BUILD_TYPE=Debug` to the `cmake` command above. If you don't want to
+compile the unit tests add `-D ENABLE_TESTS=0`.
+
+To compile with clang instead of g++:
+
+    $ cmake -D CMAKE_C_COMPILER=/usr/local/bin/clang -D CMAKE_CXX_COMPILER=/usr/local/bin/clang++ ..
+
+##### Test
+
+    $ make test
+
+To see detailed test output:
+
+    $ ./audiowaveform_tests
+
+##### Install
+
+    $ sudo make install
+
+By default this installs the `audiowaveform` program in `/usr/local/bin`, and
+man pages in `/usr/local/share/man`. To change these locations, add a `-D
+CMAKE_INSTALL_PREFIX=...` option when invoking `cmake` above.
+
+###### Run
+
+    $ audiowaveform --help
+
 ### How to run carrierwave_backgrounder
 Uploading audio files are carried out as background tasks using [sidekiq] (https://github.com/mperham/sidekiq).
 ```sh
