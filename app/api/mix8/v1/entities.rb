@@ -61,7 +61,9 @@ module Mix8
       class SongWaveform
         expose :id
         expose :waveform_data do |instance|
-          JSON.parse open(instance.waveform_data_url).read
+          unless instance.waveform_data_url.blank?
+            JSON.parse open(instance.waveform_data_url).read
+          end
         end
         expose :waveform do |instance|
           instance.waveform_url
