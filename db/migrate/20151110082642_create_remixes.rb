@@ -7,7 +7,7 @@ class CreateRemixes < ActiveRecord::Migration
 	    # t.integer     :base_remix_id
 	    t.string      :name
 	    t.text        :config
-	    t.integer     :status
+	    t.integer     :status, default: 0
 
       t.integer :downloads_count, default: 0
       t.integer :plays_count, default: 0
