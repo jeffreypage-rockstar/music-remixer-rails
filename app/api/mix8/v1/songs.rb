@@ -27,7 +27,7 @@ module Mix8
         params do
           requires :id, type: Integer, desc: 'Song id'
         end
-        get ':id' do
+        get ':id/waveform' do
           authenticate!
           song = Song.released.find_by(id: params[:id])
           present song, with: Mix8::V1::Entities::SongWaveform
