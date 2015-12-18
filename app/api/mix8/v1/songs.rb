@@ -20,7 +20,11 @@ module Mix8
         get ':id' do
           authenticate!
           song = Song.includes(:clip_types, :parts, :clips).released.find_by(id: params[:id])
-          present song, with: Mix8::V1::Entities::Song, type: :full
+          if song
+            present song, with: Mix8::V1::Entities::Song, type: :full
+          else
+            error!('Not found', 404)
+          end
         end
 
         desc 'Get a song waveform', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
@@ -30,7 +34,11 @@ module Mix8
         get ':id/waveform' do
           authenticate!
           song = Song.released.find_by(id: params[:id])
-          present song, with: Mix8::V1::Entities::SongWaveform
+          if song
+            present song, with: Mix8::V1::Entities::SongWaveform
+          else
+            error!('Not found', 404)
+          end
         end
       end
     end

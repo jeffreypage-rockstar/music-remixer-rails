@@ -58,7 +58,7 @@ module Mix8
         expose :clip_types, using: ClipType, if: lambda { |instance, options| options[:type] == :full }
       end
 
-      class SongWaveform
+      class SongWaveform < Grape::Entity
         expose :id
         expose :waveform_data do |instance|
           unless instance.waveform_data_url.blank?
