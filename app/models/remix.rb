@@ -1,4 +1,6 @@
 class Remix < ActiveRecord::Base
+	include PublicActivity::Common
+
 	mount_uploader :audio, RemixAudioUploader
 	store_in_background :audio, RemixAudioUploadWorker
 

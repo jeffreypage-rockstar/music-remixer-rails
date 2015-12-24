@@ -32,7 +32,6 @@ class Artist::SongsController < Artist::BaseController
     @song = Song.new(song_params)
     @song.user = current_user
     if @song.save
-      # @song.create_activity :create, owner: current_user
       flash[:success] = 'Song was successfully created.'
       flash.keep(:success)
 
@@ -101,7 +100,9 @@ class Artist::SongsController < Artist::BaseController
 
   def toggle_like_song
     current_user.toggle_like!(@song)
-    @song.create_activity current_user.likes?(@song) ? :like : :unlike, owner: current_user
+    if current_user.likes?(@song)
+      @song.create_activity :like, owner: current_user
+    end
     respond_to do |format|
       format.js { render :like_unlike_song }
     end

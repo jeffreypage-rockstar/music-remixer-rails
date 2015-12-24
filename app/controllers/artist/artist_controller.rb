@@ -42,7 +42,7 @@ class Artist::ArtistController < Artist::BaseController
 	def unfollow
 		authorize @artist
 		current_user.unfollow! @artist
-		@artist.create_activity :unfollow, owner: current_user
+		# @artist.create_activity :unfollow, owner: current_user
     redirect_to artist_profile_path, notice: 'Successfully unfollowed'
 	end
 

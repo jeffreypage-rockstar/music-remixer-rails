@@ -35,6 +35,9 @@ module Mix8
         expose :row
         expose :column
         expose :part_id
+        expose :section_id do |instance|
+          instance.clip_type_id
+        end
         expose :state
         expose :state2
         expose :state3
