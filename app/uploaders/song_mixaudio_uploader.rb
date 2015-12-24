@@ -89,10 +89,11 @@ class SongMixaudioUploader < CarrierWave::Uploader::Base
       puts "error while running command #{waveform_line.command(interpolations)}: #{e}"
     end
 
-    waveform_data_line = Cocaine::CommandLine.new('audiowaveform', '-i :input -o :output')
+    waveform_data_line = Cocaine::CommandLine.new('audiowaveform', '-i :input -o :output -z :samples_per_pixel')
     interpolations = {
         input: File.join(directory, File.basename(current_path, '.*') + '.mp3'),
-        output: File.join(directory, 'waveform.json')
+        output: File.join(directory, 'waveform.json'),
+        samples_per_pixel: 128
     }
     begin
       waveform_data_line.run(interpolations)

@@ -33,7 +33,7 @@ module Mix8
         end
         get ':id/waveform' do
           authenticate!
-          song = Song.released.find_by(id: params[:id])
+          song = Song.find_by(id: params[:id])
           if song
             present song, with: Mix8::V1::Entities::SongWaveform
           else

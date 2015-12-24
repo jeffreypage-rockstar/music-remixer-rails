@@ -62,7 +62,7 @@ module Mix8
         expose :id
         expose :waveform_data do |instance|
           unless instance.waveform_data_url.blank?
-            JSON.parse open(instance.waveform_data_url).read
+            open(instance.waveform_data_url).read
           end
         end
         expose :waveform do |instance|
