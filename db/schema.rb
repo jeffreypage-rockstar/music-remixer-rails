@@ -167,13 +167,12 @@ ActiveRecord::Schema.define(version: 20151218030827) do
     t.integer  "song_id",         limit: 4
     t.string   "name",            limit: 255
     t.text     "config",          limit: 65535
-    t.boolean  "is_public"
+    t.integer  "status",          limit: 4,     default: 0
     t.integer  "downloads_count", limit: 4,     default: 0
     t.integer  "plays_count",     limit: 4,     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "audio",           limit: 255
-    t.integer  "status",          limit: 4,     default: 0
     t.string   "audio_tmp",       limit: 255
     t.string   "uuid",            limit: 255
   end
