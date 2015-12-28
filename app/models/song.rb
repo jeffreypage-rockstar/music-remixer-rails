@@ -96,7 +96,7 @@ class Song < ActiveRecord::Base
             input_params << "-i :input#{index}"
             interpolations[:"input#{index}"] = file_path
           end
-          interpolations[:filters] = "amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3,volume=#{clip_file_paths.count}"
+          interpolations[:filters] = "amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3"
           part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
           puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
           part_audio_line.run(interpolations)
