@@ -56,4 +56,12 @@ module ApplicationHelper
 		title_with_arrow = "#{title} #{arrow}"
 		link_to title_with_arrow.html_safe, {:sort => column, :direction => direction}, {:class => css_class}
 	end
+
+	def nav_class(layout)
+		if layout == 'mix8'
+			'navbar navbar-default navbar-fixed-top'
+		else
+			'navbar navbar-inverse navbar-fixed-top'
+		end
+	end
 end

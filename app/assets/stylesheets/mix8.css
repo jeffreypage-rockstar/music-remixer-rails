@@ -6770,7 +6770,7 @@ button.close {
       border-bottom: 2px solid @brand-primary;
     }
     .active a:hover {
-      border: 0; 
+      border: 0;
     }*/
 }
 .navbar-default .active {
