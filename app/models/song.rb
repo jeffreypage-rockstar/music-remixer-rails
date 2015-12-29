@@ -33,7 +33,7 @@ class Song < ActiveRecord::Base
   has_many :clips, dependent: :delete_all
   has_many :clip_types, -> { order 'clip_types.row' }, dependent: :delete_all
 
-  default_values uuid: SecureRandom.uuid, status: Song.statuses[:pending]
+  default_values uuid: SecureRandom.hex(12), status: Song.statuses[:pending]
 
   # audio uploader
   validates :name, presence: true

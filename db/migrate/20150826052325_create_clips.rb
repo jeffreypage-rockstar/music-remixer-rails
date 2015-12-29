@@ -7,7 +7,7 @@ class CreateClips < ActiveRecord::Migration
       t.string  :file
       t.integer :row
       t.integer :column
-      t.string :uuid
+      t.string :uuid, :limit => 24
 
       t.boolean :state, default: false
       t.boolean :state2, default: false

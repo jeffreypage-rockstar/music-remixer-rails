@@ -11,7 +11,7 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :is_admin, default: false
       t.boolean :is_artist_admin, default: false
 
-      t.string :uuid
+      t.string :uuid, :limit => 24
 			t.string :profile_image
 			t.string :profile_background_image
       t.string :location, :limit => 80

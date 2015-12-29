@@ -9,7 +9,7 @@ class CreateSongs < ActiveRecord::Migration
       t.string :zipfile
       t.string :mixaudio
       t.string :image
-      t.string :uuid
+      t.string :uuid, :limit => 24
 
       t.integer :downloads_count, default: 0
       t.integer :plays_count, default: 0
