@@ -50,7 +50,7 @@ html, body {
     max-width: 400px;
     margin: 0 auto;
     background-color: white;
-    border-radius: 15px;
+    border-radius: 5px;
 
     hr {
       margin: 0;
@@ -71,7 +71,6 @@ html, body {
       border-bottom: 1px solid #e5e5e5;
 
       .form-control {
-        text-align: center;
         background-color: transparent;
         border: none;
         outline: none;
