@@ -110,6 +110,9 @@ gem 'koala'
 # ffmpeg
 gem 'streamio-ffmpeg'
 
+# roadie
+gem 'roadie'
+
 group :development, :test do
   gem 'puma'
   
