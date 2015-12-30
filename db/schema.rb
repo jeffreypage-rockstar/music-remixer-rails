@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151216200245) do
+ActiveRecord::Schema.define(version: 20151230145423) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.boolean  "file_processing",               default: false, null: false
     t.integer  "storing_status",    limit: 4,   default: 0
     t.string   "original_filename", limit: 255
+    t.float    "duration",          limit: 24
   end
 
   add_index "clips", ["part_id"], name: "index_clips_on_part_id", using: :btree
@@ -123,6 +124,20 @@ ActiveRecord::Schema.define(version: 20151216200245) do
   add_index "likes", ["likeable_id", "likeable_type"], name: "fk_likeables", using: :btree
   add_index "likes", ["liker_id", "liker_type"], name: "fk_likes", using: :btree
 
+  create_table "mailkick_opt_outs", force: :cascade do |t|
+    t.string   "email",      limit: 255
+    t.integer  "user_id",    limit: 4
+    t.string   "user_type",  limit: 255
+    t.boolean  "active",                 default: true, null: false
+    t.string   "reason",     limit: 255
+    t.string   "list",       limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mailkick_opt_outs", ["email"], name: "index_mailkick_opt_outs_on_email", using: :btree
+  add_index "mailkick_opt_outs", ["user_id", "user_type"], name: "index_mailkick_opt_outs_on_user_id_and_user_type", using: :btree
+
   create_table "mentions", force: :cascade do |t|
     t.string   "mentioner_type",   limit: 255
     t.integer  "mentioner_id",     limit: 4
@@ -138,7 +153,7 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.integer  "song_id",    limit: 4
     t.string   "name",       limit: 40
     t.integer  "column",     limit: 4
-    t.integer  "duration",   limit: 4
+    t.float    "duration",   limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -166,12 +181,13 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.integer  "song_id",         limit: 4
     t.string   "name",            limit: 255
     t.text     "config",          limit: 65535
-    t.integer  "status",          limit: 4,     default: 0
+    t.boolean  "is_public"
     t.integer  "downloads_count", limit: 4,     default: 0
     t.integer  "plays_count",     limit: 4,     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "audio",           limit: 255
+    t.integer  "status",          limit: 4,     default: 0
     t.string   "audio_tmp",       limit: 255
     t.string   "uuid",            limit: 255
   end
@@ -180,7 +196,7 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.integer  "user_id",             limit: 4
     t.string   "name",                limit: 255,                 null: false
     t.integer  "status",              limit: 4,   default: 0
-    t.integer  "duration",            limit: 4
+    t.float    "duration",            limit: 24
     t.integer  "bpm",                 limit: 4
     t.string   "zipfile",             limit: 255
     t.string   "mixaudio",            limit: 255
@@ -195,6 +211,8 @@ ActiveRecord::Schema.define(version: 20151216200245) do
     t.string   "mixaudio_tmp",        limit: 255
     t.boolean  "zipfile_processing",              default: false, null: false
     t.boolean  "mixaudio_processing",             default: false, null: false
+    t.string   "waveform",            limit: 255
+    t.string   "waveform_data",       limit: 255
   end
 
   add_index "songs", ["user_id"], name: "index_songs_on_user_id", using: :btree

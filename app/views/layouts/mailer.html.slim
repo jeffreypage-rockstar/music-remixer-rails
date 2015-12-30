@@ -185,7 +185,7 @@ html
             .message
               = yield
           .footer
-            a href="#"  Unsubscribe
+            = link_to 'Unsubscribe', mailkick_unsubscribe_url
       br
       #post-header
         | Copyright © 8Stem, Inc.. All rights reserved.

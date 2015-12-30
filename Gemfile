@@ -113,6 +113,9 @@ gem 'streamio-ffmpeg'
 # roadie
 gem 'roadie'
 
+# mailkick
+gem 'mailkick'
+
 group :development, :test do
   gem 'puma'
   
