@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title
+      = content_for?(:title) ? "#{content_for(:title)} | " : ""
+    meta charset="utf-8" /
+    = stylesheet_link_tag 'mailer', media: 'all', 'data-turbolinks-track' => true
+  body
+    span.pre-header
+      = content_for?(:pre_header) ? "#{content_for(:pre_header)} | " : ""
+    .main-container
+      #post-header
+        | If you can't read this email, please
+        a href="#"  view online
+      br
+      header
+        #body-header
+          .logo
+            = image_tag 'logo_small.png'
+          .banner
+            .banner-text Making Music Interactive
+            .banner-img
+              = image_tag 'phone.png', width: 130
+          .body-mesage
+            .message
+              = yield
+          .footer
+            a href="#"  Unsubscribe
+      br
+      #post-header
+        | Copyright © 8Stem, Inc.. All rights reserved.
