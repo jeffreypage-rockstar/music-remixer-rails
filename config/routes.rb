@@ -59,10 +59,22 @@ Rails.application.routes.draw do
 		root 'pages#splash'
 
 		# AUTHENTICATION
-		resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy]
+		resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy] do
+      member do
+        get :welcome_modal
+      end
+    end
 		resources :passwords, controller: 'passwords', only: [:create, :new]
 		resource	:users, controller: 'users', only: [:create] do
-			resource :password, controller: 'passwords', only: [:create, :edit, :update]
+			member do
+				get :confirm_email
+        get :create_success
+			end
+			resource :password, controller: 'passwords', only: [:create, :edit, :update] do
+        member do
+					get :reset_password_success_modal
+        end
+      end
 		end
 		get '/sign_in' => 'sessions#new', as: 'sign_in'
 		get '/sign_up' => 'users#new', as: 'sign_up'

@@ -8,6 +8,6 @@ class EmailConfirmationGuard < Clearance::SignInGuard
 	end
 
 	def unconfirmed?
-		signed_in? && !current_user.confirmed_at
+		signed_in? && !current_user.email_confirmed
 	end
 end

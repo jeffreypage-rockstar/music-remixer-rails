@@ -19,13 +19,39 @@ class UsersController < Clearance::UsersController
 		if @user.save
       puts "XXX referral: #{@referral.inspect}"
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
-			sign_in @user
-			redirect_to '/?thanks', info: 'Thanks for signing up!'
+      UserNotifier.account_verification_email(@user).deliver_now
+      render :create_success, layout: 'signup'
+			# sign_in @user
+			# redirect_to '/?thanks', info: 'Thanks for signing up!'
 		else
 			render :new, layout: 'signup'
 		end
   end
 
+  def confirm_email
+    user = User.find_by_confirm_token(params[:confirm_token])
+    if user
+      user.email_activate
+      flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed.
+      Please sign in to continue.'
+      sign_in(user) do |status|
+        if status.success?
+          redirect_back_or url_after_email_confirmed
+        else
+          flash.now.notice = status.failure_message
+          render template: 'sessions/new', status: :unauthorized
+        end
+      end
+    else
+      flash[:error] = 'Sorry. User does not exist'
+      redirect_to root_url
+    end
+  end
+
+  def url_after_email_confirmed
+    url = current_user.is_artist_admin ? artist_dashboard_url : root_url
+    "#{url}?ref=verification&user_id=#{current_user.id}"
+  end
   def thanks
   end
 

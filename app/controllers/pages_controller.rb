@@ -6,7 +6,6 @@ class PagesController < ApplicationController
 	end
 
   def splash
-    UserNotifier.beta_migration_email('olegsokolov513@hotmail.com').deliver_now
     if signed_in?
       render :beta_blocker
     else

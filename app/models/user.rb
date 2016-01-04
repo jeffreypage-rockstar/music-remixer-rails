@@ -33,10 +33,12 @@ class User < ActiveRecord::Base
 	default_value_for :status, User.statuses[:beta_waitlisted]
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
+	validates_confirmation_of :password
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}
 
 	after_create :send_welcome_email
+	before_create :email_confirm_token
 
 	def admin?
 		is_admin
@@ -120,4 +122,18 @@ class User < ActiveRecord::Base
 		end
 		user
 	end
+
+	def email_activate
+		self.email_confirmed = true
+		self.confirm_token = nil
+		save!(:validate => false)
+	end
+	private
+	def email_confirm_token
+		if self.confirm_token.blank?
+			self.confirm_token = SecureRandom.urlsafe_base64.to_s
+		end
+	end
+
+
 end

@@ -34,4 +34,9 @@ class SessionsController < Clearance::SessionsController
 		end
 		redirect_to @next, :notice => @notice
 	end
+
+	def welcome_modal
+		@user = User.find(params[:id])
+		render layout: 'welcome_modal'
+	end
 end
