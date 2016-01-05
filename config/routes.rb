@@ -84,8 +84,13 @@ Rails.application.routes.draw do
 
 		match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 
-    get '/:username',      to: 'users#show', as: 'user_profile'
-    get '/:username/edit', to: 'users#edit', as: 'edit_user_profile'
+    get '/:username',      to: 'users#show_profile', as: 'show_profile'
+    get '/:username/edit', to: 'users#edit_profile', as: 'edit_profile'
+    patch '/:username/update' => 'users#update_profile', as: 'update_profile'
+    patch '/:username/update_account' => 'users#update_account', as: 'update_account'
+    post '/:username/follow' => 'users#follow', as: 'follow'
+    delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
+
 	end
 
 	get 'referrals/:invite_code' => 'referrals#track'
