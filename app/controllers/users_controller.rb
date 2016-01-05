@@ -17,7 +17,6 @@ class UsersController < Clearance::UsersController
 		user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
 		@user = User.new(user)
 		if @user.save
-      puts "XXX referral: #{@referral.inspect}"
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
       render :create_success, layout: 'signup'
@@ -29,7 +28,7 @@ class UsersController < Clearance::UsersController
   end
 
   def confirm_email
-    user = User.find_by_confirm_token(params[:confirm_token])
+    user = User.find_by_confirmation_token(params[:confirmation_token])
     if user
       user.email_activate
       flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed.
@@ -49,9 +48,9 @@ class UsersController < Clearance::UsersController
   end
 
   def url_after_email_confirmed
-    url = current_user.is_artist_admin ? artist_dashboard_url : root_url
-    "#{url}?ref=verification&user_id=#{current_user.id}"
+    url = "#{root_url}?ref=verification"
   end
+
   def thanks
   end
 

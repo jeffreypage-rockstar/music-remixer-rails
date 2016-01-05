@@ -83,6 +83,9 @@ Rails.application.routes.draw do
     get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
 
 		match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
+
+    get '/:username',      to: 'users#show', as: 'user_profile'
+    get '/:username/edit', to: 'users#edit', as: 'edit_user_profile'
 	end
 
 	get 'referrals/:invite_code' => 'referrals#track'

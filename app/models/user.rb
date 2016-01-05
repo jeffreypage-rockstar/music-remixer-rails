@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}
 
 	after_create :send_welcome_email
-	before_create :email_confirm_token
+	before_create :email_confirmation_token
 
 	def admin?
 		is_admin
@@ -124,16 +124,16 @@ class User < ActiveRecord::Base
 	end
 
 	def email_activate
-		self.email_confirmed = true
-		self.confirm_token = nil
+		self.confirmed_at = Time.now
+		self.confirmation_token = nil
 		save!(:validate => false)
 	end
+
 	private
-	def email_confirm_token
-		if self.confirm_token.blank?
-			self.confirm_token = SecureRandom.urlsafe_base64.to_s
+	def email_confirmation_token
+		if self.confirmation_token.blank?
+			self.confirmation_token = SecureRandom.urlsafe_base64.to_s
 		end
 	end
-
 
 end
