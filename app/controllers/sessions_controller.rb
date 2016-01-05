@@ -36,7 +36,7 @@ class SessionsController < Clearance::SessionsController
 	end
 
 	def welcome_modal
-		@user = User.find(params[:id])
+		@user = current_user
 		render layout: 'welcome_modal'
 	end
 end

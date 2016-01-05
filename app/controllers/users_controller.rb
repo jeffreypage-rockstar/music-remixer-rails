@@ -36,7 +36,7 @@ class UsersController < Clearance::UsersController
       Please sign in to continue.'
       sign_in(user) do |status|
         if status.success?
-          redirect_back_or url_after_email_confirmed
+          redirect_back_or "/#{user.username}/edit?ref=verification"
         else
           flash.now.notice = status.failure_message
           render template: 'sessions/new', status: :unauthorized
@@ -46,10 +46,6 @@ class UsersController < Clearance::UsersController
       flash[:error] = 'Sorry. User does not exist'
       redirect_to root_url
     end
-  end
-
-  def url_after_email_confirmed
-    url = "#{root_url}?ref=verification"
   end
 
   def thanks

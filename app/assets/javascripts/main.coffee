@@ -4,10 +4,9 @@ $.ajaxSetup
 $ ->
   refVal = GetURLParameter 'ref'
   if refVal == 'verification'
-    user_id = GetURLParameter 'user_id'
     modal_holder_selector = '#modal-holder';
     modal_selector = '.modal';
-    $.get '/session/welcome_modal?id='+user_id, (data) ->
+    $.get '/session/welcome_modal', (data) ->
       $(modal_holder_selector).html(data).find(modal_selector).modal()
       return
   return
