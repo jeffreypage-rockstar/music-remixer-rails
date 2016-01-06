@@ -29,12 +29,13 @@ html lang="en"
       ga('send', 'pageview');
     = render 'shared/flash'
 
-    #signUpPage.container
-      .text-center
-        h4 Join the Beta Team!
-        p By registering, you’ll be one of the first people to remix music on the 8Stem platform. We’re counting on your feedback and comments to
-          help shape the user experience. And to thank you, we’ll always recognize you as a founding Beta Team member, with exclusive access to
-          new releases, promotions, and more! To register, fill out the form below:
+    #signUpPage
+      .signup-header
+        .row
+          h2.col-md-3.col-md-offset-2 Join the Beta Team!
+          p.col-md-9 By registering, you’ll be one of the first people to remix music on the 8Stem platform. We’re counting on your feedback and comments to
+            help shape the user experience. And to thank you, we’ll always recognize you as a founding Beta Team member, with exclusive access to
+            new releases, promotions, and more! To register, fill out the form below:
 
       = yield
 

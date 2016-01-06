@@ -27,12 +27,11 @@ html, body {
 
 #signUpPage {
   //background-image: image_url('signup-background.png');
+  background-color: white;
   -webkit-background-size: cover;
   background-size: cover;
   width: 100%;
   height: 100%;
-  min-height: 1500px;
-  //text-align: center;
   position: relative;
 
   .logo {
@@ -40,21 +39,21 @@ html, body {
     margin-bottom: 30px;
   }
 
-  h2 {
-    margin-top: 30px;
-    margin-bottom: 60px;
-  }
-  .text-center > p{
-    margin: 0 auto;
-    text-align: left;
-    max-width: 500px;
+  .signup-header {
+    padding-top: 60px;
+    p{
+      margin: 0 auto;
+      text-align: left;
+      max-width: 500px;
+    }
   }
   #signUpForm {
-    max-width: 400px;
-    margin: 0px auto;
-    background-color: white;
-    border-radius: 5px;
-
+    border-radius: 15px;
+    border: 1px solid #414a51;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
     hr {
       margin: 0;
     }
@@ -67,12 +66,19 @@ html, body {
     }
 
     .signup-wrapper {
+      margin: 0 auto;
+      max-width: 300px;
       padding: 20px;
+    }
+
+    #betaUserForm {
+      margin-bottom: 20px;
     }
 
     .form-group {
       border-bottom: 1px solid #e5e5e5;
       margin: 0px;
+
 
       .form-control {
         background-color: transparent;
@@ -95,4 +101,33 @@ html, body {
     width: 100%;
     color: #9f9f9f;
   }
+
+  .full-width {
+    min-width: 100%;
+  }
+
+  span.radio {
+    width: 50%;
+    float: left;
+  }
+
+  .user_beta_user_music_background {
+    .control-label{
+      @extend .full-width;
+      text-align: left;
+    }
+  }
+
+  .user_beta_user_phone_type {
+    .control-label {
+      @extend .col-md-4;
+      text-align: left;
+      padding-left: 0;
+    }
+    span.radio {
+      @extend .col-md-4;
+    }
+  }
+
+
 }

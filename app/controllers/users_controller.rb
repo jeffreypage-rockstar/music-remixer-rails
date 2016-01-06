@@ -20,9 +20,7 @@ class UsersController < Clearance::UsersController
 		if @user.save
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
-      render :create_success, layout: 'signup'
-			# sign_in @user
-			# redirect_to '/?thanks', info: 'Thanks for signing up!'
+      render :create_success, layout: '8stem'
 		else
 			render :new, layout: 'signup'
 		end
