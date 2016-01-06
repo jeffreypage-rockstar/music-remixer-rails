@@ -136,6 +136,7 @@ GEM
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       request_store (~> 1.0)
+    dynamic_form (1.1.4)
     email_validator (1.6.0)
       activemodel
     equalizer (0.0.11)
@@ -507,6 +508,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   default_value_for
   draper
+  dynamic_form
   fog
   font-awesome-rails (~> 4.4.0.0)
   grape
@@ -551,4 +553,4 @@ DEPENDENCIES
   zeroclipboard-rails
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
