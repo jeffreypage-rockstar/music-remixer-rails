@@ -17,26 +17,22 @@ html lang="en"
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
                   (i[r].q = i[r].q || []).push(arguments)
-                  }, i[r].l = 1 * new Date();
+                }, i[r].l = 1 * new Date();
         a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
+                m = s.getElementsByTagName(o)[0];
         a.async = 1;
         a.src = g;
         m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
       ga('create', 'UA-69363953-2', 'auto');
       ga('send', 'pageview');
+
+    = render partial: 'shared/navigation_bar', locals: {layout: '8stem'}
+
     = render 'shared/flash'
 
     #signUpPage
-      .signup-header
-        .row
-          h2.col-md-3.col-md-offset-2 Join the Beta Team!
-          p.col-md-7 By registering, you’ll be one of the first people to remix music on the 8Stem platform. We’re counting on your feedback and comments to
-            help shape the user experience. And to thank you, we’ll always recognize you as a founding Beta Team member, with exclusive access to
-            new releases, promotions, and more! To register, fill out the form below:
-
       = yield
 
       footer

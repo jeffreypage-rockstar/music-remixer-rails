@@ -116,6 +116,9 @@ gem 'roadie'
 # mailkick
 gem 'mailkick'
 
+# DynamicForm
+gem "dynamic_form"
+
 group :development, :test do
   gem 'puma'
   

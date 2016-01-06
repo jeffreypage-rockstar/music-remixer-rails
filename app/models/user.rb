@@ -7,8 +7,8 @@ class User < ActiveRecord::Base
 	# has many songs and remixes
 	has_many :songs, -> { order 'songs.created_at desc' }
 	has_many :remixes
-  has_one :beta_user
-  accepts_nested_attributes_for :beta_user
+	has_one :beta_user
+	accepts_nested_attributes_for :beta_user
 
 	attr_accessor :invite_code
 	enum status: { beta_waitlisted: 0, active: 1, blacklisted: 2, deleted: 3 }
@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	validates_confirmation_of :password
+	validates :terms_of_service, acceptance: true
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}
 
