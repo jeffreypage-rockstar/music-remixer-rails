@@ -21,8 +21,19 @@ nav class="#{nav_class(layout)}" role="navigation"
               a href=artist_connect_url
                 | Networks
                 span.badge 10
-          li class='far-right'
-            = link_to 'Sign out', sign_out_url
+          li.divider-vertical
+          li.dropdown.profile-dropdown
+            a.dropdown-toggle href="#" data-toggle="dropdown" aria-expanded="false"
+              img.avatar src=("#{current_user.profile_image.url(:thumb)}")
+              = current_user.name
+              i.fa.fa-angle-down
+            ul.dropdown-menu
+              li
+                = link_to 'Edit Profile', edit_profile_url(current_user.username)
+              li.divider
+              li
+                = link_to 'Sign out', sign_out_url
+          li.divider-vertical
         - else
           li class=("#{'active' if current_page?(root_path)}")
             a href="/" Home
