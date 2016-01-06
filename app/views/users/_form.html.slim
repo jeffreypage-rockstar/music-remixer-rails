@@ -1,14 +1,15 @@
 = simple_form_for @user, html: { id: 'signUpForm', class: 'form-horizontal' }, url: users_path(invite_code: @referral.invite_code), wrapper: :horizontal_form do |f|
-  #userForm.col-md-6
-    = f.input :name, label: 'Name', placeholder: 'Full Name', input_html: { class: 'input-lg' }
-    = f.input :email, label: 'Email', placeholder: 'Email', input_html: { class: 'input-lg' }
-    = f.input :username, label: 'User Name', placeholder: 'Username', input_html: { class: 'input-lg' }
-    = f.input :password, label: 'Password', placeholder: 'Password', input_html: { class: 'input-lg' }
-    = f.input :password_confirmation, label: '', input_html: { class: 'input-lg' }
-  #betaUserForm.col-md-6
-    = f.simple_fields_for :beta_user do |buf|
-      = buf.input :music_background, collection: BetaUser.music_backgrounds.map { |k, v| [k.humanize.titleize, k] }, include_blank: false, label: 'Music Background (click all that apply)', input_html: { class: 'input-lg' }, as: :radio_buttons
-      = buf.input :phone_type, collection: BetaUser.phone_types.map { |k, v| [k.humanize.titleize, k] }, include_blank: false, label: 'Select Phone', input_html: { class: 'input-lg' }, as: :radio_buttons
+  #borderBox
+    #userForm.col-md-6
+      = f.input :name, label: 'Name', placeholder: 'Full Name', input_html: { class: 'input-lg' }
+      = f.input :email, label: 'Email', placeholder: 'Email', input_html: { class: 'input-lg' }
+      = f.input :username, label: 'User Name', placeholder: 'Username', input_html: { class: 'input-lg' }
+      = f.input :password, label: 'Password', placeholder: 'Password', input_html: { class: 'input-lg' }
+      = f.input :password_confirmation, label: '', input_html: { class: 'input-lg' }
+    #betaUserForm.col-md-6
+      = f.simple_fields_for :beta_user do |buf|
+        = buf.input :music_background, collection: BetaUser.music_backgrounds.map { |k, v| [k.humanize.titleize, k] }, include_blank: false, label: 'Music Background (click all that apply)', input_html: { class: 'input-lg' }, as: :radio_buttons
+        = buf.input :phone_type, collection: BetaUser.phone_types.map { |k, v| [k.humanize.titleize, k] }, include_blank: false, label: 'Select Phone', input_html: { class: 'input-lg' }, as: :radio_buttons
       /= buf.input :message, as: :text, label: false, placeholder: 'Message', input_html: { class: 'input-lg', rows: 3 }
   /.dont-have-a-code
   /  | Don't have a code?
