@@ -98,7 +98,6 @@ Rails.application.routes.draw do
     patch '/:username/update_account' => 'users#update_account', as: 'update_account'
     post '/:username/follow' => 'users#follow', as: 'follow'
     delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
-
 	end
 
 	# Admin subdomain
