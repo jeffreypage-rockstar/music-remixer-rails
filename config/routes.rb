@@ -84,6 +84,14 @@ Rails.application.routes.draw do
 
 		match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 
+    get 'referrals/:invite_code' => 'referrals#track'
+    get 'referrals/thanks' => 'referrals#thanks'
+    post 'referrals' => 'referrals#create'
+
+    get 'about' => 'pages#about'
+    get 'news' => 'pages#news'
+    get 'contact' => 'pages#contact'
+
     get '/:username',      to: 'users#show_profile', as: 'show_profile'
     get '/:username/edit', to: 'users#edit_profile', as: 'edit_profile'
     patch '/:username/update' => 'users#update_profile', as: 'update_profile'
@@ -92,14 +100,6 @@ Rails.application.routes.draw do
     delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
 
 	end
-
-	get 'referrals/:invite_code' => 'referrals#track'
-	get 'referrals/thanks' => 'referrals#thanks'
-	post 'referrals' => 'referrals#create'
-
-	get 'about' => 'pages#about'
-	get 'news' => 'pages#news'
-	get 'contact' => 'pages#contact'
 
 	# Admin subdomain
 	constraints :subdomain => 'admin' do
