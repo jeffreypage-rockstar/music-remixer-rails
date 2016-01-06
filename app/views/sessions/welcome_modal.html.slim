@@ -1,0 +1,11 @@
+p
+  = "Nice work, #{@user.name}!"
+p Your account has been activated. Welcome to the Beta Team!
+p
+  = welcome_description @user
+br
+.text-center
+  = link_to 'Complete Your Profile', edit_profile_url(@user.username), {class: 'btn btndiv'}
+br
+p We can’t wait to turn you loose on the platform!
+p 8Stem Beta Team

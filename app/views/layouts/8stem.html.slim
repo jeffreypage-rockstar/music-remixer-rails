@@ -1,0 +1,46 @@
+doctype html
+html lang="en"
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    meta charset="utf-8" /
+    meta content="IE=edge" http-equiv="X-UA-Compatible" /
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    title
+      = content_for?(:title) ? "#{content_for(:title)} | " : ""
+      = I18n.t('brand.name')
+    link href="https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900,900italic" rel="stylesheet" type="text/css" /
+    link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css" /
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag '8stem', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body class=("#{request['controller']} #{request['action']}")
+    javascript:
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                  (i[r].q = i[r].q || []).push(arguments)
+                  }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-69363953-2', 'auto');
+      ga('send', 'pageview');
+
+    #modal-holder
+
+    = render partial: 'shared/navigation_bar', locals: {layout: '8stem'}
+
+    #main
+      = render 'shared/flash'
+      = yield
+
+    footer
+      .container
+        | Copyright © 8Stem, Inc.. All rights reserved.
+        br

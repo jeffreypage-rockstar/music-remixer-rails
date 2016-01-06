@@ -1,0 +1,40 @@
+nav class="#{nav_class(layout)}" role="navigation"
+  .container
+    /! Brand and toggle get grouped for better mobile display
+    .navbar-header
+      button.navbar-toggle.collapsed data-target="#navbar-collapse" data-toggle="collapse" type="button" 
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand href="/"
+        = image_tag layout == 'mix8' ? 'mix8.png' : 'logo-blue.png'
+    #navbar-collapse.collapse.navbar-collapse
+      ul.nav.navbar-nav.pull-right
+        - if signed_in?
+          - if current_user.is_artist_admin?
+            li class=("#{'active' if current_page?(artist_profile_path)}")
+              a href=artist_profile_url  Profile
+            li class=("#{'active' if current_page?(artist_music_path)}")
+              a href=artist_music_url  Music
+            li class=("#{'active' if current_page?(artist_connect_path)}")
+              a href=artist_connect_url
+                | Networks
+                span.badge 10
+          li class='far-right'
+            = link_to 'Sign out', sign_out_url
+        - else
+          li class=("#{'active' if current_page?(root_path)}")
+            a href="/" Home
+          li class=("#{'active' if current_page?(about_path)}")
+            a href="/about/" About
+          li class=("#{'active' if current_page?(news_path)}")
+            a href="/news/" News
+          li class=("#{'active' if current_page?(contact_path)}")
+            a href="/contact/" Contact
+          - if layout == 'mix8'
+          li class=("#{'active' if current_page?(sign_in_path)}")
+            = link_to 'Sign in', sign_in_url, class: 'navbar-link'
+          li
+            - if !signed_in?
+              = link_to 'Create Account', sign_up_url, class: 'navbar-link stand-out'

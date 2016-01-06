@@ -5,7 +5,7 @@ $ ->
   $(document).on 'click', 'a.share-song[data-modal]', ->
     location = $(this).attr('href')
     $.get location, (data)->
-      $(modal_holder_selector).html(data).find(modal_selector).modal()
+      showModalWithData data
       clip = new ZeroClipboard($(modal_holder_selector).find('#copy-song-url'))
 
       initializePlayer '#jquery_jplayer', '#jp_container'
@@ -17,3 +17,9 @@ $ ->
         return
       return
     false
+
+  # Show Modal with data
+  showModalWithData = (data) ->
+    $(modal_holder_selector).html(data).find(modal_selector).modal()
+    return
+

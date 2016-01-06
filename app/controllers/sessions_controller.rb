@@ -1,5 +1,5 @@
 class SessionsController < Clearance::SessionsController
-	# layout 'auth'
+  layout '8stem'
 
 	def url_after_create
 		url = current_user.is_artist_admin ? artist_dashboard_url : root_url
@@ -33,5 +33,10 @@ class SessionsController < Clearance::SessionsController
 			end
 		end
 		redirect_to @next, :notice => @notice
+	end
+
+	def welcome_modal
+		@user = current_user
+		render layout: 'welcome_modal'
 	end
 end

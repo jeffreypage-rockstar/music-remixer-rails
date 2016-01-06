@@ -1,13 +1,15 @@
-<div class="page-header"><h1><%= t(".title") %></h1></div>
+<div class="page-header"><h1><%= "Hello #{@user.name}, " %></h1></div>
 
-<p><%= t(".description") %></p>
+<p><%= 'Reset your password using the fields below.' %></p>
 
 <%= form_for :password_reset,
-		url: user_password_path(@user, token: @user.confirmation_token),
-		html: { method: :put } do |form| %>
+		url: users_password_path(user_id: @user.id, token: @user.confirmation_token),
+		html: { method: :put },
+        remote: true do |form| %>
 	<div class="form-group">
 		<%= form.label :password %>
 		<%= form.password_field :password, class: 'form-control' %>
+        <%= form.password_field :password_confirmation, class: 'form-control' %>
 	</div>
 
 	<%= form.submit 'Change Password', class: 'btn btn-primary' %>

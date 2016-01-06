@@ -56,4 +56,24 @@ module ApplicationHelper
 		title_with_arrow = "#{title} #{arrow}"
 		link_to title_with_arrow.html_safe, {:sort => column, :direction => direction}, {:class => css_class}
 	end
+
+	def nav_class(layout)
+		if layout == 'mix8'
+			'navbar navbar-default navbar-fixed-top'
+		else
+			'navbar navbar-inverse navbar-fixed-top'
+		end
+	end
+
+	def layout(layout_name)
+		controller.class.send(:layout, layout_name)
+	end
+
+	def welcome_description(user)
+		if user.beta_user.phone_type == 'iphone'
+			return 'The 8Stem Beta is being set up in our testing program. We’ll be in touch soon with your access information. In the meantime, Click on the link below to fill out your	Profile Page.'
+		else
+			return 'We are currently running the iPhone beta test. But Android is next! We’ll be in touch soon when the Android beta is ready to begin. In the meantime, click on the link below to fill out your Profile Page.'
+		end
+	end
 end

@@ -7,8 +7,11 @@ class User < ActiveRecord::Base
 	# has many songs and remixes
 	has_many :songs, -> { order 'songs.created_at desc' }
 	has_many :remixes
+  has_one :beta_user
+  accepts_nested_attributes_for :beta_user
 
-	attr_accessor :invite_code, :invite_only
+	attr_accessor :invite_code
+	enum status: { beta_waitlisted: 0, active: 1, blacklisted: 2, deleted: 3 }
 
 	# artist genres
 	acts_as_taggable_on :genres
@@ -24,16 +27,18 @@ class User < ActiveRecord::Base
 	mount_uploader :profile_image, ProfileImageUploader
 	mount_uploader :profile_background_image, ProfileBackgroundImageUploader
 
-	default_values uuid: SecureRandom.hex(12), invite_only: false
+	default_value_for :uuid do
+		SecureRandom.hex(12)
+	end
+	default_value_for :status, User.statuses[:beta_waitlisted]
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
+	validates_confirmation_of :password
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}
 
-	validates :invite_code, presence: true, if: :invite_only
-	validate :invite_code_should_be_available, if: :invite_only
-
 	after_create :send_welcome_email
+	before_create :email_confirmation_token
 
 	def admin?
 		is_admin
@@ -73,7 +78,7 @@ class User < ActiveRecord::Base
 			user.confirmed_at = Time.now if user.confirmed_at.nil?
 			user.authentications << (authentication)
 		end
-		return user
+		user
 	end
 
 	def fb_token
@@ -117,4 +122,18 @@ class User < ActiveRecord::Base
 		end
 		user
 	end
+
+	def email_activate
+		self.confirmed_at = Time.now
+		self.confirmation_token = nil
+		save!(:validate => false)
+	end
+
+	private
+	def email_confirmation_token
+		if self.confirmation_token.blank?
+			self.confirmation_token = SecureRandom.urlsafe_base64.to_s
+		end
+	end
+
 end

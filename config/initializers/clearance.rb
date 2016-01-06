@@ -15,5 +15,5 @@ Clearance.configure do |config|
 
 	# TODO: do we really want this email confirmation guard?
 	# it makes fb connect not work
-  # config.sign_in_guards = [EmailConfirmationGuard]
+  config.sign_in_guards = [EmailConfirmationGuard]
 end

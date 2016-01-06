@@ -35,10 +35,16 @@
     ga('send', 'pageview');
 </script>
 <div id="modal-holder"></div>
-<%= render 'shared/navigation_bar' %>
+<%= render partial: 'shared/navigation_bar', locals: {layout: 'mix8'} %>
 <div id="main">
   <%= render 'shared/flash' %>
   <%= yield %>
 </div>
+
+<footer>
+  <div class="container">
+    Copyright &copy; 8Stem, Inc.. All rights reserved.<br/>
+  </div>
+</footer>
 </body>
 </html>

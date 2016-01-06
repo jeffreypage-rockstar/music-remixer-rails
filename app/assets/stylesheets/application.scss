@@ -14,6 +14,7 @@
  *= require bootstrap-tagsinput
  *= require lobibox
  *= require_tree .
+ *= stub 8stem.scss
  *= stub signup
  *= require_self
  */
@@ -26,9 +27,7 @@
   margin-top: 65px;
 }
 
-body.sessions #navbar-collapse,
 body.users #navbar-collapse,
-body.passwords #navbar-collapse,
 body.beta_artists.join #navbar-collapse {
   display: none !important;
 }
@@ -74,4 +73,13 @@ h4 {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+
+a.cancel {
+  margin: 0 10px;
+}
+
+#welcome_modal_header {
+  background-color: #414a51;
+  height: 60px;
 }

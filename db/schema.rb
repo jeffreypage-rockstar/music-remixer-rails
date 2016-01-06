@@ -54,13 +54,16 @@ ActiveRecord::Schema.define(version: 20151218030827) do
   end
 
   create_table "beta_users", force: :cascade do |t|
-    t.string   "name",        limit: 255, null: false
-    t.string   "email",       limit: 255, null: false
-    t.string   "message",     limit: 255
-    t.string   "invite_code", limit: 255, null: false
-    t.integer  "user_id",     limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name",             limit: 255, null: false
+    t.string   "email",            limit: 255, null: false
+    t.string   "message",          limit: 255
+    t.string   "invite_code",      limit: 255, null: false
+    t.integer  "user_id",          limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "age",              limit: 4
+    t.integer  "phone_type",       limit: 4
+    t.integer  "music_background", limit: 4
   end
 
   add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id", using: :btree
@@ -121,6 +124,20 @@ ActiveRecord::Schema.define(version: 20151218030827) do
   add_index "likes", ["likeable_id", "likeable_type"], name: "fk_likeables", using: :btree
   add_index "likes", ["liker_id", "liker_type"], name: "fk_likes", using: :btree
 
+  create_table "mailkick_opt_outs", force: :cascade do |t|
+    t.string   "email",      limit: 255
+    t.integer  "user_id",    limit: 4
+    t.string   "user_type",  limit: 255
+    t.boolean  "active",                 default: true, null: false
+    t.string   "reason",     limit: 255
+    t.string   "list",       limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mailkick_opt_outs", ["email"], name: "index_mailkick_opt_outs_on_email", using: :btree
+  add_index "mailkick_opt_outs", ["user_id", "user_type"], name: "index_mailkick_opt_outs_on_user_id_and_user_type", using: :btree
+
   create_table "mentions", force: :cascade do |t|
     t.string   "mentioner_type",   limit: 255
     t.integer  "mentioner_id",     limit: 4
@@ -143,18 +160,33 @@ ActiveRecord::Schema.define(version: 20151218030827) do
 
   add_index "parts", ["song_id"], name: "index_parts_on_song_id", using: :btree
 
+  create_table "referrals", force: :cascade do |t|
+    t.string   "email",        limit: 255, null: false
+    t.string   "name",         limit: 255
+    t.string   "invite_code",  limit: 255, null: false
+    t.string   "message",      limit: 255
+    t.integer  "referring_id", limit: 4
+    t.integer  "referred_id",  limit: 4
+    t.datetime "clicked_at"
+    t.datetime "signed_up_at"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "referrals", ["referred_id"], name: "index_referrals_on_referred_id", using: :btree
+  add_index "referrals", ["referring_id"], name: "index_referrals_on_referring_id", using: :btree
+
   create_table "remixes", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
     t.integer  "song_id",         limit: 4
     t.string   "name",            limit: 255
     t.text     "config",          limit: 65535
-    t.boolean  "is_public"
+    t.integer  "status",          limit: 4,     default: 0
     t.integer  "downloads_count", limit: 4,     default: 0
     t.integer  "plays_count",     limit: 4,     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "audio",           limit: 255
-    t.integer  "status",          limit: 4,     default: 0
     t.string   "audio_tmp",       limit: 255
     t.string   "uuid",            limit: 255
   end
@@ -230,6 +262,9 @@ ActiveRecord::Schema.define(version: 20151218030827) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.integer  "status",                   limit: 4,     default: 0
+    t.boolean  "email_confirmed",                        default: false
+    t.string   "confirm_token",            limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -22,7 +22,7 @@ class Song < ActiveRecord::Base
   store_in_background :zipfile, SongZipfileUploadWorker
 
   # songs status
-  enum status: {processing: 0, failed: 1, pending: 2, released: 3, archived: 4}
+  enum status: { processing: 0, failed: 1, pending: 2, released: 3, archived: 4 }
 
   # artist genres
   acts_as_taggable_on :genres
