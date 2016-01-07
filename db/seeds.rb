@@ -29,7 +29,7 @@ BetaUser.create!(email:'betauser@8stem.com', name:'Beta User', invite_code:'abc1
 
 MusicBackground.delete_all
 MusicBackground.create!(name: 'Music Fan')
-MusicBackground.create!(name: 'Prouduce Music')
+MusicBackground.create!(name: 'Produce Music')
 MusicBackground.create!(name: 'Play Instrument')
 MusicBackground.create!(name: 'Pro DJ')
 MusicBackground.create!(name: 'Own Audio Software')
