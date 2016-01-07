@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	validates :password, :presence => true
-	validates_confirmation_of :password
+	validates_confirmation_of :password, :message => 'Passwords do not match'
 	validates :terms_of_service, acceptance: true
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
 	#	validates :email, :presence => true, :email => true, :uniqueness => {:case_sensitive => false}

@@ -33,12 +33,19 @@ html, body {
 .navbar-inverse {
   background-color: #414a51;
   height: 84px;
-  .navbar-nav > li > a {
-    color: #fff;
-  }
-  .navbar-nav > li.current {
-    color: #ffffff;
-    background-color: #2F363C;
+  .navbar-nav {
+    li > a {
+      color: #fff;
+    }
+    li > a:hover,
+    li > a:focus {
+      color: #ffffff;
+      background-color: #2a3035;
+    }
+    li.current {
+      color: #ffffff;
+      background-color: #2F363C;
+    }
   }
 }
 
@@ -71,22 +78,23 @@ html, body {
     margin-bottom: 30px;
   }
 
-  .signup-header {
-    h2 {
-      margin-top: 0;
-      font-size: 35pt;
-    }
-    p{
-      margin: 0 auto;
-      font-size: 16px;
-      text-align: left;
-      //padding-left: 0;
-    }
-  }
-  .signup-wrapper {
+
+  .container {
     margin: 0 auto;
-    max-width: 1292px;
     padding-top: 25px;
+
+    .signup-header {
+      h2 {
+        margin-top: 0;
+        font-size: 35pt;
+      }
+      p{
+        margin: 0 auto;
+        font-size: 16px;
+        text-align: left;
+        //padding-left: 0;
+      }
+    }
 
     #signUpForm {
       background-color: #f2f2f2;

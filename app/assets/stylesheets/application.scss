@@ -61,6 +61,17 @@ body.beta_artists.join #navbar-collapse {
   border-right: 1px solid #eee;
 }
 
+.well.form800 {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .well.form800 {
+    margin-top: 100px;
+  }
+}
+
 .well.form400 {
   max-width: 400px;
   margin: 0 auto;
