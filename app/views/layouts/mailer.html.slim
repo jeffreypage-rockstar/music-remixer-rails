@@ -165,9 +165,12 @@ html
         background: #3cb0fd;
         text-decoration: none;
       }
+
+      .text-center {
+        text-align: center;
+      }
+
   body
-    span.pre-header
-      = content_for?(:pre_header) ? "#{content_for(:pre_header)} | " : 'header'
     .main-container
       #post-header
         | If you can't read this email, please

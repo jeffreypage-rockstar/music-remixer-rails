@@ -111,14 +111,17 @@ gem 'koala'
 # ffmpeg
 gem 'streamio-ffmpeg'
 
-# roadie
-gem 'roadie'
-
 # mailkick
 gem 'mailkick'
 
 # DynamicForm
 gem "dynamic_form"
+
+# Premailer
+gem 'premailer-rails'
+
+# Nokogiri
+gem 'nokogiri'
 
 group :development, :test do
   gem 'puma'
