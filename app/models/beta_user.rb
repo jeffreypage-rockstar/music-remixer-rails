@@ -10,6 +10,4 @@ class BetaUser < ActiveRecord::Base
   validates :name, presence: true
 	validates :email, presence: true, email: true
 	validates :phone_type, presence: true
-	validates :music_background_ids, presence: true
-  validates :age, presence: true
 end

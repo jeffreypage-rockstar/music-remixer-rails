@@ -38,7 +38,7 @@ MusicBackground.create!(name: 'DJ')
 MusicBackground.create!(name: 'Pro Audio Engineer')
 
 # follow
-User.find(1).follow!(User.find(2))
-User.find(2).follow!(User.find(1))
+# User.find(1).follow!(User.find(2))
+# User.find(2).follow!(User.find(1))
 
 
