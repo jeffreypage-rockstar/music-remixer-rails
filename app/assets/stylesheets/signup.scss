@@ -108,11 +108,6 @@ html, body {
           border: 1px solid #d8d7d7;
           background-color: white;
         }
-        input:focus {
-          outline: none !important;
-          border:1px solid #f5bfbf;
-          box-shadow: 0 0 10px #f5bfbe !important;
-        }
       }
       .text-center {
         label.boolean{
@@ -147,7 +142,7 @@ html, body {
     @extend .col-sm-6;
     @extend .col-xs-12;
     margin-top: 10px !important;
-    margin-bottom: 27px;
+    margin-bottom: 0;
     padding-left: 0;
     float: left;
   }
@@ -156,6 +151,7 @@ html, body {
     .control-label{
       @extend .full-width;
       text-align: left;
+	  font-weight: bold;
     }
   }
 
@@ -165,6 +161,7 @@ html, body {
       text-align: left;
       padding-left: 0;
       margin-top: 10px;
+	  font-weight: bold;
     }
     span.radio {
       @extend .col-sm-4;
