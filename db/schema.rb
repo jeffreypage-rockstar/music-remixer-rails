@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.string   "file",              limit: 255
     t.integer  "row",               limit: 4
     t.integer  "column",            limit: 4
-    t.string   "uuid",              limit: 255
+    t.string   "uuid",              limit: 24
     t.boolean  "state",                         default: false
     t.boolean  "state2",                        default: false
     t.boolean  "state3",                        default: false
@@ -212,7 +212,7 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.string   "zipfile",             limit: 255
     t.string   "mixaudio",            limit: 255
     t.string   "image",               limit: 255
-    t.string   "uuid",                limit: 255
+    t.string   "uuid",                limit: 24
     t.integer  "downloads_count",     limit: 4,   default: 0
     t.integer  "plays_count",         limit: 4,   default: 0
     t.integer  "remixes_count",       limit: 4,   default: 0
@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.string   "remember_token",           limit: 128,                   null: false
     t.boolean  "is_admin",                               default: false
     t.boolean  "is_artist_admin",                        default: false
-    t.string   "uuid",                     limit: 255
+    t.string   "uuid",                     limit: 24
     t.string   "profile_image",            limit: 255
     t.string   "profile_background_image", limit: 255
     t.string   "location",                 limit: 80

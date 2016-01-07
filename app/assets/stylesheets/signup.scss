@@ -74,7 +74,7 @@ html, body {
   .signup-header {
     h2 {
       margin-top: 0;
-      font-size: 40pt;
+      font-size: 35pt;
     }
     p{
       margin: 0 auto;
@@ -86,13 +86,13 @@ html, body {
   .signup-wrapper {
     margin: 0 auto;
     max-width: 1292px;
-    padding-top: 62px;
+    padding-top: 25px;
 
     #signUpForm {
       background-color: #f2f2f2;
       margin-top: 23px;
-      padding-top: 73px;
-      padding-bottom: 53px;
+      padding-top: 35px;
+      padding-bottom: 35px;
       border-radius: 5px;
       border: 1px solid #CCCCCC;
       hr {
@@ -116,11 +116,11 @@ html, body {
       }
       .text-center {
         label.boolean{
-          margin-top: 30px;
+          margin-top: 5px;
         }
         .btn-round {
           width: 176px;
-          margin-top: 30px;
+          margin-top: 5px;
           padding: 3px 10px 3px 10px;
           font-size: 20px;
           font-weight: lighter;
