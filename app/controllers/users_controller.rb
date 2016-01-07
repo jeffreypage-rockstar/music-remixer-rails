@@ -98,7 +98,7 @@ class UsersController < Clearance::UsersController
   end
 
 	def user_params
-		user = params.require(:user).permit(:name, :username, :email, :password, beta_user_attributes: [:phone_type, :music_background, :message])
+		user = params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :terms_of_service, beta_user_attributes: [:age, :phone_type, :music_background_ids => []])
     user[:beta_user_attributes][:name] = user[:name]
     user[:beta_user_attributes][:email] = user[:email]
     user

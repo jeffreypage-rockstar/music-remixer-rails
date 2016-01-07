@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230145423) do
+ActiveRecord::Schema.define(version: 20160107014809) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -68,6 +68,14 @@ ActiveRecord::Schema.define(version: 20151230145423) do
 
   add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id", using: :btree
 
+  create_table "beta_users_music_backgrounds", force: :cascade do |t|
+    t.integer "beta_user_id",        limit: 4
+    t.integer "music_background_id", limit: 4
+  end
+
+  add_index "beta_users_music_backgrounds", ["beta_user_id"], name: "index_beta_users_music_backgrounds_on_beta_user_id", using: :btree
+  add_index "beta_users_music_backgrounds", ["music_background_id"], name: "index_beta_users_music_backgrounds_on_music_background_id", using: :btree
+
   create_table "clip_types", force: :cascade do |t|
     t.integer  "song_id",    limit: 4
     t.string   "name",       limit: 40
@@ -85,7 +93,7 @@ ActiveRecord::Schema.define(version: 20151230145423) do
     t.string   "file",              limit: 255
     t.integer  "row",               limit: 4
     t.integer  "column",            limit: 4
-    t.string   "uuid",              limit: 24
+    t.string   "uuid",              limit: 255
     t.boolean  "state",                         default: false
     t.boolean  "state2",                        default: false
     t.boolean  "state3",                        default: false
@@ -149,6 +157,10 @@ ActiveRecord::Schema.define(version: 20151230145423) do
   add_index "mentions", ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
   add_index "mentions", ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
 
+  create_table "music_backgrounds", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+  end
+
   create_table "parts", force: :cascade do |t|
     t.integer  "song_id",    limit: 4
     t.string   "name",       limit: 40
@@ -200,7 +212,7 @@ ActiveRecord::Schema.define(version: 20151230145423) do
     t.string   "zipfile",             limit: 255
     t.string   "mixaudio",            limit: 255
     t.string   "image",               limit: 255
-    t.string   "uuid",                limit: 24
+    t.string   "uuid",                limit: 255
     t.integer  "downloads_count",     limit: 4,   default: 0
     t.integer  "plays_count",         limit: 4,   default: 0
     t.integer  "remixes_count",       limit: 4,   default: 0
@@ -245,7 +257,7 @@ ActiveRecord::Schema.define(version: 20151230145423) do
     t.string   "remember_token",           limit: 128,                   null: false
     t.boolean  "is_admin",                               default: false
     t.boolean  "is_artist_admin",                        default: false
-    t.string   "uuid",                     limit: 24
+    t.string   "uuid",                     limit: 255
     t.string   "profile_image",            limit: 255
     t.string   "profile_background_image", limit: 255
     t.string   "location",                 limit: 80

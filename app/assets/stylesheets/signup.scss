@@ -142,17 +142,17 @@ html, body {
     min-width: 100%;
   }
 
-  span.radio {
+  span.checkbox {
     @extend .col-md-6;
     @extend .col-sm-6;
     @extend .col-xs-12;
     margin-top: 10px !important;
-    margin-bottom: 0px;
+    margin-bottom: 27px;
     padding-left: 0;
     float: left;
   }
 
-  .user_beta_user_music_background {
+  .user_beta_user_music_backgrounds {
     .control-label{
       @extend .full-width;
       text-align: left;
@@ -169,6 +169,7 @@ html, body {
     span.radio {
       @extend .col-sm-4;
       padding-left: 0;
+      margin-top: 10px;
     }
   }
 }

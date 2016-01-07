@@ -1,5 +1,6 @@
 class BetaUser < ActiveRecord::Base
   belongs_to :user
+  has_and_belongs_to_many :music_backgrounds
 
   enum phone_type: { iphone: 0, android: 1 }
   enum music_background: { music_fan: 0, produce_music: 1, play_instrument: 2, pro_dj: 3, own_audio_software: 4, pro_musician_producer: 5, dj: 6, pro_audio_engineer: 7 }
@@ -9,5 +10,6 @@ class BetaUser < ActiveRecord::Base
   validates :name, presence: true
 	validates :email, presence: true, email: true
 	validates :phone_type, presence: true
-	validates :music_background, presence: true
+	validates :music_background_ids, presence: true
+  validates :age, presence: true
 end
