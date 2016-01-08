@@ -96,16 +96,19 @@ html, body {
       hr {
         margin: 0;
       }
-      #betaUserForm {
-        padding-top: 10px;
+      #userForm {
+        .error-message {
+          text-align: center;
+          color: red;
+          margin-top: -20px;
+          margin-bottom: 20px;
+        }
       }
-
+      #betaUserForm {
+        padding-top: 30px;
+      }
       .form-group {
         margin-bottom: 16px;
-        .form-control {
-          border: 1px solid #d8d7d7;
-          background-color: white;
-        }
       }
       .text-center {
         label.boolean{
@@ -150,13 +153,13 @@ html, body {
       @extend .col-sm-4;
       text-align: left;
       padding-left: 0;
-      margin-top: 10px;
+      margin-top: 20px;
 	  font-weight: bold;
     }
     span.radio {
       @extend .col-sm-4;
       padding-left: 0;
-      margin-top: 10px;
+      margin-top: 20px;
     }
   }
 }

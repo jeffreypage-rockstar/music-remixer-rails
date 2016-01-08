@@ -7128,8 +7128,13 @@ input[type="checkbox"]:disabled:checked:after,
     margin-top: 5px;
     padding: 3px 10px 3px 10px;
     font-size: 20px;
-    font-weight: lighter;
     border-radius: 5px;
     color: white;
     font-weight: normal;
+}
+
+
+.form-control {
+    border: 1px solid #d8d7d7;
+    background-color: white;
 }
