@@ -7102,6 +7102,7 @@ input[type="checkbox"]:disabled:checked:after,
 }
 .popover {
     border: none;
+    border: none;
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
@@ -7112,4 +7113,23 @@ input[type="checkbox"]:disabled:checked:after,
 .carousel-caption h5,
 .carousel-caption h6 {
     color: inherit;
+}
+
+.block-round {
+    background-color: #f2f2f2;
+    margin-top: 23px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    border-radius: 5px;
+    border: 1px solid #CCCCCC;
+}
+
+.text-center > .btn-round {
+    margin-top: 5px;
+    padding: 3px 10px 3px 10px;
+    font-size: 20px;
+    font-weight: lighter;
+    border-radius: 5px;
+    color: white;
+    font-weight: normal;
 }

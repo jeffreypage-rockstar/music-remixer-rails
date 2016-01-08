@@ -21,10 +21,6 @@ html, body {
   height: 100%;
 }
 
-.btn.btn-round {
-  border-radius: 24px;
-}
-
 
 .navbar-brand {
   height: 84px;
@@ -78,7 +74,6 @@ html, body {
     margin-bottom: 30px;
   }
 
-
   .container {
     margin: 0 auto;
     padding-top: 25px;
@@ -97,12 +92,7 @@ html, body {
     }
 
     #signUpForm {
-      background-color: #f2f2f2;
-      margin-top: 23px;
-      padding-top: 35px;
-      padding-bottom: 35px;
-      border-radius: 5px;
-      border: 1px solid #CCCCCC;
+      @extend .block-round;
       hr {
         margin: 0;
       }
@@ -120,14 +110,6 @@ html, body {
       .text-center {
         label.boolean{
           margin-top: 5px;
-        }
-        .btn-round {
-          width: 176px;
-          margin-top: 5px;
-          padding: 3px 10px 3px 10px;
-          font-size: 20px;
-          font-weight: lighter;
-          border-radius: 5px;
         }
       }
 
