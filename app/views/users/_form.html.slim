@@ -15,7 +15,7 @@
           = f.input :name, label: false, placeholder: 'Full Name', error: false
           = f.input :email, label: false, placeholder: 'Email', error: false
           = f.input :username, label: false, placeholder: 'Username', error: false
-          = buf.input :age, label: false, placeholder: 'Age', error: false
+          = buf.input :age, label: false, placeholder: 'Age', error: false, autocomplete: 'off'
           = f.input :password, label: false, placeholder: 'Password', error: false
         #betaUserForm.col-md-5.col-md-offset-1
           = buf.association :music_backgrounds, label: '* Music Background (click all that apply):', as: :check_boxes
