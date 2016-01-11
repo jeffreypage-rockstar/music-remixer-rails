@@ -14,6 +14,8 @@
           .content
             .name #{@artist.name}
             .location #{@artist.location}
+            - if current_user.is_artist_admin?
+              .artist-band Artist/Band
             a.edit-profile href="#{artist_edit_profile_path}"
               => fa_icon 'pencil'
               | Edit Profile
@@ -25,7 +27,6 @@
             .col-sm-9.artist-tags
               - @artist.genres.each do |genre|
                 a href="##{genre.name}" class="tag badge" #{genre.name}
-
             .col-sm-3.social-links.text-right
               = @artist.facebook_link
               = @artist.instagram_link
@@ -35,7 +36,6 @@
         .artist-bio
           - unless @artist.bio.blank?
             h4.title Artist Bio
-
             .content #{@artist.bio}
 
         .artist-tracks
