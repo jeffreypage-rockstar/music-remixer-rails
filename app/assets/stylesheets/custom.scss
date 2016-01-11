@@ -27,6 +27,7 @@ table.table-mix8 {
       padding: 15px;
       font-size: 10px;
       text-transform: uppercase;
+	  white-space: nowrap;
 
       &:first-child {
         -webkit-border-top-left-radius: 5px;
