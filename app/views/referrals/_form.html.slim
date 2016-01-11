@@ -1,4 +1,5 @@
+- referral.message = "Hey, I'm beta testing 8stem.  It's an app that lets you remix music on your phone.  Cool, huh?  \nI think you should check it out."
 = simple_form_for referral, url: referrals_path, html: { id: 'referralForm' }, remote: true do |f|
-  = f.input :emails
+  = f.input :emails, label: 'Email Addresses'
   = f.input :message, as: :text
   = f.button :submit
