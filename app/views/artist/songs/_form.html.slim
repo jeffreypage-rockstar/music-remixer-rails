@@ -10,7 +10,7 @@
       = f.input :image, as: :file, label: 'Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
       = f.hidden_field :image_cache
     .col-sm-8
-      = image_tag @song.image.url(:thumb)
+      = image_tag @song.image.url(:thumb), class: 'song_image_preview'
 
   hr
   .row

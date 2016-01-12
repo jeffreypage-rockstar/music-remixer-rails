@@ -64,6 +64,19 @@ uploadProgressBox = null
 #      ]
     return
 
+  readURL = (input) ->
+    if (input.files && input.files[0])
+
+      reader = new FileReader()
+      reader.onload = (e) ->
+        $('.song_image_preview').attr('src', e.target.result);
+        return
+      reader.readAsDataURL(input.files[0]);
+    return
+
+  $('input#song_image').change ->
+    readURL(this)
+    return
   return
 
 $(document).on 'ready page:load', ->
