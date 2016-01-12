@@ -8,13 +8,14 @@ module Mix8
         desc 'Get remix by id', {headers: {'Authorization' => {description: 'Access Token', required: true}}}
         get ':id' do
           remix = Remix.find(params[:id])
-          present remix, with: Mix8::V1::Entities::Remix
+          present remix, with: Mix8::V1::Entities::Remix, type: :full
         end
 
         desc 'Update remix by id', {headers: {'Authorization' => {description: 'Access Token', required: true}}}
         params do
           requires :id, type: Integer, desc: 'Remix id'
           optional :name, type: String, desc: 'Name of remix'
+          optional :automation, type: String, desc: 'Automation'
           optional :config, type: String, desc: 'Config'
           optional :audio, type: File, desc: 'Audio file'
         end
@@ -33,6 +34,7 @@ module Mix8
             desc 'Create new remix', {headers: {'Authorization' => {description: 'Access Token', required: true}}}
             params do
               requires :name, type: String, desc: 'Name of remix'
+              requires :automation, type: String, desc: 'Automation'
               requires :config, type: String, desc: 'Config'
               requires :audio, type: File, desc: 'Audio file'
             end

@@ -76,11 +76,12 @@ module Mix8
       class Remix < Grape::Entity
         expose :id
         expose :name
-        expose :config
+        expose :user, using: User, as: :remixer
         expose :audio do |instance|
           instance.audio_url
         end
-        expose :status
+        expose :automation, if: lambda { |instance, options| options[:type] == :full }
+        expose :config, if: lambda { |instance, options| options[:type] == :full }
       end
 
       class Trackable < Grape::Entity
