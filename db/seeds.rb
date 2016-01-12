@@ -25,7 +25,7 @@ User.where({email: 'testuser@8stem.com'}).delete_all
 User.create!(email:'testuser@8stem.com', username:'testuser', name:'Test User', password:'asdfasdf', is_admin:false, is_artist_admin:false, confirmed_at:'2015-10-01 10:10')
 
 BetaUser.where({email: 'betauser@8stem.com'}).delete_all
-BetaUser.create!(email:'betauser@8stem.com', name:'Beta User', invite_code:'abc123')
+BetaUser.create!(email:'betauser@8stem.com', name:'Beta User', invite_code:'abc123', age:23)
 
 MusicBackground.delete_all
 MusicBackground.create!(name: 'Music Fan')
@@ -38,7 +38,7 @@ MusicBackground.create!(name: 'DJ')
 MusicBackground.create!(name: 'Pro Audio Engineer')
 
 # follow
-# User.find(1).follow!(User.find(2))
-# User.find(2).follow!(User.find(1))
+User.find(1).follow!(User.find(2))
+User.find(2).follow!(User.find(1))
 
 
