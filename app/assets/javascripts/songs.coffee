@@ -64,20 +64,37 @@ uploadProgressBox = null
 #      ]
     return
 
-  readURL = (input) ->
+  showSelectedImage = (input) ->
     if (input.files && input.files[0])
 
       reader = new FileReader()
       reader.onload = (e) ->
-        $('.song_image_preview').attr('src', e.target.result);
+        $('.image_preview').attr('src', e.target.result);
+
         return
       reader.readAsDataURL(input.files[0]);
     return
 
-  $('input#song_image').change ->
-    readURL(this)
+  showSelectedFileName = (input) ->
+    fullPath = $(input).val()
+    if fullPath
+      startIndex = if fullPath.indexOf('\\') >= 0 then fullPath.lastIndexOf('\\') else fullPath.lastIndexOf('/')
+      filename = fullPath.substring(startIndex)
+      if filename.indexOf('\\') == 0 or filename.indexOf('/') == 0
+        filename = filename.substring(1)
+      $('.song_zipfile_filename').html(filename)
     return
+
+  $('input#song_image').change ->
+    showSelectedImage(this)
+    return
+
+  $('input#song_zipfile').change ->
+    showSelectedFileName(this)
+    return
+
   return
+
 
 $(document).on 'ready page:load', ->
   if $('#songForm').length > 0

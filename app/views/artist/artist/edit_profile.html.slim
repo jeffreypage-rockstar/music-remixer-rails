@@ -23,7 +23,7 @@
             = f.input :bio, as: :text, label: 'Bio <span class="hint">(up to 1000 characters)</span>'.html_safe, placeholder: 'More information about you', input_html: {rows: 7}
 
             hr
-            = f.input :genre_list, label: 'Genres<p class="hint">Press comma( , ) to separate genres</p>'.html_safe, input_html: {value: @artist.genre_list.to_s}
+            = f.input :genre_list, label: 'Genres', label: 'Genres<p class="hint">Press comma( , ) to separate genres</p>'.html_safe, input_html: {value: @artist.genre_list.to_s}
 
             hr
             .row
