@@ -5,10 +5,23 @@
       .selected-songs
         h4 Selected Songs
 
+        #confirm-delete.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" 
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close aria-hidden="true" data-dismiss="modal" type="button"  &times;
+                h4#myModalLabel.modal-title Confirm Delete
+              .modal-body
+                p Are you sure you want to permanently delete ?
+                p.debug_name
+                p.debug-url
+              .modal-footer
+                button.btn.btn-default data-dismiss="modal" type="button"  No
+                a.btn.btn-danger.btn-ok Yes
+                
         table.table.table-mix8
           thead
             tr
-              th
               th #{sortable 'name', 'Track Name'}
               th.text-center #{sortable 'duration', 'Duration'}
               th.text-center #{sortable 'plays_count', 'Plays'}
@@ -23,26 +36,34 @@
                 td
                   = link_to configure_artist_song_path(song) do
                     = image_tag song.image.url(:thumb), class: 'img-cover'
-                td
                   = link_to song.name, configure_artist_song_path(song)
                 td.duration.text-center #{song.duration}
                 td.plays.text-center #{song.plays_count}
                 td.downloads.text-center #{song.downloads_count}
                 td.remixes.text-center #{song.remixes_count}
                 td.status.text-center #{song.status_icon}
-                td.actions
-                  = link_to configure_artist_song_path(song) do
-                    = image_tag 'edit.png'
+                td.btn-group            
+                    img.dropdown-toggle alt=("Edit 42485d24e516d3941b289b5134644fc3d99e51d97d70e33f352477c1b9352fbb") aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" src="/assets/edit-42485d24e516d3941b289b5134644fc3d99e51d97d70e33f352477c1b9352fbb.png"
+
+                    ul.dropdown-menu  
+                      li 
+                        a data-href=song.name data-toggle="modal" data-target="#confirm-delete" href="#"  Delete 
+                      li
+                        a data-status="#{song.status}" href="#"  
+                          - if (song.status == "pending")  
+                           | Release
+                          - else  
+                           | Unrelease
+                        
+
 
     - if @artist.remixes.any?
       .top-remixes
-        h4 Top Remixes
+        h4 Top 100 Remixes
 
         table.table.table-mix8
           thead
             tr
-              th
-              th
               th
               th Remix Name
               th.text-center Remixed By
@@ -52,23 +73,12 @@
             - top_remixes = @artist.remixes.decorate
             - top_remixes.each_with_index do |remix, index|
               tr
-                td.rank #{index + 1}
-                td.img
-                  = image_tag remix.song.image.url(:thumb), class: 'img-cover'
-                td.media.track data-id="track_#{remix.id}" data-audio='{"m4a": "#{remix.audio}"}'
-                  .media-left
-                    a class="play"
-                      = image_tag 'tracks/play.png'
-                    a class="pause"
-                      = image_tag 'tracks/pause.png'
-                  .media-body
-                    .mix8-player
-                      .jp-player id="jquery_jplayer_#{remix.id}"
-                      .jp-audio id="jp_container_#{remix.id}"
+                td #{index + 1}
                 td
                   = link_to remix.name, artist_song_path(remix.song)
-                  / span.hot.badge Hot
-                  / span.new.badge New
+                  span.hot.badge Hot
+                  span.new.badge New
                 td.remixed-by.text-center #{remix.remixed_by_name}
                 td.plays.text-center #{remix.plays_count}
                 td.downloads.text-center #{remix.downloads_count}
+

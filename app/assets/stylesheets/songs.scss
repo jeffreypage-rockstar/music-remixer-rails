@@ -41,17 +41,32 @@ body.songs.configure {
   }
 
   #release-status {
-	height: 37px;
-	width: 85px;
-	margin-left: 500px;
-	text-align: center;
-	vertical-align: middle;
-	line-height: 32px;
-	background: red;
+	/*height: 37px;*/
+	/*width: 85px;*/
+	/*margin-left: 500px;*/
+	/*text-align: center;*/
+	/*vertical-align: middle;*/
+	/*line-height: 32px;*/
+	/*background: red;*/
+
+cursor: pointer;
+	 float: right;
+    margin-right:10px;
+    margin-top:10px;
+    width: 100px;
+    border-radius: 2px 2px 2px 2px;
+    /* margin-left: 500px; */
+    text-align: center;
+    vertical-align: middle;
+    /* line-height: 32px; */
+    /* padding: 0px; */
+    background: #4E555A;
+    color: white;
+    font-weight: bold;
   }
 
   #release-status.released {
-	background: green;
+	 /* background: green;*/
   }
 
   //.full-play-btn {
@@ -238,8 +253,8 @@ body.songs.configure {
   }
 
   .blank {
-	border: 2px solid white;
-	border-radius: 5px;
+	border: 2px solid #A7A1A1;
+	border-radius: 5px;	
 	background-image: none !important;
 	height: 42px;
 	margin-top: 4px;
@@ -480,7 +495,7 @@ body.songs.configure {
   }
 
   /* Preview */
-  .iPhone {
+  /*.iPhone {
 	position: absolute;
 	top: -50px;
 	width: 240px;
@@ -495,9 +510,26 @@ body.songs.configure {
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
 	pointer-events: none;
+  }*/
+  .iPhone {
+  position: absolute;
+  top: -50px;
+  width: 240px;
+  height: 447px;
+  margin-left: 30px;
+  /* border-top: 55px solid black; */
+  /* border-bottom: 55px solid black; */
+  /* border-left: 10px solid black; */
+  /* border-right: 10px solid black; */
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  pointer-events: none;
   }
 
   .iPhone .mic {
+  display:none;
 	position: absolute;
 	width: 10px;
 	height: 10px;
@@ -509,6 +541,7 @@ body.songs.configure {
   }
 
   .iPhone .speaker {
+  display:none;
 	position: absolute;
 	width: 60px;
 	height: 10px;
@@ -520,6 +553,7 @@ body.songs.configure {
   }
 
   .iPhone .home-btn {
+  display:none;
 	width: 35px;
 	height: 35px;
 	position: absolute;

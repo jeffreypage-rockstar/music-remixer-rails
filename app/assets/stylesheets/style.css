@@ -107,14 +107,18 @@
 	clear: both;
 }
 #tracker-compiled .tracker-part {
-	height: 24px;
+	/*height: 24px;*/
+	height: 40px;
+	overflow: visible;
 	background-color: #323a40;
+	margin-bottom: 10px;
 }
 .tracker-part .time {
 	font-weight: 700;
 	font-size: 10px;
 	margin-left: 5px;
-	line-height: 28px;
+	line-height: 100px;
+	/*line-height: 28px;*/
 	position: absolute;
 	z-index: 2;
 }
@@ -330,15 +334,33 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	}
 }
 
-#tracker-mobile {
+/*tracker-mobile {
 	width: 250px;
 	padding: 30px;
 	height: 100%;
 	color: #788086;
 	background: #454e54;
-	background-image: url(../images/iphone.png);
+	background-image: url(../assets/iphone.png);
 	background-repeat: no-repeat;
 	background-position: center 120px;
+}*/
+
+#tracker-mobile {
+	width: 250px !important;
+	height: 503px !important;
+	/*background:none !important;*/
+	/* top: 0px; */
+	padding-top: 76px !important;
+	padding-bottom: 69px !important;
+	padding-left: 23px !important;
+	padding-right: 21px !important;
+	height: 100%;
+	color: #788086;
+	/* background: #454e54; */
+	background-image: url(../assets/iphone.png);
+	background-repeat: no-repeat;
+	/* background-position: center 120px; */
+	background-size: cover !important;
 }
 
 #tracker-mobile .btn-group {
@@ -358,6 +380,7 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
     content: "\f040";
     margin-left: 10px;
     font-family: FontAwesome;
+    font-size:28px;
 }
 .level.column.editable-text {
 	font-size: 14px;
@@ -369,9 +392,13 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 }
 .editable-text > input {
     width: 75%;
-    height: 32px;
+    height: 32px !important;
     vertical-align: baseline;
-    line-height: 32px;
+    /*line-height: 28px !important;*/
+    font-size: 28px !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    outline: none !important;
 }
 h6.editable-text > input {
 	margin-left: -3px;
@@ -397,6 +424,7 @@ h6.editable-text span {
 wave {
 	border-right-style: none!important;
 	overflow: hidden!important;
+	height: 40px !important;
 }
 #top-play {
 	font-size: 20px;
@@ -423,7 +451,7 @@ wave {
 	 padding: 0 0 0 0;
 	 height: 447px;
 	color: #788086;
-	background: #454e54;
+	/*background: #454e54;*/
 	/* background-image: url(../images/iphone.png); */
 	background-repeat: no-repeat;
 	/* background-position: center 120px; */

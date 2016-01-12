@@ -223,14 +223,8 @@ body > .container {
   color: #989ea2;
 }
 
-.form800 input.form-control {
+input.form-control {
   width: 400px;
-  margin: 0 auto;
+  margin-bottom: 20px;
 
 }
-
-// container
-.container > .block-round {
-  padding: 10px 0px 10px 40px;
-}
-

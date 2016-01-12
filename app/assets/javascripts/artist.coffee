@@ -46,13 +46,6 @@
 
   return
 
-@artistMusicPageReady = ->
-  $.each $('#artistMusicPage .mix8-player'), (index, player) ->
-    initializePlayer '#' + $(player).find('.jp-player').prop('id'), '#' + $(player).find('.jp-audio').prop('id')
-    return
-
-  return
-
 @editArtistProfilePageReady = ->
   $('#user_profile_image').filestyle
     icon: false
@@ -94,7 +87,4 @@ $(document).on 'ready page:load', ->
 
   if $('#artistConnectPage').length > 0
     artistConnectPageReady()
-
-  if $('#artistMusicPage').length > 0
-    artistMusicPageReady()
   return

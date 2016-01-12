@@ -322,6 +322,7 @@ GEM
     mini_magick (4.3.6)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
+    mixpanel-ruby (2.2.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -455,6 +456,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sqlite3 (1.3.11)
     sshkit (1.8.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -528,6 +530,7 @@ DEPENDENCIES
   koala
   mailkick
   mini_magick
+  mixpanel-ruby
   mysql2 (~> 0.3.18)
   nokogiri
   omniauth
@@ -549,6 +552,7 @@ DEPENDENCIES
   slim-rails
   socialization (~> 1.2.0)
   spring
+  sqlite3
   streamio-ffmpeg
   taglib-ruby (~> 0.7.0)
   turbolinks

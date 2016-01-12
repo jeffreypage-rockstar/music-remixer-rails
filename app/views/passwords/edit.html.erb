@@ -7,11 +7,12 @@
             url: users_password_path(user_id: @user.id, token: @user.confirmation_token),
             html: { method: :put },
             remote: true do |form| %>
-        <div class="form-group">
+        <div class="form-group text-center">
             <%= form.password_field :password, class: 'form-control', placeholder: 'New Password. Minimum 6 characters' %>
+            <%= form.password_field :password_confirmation, class: 'form-control', placeholder: 'Re-enter Password' %>
         </div>
-              <div class="text-center">
+
         <%= form.submit 'Reset Password', class: 'btn btn-primary' %>
-                    </div>
+                      </div>
     <% end %>
                   </div>

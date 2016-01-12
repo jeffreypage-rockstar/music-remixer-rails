@@ -1,5 +1,5 @@
 require "application_responder"
-
+require 'mixpanel-ruby'
 # Ruby version 2.2.2
 # Rails version 4.2.1
 # Description: Artist home page   
@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   include Clearance::Controller
   include PublicActivity::StoreController
-	include Pundit
+  include Pundit
 
 	rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -19,7 +19,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session, :except => 'lbstatus'
 
   before_action :http_basic_auth, :except => 'lbstatus'
-
   def http_basic_auth
 	  if request.subdomain == ''
 		  authenticate_or_request_with_http_basic("Administration") do |user,pass|

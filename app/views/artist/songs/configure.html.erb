@@ -4,6 +4,9 @@
 	.section {
 		padding: 15px 0;
 	}
+	.configure {
+          overflow-x: hidden;
+    }
 </style>
 <div id="wrapper" class="toggled clearfix">
 	<div id="page-content-wrapper">
@@ -14,13 +17,21 @@
 					<h3 class="pull-left editable-text songtitle"><span><%=@song.name%></span></h3>
 					<div id="release-status" data-status="<%= @song.status.to_s %>" class="<%= @song.status.to_s %>">
 						<% if (@song.released?) %>
-							Released
+							UNRELEASE
 						<% else %>
-							Release
+							RELEASE
 						<% end %>
 					</div>
+					 <div id="release-progress" style="margin-top: 10px;float: right;margin-right:10px;text-align: center;vertical-align: middle;font-weight: bold;">	
+					 
+					 <%= @song.released? ? "SONG STATUS:RELEASED" : "SONG STATUS:WORKING" %>
+					
+
+					
+					 
 				</div>
-				<div id="mixaudioplayer" class="row container-fluid main-player-area">
+				</div>
+				<div id="mixaudioplayer" class="container-fluid main-player-area">
 					<%= render 'mixaudioplayer', song: @song, mixaudio: @mixaudio %>
 				</div>
 			</div>
@@ -116,10 +127,11 @@
 		$("a[data-toggle='sidebar']").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
+
 		});
 
         $('#release-status').on('click', function(e) {
-			debugger;
+			
             if($(e.target).attr("data-status") == "pending") {
                 $.ajax({
                     type: "PUT",
@@ -130,12 +142,39 @@
                 })
 				.done(function( msg ) {
 					console.log( "Data Saved: " + msg );
-					$(e.target).html('Released').css('background', 'green')
+
+					$(e.target).attr("data-status","released");
+					$(e.target).attr("class","released");
+					$('#release-progress').html('SONG STATUS:RELEASED');
+					$(e.target).html('UNRELEASE');
+					// $(e.target).html('Released').css('background', 'green')
 				})
 				.fail(function( msg ) {
 					console.log(  msg );
 				});
             }
+
+            		else{
+            			$.ajax({
+                    type: "PUT",
+                    dataType: "json",
+                    url: '/songs/<%=@song.id%>',
+                    contentType: 'application/json',
+                    data: JSON.stringify({status: "pending"})
+                })
+				.done(function( msg ) {
+					console.log( "Data Saved: " + msg );
+					$(e.target).attr("data-status","pending");
+					$(e.target).attr("class","pending");
+					$('#release-progress').html('SONG STATUS:WORKING');
+					$(e.target).html('RELEASE');
+					// $(e.target).html('Released').css('background', 'green')
+				})
+				.fail(function( msg ) {
+					console.log(  msg );
+				});
+            		}
+
         });
 
         $('#mix-tabs .tab a').click(function (event) {
