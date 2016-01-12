@@ -16,8 +16,8 @@ class UsersController < Clearance::UsersController
 
 	def create
 		user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
-		@user = User.new(user)
-		if @user.save
+		@user = User.create(user)
+		if @user
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
       render :create_success, layout: '8stem'
