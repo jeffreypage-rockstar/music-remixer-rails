@@ -27,12 +27,14 @@ table.table-mix8 {
       padding: 15px;
       font-size: 10px;
       text-transform: uppercase;
+	  white-space: nowrap;
 
       &:first-child {
         -webkit-border-top-left-radius: 5px;
         -moz-border-top-left-radius: 5px;
         border-top-left-radius: 5px;
         padding-left: 20px;
+		width: 45px;
       }
 
       &:last-child {

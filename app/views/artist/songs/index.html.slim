@@ -8,6 +8,7 @@
         table.table.table-mix8
           thead
             tr
+              th
               th #{sortable 'name', 'Track Name'}
               th.text-center #{sortable 'duration', 'Duration'}
               th.text-center #{sortable 'plays_count', 'Plays'}
@@ -22,6 +23,7 @@
                 td
                   = link_to configure_artist_song_path(song) do
                     = image_tag song.image.url(:thumb), class: 'img-cover'
+                td
                   = link_to song.name, configure_artist_song_path(song)
                 td.duration.text-center #{song.duration}
                 td.plays.text-center #{song.plays_count}
@@ -34,11 +36,13 @@
 
     - if @artist.remixes.any?
       .top-remixes
-        h4 Top 100 Remixes
+        h4 Top Remixes
 
         table.table.table-mix8
           thead
             tr
+              th
+              th
               th
               th Remix Name
               th.text-center Remixed By
@@ -48,11 +52,23 @@
             - top_remixes = @artist.remixes.decorate
             - top_remixes.each_with_index do |remix, index|
               tr
-                td #{index + 1}
+                td.rank #{index + 1}
+                td.img
+                  = image_tag remix.song.image.url(:thumb), class: 'img-cover'
+                td.media.track data-id="track_#{remix.id}" data-audio='{"m4a": "#{remix.audio}"}'
+                  .media-left
+                    a class="play"
+                      = image_tag 'tracks/play.png'
+                    a class="pause"
+                      = image_tag 'tracks/pause.png'
+                  .media-body
+                    .mix8-player
+                      .jp-player id="jquery_jplayer_#{remix.id}"
+                      .jp-audio id="jp_container_#{remix.id}"
                 td
                   = link_to remix.name, artist_song_path(remix.song)
-                  span.hot.badge Hot
-                  span.new.badge New
+                  / span.hot.badge Hot
+                  / span.new.badge New
                 td.remixed-by.text-center #{remix.remixed_by_name}
                 td.plays.text-center #{remix.plays_count}
                 td.downloads.text-center #{remix.downloads_count}
