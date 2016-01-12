@@ -32,6 +32,7 @@ class Artist::SongsController < Artist::BaseController
     @song = Song.new(song_params)
     @song.user = current_user
     if @song.save
+      $tracker.track(current_user.id, "Music uploaded by #{current_user.name}")
       flash[:success] = 'Song was successfully created.'
       flash.keep(:success)
 
@@ -63,6 +64,10 @@ class Artist::SongsController < Artist::BaseController
       if @song.update(song_params)
         format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render json: @song }
+        if params[:status] && params[:status] == "released"
+           $tracker.track('current_user.id', "#{@song.name} released by #{current_user.name}")
+        end
+       
       else
         format.html { render :edit }
         format.json { render json: @song.errors, status: :unprocessable_entity }

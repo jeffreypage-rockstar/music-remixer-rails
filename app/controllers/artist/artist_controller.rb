@@ -14,8 +14,9 @@ class Artist::ArtistController < Artist::BaseController
 	end
 
 	def update_profile
+		  $tracker.track(current_user.id, "Profile updated for artist: #{current_user.name}")
 		if @artist.update(profile_params)
-			redirect_to artist_profile_path, notice: 'Profile successfully updated'
+			 redirect_to artist_profile_path, notice: 'Profile successfully updated'
 		else
 			@active_tab = 'profile'
 			render :edit_profile

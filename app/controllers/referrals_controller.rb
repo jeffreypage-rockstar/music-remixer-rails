@@ -8,6 +8,8 @@ class ReferralsController < ApplicationController
     message = batch_referral_params[:message]
     @referral = Referral.new(batch_referral_params)
 
+    $tracker.track(current_user.id, "#{@referral.email} referred by #{@user.name}")
+
     respond_to do |format|
       if @referral.valid?
         emails.split(',').uniq.each { |email| Referral.create(email: email, message: message, referring: current_user) }

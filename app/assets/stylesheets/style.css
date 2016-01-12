@@ -334,18 +334,15 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	}
 }
 
-/*tracker-mobile {
-	width: 250px;
+#tracker-mobile {
+	/*width: 250px;
 	padding: 30px;
 	height: 100%;
 	color: #788086;
 	background: #454e54;
-	background-image: url(../assets/iphone.png);
+	background-image: url(../images/iphone.png);
 	background-repeat: no-repeat;
-	background-position: center 120px;
-}*/
-
-#tracker-mobile {
+	background-position: center 120px;*/
 	width: 250px !important;
 	height: 503px !important;
 	/*background:none !important;*/
@@ -391,7 +388,11 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	right: 7px;
 }
 .editable-text > input {
-    width: 75%;
+   /* width: 75%;
+    height: 32px;
+    vertical-align: baseline;
+    line-height: 32px;*/
+     width: 75%;
     height: 32px !important;
     vertical-align: baseline;
     /*line-height: 28px !important;*/
@@ -407,6 +408,63 @@ h6.editable-text > input {
 h6.editable-text span {
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+
+.bpm_input{
+	position: relative;
+	 padding: 0px;
+ 
+    margin: 0px 0px 0px 0px;
+ 
+    height:50px;
+   
+	width:60px;
+    /*height: 32px !important;*/
+    vertical-align: baseline;
+    /*line-height: 28px !important;*/
+    font-size: 20px !important;
+   
+    float:right;
+    outline: none !important;
+}
+.bmp_margin{
+	margin-left: 17% !important;
+}
+
+@media(max-width: 1200px) {
+	.bmp_margin {
+		margin-left: 13% !important;
+	}
+}
+
+@media(max-width: 991px) {
+	.bmp_margin {
+		margin-left: 5% !important;
+	}
+}
+
+.bpm > span:hover {
+    color: #41c7ff;
+    position: relative;
+    padding: 15px 0px 14px 0px;
+    float: right;
+}
+.bpm > span:hover:after {
+    content: "\f040";
+   
+    font-family: FontAwesome;
+    font-size:20px;
+    margin: 0px 0px 0px 2px;
+    
+    padding: 0px;
+}
+
+.bpm > span{
+	position: relative;
+	padding: 15px 20px 15px 0px;
+	margin: 0 10px 0px 0px;
+	float: right;
 }
 .level.column.editable-text > input {
 	width: 100%;
@@ -424,7 +482,6 @@ h6.editable-text span {
 wave {
 	border-right-style: none!important;
 	overflow: hidden!important;
-	height: 40px !important;
 }
 #top-play {
 	font-size: 20px;

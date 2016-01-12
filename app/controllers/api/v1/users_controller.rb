@@ -12,6 +12,9 @@ class Api::V1::UsersController < Api::V1::ApiController
 		if user.save
 			@token = user.remember_token
 			render :token, status: 200
+			
+});
+			# $tracker.track(user.id, "Music uploaded by #{user.name}")
 		else
 			render json: { errors: user.errors }, status: 422
 		end

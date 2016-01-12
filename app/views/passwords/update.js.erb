@@ -1,11 +1,5 @@
-message = '<%= @message %>'
-
 modal_holder_selector = '#modal-holder';
 modal_selector = '.modal';
-if (!message.empty()) {
-    alert (message);
-} else {
-    $.get('reset_password_success_modal', function(data) {
-        $(modal_holder_selector).html(data).find(modal_selector).modal()
-    });
-}
+$.get('reset_password_success_modal', function(data) {
+    $(modal_holder_selector).html(data).find(modal_selector).modal()
+});

@@ -48,8 +48,7 @@ body.songs.configure {
 	/*vertical-align: middle;*/
 	/*line-height: 32px;*/
 	/*background: red;*/
-
-cursor: pointer;
+	cursor: pointer;
 	 float: right;
     margin-right:10px;
     margin-top:10px;
@@ -66,7 +65,7 @@ cursor: pointer;
   }
 
   #release-status.released {
-	 /* background: green;*/
+	/*background: green;*/
   }
 
   //.full-play-btn {
@@ -254,7 +253,7 @@ cursor: pointer;
 
   .blank {
 	border: 2px solid #A7A1A1;
-	border-radius: 5px;	
+	border-radius: 5px;
 	background-image: none !important;
 	height: 42px;
 	margin-top: 4px;
@@ -511,7 +510,7 @@ cursor: pointer;
 	border-bottom-right-radius: 25px;
 	pointer-events: none;
   }*/
-  .iPhone {
+ .iPhone {
   position: absolute;
   top: -50px;
   width: 240px;
@@ -528,8 +527,7 @@ cursor: pointer;
   pointer-events: none;
   }
 
-  .iPhone .mic {
-  display:none;
+  .iPhone .mic { display:none;
 	position: absolute;
 	width: 10px;
 	height: 10px;
@@ -540,8 +538,7 @@ cursor: pointer;
 	border-radius: 25px;
   }
 
-  .iPhone .speaker {
-  display:none;
+  .iPhone .speaker { display:none;
 	position: absolute;
 	width: 60px;
 	height: 10px;
@@ -552,8 +549,7 @@ cursor: pointer;
 	border-radius: 25px;
   }
 
-  .iPhone .home-btn {
-  display:none;
+  .iPhone .home-btn { display:none;
 	width: 35px;
 	height: 35px;
 	position: absolute;

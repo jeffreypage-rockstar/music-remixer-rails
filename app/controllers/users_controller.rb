@@ -1,3 +1,5 @@
+require 'mixpanel-ruby'
+
 class UsersController < Clearance::UsersController
   before_action :set_profile_user, only: [:show_profile, :follow, :unfollow]
 	before_action :set_referral, except: [:thanks]
@@ -17,7 +19,14 @@ class UsersController < Clearance::UsersController
 	def create
 		user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
 		@user = User.new(user)
+
 		if @user.save
+      $tracker.track(@user.id, "User #{@user.name} created")
+      $tracker.people.set(@user.id, {
+            '$first_name'       => @user.name,    
+            '$email'            => @user.email
+          
+      });
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
       render :create_success, layout: '8stem'
@@ -58,8 +67,9 @@ class UsersController < Clearance::UsersController
   end
 
   def update_profile
-    if current_user.update(profile_params)
-      redirect_to show_profile, notice: 'Profile successfully updated'
+    $tracker.track(current_user.id, "Profile updated of user: #{current_user.name}")
+    if current_user.update(profile_params)    
+        redirect_to show_profile, notice: 'Profile successfully updated'
     else
       @active_tab = 'profile'
       render :edit_profile

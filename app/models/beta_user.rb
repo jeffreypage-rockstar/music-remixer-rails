@@ -10,4 +10,5 @@ class BetaUser < ActiveRecord::Base
   validates :name, presence: true
 	validates :email, presence: true, email: true
 	validates :phone_type, presence: true
+  validates :age, numericality: { greater_than: 0, less_than: 100}
 end
