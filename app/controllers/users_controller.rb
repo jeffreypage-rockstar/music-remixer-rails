@@ -59,7 +59,7 @@ class UsersController < Clearance::UsersController
 
   def update_profile
     if current_user.update(profile_params)
-      redirect_to show_profile, notice: 'Profile successfully updated'
+      redirect_to show_profile_path, notice: 'Profile successfully updated'
     else
       @active_tab = 'profile'
       render :edit_profile
