@@ -16,8 +16,8 @@ class UsersController < Clearance::UsersController
 
 	def create
 		user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
-		@user = User.create(user)
-		if @user
+		@user = User.create!(user)
+		if @user && @user.id
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
       render :create_success, layout: '8stem'
@@ -28,7 +28,7 @@ class UsersController < Clearance::UsersController
 
   def confirm_email
     user = User.find_by_confirmation_token(params[:confirmation_token])
-    if user
+    if user && user.confirmation_token == params[:confirmation_token]
       user.email_activate
       flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed.
       Please sign in to continue.'
