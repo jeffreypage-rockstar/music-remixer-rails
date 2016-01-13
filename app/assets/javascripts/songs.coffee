@@ -64,17 +64,6 @@ uploadProgressBox = null
 #      ]
     return
 
-  showSelectedImage = (input) ->
-    if (input.files && input.files[0])
-
-      reader = new FileReader()
-      reader.onload = (e) ->
-        $('.image_preview').attr('src', e.target.result);
-
-        return
-      reader.readAsDataURL(input.files[0]);
-    return
-
   showSelectedFileName = (input) ->
     fullPath = $(input).val()
     if fullPath
@@ -85,9 +74,7 @@ uploadProgressBox = null
       $('.song_zipfile_filename').html(filename)
     return
 
-  $('input#song_image').change ->
-    showSelectedImage(this)
-    return
+
 
   $('input#song_zipfile').change ->
     showSelectedFileName(this)
