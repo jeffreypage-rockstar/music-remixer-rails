@@ -15,7 +15,7 @@
             .name #{@artist.name}
             .location #{@artist.location}
             - if current_user.is_artist_admin?
-            .artist-band href="#{artist_edit_profile_path}"
+              .artist-band Artist/Band
             a.edit-profile href="#{artist_edit_profile_path}"
               => fa_icon 'pencil'
               | Edit Profile
