@@ -5,10 +5,10 @@
         .col-xs-4
           img.img-responsive src="#{@user.profile_image.url(:medium)}"
           - if policy(@user).follow?
-            = link_to follow_path, class: 'unfollow', method: :post do
+            = link_to app_follow_path, class: 'unfollow', method: :post do
               = image_tag 'follow.png'
           - if policy(@user).unfollow?
-            = link_to unfollow_path, class: 'unfollow', method: :delete do
+            = link_to app_unfollow_path, class: 'unfollow', method: :delete do
               = image_tag 'unfollow.png'
         .col-xs-8
           .content

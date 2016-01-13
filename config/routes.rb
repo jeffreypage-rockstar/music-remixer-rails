@@ -77,23 +77,20 @@ Rails.application.routes.draw do
           get :reset_password_success_modal
         end
       end
-      get 'referrals/:invite_code' => 'referrals#track'
-      get 'referrals/thanks' => 'referrals#thanks'
-      post 'referrals' => 'referrals#create'
     end
   end
 
 	# Normal site (no subdomain or www)
 	constraints :subdomain => 'app' do
     namespace :app, path: '/' do
-      get '/' => 'home#index'
-      get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
-      # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
-      post 'beta/artist' => 'beta_artists#join'
+      get '/' => 'home#index', as: 'home'
 
-      get 'beta/sign_up/:invite_code' => 'beta_users#new', as: 'beta_sign_up'
-      post 'beta/sign_up/:invite_code' => 'beta_users#create'
-      get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
+      # get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
+      # # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
+      # post 'beta/artist' => 'beta_artists#join'
+      # get 'beta/sign_up/:invite_code' => 'beta_users#new', as: 'beta_sign_up'
+      # post 'beta/sign_up/:invite_code' => 'beta_users#create'
+      # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
 
       get '/:username',      to: 'users#show_profile', as: 'show_profile'
       get '/:username/edit', to: 'users#edit_profile', as: 'edit_profile'
@@ -101,6 +98,10 @@ Rails.application.routes.draw do
       patch '/:username/update_account' => 'users#update_account', as: 'update_account'
       post '/:username/follow' => 'users#follow', as: 'follow'
       delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
+
+      get 'referrals/:invite_code' => 'referrals#track'
+      get 'referrals/thanks' => 'referrals#thanks'
+      post 'referrals' => 'referrals#create'
     end
 	end
 

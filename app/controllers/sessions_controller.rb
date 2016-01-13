@@ -2,7 +2,7 @@ class SessionsController < Clearance::SessionsController
   layout '8stem'
 
 	def url_after_create
-		"#{app_dashboard_url}?ref=signin"
+    current_user.is_artist_admin? ? "#{artist_music_url}" : "#{app_home_url}?ref=signin"
 	end
 
 	def url_after_destroy

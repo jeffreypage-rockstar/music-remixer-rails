@@ -7,21 +7,29 @@ nav class="#{nav_class(layout)}" role="navigation"
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand href=root_url
-        = image_tag layout == 'mix8' ? 'mix8.png' : 'logo_small.png'
-        | "#{layout}"
+      a.navbar-brand href=(layout == 'mix8' ? app_home_url : root_url)
+        = image_tag layout == 'mix8' ? 'logo.png' : 'logo_small.png'
     #navbar-collapse.collapse.navbar-collapse
       ul.nav.navbar-nav.pull-right
-        - if signed_in?
+        - if layout == 'mix8'
           - if current_user.is_artist_admin?
-            li class=("#{'active' if current_page?(artist_profile_path)}")
-              a href=artist_profile_url  Profile
-            li class=("#{'active' if current_page?(artist_music_path)}")
-              a href=artist_music_url  Music
             li class=("#{'active' if current_page?(artist_connect_path)}")
               a href=artist_connect_url
                 | Networks
                 span.badge 10
+            li class=("#{'active' if current_page?(artist_music_path)}")
+              a href=artist_music_url
+                | Music
+        - else
+          li
+            a href=root_url Home
+          li class=("#{'active' if current_page?(about_path)}")
+            a href=about_url About
+          li class=("#{'active' if current_page?(news_path)}")
+            a href=news_url News
+          li class=("#{'active' if current_page?(contact_path)}")
+            a href=contact_url Contact
+        - if signed_in?
           li.divider-vertical
           li.dropdown.profile-dropdown
             a.dropdown-toggle href="#" data-toggle="dropdown" aria-expanded="false"
@@ -30,23 +38,15 @@ nav class="#{nav_class(layout)}" role="navigation"
               i.fa.fa-angle-down
             ul.dropdown-menu
               li
+                = link_to 'View Profile', app_show_profile_url(current_user.username)
+              li
                 = link_to 'Edit Profile', app_edit_profile_url(current_user.username)
               li.divider
               li
                 = link_to 'Sign out', sign_out_url
           li.divider-vertical
         - else
-          li class=("#{'active' if current_page?(root_path)}")
-            a href=root_url Home
-          li class=("#{'active' if current_page?(about_path)}")
-            a href=about_url About
-          li class=("#{'active' if current_page?(news_path)}")
-            a href=news_url News
-          li class=("#{'active' if current_page?(contact_path)}")
-            a href=contact_url Contact
-          - if layout == 'mix8'
           li class=("#{'active' if current_page?(sign_in_path)}")
             = link_to 'Sign in', sign_in_url, class: 'navbar-link'
           li
-            - if !signed_in?
-              = link_to 'Join The Beta Team', sign_up_url, class: 'navbar-link stand-out'
+            = link_to 'Join The Beta Team', sign_up_url, class: 'navbar-link stand-out'
