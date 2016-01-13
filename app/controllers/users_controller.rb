@@ -18,9 +18,9 @@ class UsersController < Clearance::UsersController
 
 	def create
 		user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
-		@user = User.new(user)
 
-		if @user.save
+		@user = User.create(user)
+		if @user.valid?
       $tracker.track(@user.id, "User #{@user.name} created")
       $tracker.people.set(@user.id, {
             '$first_name'       => @user.name,    
@@ -37,7 +37,7 @@ class UsersController < Clearance::UsersController
 
   def confirm_email
     user = User.find_by_confirmation_token(params[:confirmation_token])
-    if user
+    if user && user.confirmation_token == params[:confirmation_token]
       user.email_activate
       flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed.
       Please sign in to continue.'
@@ -67,9 +67,9 @@ class UsersController < Clearance::UsersController
   end
 
   def update_profile
-    $tracker.track(current_user.id, "Profile updated of user: #{current_user.name}")
-    if current_user.update(profile_params)    
-        redirect_to show_profile, notice: 'Profile successfully updated'
+    if current_user.update(profile_params)
+      $tracker.track(current_user.id, "Profile updated of user: #{current_user.name}")
+      redirect_to show_profile_path, notice: 'Profile successfully updated'
     else
       @active_tab = 'profile'
       render :edit_profile

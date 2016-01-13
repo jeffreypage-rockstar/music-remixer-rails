@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107014809) do
+ActiveRecord::Schema.define(version: 20160112075820) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.string   "file",              limit: 255
     t.integer  "row",               limit: 4
     t.integer  "column",            limit: 4
-    t.string   "uuid",              limit: 24
+    t.string   "uuid",              limit: 255
     t.boolean  "state",                         default: false
     t.boolean  "state2",                        default: false
     t.boolean  "state3",                        default: false
@@ -193,14 +193,16 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.integer  "song_id",         limit: 4
     t.string   "name",            limit: 255
     t.text     "config",          limit: 65535
-    t.integer  "status",          limit: 4,     default: 0
+    t.boolean  "is_public"
     t.integer  "downloads_count", limit: 4,     default: 0
     t.integer  "plays_count",     limit: 4,     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "audio",           limit: 255
+    t.integer  "status",          limit: 4,     default: 0
     t.string   "audio_tmp",       limit: 255
     t.string   "uuid",            limit: 255
+    t.text     "automation",      limit: 65535
   end
 
   create_table "songs", force: :cascade do |t|
@@ -212,7 +214,7 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.string   "zipfile",             limit: 255
     t.string   "mixaudio",            limit: 255
     t.string   "image",               limit: 255
-    t.string   "uuid",                limit: 24
+    t.string   "uuid",                limit: 255
     t.integer  "downloads_count",     limit: 4,   default: 0
     t.integer  "plays_count",         limit: 4,   default: 0
     t.integer  "remixes_count",       limit: 4,   default: 0
@@ -257,7 +259,7 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.string   "remember_token",           limit: 128,                   null: false
     t.boolean  "is_admin",                               default: false
     t.boolean  "is_artist_admin",                        default: false
-    t.string   "uuid",                     limit: 24
+    t.string   "uuid",                     limit: 255
     t.string   "profile_image",            limit: 255
     t.string   "profile_background_image", limit: 255
     t.string   "location",                 limit: 80
@@ -275,6 +277,8 @@ ActiveRecord::Schema.define(version: 20160107014809) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.integer  "status",                   limit: 4,     default: 0
+    t.boolean  "email_confirmed",                        default: false
+    t.string   "confirm_token",            limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

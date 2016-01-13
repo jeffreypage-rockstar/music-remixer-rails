@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 	default_value_for :status, User.statuses[:beta_waitlisted]
 
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
-	validates :password, :presence => true
+	validates :password, :presence => true, :on => :create
 	validates_confirmation_of :password, :message => 'Passwords do not match'
 	validates :terms_of_service, acceptance: true
 	# NOTE: this causes double validation errors, Clearance must be doing it to?
@@ -136,6 +136,7 @@ class User < ActiveRecord::Base
 		if self.confirmation_token.blank?
 			self.confirmation_token = SecureRandom.urlsafe_base64.to_s
 		end
+		true
 	end
 
 end

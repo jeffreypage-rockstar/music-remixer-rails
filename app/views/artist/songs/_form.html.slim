@@ -10,14 +10,15 @@
       = f.input :image, as: :file, label: 'Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
       = f.hidden_field :image_cache
     .col-sm-8
-      = image_tag @song.image.url(:thumb)
+      = image_tag @song.image.url(:thumb), class: 'image_preview'
 
   hr
   .row
     .col-sm-4
-      = f.input :zipfile, label: 'Zipfile<p class="hint">Lorem ipsum dolor sit amet</p>'.html_safe, as: :file, wrapper: :vertical_file_input
+      = f.input :zipfile, label: 'Zipfile<p class="hint">Your zipfile containing .wav files</p>'.html_safe, as: :file, wrapper: :vertical_file_input
       = f.hidden_field :zipfile_cache
     .col-sm-8
+      .song_zipfile_filename
 
   hr
   = f.button :button, class: 'btn-grey btn-round', data: { loading: false } do
