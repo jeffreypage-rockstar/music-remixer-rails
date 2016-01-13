@@ -42,10 +42,14 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 after 'deploy', 'deploy:cleanup'
+after 'deploy', 'deploy:restart_daemons'
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
   task :restart do
     invoke 'unicorn:legacy_restart'
+  end
+  task :restart_daemons, :roles => :app do
+    sudo 'monit restart all -g daemons'
   end
 end
