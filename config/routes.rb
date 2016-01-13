@@ -84,6 +84,7 @@ Rails.application.routes.draw do
 	constraints :subdomain => 'app' do
     namespace :app, path: '/' do
       get '/' => 'home#index', as: 'home'
+      get '/welcome_modal' => 'home#welcome_modal'
 
       # get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
       # # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'

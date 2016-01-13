@@ -10,6 +10,7 @@ class UsersController < Clearance::UsersController
       @user.beta_user = BetaUser.new
     end
 
+    # todo, lets get rid of this layout!
 		render :new, layout: 'signup'
 	end
 
@@ -19,8 +20,8 @@ class UsersController < Clearance::UsersController
 		if @user.valid?
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
-      render :create_success, layout: '8stem'
-		else
+      redirect_back_or "/thanks?ref=signup"
+    else
 			render :new, layout: 'signup'
 		end
   end
@@ -32,19 +33,18 @@ class UsersController < Clearance::UsersController
       # flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed. Please sign in to continue.'
       sign_in(user) do |status|
         if status.success?
-          redirect_back_or "/#{user.username}/edit?ref=verification"
+          redirect_back_or "#{app_edit_profile_url(user.username)}?ref=confirm_email"
         else
-          flash.now.notice = status.failure_message
-          render template: 'sessions/new', status: :unauthorized
+          redirect_to "#{root_url}?ref=confirm_email_failure"
         end
       end
     else
-      flash[:error] = 'Sorry. User does not exist'
-      redirect_to root_url
+      redirect_to "#{root_url}?ref=confirm_email_token_not_found"
     end
   end
 
   def thanks
+    render layout: '8stem'
   end
 
   private

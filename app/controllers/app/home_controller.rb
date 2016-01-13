@@ -1,4 +1,9 @@
 class App::HomeController < App::BaseController
 	def index
-	end
+  end
+
+  def welcome_modal
+    @user = current_user
+    render layout: 'modal'
+  end
 end

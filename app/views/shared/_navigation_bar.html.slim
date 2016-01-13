@@ -12,7 +12,7 @@ nav class="#{nav_class(layout)}" role="navigation"
     #navbar-collapse.collapse.navbar-collapse
       ul.nav.navbar-nav.pull-right
         - if layout == 'mix8'
-          - if current_user.is_artist_admin?
+          - if signed_in? && current_user.is_artist_admin?
             li class=("#{'active' if current_page?(artist_connect_path)}")
               a href=artist_connect_url
                 | Networks

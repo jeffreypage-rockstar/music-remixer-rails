@@ -8,6 +8,7 @@
 
 .navbar-brand {
   height: 84px !important;
+  padding-top: 12px;
 }
 
 .navbar-inverse {
@@ -135,14 +136,6 @@
 
 .jumbotron-inverse .col-md-5 h1 {
   text-align: center;
-}
-
-.navbar {
-  min-height: 84px;
-}
-
-.navbar-brand {
-  height: 84px;
 }
 
 .navbar-inverse .navbar-nav > li > a {

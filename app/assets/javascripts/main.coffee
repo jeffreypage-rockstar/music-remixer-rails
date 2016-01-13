@@ -3,10 +3,10 @@ $.ajaxSetup
     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 $ ->
   refVal = GetURLParameter 'ref'
-  if refVal == 'verification'
+  if refVal == 'confirm_email'
     modal_holder_selector = '#modal-holder';
     modal_selector = '.modal';
-    $.get '/session/welcome_modal', (data) ->
+    $.get '/welcome_modal', (data) ->
       $(modal_holder_selector).html(data).find(modal_selector).modal()
       return
 
