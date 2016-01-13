@@ -49,7 +49,7 @@ namespace :deploy do
   task :restart do
     invoke 'unicorn:legacy_restart'
   end
-  task :restart_daemons, :roles => :app do
+  task :restart_daemons do
     sudo 'monit restart all -g daemons'
   end
 end
