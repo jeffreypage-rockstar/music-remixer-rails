@@ -1,4 +1,3 @@
-require 'api_constraints'
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
