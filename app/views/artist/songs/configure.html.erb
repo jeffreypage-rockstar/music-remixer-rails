@@ -1,8 +1,5 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
-<!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
-mixpanel.init("a81950f98fc6136b7a5ca4f55db5b8bc");</script><!-- end Mixpanel -->
 <style>
 	.section {
 		padding: 15px 0;
@@ -11,25 +8,13 @@ mixpanel.init("a81950f98fc6136b7a5ca4f55db5b8bc");</script><!-- end Mixpanel -->
           overflow-x: hidden;
     }
 </style>
-<div id="wrapper" class="toggled clearfix">
+<div id="wrapper" class="toggled clearfix">	
 	<div id="page-content-wrapper">
 		<div class="section section-shadow section-white">
 			<div id="tracker-head" class="container-fluid">
 				<div class="clearfix">
 					<a href="#" class="pull-right" style="margin-top: 10px" data-toggle="sidebar">Mobile Preview &raquo;</a>
-					<h3 class="pull-left editable-text songtitle"><span><%=@song.name%></span></h3>
-					<div id="release-status" data-status="<%= @song.status.to_s %>" class="<%= @song.status.to_s %>">
-						<% if (@song.released?) %>
-							UNRELEASE
-						<% else %>
-							RELEASE
-						<% end %>
-					</div>
-					<div id="release-progress" style="margin-top: 10px;float: right;margin-right:10px;text-align: center;vertical-align: middle;font-weight: bold;">	
-					 
-					 <%= @song.released? ? "SONG STATUS:RELEASED" : "SONG STATUS:WORKING" %>
-					 
-				</div>
+					<h3 class="pull-left editable-text songtitle"><span><%=@song.name%></span></h3>					
 				</div>
 				<div id="mixaudioplayer" class="row container-fluid main-player-area">
 					<%= render 'mixaudioplayer', song: @song, mixaudio: @mixaudio %>
@@ -44,10 +29,19 @@ mixpanel.init("a81950f98fc6136b7a5ca4f55db5b8bc");</script><!-- end Mixpanel -->
 				<h5 class="tab active"><a href="#" data-id="<%= current_user.name %>" data-mix="original">Original</a></h5>
 				<h5 class="tab"><a href="#" data-id="<%= current_user.name %>" data-mix="mix2">Mix2</a></h5>
                 <h5 class="tab"><a href="#" data-id="<%= current_user.name %>" data-mix="mix3">Mix3</a></h5>
-                <h5 class="bmp_margin" style="margin:0 auto; float:left"> <label href="#" data-mix="mix3" style="font-weight: bolder;position: relative;padding: 15px 5px 15px 20px;float: left;margin: 0px 0px 0px 0px; float:right;">BPM :</label></h5>
-                 	<h5 style="margin:0 auto ;  float	:left" class="bpm" >	              
-	                	<span><%=@song.bpm%></span>
-	            	</h5>
+                <h5 class="bmp_margin"> <label>BPM :</label></h5>
+                <h5 class="bpm"><span><%=@song.bpm%></span></h5>
+				<div id="release-status" data-status="<%= @song.status.to_s %>" class="<%= @song.status.to_s %>">
+					<% if (@song.released?) %>
+						UNRELEASE
+					<% else %>
+						RELEASE
+					<% end %>
+				</div>
+				<div id="release-progress">
+					<label class="release_status_style">SONG STATUS:</label>					 
+					<span><%= @song.released? ? " RELEASED" : " WORKING" %></span>				 
+				</div>
 				<div id="tracker-mixer" class="shadow">
 					<div class="mixer-row">
 						<div class="clearfix">
@@ -194,7 +188,8 @@ $('.bpm').on('click',
 		});
 
         $('#release-status').on('click', function(e) {
-			// debugger;
+			// $debugger;
+			var bpm_text=$('.bpm span').text();
             if($(e.target).attr("data-status") == "pending") {
                 $.ajax({
                     type: "PUT",
@@ -207,7 +202,7 @@ $('.bpm').on('click',
 					console.log( "Data Saved: " + msg );
 					$(e.target).attr("data-status","released");
 					$(e.target).attr("class","released");
-					$('#release-progress').html('SONG STATUS:RELEASED');
+					$('#release-progress span').html(' RELEASED');
 					$(e.target).html('UNRELEASE');
 					
 					// $(e.target).html('Released').css('background', 'green')
@@ -216,27 +211,27 @@ $('.bpm').on('click',
 				.fail(function( msg ) {
 					console.log(  msg );
 				});
-            }
+	        }
             else{
-            		$.ajax({
-	                    type: "PUT",
-	                    dataType: "json",
-	                    url: '/songs/<%=@song.id%>',
-	                    contentType: 'application/json',
-	                    data: JSON.stringify({status: "pending"})
-                	})
-					.done(function( msg ) {
-						console.log( "Data Saved: " + msg );
-						$(e.target).attr("data-status","pending");
-						$(e.target).attr("class","pending");
-						$('#release-progress').html('SONG STATUS:WORKING');
-						$(e.target).html('RELEASE');
-						// $(e.target).html('Released').css('background', 'green')
-					})
-					.fail(function( msg ) {
-						console.log(  msg );
-					});
-            	}
+        		$.ajax({
+                    type: "PUT",
+                    dataType: "json",
+                    url: '/songs/<%=@song.id%>',
+                    contentType: 'application/json',
+                    data: JSON.stringify({status: "pending"})
+            	})
+				.done(function( msg ) {
+					console.log( "Data Saved: " + msg );
+					$(e.target).attr("data-status","pending");
+					$(e.target).attr("class","pending");
+					$('#release-progress span').html(' WORKING');
+					$(e.target).html('RELEASE');
+					// $(e.target).html('Released').css('background', 'green')
+				})
+				.fail(function( msg ) {
+					console.log(  msg );
+				});
+        	}
         });
 
         $('#mix-tabs .tab a').click(function (event) {

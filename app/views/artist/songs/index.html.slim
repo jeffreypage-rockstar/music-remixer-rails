@@ -44,18 +44,17 @@
                 td.downloads.text-center #{song.downloads_count}
                 td.remixes.text-center #{song.remixes_count}
                 td.status.text-center #{song.status_icon}
-                td.btn-group            
-                    img.dropdown-toggle alt=("Edit 42485d24e516d3941b289b5134644fc3d99e51d97d70e33f352477c1b9352fbb") aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" src="/assets/edit-42485d24e516d3941b289b5134644fc3d99e51d97d70e33f352477c1b9352fbb.png"
-
+                td.btn-group
+                  img.dropdown-toggle alt=("Edit image") aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" src="assets/edit.png"
                     ul.dropdown-menu  
                       li 
                         a data-href=song.name data-toggle="modal" data-target="#confirm-delete" href="#"  Delete 
                       li
-                        a data-status="#{song.status}" href="#"  
+                        a#status-event data-status="#{song.status}"  
                           - if (song.status == "pending")  
-                           | Release
+                               | Release
                           - else  
-                           | Unrelease
+                               | Unrelease
 
 
     - if @artist.remixes.any?
@@ -96,55 +95,3 @@
                 td.remixed-by.text-center #{remix.remixed_by_name}
                 td.plays.text-center #{remix.plays_count}
                 td.downloads.text-center #{remix.downloads_count}
-
-
-javascript:
-  | $('.bpm').on('click',
-        | 'span',
-        | function(e) {
-          | var topparent = $($(e.target).parent());
-          | var classnm=$(e.target).text();
-    
-          | $($(e.target).parent()).html('<input class="bpm_input" type="number" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
-              .on('blur keyup',
-              | 'input',
-              | function(e) {
-                | if (e.type == 'keyup') {
-                  | var key = e.keyCode || e.which;
-                  | if (key == 13 || 0) {
-                    | $(this).blur();
-                  | }
-                  | return;
-                | }
-  
-  
-  
-                | var parent = $(e.target).parent();
-                | e.stopPropagation();
-                | $($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
-  
-                
-                | if (parent.hasClass("bpm")) {
-                  | url = '/songs/' + <%=@song.id%>;
-                | }
-                /!/ console.log(url);
-  
-                | $.ajax({
-                  | type: "PUT",
-                  | dataType: "json",
-                  | url: url,
-                  | contentType: 'application/json',
-                  | data: JSON.stringify({bpm: $(e.target).val() })
-                | })
-                    .done(function( msg ) {
-                      | console.log( "Data Saved: " + msg );
-                    | })
-                    .fail(function( msg ) {
-                      | console.log(  msg );
-                    | });
-              | });
-          | topparent.children('input')[0].focus();
-          | var tmpStr = $(topparent.children('input')[0]).val();
-          | $(topparent.children('input')[0]).val('');
-          | $(topparent.children('input')[0]).val(tmpStr);
-        | });

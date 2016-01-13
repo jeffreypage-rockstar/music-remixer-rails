@@ -2,6 +2,11 @@ uploadable = []
 paramNames = []
 uploadProgressBox = null
 
+$('#status-event').on 'click', () ->
+  alert 'Hi'
+  #Hi
+  return
+
 @songFormReady = ->
   $('#song_image').filestyle
     icon: false
@@ -94,7 +99,6 @@ uploadProgressBox = null
     return
 
   return
-
 
 $(document).on 'ready page:load', ->
   if $('#songForm').length > 0

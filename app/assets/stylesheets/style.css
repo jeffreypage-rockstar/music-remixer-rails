@@ -34,7 +34,7 @@
 	-webkit-box-shadow: 0px 0px 0px 3px rgba(255,255,255,1);
 	-moz-box-shadow: 0px 0px 0px 3px rgba(255,255,255,1);
 	box-shadow: 0px 0px 0px 3px rgba(255,255,255,1);
-        opacity: 1;*/
+    opacity: 1;*/
 }
 .tracker-info {
 	float: left;
@@ -106,9 +106,12 @@
 #tracker-mixer {
 	clear: both;
 }
+.tracker-custom{
+	padding-top:10px;
+}
 #tracker-compiled .tracker-part {
 	/*height: 24px;*/
-	height: 40px;
+	height: px;
 	overflow: visible;
 	background-color: #323a40;
 	margin-bottom: 10px;
@@ -117,7 +120,7 @@
 	font-weight: 700;
 	font-size: 10px;
 	margin-left: 5px;
-	line-height: 100px;
+	line-height: 97px;
 	/*line-height: 28px;*/
 	position: absolute;
 	z-index: 2;
@@ -368,68 +371,108 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	color: #818a90;
 }
 #songname small {
-        margin-left: 10px;
+    margin-left: 10px;
 }
-.editable-text > span:hover {
+.editable-text > span:hover, .editable-text.songtitle > span:hover {
     color: #41c7ff;
 }
-.editable-text > span:hover:after {
-    content: "\f040";
+
+.editable-text.songtitle > span:hover:after{
+content: "\f040";
     margin-left: 10px;
     font-family: FontAwesome;
     font-size:28px;
+    /*font-size:20px;*/
+}
+.editable-text > span:hover:after {
+    content: "\f040";
+    margin-left: 05px;
+    font-family: FontAwesome;
+    /*font-size:28px;*/
+    font-size:20px;
 }
 .level.column.editable-text {
 	font-size: 14px;
 }
 .level.column.editable-text > span:hover:after {
 	position: absolute;
-	top: 0;
-	right: 7px;
+	/*right:7px;*/
+    right: 15px;
+    margin-top: -7px;
 }
 .editable-text > input {
    /* width: 75%;
     height: 32px;
     vertical-align: baseline;
     line-height: 32px;*/
-     width: 75%;
-    height: 32px !important;
+    width: 75%;
+    /*height: 34px !important;*/
     vertical-align: baseline;
-    /*line-height: 28px !important;*/
-    font-size: 28px !important;
+    /*line-height: 34px !important;*/
+    font-size: 34px !important;
     padding: 0px !important;
     margin: 0px !important;
+    top:0px !important;
     outline: none !important;
 }
 h6.editable-text > input {
 	margin-left: -3px;
 	width: 100%;
+	font-size: 14px !important;
 }
+
 h6.editable-text span {
 	white-space: nowrap;
 	overflow: hidden;
 }
+.release_status_style{
+	font-weight: bolder;
+	font-size: 20px;
+}
 
+#release-progress{
+	margin-top: 7px;
+    float: right;
+    margin-right: 10px;
+    text-align: center;
+    vertical-align: middle;
+    /*font-weight: bold;*/
+}
 
+#release-progress > span{
+	font-weight: normal;
+    font-size: 20px;
+}
+
+.bpm{
+	margin:0 auto;
+	float:left;
+}
 .bpm_input{
 	position: relative;
-	 padding: 0px;
- 
-    margin: 0px 0px 0px 0px;
- 
-    height:50px;
-   
+	padding: 0px; 
+    margin: 0px 0px 0px 0px; 
+    height:50px;   
 	width:60px;
     /*height: 32px !important;*/
     vertical-align: baseline;
     /*line-height: 28px !important;*/
-    font-size: 20px !important;
-   
+    font-size: 20px !important;   
     float:right;
     outline: none !important;
 }
 .bmp_margin{
 	margin-left: 17% !important;
+	margin:0 auto; 
+	float:left;
+}
+.bmp_margin > label{
+	font-weight: bolder;
+    position: relative;
+    padding: 15px 5px 15px 20px;
+    float: left;
+    margin: 0px 0px 0px 0px;
+    float: right;
 }
 
 @media(max-width: 1200px) {
@@ -451,12 +494,10 @@ h6.editable-text span {
     float: right;
 }
 .bpm > span:hover:after {
-    content: "\f040";
-   
+    content: "\f040";   
     font-family: FontAwesome;
     font-size:20px;
-    margin: 0px 0px 0px 2px;
-    
+    margin: 0px 0px 0px 5px;    
     padding: 0px;
 }
 
@@ -471,6 +512,7 @@ h6.editable-text span {
 	height: 25px;
 	line-height: 25px;
 	text-align: center;
+	font-size:14px !important;
 }
 .songtitle input {
     height: 50px;
@@ -482,6 +524,7 @@ h6.editable-text span {
 wave {
 	border-right-style: none!important;
 	overflow: hidden!important;
+	height: 38px !important;
 }
 #top-play {
 	font-size: 20px;

@@ -61,11 +61,16 @@ class Artist::SongsController < Artist::BaseController
   # PATCH/PUT /songs/1.json
   def update
     respond_to do |format|
+      if params[:status] && params[:status] == "released" && @song.bpm == 0        
+        flash[:error] = 'You need to specify a BPM.'       
+        return
+      end
+    
       if @song.update(song_params)
         format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render json: @song }
         if params[:status] && params[:status] == "released"
-           $tracker.track('current_user.id', "#{@song.name} released by #{current_user.name}")
+           $tracker.track(current_user.id, "#{@song.name} released by #{current_user.name}")
         end
        
       else
