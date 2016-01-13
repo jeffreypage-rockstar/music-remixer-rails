@@ -49,18 +49,18 @@
             hr
             .row
               .col-sm-4
-                = f.input :profile_image, as: :file, label: 'Profile Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input, input_html: { class: 'image-input' }
+                = f.input :profile_image, as: :file, label: 'Profile Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
                 = f.hidden_field :profile_image_cache
               .col-sm-8
-                = image_tag current_user.profile_image.url(:thumb), class: 'image-preview'
+                = image_tag current_user.profile_image.url(:thumb)
 
             hr
             .row
               .col-sm-4
-                = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input, input_html: { class: 'image-input' }
+                = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input
                 = f.hidden_field :profile_background_image_cache
               .col-sm-8
-                = image_tag current_user.profile_background_image.url, class: 'img-responsive image-preview'
+                = image_tag current_user.profile_background_image.url, class: 'img-responsive'
 
             hr
             .row
@@ -78,7 +78,7 @@
                 strong #{provider.titleize}
                 .pull-right
                   - if current_user.identity provider
-                    a.btn.btn-grey href="#{artist_disconnect_identity_path(provider: provider)}" data-method="delete"
+                    a.btn.btn-grey href="#{app_disconnect_identity_path(provider: provider)}" data-method="delete"
                       => fa_icon 'unlink'
                       | Disconnect from #{provider_name(provider)}
                   - else
