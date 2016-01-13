@@ -514,9 +514,15 @@ h6.editable-text span {
 	text-align: center;
 	font-size:14px !important;
 }
+.status-event:hover{
+	cursor:pointer;
+}
 .songtitle input {
-    height: 50px;
+   	height: 37px;;
     width: 300px;
+}
+.clearfix-custom{
+	height:37px;
 }
 .focus > div > wave > wave {
 	border-right-style: solid!important;

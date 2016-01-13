@@ -50,7 +50,7 @@
                       li 
                         a data-href=song.name data-toggle="modal" data-target="#confirm-delete" href="#"  Delete 
                       li
-                        a#status-event data-status="#{song.status}"  
+                        a.status-event data-status="#{song.status}"  
                           - if (song.status == "pending")  
                                | Release
                           - else  
