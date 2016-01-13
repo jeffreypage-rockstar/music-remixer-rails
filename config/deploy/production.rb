@@ -71,5 +71,5 @@ set :rails_env, "production"
 set :sidekiq_role, :app
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
 set :sidekiq_env, 'production'
-set :unicorn_rack_env, 'production'
-set :linked_dirs, fetch(:linked_dirs, []).push('tmp/pids')
+#set :unicorn_rack_env, 'production'
+#set :linked_dirs, fetch(:linked_dirs, []).push('tmp/pids')
