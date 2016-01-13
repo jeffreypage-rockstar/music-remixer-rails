@@ -1,41 +1,49 @@
-# this one from here: http://www.andrewgertig.com/setting-up-a-digital-ocean-droplet-vps-on-ubuntu-with-rails-nginx-unicorn-postgres-redis-and-capistrano
+root = "/home/deploy/mix8"
+current_dir = "#{root}/current"
+shared_dir = "#{root}/shared"
 
-# root = "/home/deploy/mix8/current"
-# working_directory root
-# pid "#{root}/tmp/pids/unicorn.pid"
-# stderr_path "#{root}/log/unicorn.log"
-# stdout_path "#{root}/log/unicorn.log"
-#
-# listen "/tmp/unicorn.mix8.sock"
-# worker_processes 2
-# timeout 30
-#
-# # Force the bundler gemfile environment variable to
-# # reference the capistrano "current" symlink
-# before_exec do |_|
-#   ENV["BUNDLE_GEMFILE"] = File.join(root, 'Gemfile')
-# end
+working_directory current_dir
 
+pid "#{current_dir}/tmp/pids/unicorn.pid"
 
-# this one from here: https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-unicorn-and-nginx-on-ubuntu-14-04
+stderr_path "#{shared_dir}/log/unicorn.error.log"
+stdout_path "#{shared_dir}/log/unicorn.access.log"
 
-# set path to application
-app_dir = File.expand_path("../..", __FILE__)
-shared_dir = "#{app_dir}/../../shared"
-working_directory app_dir
-
-
-# Set unicorn options
-worker_processes 2
-preload_app true
+worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
 timeout 30
+preload_app true
 
-# Set up socket location
-listen "#{shared_dir}/tmp/sockets/unicorn.sock", :backlog => 64
+listen '/tmp/unicorn.akashic.sock', backlog: 64
 
-# Logging
-stderr_path "#{shared_dir}/log/unicorn.stderr.log"
-stdout_path "#{shared_dir}/log/unicorn.stdout.log"
+# use correct Gemfile on restarts
+before_exec do |server|
+  ENV['BUNDLE_GEMFILE'] = "#{current_dir}/Gemfile"
+end
 
-# Set master PID location
-pid "#{shared_dir}/tmp/pids/unicorn.pid"
+# preload
+preload_app true
+
+before_fork do |server, worker|
+  # the following is highly recomended for Rails + "preload_app true"
+  # as there's no need for the master process to hold a connection
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.connection.disconnect!
+  end
+
+  # Before forking, kill the master process that belongs to the .oldbin PID.
+  # This enables 0 downtime deploys.
+  old_pid = "#{server.config[:pid]}.oldbin"
+  if File.exists?(old_pid) && server.pid != old_pid
+    begin
+      Process.kill("QUIT", File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+      # someone else did our job for us
+    end
+  end
+end
+
+after_fork do |server, worker|
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+  end
+end
