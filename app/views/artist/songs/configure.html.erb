@@ -1,10 +1,6 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
 <div class="alert-custom"></div>
-<div class="alert alert-info alert-dismissible alert-bpm" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span class="alert-bpm-close" aria-hidden="true">×</span></button>
-        <p class="alert-bpm p-text" style="margin: 0;"></p>
-</div>
 <style>
 	.section {
 		padding: 15px 0;
@@ -189,7 +185,8 @@ $('.bpm').on('click',
         $('#release-status').on('click', function(e) {
 			// $debugger;
 			var bpm_text=$('.bpm span').text();
-            if($(e.target).attr("data-status") == "pending") {       	
+            if($(e.target).attr("data-status") == "pending") { 
+            	if(<%=@song.id%>!=0 && bpm_text!='0'){      	
                     $.ajax({
 	                    type: "PUT",
 	                    dataType: "json",
@@ -202,13 +199,19 @@ $('.bpm').on('click',
 						$(e.target).attr("data-status","released");
 						$(e.target).attr("class","released");
 						$('#release-progress span').html(' RELEASED');
-						$(e.target).html('UNRELEASE');					
+						$(e.target).html('UNRELEASE');
+						$('.alert-custom').css({display: "none"});					
 						// $(e.target).html('Released').css('background', 'green')
 					})
 					.fail(function( msg ) {
 						console.log(  msg );
 					});			
-				
+				}
+				else{
+				$('.alert-custom').html(
+						"<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");
+					// $('.alert-bpm .p-text').text('Please specify a BPM.');	
+				}
 	        }
             else{
         		$.ajax({
