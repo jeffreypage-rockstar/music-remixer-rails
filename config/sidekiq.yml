@@ -21,6 +21,9 @@
 #  - low
 
 # you can override concurrency based on environment
+development:
+  :concurrency: 5
+
 staging:
   :concurrency: 15
 
