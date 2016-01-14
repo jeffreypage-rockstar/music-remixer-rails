@@ -1,5 +1,10 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
+<div class="alert-custom"></div>
+<div class="alert alert-info alert-dismissible alert-bpm" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span class="alert-bpm-close" aria-hidden="true">×</span></button>
+        <p class="alert-bpm p-text" style="margin: 0;"></p>
+</div>
 <style>
 	.section {
 		padding: 15px 0;
@@ -68,7 +73,6 @@ $(".tab a").click(function(){
     {"genre": "hip-hop"});
 });
 
-
 $('.bpm').on('click',
 			'span',
 			function(e) {	
@@ -86,14 +90,9 @@ $('.bpm').on('click',
 								}
 								return;
 							}
-
-
-
 							var parent = $(e.target).parent();
 							e.stopPropagation();
-							$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
-
-							
+							$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');							
 							if (parent.hasClass("bpm")) {
 								url = '/songs/' + <%=@song.id%>;
 							}
@@ -190,27 +189,26 @@ $('.bpm').on('click',
         $('#release-status').on('click', function(e) {
 			// $debugger;
 			var bpm_text=$('.bpm span').text();
-            if($(e.target).attr("data-status") == "pending") {
-                $.ajax({
-                    type: "PUT",
-                    dataType: "json",
-                    url: '/songs/<%=@song.id%>',
-                    contentType: 'application/json',
-                    data: JSON.stringify({status: "released"})
-                })
-				.done(function( msg ) {
-					console.log( "Data Saved: " + msg );
-					$(e.target).attr("data-status","released");
-					$(e.target).attr("class","released");
-					$('#release-progress span').html(' RELEASED');
-					$(e.target).html('UNRELEASE');
-					
-					// $(e.target).html('Released').css('background', 'green')
-					// $(e.target).html('Released').css('background', 'green')
-				})
-				.fail(function( msg ) {
-					console.log(  msg );
-				});
+            if($(e.target).attr("data-status") == "pending") {       	
+                    $.ajax({
+	                    type: "PUT",
+	                    dataType: "json",
+	                    url: '/songs/<%=@song.id%>',
+	                    contentType: 'application/json',
+	                    data: JSON.stringify({status: "released"})
+	                })
+					.done(function( msg ) {
+						console.log( "Data Saved: " + msg );
+						$(e.target).attr("data-status","released");
+						$(e.target).attr("class","released");
+						$('#release-progress span').html(' RELEASED');
+						$(e.target).html('UNRELEASE');					
+						// $(e.target).html('Released').css('background', 'green')
+					})
+					.fail(function( msg ) {
+						console.log(  msg );
+					});			
+				
 	        }
             else{
         		$.ajax({
@@ -232,7 +230,7 @@ $('.bpm').on('click',
 					console.log(  msg );
 				});
         	}
-        });
+        });		
 
         $('#mix-tabs .tab a').click(function (event) {
             event.preventDefault();
@@ -242,7 +240,7 @@ $('.bpm').on('click',
             reInitializeClipsState();
             updatePreview();
             window.configurationBtn = this;
-        });
+        });        
     });
 
     </script>

@@ -51,8 +51,6 @@
 	border-radius: 4px;
 	position: relative;
     overflow: hidden;
-
-
 }
 #tracker-desktop .tab a {
 	position: relative;
@@ -363,6 +361,9 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	background-size: cover !important;
 }
 
+.alert-bpm{
+	display: none;
+}
 #tracker-mobile .btn-group {
 	margin-top: 48px;
 }

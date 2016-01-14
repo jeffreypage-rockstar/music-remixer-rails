@@ -12,6 +12,7 @@ class App::UsersController < App::BaseController
 
   def update_profile
     if current_user.update(profile_params)
+      $tracker.track(current_user.id, "Profile updated of user: #{current_user.name}")
       redirect_to app_show_profile_path, notice: 'Profile successfully updated'
     else
       @active_tab = 'profile'
@@ -57,6 +58,12 @@ class App::UsersController < App::BaseController
     user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
     @user = User.create(user)
     if @user.valid?
+      $tracker.track(@user.id, "User #{@user.name} created")
+      $tracker.people.set(@user.id, {
+            '$first_name'       => @user.name,    
+            '$email'            => @user.email
+          
+      });
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
       redirect_to "#{app_sign_up_thanks_url}?ref=signup"

@@ -62,7 +62,6 @@ class Artist::SongsController < Artist::BaseController
   def update
     respond_to do |format|
       if params[:status] && params[:status] == "released" && @song.bpm == 0        
-        flash[:error] = 'You need to specify a BPM.'       
         return
       end
     
