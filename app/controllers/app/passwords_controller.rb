@@ -24,14 +24,12 @@ class App::PasswordsController < App::BaseController
   end
 
   def update
-    puts "XXXXXXXX in passwords update"
     @user = User.find_by_confirmation_token(params[:token])
     if @user.update(password_reset_params)
       respond_to do |format|
         format.js { render :update }
       end
     else
-      puts "XXXXXXXX in passwords update, error"
       flash_failure_after_update
       render template: 'app/passwords/edit'
     end
