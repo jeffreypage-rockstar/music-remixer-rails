@@ -2439,6 +2439,9 @@ table th[class*="col-"] {
     min-height: 0.01%;
 }
 @media screen and (max-width: 767px) {
+	h3 {
+		font-size: 29px;
+	}
     .table-responsive {
         width: 100%;
         margin-bottom: 20.25px;
@@ -4657,7 +4660,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
     background-color: transparent;
 }
 .navbar-inverse .navbar-toggle .icon-bar {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #cccccc;
 }
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
