@@ -5,7 +5,7 @@
       p.col-md-7.col-md-offset-1 By registering, you’ll be one of the first people to remix music on the 8Stem platform. We’re counting on your feedback and comments to
         help shape the user experience. And to thank you, we’ll always recognize you as a founding Beta Team member, with exclusive access to
         new releases, promotions, and more! To register, fill out the form below:
-  = simple_form_for @user, html: { id: 'signUpForm' }, url: users_path(invite_code: @referral.invite_code) do |f|
+  = simple_form_for @user, html: { id: 'signUpForm' }, url: app_users_path(invite_code: @referral.invite_code) do |f|
     /= f.error_messages
     = f.simple_fields_for :beta_user do |buf|
       .row

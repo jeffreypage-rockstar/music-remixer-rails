@@ -5052,6 +5052,7 @@ a.thumbnail.active {
 .alert > p,
 .alert > ul {
     margin-bottom: 0;
+	text-align: center;
 }
 .alert > p + p {
     margin-top: 5px;

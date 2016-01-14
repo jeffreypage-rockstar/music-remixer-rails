@@ -1,4 +1,4 @@
-class SessionsController < Clearance::SessionsController
+class App::SessionsController < Clearance::SessionsController
   layout '8stem'
 
 	def url_after_create

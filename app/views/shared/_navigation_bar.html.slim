@@ -43,10 +43,10 @@ nav class="#{nav_class(layout)}" role="navigation"
                 = link_to 'Edit Profile', app_edit_profile_url(current_user.username)
               li.divider
               li
-                = link_to 'Sign out', sign_out_url
+                = link_to 'Sign out', app_sign_out_url
           li.divider-vertical
         - else
-          li class=("#{'active' if current_page?(sign_in_path)}")
-            = link_to 'Sign in', sign_in_url, class: 'navbar-link'
+          li class=("#{'active' if current_page?(app_sign_in_path)}")
+            = link_to 'Sign in', app_sign_in_url, class: 'navbar-link'
           li
-            = link_to 'Join The Beta Team', sign_up_url, class: 'navbar-link stand-out'
+            = link_to 'Join The Beta Team', app_sign_up_url, class: 'navbar-link stand-out'

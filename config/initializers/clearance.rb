@@ -17,3 +17,10 @@ Clearance.configure do |config|
 	# it makes fb connect not work
   config.sign_in_guards = [EmailConfirmationGuard]
 end
+
+module Clearance::Authorization
+  protected
+  def url_after_denied_access_when_signed_out
+    main_app.app_sign_in_url
+  end
+end

@@ -42,7 +42,6 @@ Rails.application.routes.draw do
 				end
 			end
     end
-		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
 	end
 
   # Normal corporate site
@@ -52,32 +51,8 @@ Rails.application.routes.draw do
     get 'contact' => 'pages#contact'
     root 'pages#splash'
 
-    get '/sign_in' => 'sessions#new', as: 'sign_in'
-    get '/sign_up' => 'users#new', as: 'sign_up'
-    get '/sign_out' => 'sessions#destroy', as: 'sign_out'
-    get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
-    get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
-
+    # rackspace hits this url nonstop for uptime check
     match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
-
-    # AUTHENTICATION
-    resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy] do
-      member do
-        get :welcome_modal
-      end
-    end
-    resources :passwords, controller: 'passwords', only: [:create, :new]
-    resource	:users, controller: 'users', only: [:create] do
-      member do
-        get :confirm_email
-        get :create_success
-      end
-      resource :password, controller: 'passwords', only: [:create, :edit, :update] do
-        member do
-          get :reset_password_success_modal
-        end
-      end
-    end
   end
 
 	# Normal site (no subdomain or www)
@@ -85,6 +60,28 @@ Rails.application.routes.draw do
     namespace :app, path: '/' do
       get '/' => 'home#index', as: 'home'
       get '/welcome_modal' => 'home#welcome_modal'
+      get '/reset_password_success_modal' => 'passwords#reset_password_success_modal'
+
+      get '/sign_in' => 'sessions#new', as: 'sign_in'
+      get '/sign_up' => 'users#new', as: 'sign_up'
+      get '/sign_out' => 'sessions#destroy', as: 'sign_out'
+      get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
+      get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
+
+      # AUTHENTICATION
+      resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy]
+      resources :passwords, :controller => 'passwords', :only => [:create, :new]
+      resource	:users, controller: 'users', only: [:create] do
+        member do
+          get :confirm_email
+          get :create_success
+        end
+        resource :password, controller: 'passwords', only: [:create, :edit, :update] do
+          member do
+            get :reset_password_success_modal
+          end
+        end
+      end
 
       # get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
       # # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
@@ -103,6 +100,8 @@ Rails.application.routes.draw do
       get 'referrals/:invite_code' => 'referrals#track'
       get 'referrals/thanks' => 'referrals#thanks'
       post 'referrals' => 'referrals#create'
+
+      get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
     end
 	end
 

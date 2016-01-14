@@ -1,16 +1,16 @@
-<%= simple_form_for :session, url: session_path do |f| %>
+<%= simple_form_for :session, url: app_session_path do |f| %>
 	<%= f.input :email %>
     <%= f.input :password %>
     <%= f.button :submit, 'Sign In' %>
 
 	<div class="form-group text-center">
-		<%= link_to t(".forgot_password"), new_password_path, class: 'btn btn-link' %>
+		<%= link_to t(".forgot_password"), new_app_password_path, class: 'btn btn-link' %>
 	</div>
 
 	<% if session[:invite_code] %>
 		<hr/>
 		<div class="form-group text-center">
-			Don't have an account?  <%= link_to t(".sign_up"), sign_up_path, class: 'btn btn-link' %>
+			Don't have an account?  <%= link_to t(".sign_up"), app_sign_up_path, class: 'btn btn-link' %>
 		</div>
 	<% end %>
 <% end %>

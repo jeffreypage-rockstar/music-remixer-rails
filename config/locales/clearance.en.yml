@@ -36,7 +36,7 @@ en:
       description: You will receive an email within the next few minutes. It
         contains instructions for changing your password.
     edit:
-      description: Your password has been reset. Choose a new password below.
+      description: Your password has been reset. Enter a new password below.
       title: Change your password
     new:
       description: To be emailed a link to reset your password, please enter
