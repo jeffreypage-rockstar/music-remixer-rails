@@ -1,13 +1,12 @@
-class SessionsController < Clearance::SessionsController
+class App::SessionsController < Clearance::SessionsController
   layout '8stem'
 
 	def url_after_create
-		url = current_user.is_artist_admin ? artist_dashboard_url : root_url
-		"#{url}?ref=signin"
+    current_user.is_artist_admin? ? "#{artist_music_url}" : "#{app_home_url}?ref=signin"
 	end
 
 	def url_after_destroy
-		'/?ref=signout'
+		"#{root_url}?ref=signout"
 	end
 
 	def create_from_omniauth
@@ -21,12 +20,12 @@ class SessionsController < Clearance::SessionsController
 		else
 			if signed_in?
 				current_user.authentications << authentication
-				@next = artist_edit_profile_path(tab: 'connections')
+				@next = app_edit_profile_path(tab: 'connections')
 				@notice = 'Successfully connected'
 			else
 				user = User.create_with_auth_and_hash(authentication, auth_hash)
 				# TODO: @next should be the user profile edit page (didn't exist yet when this was added)
-				@next = artist_profile_path(user)
+				@next = app_profile_path(user)
 				@notice = "User created - confirm or edit details..."
 				puts "calling sign_in for user: #{user.inspect}"
 				sign_in user
@@ -35,8 +34,4 @@ class SessionsController < Clearance::SessionsController
 		redirect_to @next, :notice => @notice
 	end
 
-	def welcome_modal
-		@user = current_user
-		render layout: 'welcome_modal'
-	end
 end

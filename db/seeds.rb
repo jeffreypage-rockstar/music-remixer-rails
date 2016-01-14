@@ -33,7 +33,7 @@ MusicBackground.create!(name: 'Produce Music')
 MusicBackground.create!(name: 'Play Instrument')
 MusicBackground.create!(name: 'Pro DJ')
 MusicBackground.create!(name: 'Own Audio Software')
-MusicBackground.create!(name: 'Pro Musician Producer')
+MusicBackground.create!(name: 'Pro Music Producer')
 MusicBackground.create!(name: 'DJ')
 MusicBackground.create!(name: 'Pro Audio Engineer')
 

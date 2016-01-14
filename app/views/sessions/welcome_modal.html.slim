@@ -5,7 +5,7 @@ p
   = welcome_description @user
 br
 .text-center
-  = link_to 'Complete Your Profile', edit_profile_url(@user.username), {class: 'btn btndiv'}
+  = link_to 'Complete Your Profile', app_edit_profile_url(@user.username), {class: 'btn btndiv'}
 br
 p We can’t wait to turn you loose on the platform!
 p 8Stem Beta Team

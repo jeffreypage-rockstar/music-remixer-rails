@@ -1,17 +1,14 @@
-<div class="well form800">
-    <p><%= "Hello #{@user.name}, " %></p>
-
-    <p><%= 'Reset your password using the fields below.' %></p>
+<div class="well form400">
+	<h3>Change your password</h3>
+    <p>Your password has been reset. Enter a new password below.</p>
 
     <%= form_for :password_reset,
-            url: users_password_path(user_id: @user.id, token: @user.confirmation_token),
+            url: app_users_password_path(token: @user.confirmation_token),
             html: { method: :put },
             remote: true do |form| %>
         <div class="form-group">
             <%= form.password_field :password, class: 'form-control', placeholder: 'New Password. Minimum 6 characters' %>
         </div>
-              <div class="text-center">
         <%= form.submit 'Reset Password', class: 'btn btn-primary' %>
-                    </div>
     <% end %>
-                  </div>
+</div>

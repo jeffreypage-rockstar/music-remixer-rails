@@ -1,4 +1,3 @@
-require 'api_constraints'
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
@@ -7,7 +6,7 @@ Rails.application.routes.draw do
 		mount Mix8::Base => '/'
 	end
 
-	# Artist subdomain
+  # Artist subdomain
 	constraints :subdomain => 'artist' do
 		namespace :artist, path: '/' do
 			get '/' => 'artist#index'
@@ -42,62 +41,69 @@ Rails.application.routes.draw do
 				end
 			end
     end
-		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
 	end
 
-	# Normal site (no subdomain or www)
-	constraints :subdomain => '' do
-		get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
-		# get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
-		post 'beta/artist' => 'beta_artists#join'
-
-		get 'beta/sign_up/:invite_code' => 'beta_users#new', as: 'beta_sign_up'
-		post 'beta/sign_up/:invite_code' => 'beta_users#create'
-		get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
-
-		# You can have the root of your site routed with "root"
-		root 'pages#splash'
-
-		# AUTHENTICATION
-		resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy] do
-      member do
-        get :welcome_modal
-      end
-    end
-		resources :passwords, controller: 'passwords', only: [:create, :new]
-		resource	:users, controller: 'users', only: [:create] do
-			member do
-				get :confirm_email
-        get :create_success
-			end
-			resource :password, controller: 'passwords', only: [:create, :edit, :update] do
-        member do
-					get :reset_password_success_modal
-        end
-      end
-		end
-		get '/sign_in' => 'sessions#new', as: 'sign_in'
-		get '/sign_up' => 'users#new', as: 'sign_up'
-		get '/sign_out' => 'sessions#destroy', as: 'sign_out'
-		get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
-    get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
-
-		match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
-
-    get 'referrals/:invite_code' => 'referrals#track'
-    get 'referrals/thanks' => 'referrals#thanks'
-    post 'referrals' => 'referrals#create'
-
+  # Normal corporate site
+  constraints :subdomain => '' do
     get 'about' => 'pages#about'
     get 'news' => 'pages#news'
     get 'contact' => 'pages#contact'
+    root 'pages#splash'
 
-    get '/:username',      to: 'users#show_profile', as: 'show_profile'
-    get '/:username/edit', to: 'users#edit_profile', as: 'edit_profile'
-    patch '/:username/update' => 'users#update_profile', as: 'update_profile'
-    patch '/:username/update_account' => 'users#update_account', as: 'update_account'
-    post '/:username/follow' => 'users#follow', as: 'follow'
-    delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
+    # rackspace hits this url nonstop for uptime check
+    match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
+
+    get 'sign_in' => 'pages#redirect_sign_in', as: 'sign_in'
+  end
+
+	# Normal site (no subdomain or www)
+	constraints :subdomain => 'app' do
+    namespace :app, path: '/' do
+      get '/' => 'home#index', as: 'home'
+      get '/welcome_modal' => 'home#welcome_modal'
+      get '/reset_password_success_modal' => 'passwords#reset_password_success_modal'
+
+      get '/sign_in' => 'sessions#new', as: 'sign_in'
+      get '/sign_up' => 'users#new', as: 'sign_up'
+      get '/sign_out' => 'sessions#destroy', as: 'sign_out'
+      get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
+      get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
+
+      # AUTHENTICATION
+      resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy]
+      resources :passwords, :controller => 'passwords', :only => [:create, :new]
+      resource	:users, controller: 'users', only: [:create] do
+        member do
+          get :confirm_email
+          get :create_success
+        end
+        resource :password, controller: 'passwords', only: [:create, :edit, :update] do
+          member do
+            get :reset_password_success_modal
+          end
+        end
+      end
+
+      # get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
+      # # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
+      # post 'beta/artist' => 'beta_artists#join'
+      # get 'beta/sign_up/:invite_code' => 'beta_users#new', as: 'beta_sign_up'
+      # post 'beta/sign_up/:invite_code' => 'beta_users#create'
+      # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
+
+      get '/:username',      to: 'users#show_profile', as: 'show_profile'
+      get '/:username/edit', to: 'users#edit_profile', as: 'edit_profile'
+      patch '/:username/update' => 'users#update_profile', as: 'update_profile'
+      patch '/:username/update_account' => 'users#update_account', as: 'update_account'
+      post '/:username/follow' => 'users#follow', as: 'follow'
+      delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
+
+      get 'referrals/:invite_code' => 'referrals#track'
+      get 'referrals/thanks' => 'referrals#thanks'
+      post 'referrals' => 'referrals#create'
+
+      get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
+    end
 	end
 
 	# Admin subdomain
@@ -105,5 +111,5 @@ Rails.application.routes.draw do
 		mount Sidekiq::Web => '/sidekiq'
 		mount GrapeSwaggerRails::Engine => '/swagger', as: 'swagger'
 		mount RailsAdmin::Engine => '/', as: 'rails_admin'
-	end
+  end
 end

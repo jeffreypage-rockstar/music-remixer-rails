@@ -49,18 +49,18 @@
             hr
             .row
               .col-sm-4
-                = f.input :profile_image, as: :file, label: 'Profile Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input
+                = f.input :profile_image, as: :file, label: 'Profile Image<p class="hint">JPEG, GIF or PNG, 10MB max.</p>'.html_safe, wrapper: :vertical_file_input, input_html: { class: 'image-input' }
                 = f.hidden_field :profile_image_cache
               .col-sm-8
-                = image_tag @artist.profile_image.url(:thumb)
+                = image_tag @artist.profile_image.url(:thumb), id: 'user_profile_image_preview', class: 'image-preview'
 
             hr
             .row
               .col-sm-4
-                = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input
+                = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input, input_html: { class: 'image-input' }
                 = f.hidden_field :profile_background_image_cache
               .col-sm-8
-                = image_tag @artist.profile_background_image.url, class: 'img-responsive'
+                = image_tag @artist.profile_background_image.url, class: 'img-responsive image-preview', id: 'user_profile_background_image_preview'
 
             hr
             = f.button :submit, 'Save Profile Changes', class: 'btn-grey btn-round'

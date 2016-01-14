@@ -6,11 +6,6 @@ class PagesController < ApplicationController
 	end
 
   def splash
-    if signed_in?
-      render :beta_blocker
-    else
-      @beta_user = BetaUser.new
-    end
   end
 
   def about
@@ -20,5 +15,9 @@ class PagesController < ApplicationController
   end
 
   def contact
+  end
+
+  def redirect_sign_in
+    redirect_to app_sign_in_url
   end
 end
