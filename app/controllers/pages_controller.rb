@@ -16,4 +16,8 @@ class PagesController < ApplicationController
 
   def contact
   end
+
+  def redirect_sign_in
+    redirect_to app_sign_in_url
+  end
 end

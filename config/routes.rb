@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
     # rackspace hits this url nonstop for uptime check
     match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
+
+    get 'sign_in' => 'pages#redirect_sign_in', as: 'sign_in'
   end
 
 	# Normal site (no subdomain or www)
