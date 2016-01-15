@@ -431,13 +431,13 @@ h6.editable-text span {
 
 .bpm_input {
 	position: relative;
-	padding: 0px;
-    margin: 11px 0 0 -1px; 
-    height: 30px;   
+	padding: 0;
+    margin: 11px 0 0 -1px;
+    height: 30px;
 	width: 60px;
     vertical-align: baseline;
-    font-size: 20px !important;   
-    float:right;
+    font-size: 20px !important;
+    float: right;
     outline: none !important;
 }
 
@@ -451,8 +451,7 @@ h6.editable-text span {
 	font-weight: bolder;
     position: relative;
     padding: 15px 5px 15px 20px;
-    float: left;
-    margin: 0px;
+    margin: 0;
 }
 
 @media(max-width: 1200px) {
@@ -473,6 +472,7 @@ h6.editable-text span {
     padding: 15px 0px 14px 0px;
     float: right;
 }
+
 .bpm > span:hover:after {
     content: "\f040";   
     font-family: FontAwesome;

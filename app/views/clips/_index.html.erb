@@ -41,12 +41,10 @@
 	$('.editable-text').on('click',
 			'span',
 			function(e) {
-					var topparent = $($(e.target).parent());
-				var classnm=$(e.target).text();
-
 				var topparent = $($(e.target).parent());
+				var classnm=$(e.target).text();
 				$($(e.target).parent()).html('<input type="text" tabindex="'+ classnm.substring(4,classnm.length).trim() +'" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
-						.on('blur keyup',
+						.off('blur keyup', 'input').on('blur keyup',
 						'input',
 						function(e) {
 							if (e.type == 'keyup') {
@@ -56,32 +54,42 @@
 								}
 								return;
 							}
-							var parent = $(e.target).parent();
 							e.stopPropagation();
-							$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
+							var parent = $(e.target).parent();
+							$(parent).html('<span>' + $(e.target).val() + '</span>');
 
-							var url = '/songs/' + <%=@song.id%> + '/clip_types/' + parent.attr('data-id');
-							if (parent.hasClass("level")) {
-								url = '/songs/' + <%=@song.id%> + '/parts/' + parent.attr('data-id');
-							}
+							var url = '';
 							if (parent.hasClass("songtitle")) {
 								url = '/songs/' + <%=@song.id%>;
 							}
+							else {
+								var dataId = parent.attr('data-id');
+								if (typeof dataId !== typeof undefined && dataId !== false) {
+									if (parent.hasClass("level")) {
+										url = '/songs/' + <%=@song.id%> +'/parts/' + dataId;
+									}
+									else {
+										url = '/songs/' + <%=@song.id%> +'/clip_types/' + dataId;
+									}
+								}
+							}
 							// console.log(url);
 
-							$.ajax({
-								type: "PUT",
-								dataType: "json",
-								url: url,
-								contentType: 'application/json',
-								data: JSON.stringify({name: $(e.target).val() })
-							})
-									.done(function( msg ) {
-										console.log( "Data Saved: " + msg );
-									})
-									.fail(function( msg ) {
-										console.log(  msg );
-									});
+							if (url.length) {
+								$.ajax({
+									type: "PUT",
+									dataType: "json",
+									url: url,
+									contentType: 'application/json',
+									data: JSON.stringify({name: $(e.target).val() })
+								})
+								.done(function( msg ) {
+									console.log( "Data Saved: " + msg );
+								})
+								.fail(function( msg ) {
+									console.log(  msg );
+								});
+							}
 						});
 				topparent.children('input')[0].focus();
 				var tmpStr = $(topparent.children('input')[0]).val();
