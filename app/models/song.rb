@@ -22,7 +22,7 @@ class Song < ActiveRecord::Base
   store_in_background :zipfile, SongZipfileUploadWorker
 
   # songs status
-  enum status: { processing: 0, failed: 1, pending: 2, released: 3, archived: 4 }
+  enum status: { processing: 0, failed: 1, pending: 2, processing_for_release: 3, released: 4, archived: 5 }
 
   # artist genres
   acts_as_taggable_on :genres
@@ -33,7 +33,7 @@ class Song < ActiveRecord::Base
   has_many :clips, dependent: :delete_all
   has_many :clip_types, -> { order 'clip_types.row' }, dependent: :delete_all
 
-  default_values uuid: SecureRandom.hex(12), status: Song.statuses[:pending]
+  default_values uuid: SecureRandom.hex(12), status: Song.statuses[:processing]
 
   # audio uploader
   validates :name, presence: true
@@ -80,54 +80,57 @@ class Song < ActiveRecord::Base
   end
 
   def build_mixaudio(configuration='source')
-    dir_path = self.song_tmp_directory_path
-    part_audio_paths = []
+    self.status = Song.statuses[:processing_for_release]
+    if self.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
+      dir_path = self.song_tmp_directory_path
+      part_audio_paths = []
 
-    self.parts.each_with_index do |part, index|
-      clips = part.clips
-      clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
-      part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
+      self.parts.each_with_index do |part, index|
+        clips = part.clips
+        clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
+        part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
+
+        begin
+          interpolations = {output: part_audio_path}
+          if clip_file_paths.any?
+            input_params = []
+            clip_file_paths.each_with_index do |file_path, index|
+              input_params << "-i :input#{index}"
+              interpolations[:"input#{index}"] = file_path
+            end
+            interpolations[:filters] = "amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3"
+            part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
+            puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
+            part_audio_line.run(interpolations)
+          else
+            interpolations[:filters] = "aevalsrc=0 -t #{part.duration}"
+            part_audio_line = Cocaine::CommandLine.new('ffmpeg', '-filter_complex :filters -y :output')
+            puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
+            part_audio_line.run(interpolations)
+          end
+        rescue Cocaine::ExitStatusError => e
+          puts "error while running command #{part_audio_line.command(interpolations)}: #{e}"
+        end
+        part_audio_paths << part_audio_path
+      end
+
+      digest = Digest::MD5.hexdigest("#{Time.now}")
+      interpolations = {output: File.join(dir_path, "mix-audio-#{digest}.m4a")}
+      input_params = []
+      part_audio_paths.each_with_index do |audio_path, index|
+        input_params << "-i :input#{index}"
+        interpolations[:"input#{index}"] = audio_path
+      end
+      mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
+      interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
 
       begin
-        interpolations = {output: part_audio_path}
-        if clip_file_paths.any?
-          input_params = []
-          clip_file_paths.each_with_index do |file_path, index|
-            input_params << "-i :input#{index}"
-            interpolations[:"input#{index}"] = file_path
-          end
-          interpolations[:filters] = "amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3"
-          part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
-          puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
-          part_audio_line.run(interpolations)
-        else
-          interpolations[:filters] = "aevalsrc=0 -t #{part.duration}"
-          part_audio_line = Cocaine::CommandLine.new('ffmpeg', '-filter_complex :filters -y :output')
-          puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
-          part_audio_line.run(interpolations)
-        end
+        puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
+        mixaudio_line.run(interpolations)
+        self.mixaudio = File.open(interpolations[:output])
       rescue Cocaine::ExitStatusError => e
-        puts "error while running command #{part_audio_line.command(interpolations)}: #{e}"
+        puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
       end
-      part_audio_paths << part_audio_path
-    end
-
-    digest = Digest::MD5.hexdigest("#{Time.now}")
-    interpolations = {output: File.join(dir_path, "mix-audio-#{digest}.m4a")}
-    input_params = []
-    part_audio_paths.each_with_index do |audio_path, index|
-      input_params << "-i :input#{index}"
-      interpolations[:"input#{index}"] = audio_path
-    end
-    mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
-    interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
-
-    begin
-      puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
-      mixaudio_line.run(interpolations)
-      self.mixaudio = File.open(interpolations[:output])
-    rescue Cocaine::ExitStatusError => e
-      puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
     end
     self.save!
   end
@@ -176,7 +179,6 @@ class Song < ActiveRecord::Base
 
       if Song.valid_clip_file? file_path
         file_extension = File.extname(file_path)
-
         if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
           clip_file_path = File.join self.song_tmp_directory_path, file
           column, row = Song.get_parts_from_filename(file)
