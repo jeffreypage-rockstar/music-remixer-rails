@@ -439,21 +439,19 @@ h6.editable-text span {
     font-size: 20px;
 }
 
-.bpm{
+.bpm {
 	margin:0 auto;
 	float:left;
 }
-.bpm_input{
+.bpm_input {
 	position: relative;
-	padding: 0px; 
-    margin: 0px 0px 0px 0px; 
-    height:50px;   
-	width:60px;
-    /*height: 32px !important;*/
+	padding: 0;
+    margin: 11px 0 0 -1px;
+    height: 30px;
+	width: 60px;
     vertical-align: baseline;
-    /*line-height: 28px !important;*/
-    font-size: 20px !important;   
-    float:right;
+    font-size: 20px !important;
+    float: right;
     outline: none !important;
 }
 .bmp_margin{
@@ -461,13 +459,11 @@ h6.editable-text span {
 	margin:0 auto; 
 	float:left;
 }
-.bmp_margin > label{
+.bmp_margin > label {
 	font-weight: bolder;
     position: relative;
     padding: 15px 5px 15px 20px;
-    float: left;
-    margin: 0px 0px 0px 0px;
-    float: right;
+    margin: 0;
 }
 
 @media(max-width: 1200px) {
@@ -488,6 +484,7 @@ h6.editable-text span {
     padding: 15px 0px 14px 0px;
     float: right;
 }
+
 .bpm > span:hover:after {
     content: "\f040";   
     font-family: FontAwesome;
