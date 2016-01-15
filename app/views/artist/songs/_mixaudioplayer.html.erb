@@ -4,7 +4,7 @@
         <% word = "creat" %>
         <% word = "updat" if mixaudio.present? %>
         <a id="mixaudio" data-remote="true" href="/songs/<%=@song.id%>/mixaudio?configuration=<%=@configuration%>" class="mixaudio loading pull-right<%=" disabled" if mixaudio.present? %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=word%>ing mix">
-            <!-- <span><%=word%>e mix</span> -->
+            <span><%=word%>e mix</span>
         </a>
     </div>
 </div>

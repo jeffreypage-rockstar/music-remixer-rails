@@ -86,7 +86,9 @@ class Song < ActiveRecord::Base
     self.parts.each_with_index do |part, index|
       clips = part.clips
       clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
+      puts clip_file_paths
       part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
+      puts part_audio_path
 
       begin
         interpolations = {output: part_audio_path}

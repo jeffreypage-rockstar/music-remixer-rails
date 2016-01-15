@@ -69,50 +69,47 @@ $(".tab a").click(function(){
     {"genre": "hip-hop"});
 });
 
-$('.bpm').on('click',
-			'span',
-			function(e) {	
-				var topparent = $($(e.target).parent());
-				var classnm=$(e.target).text();
-	
-				$($(e.target).parent()).html('<input class="bpm_input" type="number" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
-						.on('blur keyup',
-						'input',
-						function(e) {
-							if (e.type == 'keyup') {
-								var key = e.keyCode || e.which;
-								if (key == 13 || 0) {
-									$(this).blur();
-								}
-								return;
-							}
-							var parent = $(e.target).parent();
-							e.stopPropagation();
-							$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');							
-							if (parent.hasClass("bpm")) {
-								url = '/songs/' + <%=@song.id%>;
-							}
-							// console.log(url);
-
-							$.ajax({
-								type: "PUT",
-								dataType: "json",
-								url: url,
-								contentType: 'application/json',
-								data: JSON.stringify({bpm: $(e.target).val() })
-							})
-									.done(function( msg ) {
-										console.log( "Data Saved: " + msg );
-									})
-									.fail(function( msg ) {
-										console.log(  msg );
-									});
+	$('.bpm').on('click',
+		'span',
+		function(e) {	
+			var topparent = $($(e.target).parent());
+			var classnm=$(e.target).text();	
+			$($(e.target).parent()).html('<input class="bpm_input" type="number" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
+				.on('blur keyup',
+				'input',
+				function(e) {
+					if (e.type == 'keyup') {
+						var key = e.keyCode || e.which;
+						if (key == 13 || 0) {
+							$(this).blur();
+						}
+						return;
+					}							
+					e.stopPropagation();
+					var parent = $(e.target).parent();
+					$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');							
+					if (parent.hasClass("bpm")) {
+						url = '/songs/' + <%=@song.id%>;
+					}
+					$.ajax({
+						type: "PUT",
+						dataType: "json",
+						url: url,
+						contentType: 'application/json',
+						data: JSON.stringify({bpm: $(e.target).val() })
+					})
+						.done(function( msg ) {
+							console.log( "Data Saved: " + msg );
+						})
+						.fail(function( msg ) {
+							console.log(  msg );
 						});
-				topparent.children('input')[0].focus();
-				var tmpStr = $(topparent.children('input')[0]).val();
-				$(topparent.children('input')[0]).val('');
-				$(topparent.children('input')[0]).val(tmpStr);
-			});	
+				});
+			topparent.children('input')[0].focus();
+			var tmpStr = $(topparent.children('input')[0]).val();
+			$(topparent.children('input')[0]).val('');
+			$(topparent.children('input')[0]).val(tmpStr);
+		});	
     $(window).keypress(function(e) {
         if ($('#mixaudioplayer').length > 0) {
             if (e.keyCode == 0 || e.keyCode == 32) {
@@ -200,17 +197,14 @@ $('.bpm').on('click',
 						$(e.target).attr("class","released");
 						$('#release-progress span').html(' RELEASED');
 						$(e.target).html('UNRELEASE');
-						$('.alert-custom').css({display: "none"});					
-						// $(e.target).html('Released').css('background', 'green')
+						$('.alert-custom').css({display: "none"});
 					})
 					.fail(function( msg ) {
 						console.log(  msg );
 					});			
 				}
 				else{
-				$('.alert-custom').html(
-						"<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");
-					// $('.alert-bpm .p-text').text('Please specify a BPM.');	
+				$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");						
 				}
 	        }
             else{
@@ -227,7 +221,6 @@ $('.bpm').on('click',
 					$(e.target).attr("class","pending");
 					$('#release-progress span').html(' WORKING');
 					$(e.target).html('RELEASE');
-					// $(e.target).html('Released').css('background', 'green')
 				})
 				.fail(function( msg ) {
 					console.log(  msg );
