@@ -6940,6 +6940,7 @@ input[type="checkbox"],
     position: relative;
     border: none;
     margin-bottom: -4px;
+	margin-right: 5px;
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;

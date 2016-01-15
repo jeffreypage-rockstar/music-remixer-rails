@@ -32,8 +32,7 @@ html, body {
   height: 84px;
   .navbar-nav {
     li > a {
-      color: #000;
-	  background-color: #fff;
+      color: #fff;
     }
     li > a:hover,
     li > a:focus {
@@ -139,6 +138,8 @@ html, body {
     margin-bottom: 0;
     padding-left: 0;
     float: left;
+	height: 27px;
+	white-space: nowrap;
   }
 
   .user_beta_user_music_backgrounds {
@@ -172,6 +173,14 @@ html, body {
 }
 
 @media (max-width: 768px) {
+  .navbar-inverse {
+	.navbar-nav {
+	  li > a {
+		color: #000;
+		background-color: #fff;
+	  }
+	}
+  }
   #signUpPage .container #signUpForm {
 	padding-top: 15px;
   }
