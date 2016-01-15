@@ -74,8 +74,6 @@ uploadProgressBox = null
       $('.song_zipfile_filename').html(filename)
     return
 
-
-
   $('input#song_zipfile').change ->
     showSelectedFileName(this)
     return
@@ -84,6 +82,6 @@ uploadProgressBox = null
 
 $(document).on 'ready page:load', ->
   if $('#songForm').length > 0
-    songFormReady()
+    songFormReady() 
 
   return
