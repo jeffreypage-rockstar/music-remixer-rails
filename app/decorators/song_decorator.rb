@@ -24,13 +24,15 @@ class SongDecorator < Draper::Decorator
   def status_icon
     case object.status
       when 'processing'
-        h.fa_icon 'clock-o', class: 'text-warning', title: 'Pending'
+        h.fa_icon 'cog', class: 'fa-spin text-warning', title: 'Processing'
       when 'failed'
         h.fa_icon 'close', class: 'text-danger', title: 'Failed'
-      when 'pending'
-        h.fa_icon 'clock-o', class: 'text-warning', title: 'Pending'
+      when 'working'
+        h.fa_icon 'clock-o', class: 'text-warning', title: 'Working'
       when 'released'
         h.fa_icon 'check', class: 'text-success', title: 'Released'
+      when 'processing_for_release'
+        h.fa_icon 'cog', class: 'text-warning', title: 'Processing For Release'
       when 'archived'
         h.fa_icon 'archive', class: 'text-primary', title: 'Archived'
     end

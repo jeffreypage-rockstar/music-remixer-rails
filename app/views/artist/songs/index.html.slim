@@ -51,11 +51,10 @@
                         a data-href=song.name data-toggle="modal" data-target="#confirm-delete" href="#"  Delete 
                       li
                         a.status-event data-status="#{song.status}" data-attributes="#{song.id}" 
-                          - if (song.status == "pending")  
+                          - if (song.status == "working")
                             | Release
-                          - else  
+                          - if (song.status == "released")
                             | Unrelease
-
 
     - if @artist.remixes.any?
       .top-remixes

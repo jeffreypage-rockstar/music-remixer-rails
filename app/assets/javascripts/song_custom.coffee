@@ -2,7 +2,7 @@ $(document.body).on 'click', '.status-event', (e) ->
   status = $(e.target).attr('data-status')
   song_id = $(e.target).attr('data-attributes')
   # var song_id_temp_2=@song.id;
-  if status == 'pending'
+  if status == 'working'
     $.ajax(
       type: 'PUT'
       dataType: 'json'
@@ -25,9 +25,9 @@ $(document.body).on 'click', '.status-event', (e) ->
       dataType: 'json'
       url: '/songs/' + song_id
       contentType: 'application/json'
-      data: JSON.stringify(status: 'pending')).done((msg) ->
+      data: JSON.stringify(status: 'working')).done((msg) ->
       console.log 'Data Saved: ' + msg
-      $(e.target).attr 'data-status', 'pending'
+      $(e.target).attr 'data-status', 'working'
       $(e.target).html 'Release'
       instance = $('td.status[data-attributes=\'' + song_id + '\'] i')
       instance.attr 'title', 'Released'

@@ -40,8 +40,8 @@
 					<% end %>
 				</div>
 				<div id="release-progress">
-					<label class="release_status_style">SONG STATUS:</label>					 
-					<span><%= @song.released? ? " RELEASED" : " WORKING" %></span>				 
+					<label class="release_status_style">STATUS:</label>
+					<span><%= @song.released? ? " RELEASED" : " WORKING" %></span>
 				</div>
 				<div id="tracker-mixer" class="shadow">
 					<div class="mixer-row">
@@ -181,9 +181,9 @@ $(".tab a").click(function(){
 
         $('#release-status').on('click', function(e) {
 			// $debugger;
-			var bpm_text=$('.bpm span').text();
-            if($(e.target).attr("data-status") == "pending") { 
-            	if(<%=@song.id%>!=0 && bpm_text!='0'){      	
+			var bpm_text = $('.bpm span').text();
+            if ($(e.target).attr("data-status") == "working") {
+            	if (<%= @song.id %> != 0 && bpm_text != '0') {
                     $.ajax({
 	                    type: "PUT",
 	                    dataType: "json",
@@ -203,22 +203,22 @@ $(".tab a").click(function(){
 						console.log(  msg );
 					});			
 				}
-				else{
-				$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");						
+				else {
+					$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");
 				}
 	        }
-            else{
+            else {
         		$.ajax({
                     type: "PUT",
                     dataType: "json",
                     url: '/songs/<%=@song.id%>',
                     contentType: 'application/json',
-                    data: JSON.stringify({status: "pending"})
+                    data: JSON.stringify({status: "working"})
             	})
 				.done(function( msg ) {
 					console.log( "Data Saved: " + msg );
-					$(e.target).attr("data-status","pending");
-					$(e.target).attr("class","pending");
+					$(e.target).attr("data-status","working");
+					$(e.target).attr("class","working");
 					$('#release-progress span').html(' WORKING');
 					$(e.target).html('RELEASE');
 				})
