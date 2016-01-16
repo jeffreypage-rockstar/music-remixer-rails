@@ -1,5 +1,4 @@
 class Artist::ArtistController < Artist::BaseController
-	before_action :validate_artist
 	before_action :set_activities, only: [:connect, :activities]
 
 	def index
@@ -88,10 +87,6 @@ class Artist::ArtistController < Artist::BaseController
 											 end
 		@activities = activities_query.page(params[:page])
   end
-
-	def validate_artist
-		redirect_to root_url unless current_user.is_artist_admin?
-	end
 
 	def profile_params
 		params.require(:user).permit(:name, :location, :bio, :genre_list, :facebook, :instagram, :twitter, :soundcloud, :profile_image, :profile_image_cache, :profile_background_image, :profile_background_image_cache)
