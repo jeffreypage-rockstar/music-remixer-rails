@@ -60,6 +60,7 @@ Rails.application.routes.draw do
 	constraints :subdomain => 'app' do
     namespace :app, path: '/' do
       get '/' => 'home#index', as: 'home'
+      get '/install' => 'home#install', as: 'install'
       get '/welcome_modal' => 'home#welcome_modal'
       get '/reset_password_success_modal' => 'passwords#reset_password_success_modal'
 

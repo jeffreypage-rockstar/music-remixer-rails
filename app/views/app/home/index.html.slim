@@ -9,8 +9,12 @@
 
   .white-section.col-md-6.pull-left
     h3 Welcome
-    p We are just getting started, blah blah blah.
+    - if current_user.status == 'beta_waitlisted'
+      p You are currently on our beta waitlist...it won't be long!
+    - else
+      p Welcome to the beta program.
+      button Get the app
   .white-section.col-md-6.pull-right
     h3 Share with friends
     #referralWrapper
-      = render partial: 'referrals/form', locals: {referral: Referral.new}
+      = render partial: 'app/referrals/form', locals: {referral: Referral.new}

@@ -6,4 +6,7 @@ class App::HomeController < App::BaseController
     @user = current_user
     render layout: 'modal'
   end
+
+  def install
+  end
 end
