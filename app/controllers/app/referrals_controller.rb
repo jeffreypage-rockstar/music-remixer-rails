@@ -1,4 +1,4 @@
-class ReferralsController < ApplicationController
+class App::ReferralsController < ApplicationController
   def new
     @referral = Referral.new
   end
@@ -7,11 +7,11 @@ class ReferralsController < ApplicationController
     emails = batch_referral_params[:emails]
     message = batch_referral_params[:message]
     @referral = Referral.new(batch_referral_params)
-
-    $tracker.track(current_user.id, "#{@referral.email} referred by #{@user.name}")
+    puts @referral.inspect
 
     respond_to do |format|
       if @referral.valid?
+        $tracker.track(current_user.id, "#{@referral.email} referred by #{current_user.name}")
         emails.split(',').uniq.each { |email| Referral.create(email: email, message: message, referring: current_user) }
         format.html { redirect_to referrals_thanks_path }
         format.js { render :thanks }
