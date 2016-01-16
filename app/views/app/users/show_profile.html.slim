@@ -12,12 +12,12 @@
               = image_tag 'unfollow.png'
         .col-xs-8
           .content
-            .name #{@user.name}
-            .location #{@user.location}
-            - if current_user.is_artist_admin?
-              .artist-band Artist/Band
+            .name.black #{@user.name}
+            .location.black #{@user.location}
+            - if @user.is_artist_admin?
+              .artist-band.black Artist/Band
             - if @user == current_user
-              a.edit-profile href="#{app_edit_profile_path}"
+              a.edit-profile.black href="#{app_edit_profile_path}"
                 => fa_icon 'pencil'
                 | Edit Profile
   .container
@@ -35,10 +35,9 @@
               = @user.twitter_link
               = @user.soundcloud_link
 
-        .artist-bio
-          - unless @user.bio.blank?
+        - unless @user.bio.blank?
+          .artist-bio
             h4.title Artist Bio
-
             .content #{@user.bio}
 
         .artist-tracks
