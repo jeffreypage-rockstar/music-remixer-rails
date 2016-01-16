@@ -12,10 +12,14 @@
               = image_tag 'unfollow.png'
         .col-xs-8
           .content
-            .name.black #{@user.name}
-            .location.black #{@user.location}
+            .name
+              span.black #{@user.name}
+            - unless @user.location.blank?
+              .location
+                span.black #{@user.location}
             - if @user.is_artist_admin?
-              .artist-band.black Artist/Band
+              .artist-band
+                span.black Artist/Band
             - if @user == current_user
               a.edit-profile.black href="#{app_edit_profile_path}"
                 => fa_icon 'pencil'
