@@ -9,11 +9,11 @@ nav class="#{nav_class(layout)}" role="navigation"
         span.icon-bar
       a.navbar-brand href=(layout == 'mix8' ? app_home_url : root_url)
         = image_tag layout == 'mix8' ? 'logo.png' : 'logo_small.png'
-    - if layout == 'mix8'
-      ul.nav.navbar-nav.pull-left
-        li class=("#{'active' if current_page?(artist_music_path)}")
-          a href=artist_music_url
-            | Home
+    /- if layout == 'mix8'
+    /  ul.nav.navbar-nav.pull-left
+    /    li class=("#{'active' if current_page?(app_home_url)}")
+    /      a href=app_home_url
+    /        | Home
 
     #navbar-collapse.collapse.navbar-collapse
       ul.nav.navbar-nav.pull-right
