@@ -45,16 +45,16 @@
                 td.remixes.text-center #{song.remixes_count}
                 td.status.text-center data-attributes="#{song.id}" #{song.status_icon}
                 td.btn-group
-                  img.dropdown-toggle alt=("Edit image") aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" src="assets/edit.png" class="hidden"
-                    ul.dropdown-menu  
-                      li 
-                        a data-href=song.name data-toggle="modal" data-target="#confirm-delete" href="#"  Delete 
-                      li
-                        a.status-event data-status="#{song.status}" data-attributes="#{song.id}" 
-                          - if (song.status == "working")
-                            | Release
-                          - if (song.status == "released")
-                            | Unrelease
+                  = image_tag 'edit.png', class: 'dropdown-toggle', :aria => { :expanded => false, :haspopup => true}, :data => {:toggle => 'dropdown'}
+                  ul.dropdown-menu
+                    li
+                      a data-href=song.name data-toggle="modal" data-target="#confirm-delete" href="#"  Delete
+                    li
+                      a.status-event data-status="#{song.status}" data-attributes="#{song.id}"
+                        - if (song.status == "working")
+                          | Release
+                        - if (song.status == "released")
+                          | Unrelease
 
     - if @artist.remixes.any?
       .top-remixes
