@@ -65,7 +65,7 @@ class Artist::SongsController < Artist::BaseController
         return
       end
     
-      if @song.update(song_params)
+      if @song.update(song_params)        
         format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render json: @song }
         if params[:status] && params[:status] == "released"

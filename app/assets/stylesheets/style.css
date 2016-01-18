@@ -370,9 +370,9 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 
 .editable-text.songtitle > span:hover:after{
 	content: "\f040";
-	    margin-left: 10px;
-	    font-family: FontAwesome;
-	    font-size:28px;
+    margin-left: 10px;
+    font-family: FontAwesome;
+    font-size:28px;
 }
 .editable-text > span:hover:after {
     content: "\f040";
@@ -390,6 +390,8 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 .editable-text > input {
     width: 75%;
     vertical-align: baseline;
+    line-height: 25px;
+    height: 25px;
     font-size: 34px !important;
     padding: 0px !important;
     margin: 0px !important;
@@ -498,8 +500,9 @@ h6.editable-text span {
 	cursor:pointer;
 }
 .songtitle input {
-   	height: 37px;;
+   	height: 41px;
     width: 300px;
+    line-height: 27px;
 }
 .clearfix-custom{
 	height:37px;

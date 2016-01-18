@@ -3,21 +3,19 @@
   .container
     - if @artist.songs.any?
       .selected-songs
-        h4 Selected Songs
-        #confirm-delete.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" 
+        h4 Selected Songs      
+        .modal.fade#confirm-delete aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
           .modal-dialog
             .modal-content
               .modal-header
                 button.close aria-hidden="true" data-dismiss="modal" type="button"  &times;
                 h4#myModalLabel.modal-title Confirm Delete
               .modal-body
-                p Are you sure you want to permanently delete ?
                 p.debug_name
                 p.debug-url
               .modal-footer
-                button.btn.btn-default data-dismiss="modal" type="button"  No
+                button.btn.btn-default data-dismiss="modal" type="button" No
                 a.btn.btn-danger.btn-ok Yes
-                
 
         table.table.table-mix8
           thead
@@ -32,7 +30,7 @@
               th
           tbody
             - selected_songs = @artist.songs.decorate
-            - selected_songs.each_with_index do |song, index|
+            - selected_songs.each_with_index do |song, index| 
               tr
                 td
                   = link_to configure_artist_song_path(song) do
@@ -48,12 +46,12 @@
                   = image_tag 'edit.png', class: 'dropdown-toggle', :aria => { :expanded => false, :haspopup => true}, :data => {:toggle => 'dropdown'}
                   ul.dropdown-menu
                     li
-                      a data-href=song.name data-toggle="modal" data-target="#confirm-delete" href="#"  Delete
+                      a data-id=song.name data-href="#{song.id}" data-toggle="modal" data-target="#confirm-delete" href="#" Delete
                     li
                       a.status-event data-status="#{song.status}" data-attributes="#{song.id}"
-                        - if (song.status == "working")
+                        - if (song.working? || song.processing_for_release?)
                           | Release
-                        - if (song.status == "released")
+                        - if (song.released?)
                           | Unrelease
 
     - if @artist.remixes.any?

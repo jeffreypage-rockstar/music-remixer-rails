@@ -183,7 +183,7 @@ $(".tab a").click(function(){
 			// $debugger;
 			var bpm_text = $('.bpm span').text();
             if ($(e.target).attr("data-status") == "working") {
-            	if (<%= @song.id %> != 0 && bpm_text != '0') {
+            	if (<%= @song.bpm %> != 0 && bpm_text != '0') {
                     $.ajax({
 	                    type: "PUT",
 	                    dataType: "json",
