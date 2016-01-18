@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     get 'about' => 'pages#about'
     get 'news' => 'pages#news'
     get 'contact' => 'pages#contact'
+    get 'terms' => 'pages#terms'
     root 'pages#splash'
 
     # rackspace hits this url nonstop for uptime check
@@ -99,7 +100,7 @@ Rails.application.routes.draw do
       post '/:username/follow' => 'users#follow', as: 'follow'
       delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
 
-      get 'referrals/:invite_code' => 'referrals#track'
+      get 'referrals/:invite_code' => 'referrals#track', as: 'referral_invite'
       get 'referrals/thanks' => 'referrals#thanks'
       post 'referrals' => 'referrals#create'
 
