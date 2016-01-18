@@ -1,0 +1,17 @@
+- referral = Referral.new
+- referral.message = "Hey, I'm beta testing 8stem.  It's an app that lets you remix music on your phone.  Cool, huh?  \nI think you should check it out."
+#invite-friends-modal.modal.fade aria-hidden="true" aria-labelledby="invite-friends-modal-title" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      = simple_form_for referral, url: app_referrals_path, html: {id: 'referralForm'}, remote: true do | f |
+        .modal-header
+          button.close aria-hidden="true" data-dismiss="modal" type="button" &times;
+          h4#invite-friends-modal-title.modal-title Invite Friends
+        .modal-body
+          = f.input :emails, label: 'Email Addresses To Invite'
+          = f.input :message, as: :text
+        .modal-footer
+          = f.button :submit, value: 'Send'
+          = link_to 'Cancel', '', class: "cancel", data: {dismiss:"modal"}
+      /  button.btn.btn-default data-dismiss="modal" type="button"  No
+      /  a.btn.btn-danger.btn-ok Yes
