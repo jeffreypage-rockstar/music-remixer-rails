@@ -4,7 +4,7 @@ shared_dir = "#{root}/shared"
 
 working_directory current_dir
 
-pid "#{current_dir}/tmp/pids/unicorn.pid"
+pid "#{shared_dir}/tmp/pids/unicorn.pid"
 
 stderr_path "#{shared_dir}/log/unicorn.error.log"
 stdout_path "#{shared_dir}/log/unicorn.access.log"
@@ -13,15 +13,12 @@ worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
 timeout 30
 preload_app true
 
-listen '/tmp/unicorn.akashic.sock', backlog: 64
+listen "#{shared_dir}/tmp/sockets/unicorn.sock", :backlog => 64
 
 # use correct Gemfile on restarts
 before_exec do |server|
   ENV['BUNDLE_GEMFILE'] = "#{current_dir}/Gemfile"
 end
-
-# preload
-preload_app true
 
 before_fork do |server, worker|
   # the following is highly recomended for Rails + "preload_app true"

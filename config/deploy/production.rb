@@ -71,7 +71,3 @@ set :rails_env, "production"
 set :sidekiq_role, :app
 set :sidekiq_env, 'production'
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
-set :sidekiq_pid, File.join(current_path, 'tmp', 'pids', 'sidekiq.pid')
-set :sidekiq_log, File.join(current_path, 'log', 'sidekiq.log')
-
-# set :linked_dirs, fetch(:linked_dirs, []).push("#{current_path}/tmp/pids")
