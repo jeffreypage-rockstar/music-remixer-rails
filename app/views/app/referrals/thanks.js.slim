@@ -1,1 +1,4 @@
-| $('#referralWrapper').html("#{escape_javascript(render partial: 'app/referrals/thanks')}");
+| $(function () {
+|   $('#invite-friends-modal').modal('toggle');
+|   $('#referralWrapper .success').removeClass('hidden');
+| });

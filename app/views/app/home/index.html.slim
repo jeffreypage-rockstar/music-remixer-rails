@@ -3,8 +3,8 @@
     .text-center
       p
       p Nice work, Bubba!
-      p Your registration form has been accepted. Welcome to the Beta Team!
-      p We’re glad you joined us. Revolutions are fun!
+      p Your registration form has been accepted. We’re glad you joined us.
+      p Revolutions are fun!
       p You’ll receive a confirmation email shortly.
 
   .white-section.col-md-6.pull-left
@@ -12,9 +12,12 @@
     - if current_user.status == 'beta_waitlisted'
       p You are currently on our beta waitlist...it won't be long!
     - else
-      p Welcome to the beta program.
-      button Get the app
+      p Thanks for joining the team! The beta should be up and running soon, we promise!
+      /button Get the app
   .white-section.col-md-6.pull-right
     h3 Share with friends
     #referralWrapper
-      = render partial: 'app/referrals/form', locals: {referral: Referral.new}
+      = render partial: 'app/referrals/modal'
+      a data-href="#" data-toggle="modal" data-target="#invite-friends-modal" href="#" Invite Friends
+      .success.hidden
+        | Your invites have been sent!
