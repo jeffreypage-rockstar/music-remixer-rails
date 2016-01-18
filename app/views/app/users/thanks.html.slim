@@ -2,16 +2,13 @@
   .block-round
     h4
       = "Nice work!"
-    br
     p
-      | Your registration has been accepted. Welcome to the Beta Team!
+      | Your registration has been accepted. We're glad you joined us.
       br
-      | We're glad you joined us. Revolutions are fun!
-    br
+      | Revolutions are fun!
     p You'll receive a confirmation email shortly.
-  /br
-  /.text-center
-  /  .btn.btn-primary.btn-round Hook A Friend Up
-
-
-
+  br
+  .text-center
+      a class="btn btn-primary" data-href="#" data-toggle="modal" data-target="#invite-friends-modal" href="#" Hook A Friend Up
+  #referralWrapper
+    = render partial: 'app/referrals/modal'

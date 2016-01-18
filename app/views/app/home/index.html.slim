@@ -1,12 +1,4 @@
 .container.splash.row
-  - if request.query_string == 'thanks'
-    .text-center
-      p
-      p Nice work, Bubba!
-      p Your registration form has been accepted. We’re glad you joined us.
-      p Revolutions are fun!
-      p You’ll receive a confirmation email shortly.
-
   .white-section.col-md-6.pull-left
     h3 Welcome
     - if current_user.status == 'beta_waitlisted'
