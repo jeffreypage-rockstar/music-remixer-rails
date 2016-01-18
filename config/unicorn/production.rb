@@ -33,12 +33,17 @@ before_fork do |server, worker|
   # Before forking, kill the master process that belongs to the .oldbin PID.
   # This enables 0 downtime deploys.
   old_pid = "#{server.config[:pid]}.oldbin"
+  puts "DEPLOY: old_pid=#{old_pid}, server.pid=#{server.pid}"
   if File.exists?(old_pid) && server.pid != old_pid
     begin
+      puts "DEPLOY: trying Process.kill(QUIT, #{File.read(old_pid).to_i})...."
       Process.kill("QUIT", File.read(old_pid).to_i)
     rescue Errno::ENOENT, Errno::ESRCH
       # someone else did our job for us
+      puts "DEPLOY: Process.kill(QUIT, #{File.read(old_pid).to_i}) threw an exception"
     end
+  else
+    puts "DEPLOY: old_pid doesn't exist or doesn't match server.pid"
   end
 end
 

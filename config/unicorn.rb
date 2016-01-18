@@ -19,6 +19,8 @@
 
 # this one from here: https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-unicorn-and-nginx-on-ubuntu-14-04
 
+puts "XXXXX config/unicorn.rb is executing here"
+
 # set path to application
 app_dir = File.expand_path("../..", __FILE__)
 shared_dir = "#{app_dir}/../../shared"
