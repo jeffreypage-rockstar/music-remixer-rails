@@ -74,7 +74,7 @@ class App::UsersController < App::BaseController
     @user = User.create(user)
     if @user.valid?
       $tracker.alias @user.uuid, session.id
-      $tracker.people.set @user.uuid, {'name' => @user.name, 'email' => @user.email}
+      $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
       $tracker.track @user.uuid, 'Signup: Account created', {'name' => @user.name, 'email' => @user.email}
 
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
