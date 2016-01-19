@@ -78,7 +78,7 @@
                 strong #{provider.titleize}
                 .pull-right
                   - if current_user.identity provider
-                    a.btn.btn-grey href="#{artist_disconnect_identity_path(provider: provider)}" data-method="delete"
+                    a.btn.btn-grey href="#{app_disconnect_identity_path(provider: provider)}" data-method="delete"
                       => fa_icon 'unlink'
                       | Disconnect from #{provider_name(provider)}
                   - else

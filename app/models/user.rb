@@ -60,26 +60,17 @@ class User < ActiveRecord::Base
 		false
 	end
 
-	def self.create_with_auth_and_hash(authentication, auth_hash)
+	def self.create_with_auth_and_hash(auth_hash)
 		puts "in create_with_auth_and_hash: #{auth_hash.inspect}"
-		email = auth_hash["extra"]["raw_info"]["email"]
-		user = self.find_by_email(email)
-		if user.nil?
-			# new user account added via fb connect
-			create! do |u|
-				u.name = auth_hash["info"]["name"]
-				u.email = auth_hash["extra"]["raw_info"]["email"]
-				u.username = self.create_unique_username(u.email)
-				u.encrypted_password = SecureRandom.hex(20)
-				u.confirmed_at = Time.now
-				u.authentications << (authentication)
-				user = u
-			end
-		else
-			# user already has account, just adding FB
-			user.confirmed_at = Time.now if user.confirmed_at.nil?
-			user.authentications << (authentication)
-		end
+    # new user account added via fb connect
+    create! do |u|
+      u.name = auth_hash["info"]["name"]
+      u.email = auth_hash["extra"]["raw_info"]["email"]
+      u.username = self.create_unique_username(u.email)
+      u.encrypted_password = SecureRandom.hex(20)
+      u.confirmed_at = Time.now
+      user = u
+    end
 		user
 	end
 

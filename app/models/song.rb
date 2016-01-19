@@ -24,7 +24,7 @@ class Song < ActiveRecord::Base
   # songs status
   enum status: { processing: 0, failed: 1, working: 2, processing_for_release: 3, released: 4, archived: 5 }
 
-  # artist genres
+  # song genres
   acts_as_taggable_on :genres
   acts_as_likeable
 

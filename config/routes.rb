@@ -99,6 +99,7 @@ Rails.application.routes.draw do
       patch '/:username/update_account' => 'users#update_account', as: 'update_account'
       post '/:username/follow' => 'users#follow', as: 'follow'
       delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
+      delete 'identity/:provider/disconnect' => 'users#disconnect_identity', as: 'disconnect_identity'
 
       get 'referrals/:invite_code' => 'referrals#track', as: 'referral_invite'
       get 'referrals/thanks' => 'referrals#thanks'

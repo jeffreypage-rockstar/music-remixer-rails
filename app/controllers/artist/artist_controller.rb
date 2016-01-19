@@ -13,9 +13,9 @@ class Artist::ArtistController < Artist::BaseController
 	end
 
 	def update_profile
-		  $tracker.track(current_user.id, "Profile updated for artist: #{current_user.name}")
 		if @artist.update(profile_params)
-			 redirect_to artist_profile_path, notice: 'Profile successfully updated'
+      $tracker.track current_user.uuid, 'Artist: Profile updated'
+			redirect_to artist_profile_path, notice: 'Profile successfully updated'
 		else
 			@active_tab = 'profile'
 			render :edit_profile
@@ -24,6 +24,7 @@ class Artist::ArtistController < Artist::BaseController
 
 	def update_account
 		if @artist.update(account_params)
+      $tracker.track current_user.uuid, 'Artist: Account updated'
 			sign_in @artist
 			redirect_to artist_profile_path, notice: 'Account successfully updated'
 		else
@@ -32,32 +33,9 @@ class Artist::ArtistController < Artist::BaseController
 		end
 	end
 
-	def follow
-		authorize @artist
-		current_user.follow! @artist
-		@artist.create_activity :follow, owner: current_user
-		redirect_to artist_profile_path, notice: 'Successfully followed'
-	end
-
-	def unfollow
-		authorize @artist
-		current_user.unfollow! @artist
-		# @artist.create_activity :unfollow, owner: current_user
-    redirect_to artist_profile_path, notice: 'Successfully unfollowed'
-	end
-
 	# TODO: get rid of dashboard?
 	def dashboard
 		redirect_to artist_profile_path
-	end
-
-	def disconnect_identity
-		@artist = current_user
-		provider = params[:provider]
-		if Authentication::PROVIDERS.include? provider
-			@artist.identity(provider).destroy
-			redirect_to artist_edit_profile_path(tab: 'connections'), notice: "Successfully disconnected from #{provider}"
-		end
 	end
 
 	def music

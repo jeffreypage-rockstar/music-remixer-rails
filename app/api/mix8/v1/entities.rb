@@ -2,17 +2,20 @@ module Mix8
   module V1
     module Entities
       class User < Grape::Entity
+        expose :uuid
         expose :name
         expose :username
         expose :email
         expose :profile_image do |instance|
           instance.profile_image_url(:thumb)
         end
+        # @TODO: change to , as: :token
         expose :remember_token, if: lambda { |instance, options| options[:expose_token] == true }
       end
 
       class Artist < Grape::Entity
         expose :id
+        expose :uuid
         expose :name
         expose :username
       end
@@ -48,6 +51,7 @@ module Mix8
 
       class Song < Grape::Entity
         expose :id
+        expose :uuid
         expose :name
         expose :duration
         expose :bpm
