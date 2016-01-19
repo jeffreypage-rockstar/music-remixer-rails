@@ -81,6 +81,7 @@ class Song < ActiveRecord::Base
 
   def build_mixaudio(configuration='source')
     self.status = Song.statuses[:processing_for_release]
+    self.save!
     if self.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
       dir_path = self.song_tmp_directory_path
       part_audio_paths = []
@@ -120,10 +121,10 @@ class Song < ActiveRecord::Base
       part_audio_paths.each_with_index do |audio_path, index|
         input_params << "-i :input#{index}"
         interpolations[:"input#{index}"] = audio_path
-      end
-      mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
+      end      
+      mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")     
       interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
-
+      
       begin
         puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
         mixaudio_line.run(interpolations)
@@ -133,6 +134,8 @@ class Song < ActiveRecord::Base
       end
     end
     self.save!
+    self.status = Song.statuses[:released]
+    self.save! 
   end
 
   def self.valid_zip?(file)

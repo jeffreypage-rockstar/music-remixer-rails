@@ -35,13 +35,22 @@
 				<div id="release-status" data-status="<%= @song.status.to_s %>" class="<%= @song.status.to_s %>">
 					<% if (@song.released?) %>
 						UNRELEASE
-					<% else %>
+					<% end %>
+					<% if (@song.working?) %>
 						RELEASE
 					<% end %>
 				</div>
 				<div id="release-progress">
-					<label class="release_status_style">STATUS:</label>
-					<span><%= @song.released? ? " RELEASED" : " WORKING" %></span>
+					<label class="release_status_style">STATUS: </label>
+						<span>
+							<% if (@song.released?) %>
+								RELEASED
+							<% elsif (@song.working?) %>
+								WORKING
+							<% else %> 
+								PROCESSING
+							<% end %>
+						</span>
 				</div>
 				<div id="tracker-mixer" class="shadow">
 					<div class="mixer-row">
@@ -59,6 +68,24 @@
 </div>
 
 <script type="text/javascript">
+
+$(document).ready(function(){	
+	if($('#release-status').attr('data-status') == "processing_for_release"){
+		$('#release-status').css('display','none');
+	}
+
+	if(($('#release-status').attr('data-status') == "processing") || ($('#release-status').attr('data-status') == "failed") || ($('#release-status').attr('data-status') == "archived")){
+		$('#release-status').css('display','none');
+		$('#release-progress').css('display','none');
+	}
+
+	if(($('#release-status').attr('data-status') == "processing")|| ($('#release-status').attr('data-status') == "failed")){
+		$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Song is still processing.</p></div>");
+	}
+	if($('#release-status').attr('data-status') == "archived"){
+		$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Song is archived.</p></div>");
+	}
+});
 
 $(".tab a").click(function(){
 	var textInner=$(this).text();	
@@ -184,6 +211,10 @@ $(".tab a").click(function(){
 			var bpm_text = $('.bpm span').text();
             if ($(e.target).attr("data-status") == "working") {
             	if (<%= @song.bpm %> != 0 && bpm_text != '0') {
+            		$(e.target).attr("data-status","processing_for_release");
+					$(e.target).attr("class","processing_for_release");
+					$('#release-progress span').html(' PROCESSING');
+					$(e.target).css('display','none');
                     $.ajax({
 	                    type: "PUT",
 	                    dataType: "json",
@@ -196,6 +227,7 @@ $(".tab a").click(function(){
 						$(e.target).attr("data-status","released");
 						$(e.target).attr("class","released");
 						$('#release-progress span').html(' RELEASED');
+						$(e.target).css('display','block');
 						$(e.target).html('UNRELEASE');
 						$('.alert-custom').css({display: "none"});
 					})
@@ -239,4 +271,4 @@ $(".tab a").click(function(){
         });        
     });
 
-    </script>
+</script>

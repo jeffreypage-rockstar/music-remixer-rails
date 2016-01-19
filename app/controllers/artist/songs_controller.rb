@@ -69,7 +69,7 @@ class Artist::SongsController < Artist::BaseController
         format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render json: @song }
         if params[:status] && params[:status] == "released"
-          @song.build_mixaudio
+          @song.build_mixaudio          
           $tracker.track(current_user.id, "#{@song.name} released by #{current_user.name}")
         end
        
@@ -125,6 +125,7 @@ class Artist::SongsController < Artist::BaseController
     respond_to do |format|
       format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
       format.json { head :no_content }
+      format.js
     end
   end
 

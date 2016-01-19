@@ -90,23 +90,32 @@ $(document).ready ->
   $(document.body).on 'click', '.status-event', (e) ->
     status = $(e.target).attr('data-status')
     song_id = $(e.target).attr('data-attributes')
-    # var song_id_temp_2=@song.id;
-    if status == 'processing_for_release'
-      $.ajax(
-        type: 'PUT'
-        dataType: 'json'
-        url: '/songs/' + song_id
-        contentType: 'application/json'
-        data: JSON.stringify(status: 'released')).done((msg) ->
-        console.log 'Data Saved: ' + msg
-        $(e.target).attr 'data-status', 'released'
-        $(e.target).html 'Unrelease'
-        instance = $('td.status[data-attributes=\'' + song_id + '\'] i')
-        instance.attr 'title', 'Released'
-        instance.attr 'class', 'fa fa-check text-success'
-        return
-      ).fail (msg) ->
-        console.log msg
+    song_bpm= $(e.target).attr('data-bpm')
+    if status == 'working'
+      if song_bpm != '0'
+        $(e.target).attr 'data-status', 'processing_for_release'
+        $(e.target).html ''
+        instance_temp = $('td.status[data-attributes=\'' + song_id + '\'] i')
+        instance_temp.attr 'title', 'Processing For Release'
+        instance_temp.attr 'class', 'fa fa-cog text-warning'
+        $.ajax(
+          type: 'PUT'
+          dataType: 'json'
+          url: '/songs/' + song_id
+          contentType: 'application/json'
+          data: JSON.stringify(status: 'released')).done((msg) ->
+          console.log 'Data Saved: ' + msg
+          $(e.target).attr 'data-status', 'released'
+          $(e.target).html 'Unrelease'
+          instance = $('td.status[data-attributes=\'' + song_id + '\'] i')
+          instance.attr 'title', 'Released'
+          instance.attr 'class', 'fa fa-check text-success'
+          return
+        ).fail (msg) ->
+          console.log msg
+          return
+      else
+        $('.alert-custom').html '<div class=\'alert alert-info alert-dismissible\' role=\'alert\'><button type=\'button\' class=\'close\' data-dismiss=\'alert\' aria-label=\'Close\'><span aria-hidden=\'true\'>×</span></button><p style=\'margin: 0;\'>Please specify a BPM.</p></div>'            
         return
     else
       $.ajax(
@@ -126,11 +135,3 @@ $(document).ready ->
         console.log msg
         return
   return
-
-$(document).ready ->
-  $('#confirm-delete').on 'show.bs.modal', (e) ->
-    $(this).find('.btn-ok').attr 'data-href', $(e.relatedTarget).data('href')
-    $(this).find('.btn-ok').attr 'data-id', $(e.relatedTarget).data('id')
-    $('.debug-url').html 'Are you sure you want to permanently delete <strong>' + $(this).find('.btn-ok').attr('data-id') + '</strong>'
-    return
-

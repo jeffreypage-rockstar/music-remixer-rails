@@ -1,21 +1,10 @@
+.alert-custom
 #artistMusicPage
   = render partial: 'artist/artist/artist_profile_header', locals: { artist: @artist }  
   .container
     - if @artist.songs.any?
       .selected-songs
-        h4 Selected Songs      
-        .modal.fade#confirm-delete aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
-          .modal-dialog
-            .modal-content
-              .modal-header
-                button.close aria-hidden="true" data-dismiss="modal" type="button"  &times;
-                h4#myModalLabel.modal-title Confirm Delete
-              .modal-body
-                p.debug_name
-                p.debug-url
-              .modal-footer
-                button.btn.btn-default data-dismiss="modal" type="button" No
-                a.btn.btn-danger.btn-ok Yes
+        h4 Selected Songs  
 
         table.table.table-mix8
           thead
@@ -30,8 +19,22 @@
               th
           tbody
             - selected_songs = @artist.songs.decorate
-            - selected_songs.each_with_index do |song, index| 
-              tr
+            - selected_songs.each_with_index do |song, index|             
+              .modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="confirm-delete_#{song.id}"
+                .modal-dialog
+                  .modal-content
+                    .modal-header
+                      button.close aria-hidden="true" data-dismiss="modal" type="button"  &times;
+                      h4#myModalLabel.modal-title Confirm Delete
+                    .modal-body
+                      p.debug_name
+                      p.debug-url
+                        | Are you sure you want to permanently delete
+                        b  #{song.name}
+                    .modal-footer
+                      button.btn.btn-default data-dismiss="modal" type="button" No
+                      a.btn.btn-danger.btn-ok href="#{artist_song_path(song)}"  data-remote="true" data-dismiss="modal" data-method="delete" data-id="#{song.id}" Yes
+              tr[id="song_#{song.id}"]              
                 td
                   = link_to configure_artist_song_path(song) do
                     = image_tag song.image.url(:thumb), class: 'img-cover'
@@ -46,10 +49,10 @@
                   = image_tag 'edit.png', class: 'dropdown-toggle', :aria => { :expanded => false, :haspopup => true}, :data => {:toggle => 'dropdown'}
                   ul.dropdown-menu
                     li
-                      a data-id=song.name data-href="#{song.id}" data-toggle="modal" data-target="#confirm-delete" href="#" Delete
+                      a data-id=song.name data-href="#{song.id}" data-toggle="modal" data-target="#confirm-delete_#{song.id}" href="#" Delete
                     li
-                      a.status-event data-status="#{song.status}" data-attributes="#{song.id}"
-                        - if (song.working? || song.processing_for_release?)
+                      a.status-event data-status="#{song.status}" data-attributes="#{song.id}" data-bpm="#{song.bpm}"
+                        - if (song.working?)
                           | Release
                         - if (song.released?)
                           | Unrelease
