@@ -1,6 +1,0 @@
-- if song.liked_by?(current_user)
-  = link_to toggle_like_song_artist_song_path(song), class: 'like_unlike_song-song', method: :delete, remote: true do
-    = image_tag 'tracks/unlike.png'
-- else
-  = link_to toggle_like_song_artist_song_path(song), class: 'unlike-song', method: :post, remote: true do
-    = image_tag 'tracks/like.png'

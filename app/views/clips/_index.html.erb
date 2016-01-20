@@ -15,8 +15,16 @@
 		<% part.clips.each_with_index do |clip, r| %>
 			<% r += 1 %>
 			<% if r == 5 %>
-				<div class="blank">
+				<div class="blank" rel="popover" data-popover-content="#myPopover">
 					<div class="play-btn"></div>
+				</div>
+				<div id="myPopover" class="hide">
+					<b>Resolve missing file:</b>
+					<ul>
+						<li>List item 1</li>
+						<li>List item 2</li>
+						<li>List item 3</li>
+					</ul>
 				</div>
 			<% end %>
 			<div id="clip-part-<%=c%><%=r%>" class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
@@ -38,9 +46,10 @@
 	</div>
 <% end %>
 <script type="text/javascript">
+
 	$('.editable-text').on('click',
 			'span',
-			function(e) {
+			function (e) {
 				var topparent = $($(e.target).parent());
 				var classnm=$(e.target).text();
 				$($(e.target).parent()).html('<input type="text" tabindex="'+ classnm.substring(4,classnm.length).trim() +'" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
@@ -53,7 +62,7 @@
 									$(this).blur();
 								}
 								return;
-							}
+							}							
 							e.stopPropagation();
 							var parent = $(e.target).parent();
 							$(parent).html('<span>' + $(e.target).val() + '</span>');

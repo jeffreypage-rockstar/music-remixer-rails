@@ -82,7 +82,7 @@
                       = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: {modal: true} do
                         = image_tag 'tracks/share.png'
                       .like-unlike-song.pull-left
-                        = render partial: 'artist/songs/like_unlike_song', locals: {song: song}
+                        = render partial: 'app/songs/like_unlike_song', locals: {song: song}
       .col-md-4.col-md-pull-8
         .white-section.stats
           .row.stats-list

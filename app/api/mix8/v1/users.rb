@@ -26,12 +26,15 @@ module Mix8
           graph = Koala::Facebook::API.new(params[:oauth_access_token])
           profile = graph.get_object('me', fields: 'first_name,last_name,email')
           user = User.find_for_facebook_oauth(profile)
+          user.reset_remember_token!
           present user, with: Mix8::V1::Entities::User, expose_token: true
         end
 
         desc 'Reset token', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
         post :sign_out do
           current_user.reset_remember_token! if current_user
+          response = {success: true}
+          response
         end
 
         desc 'Create and return user if successful sign up'

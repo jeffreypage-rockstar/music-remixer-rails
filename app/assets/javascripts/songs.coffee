@@ -135,3 +135,18 @@ $(document).ready ->
         console.log msg
         return
   return
+$ ->
+  $('[rel="popover"]').popover(
+    container: 'body'
+    html: true
+    content: ->
+      clone = $($(this).data('popover-content')).clone(true).removeClass('hide')
+      clone
+  ).click (e) ->
+    e.preventDefault()
+    event.stopPropagation()
+    return
+  return
+$(document).click ->
+  $('.popover').css 'display', 'none'
+  return
