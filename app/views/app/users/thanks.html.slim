@@ -1,14 +1,9 @@
-.container
-  .block-round
-    h4
-      = "Nice work!"
-    p
-      | Your registration has been accepted. We're glad you joined us.
-      br
-      | Revolutions are fun!
-    p You'll receive a confirmation email shortly.
-  br
-  .text-center
-      a class="btn btn-primary" data-href="#" data-toggle="modal" data-target="#invite-friends-modal" href="#" Hook A Friend Up
-  #referralWrapper
-    = render partial: 'app/referrals/modal'
+.well.form400
+  h3 Nice work!
+  p We're glad you joined us, revolutions are fun!
+  p You'll receive an account activation email shortly.
+/br
+/.text-center
+/    a class="btn btn-primary" data-href="#" data-toggle="modal" data-target="#invite-friends-modal" href="#" Hook A Friend Up
+/#referralWrapper
+/  = render partial: 'app/referrals/modal'

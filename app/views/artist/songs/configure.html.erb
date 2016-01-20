@@ -87,15 +87,6 @@ $(document).ready(function(){
 	}
 });
 
-$(".tab a").click(function(){
-	var textInner=$(this).text();	
-	var user_name=$(this).data('id');
-	
-  	mixpanel.track(
-    textInner+" configured by "+ user_name,
-    {"genre": "hip-hop"});
-});
-
 	$('.bpm').on('click',
 		'span',
 		function(e) {	
