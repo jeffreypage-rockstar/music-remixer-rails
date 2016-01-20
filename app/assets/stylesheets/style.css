@@ -37,6 +37,30 @@
     opacity: 1;*/
 }
 
+.popover {
+    border: 2px solid #9E9E9E !important;
+    border-radius: 20px !important;
+}
+
+.popover.right > .arrow:after {
+  border-right-color: #9E9E9E !important;
+}
+.popover>.arrow:after {
+    border-width: 10px;
+}
+
+#myPopover > ul{
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+#myPopover > ul li:hover{
+  	text-decoration: none;
+    color: #141414;
+    background-color: #eeeeee;
+    cursor:pointer;
+}
+
 .tracker-info {
 	float: left;
 	width: 95px;
