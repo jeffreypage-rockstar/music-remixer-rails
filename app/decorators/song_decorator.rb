@@ -18,7 +18,7 @@ class SongDecorator < Draper::Decorator
   end
 
   def song_url
-    h.artist_song_url(object)
+    h.app_song_url(object)
   end
 
   def status_icon
