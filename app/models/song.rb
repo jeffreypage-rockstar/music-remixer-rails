@@ -84,6 +84,7 @@ class Song < ActiveRecord::Base
     self.save!
     if self.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
       dir_path = self.song_tmp_directory_path
+      self.extract_zipfile! unless File.directory?(dir_path)
       part_audio_paths = []
       self.zipfile
 
@@ -156,12 +157,31 @@ class Song < ActiveRecord::Base
   end
 
   def extract_zipfile!
-    Zip::File.open(self.zipfile_tmp_path) do |files|
+
+    cache_directory = File.expand_path(self.zipfile.cache_dir, self.zipfile.root)
+    dir_path = File.join(cache_directory, self.uuid)
+    FileUtils.mkdir_p(dir_path) unless File.directory?(dir_path)
+
+    target_file_path = self.zipfile_tmp_path
+    # If zipfile_tmp is nil, download zipfile
+    if self.zipfile_tmp.nil? && self.zipfile.url
+      zipfile_wget_line = Cocaine::CommandLine.new('wget', ':input -P :output_directory')
+      interpolations = {
+          input: self.zipfile.url,
+          output_directory: dir_path
+      }
+      begin
+        puts "Download zip file: #{zipfile_wget_line.command(interpolations)}"
+        zipfile_wget_line.run(interpolations)
+        target_file_path = File.join(dir_path, File.basename(self.zipfile.url))
+      rescue Cocaine::ExitStatusError => e
+        puts "error while running command #{zipfile_wget_line.command}: #{e}"
+      end
+    end
+    Zip::File.open(target_file_path) do |files|
       files.each do |file|
         if Song.valid_clip_file? file.name
-          cache_directory = File.expand_path(self.zipfile.cache_dir, self.zipfile.root)
-          dir_path = File.join(cache_directory, self.uuid)
-          FileUtils.mkdir_p(dir_path) unless File.directory?(dir_path)
+
           file_path = File.join(dir_path, File.basename(file.name))
           files.extract(file, file_path) unless File.exist?(file_path)
         end
@@ -204,6 +224,7 @@ class Song < ActiveRecord::Base
       end
     end
     self.save!
+    self.update_attribute(:status, :working)
   end
 
   def self.get_parts_from_filename(filename)

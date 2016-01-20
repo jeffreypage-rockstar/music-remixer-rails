@@ -71,7 +71,7 @@ class Artist::SongsController < Artist::BaseController
         format.json { render json: @song }
         if params[:status]
           if params[:status] == "released"
-            @song.build_mixaudio
+            MixaudioBuildWorker.perform_async @song.id
             $tracker.track current_user.uuid, "Song: released", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
           elsif params[:status] == 'working'
             $tracker.track current_user.uuid, "Song: unreleased", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}

@@ -74,6 +74,7 @@ gem 'acts-as-taggable-on', '~> 3.4'
 # Upload file
 gem 'carrierwave'
 gem 'carrierwave_backgrounder'
+
 gem 'fog'
 gem 'mini_magick'
 gem 'cocaine'

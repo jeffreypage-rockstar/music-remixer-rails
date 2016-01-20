@@ -9,11 +9,15 @@ class SongZipfileUploader < CarrierWave::Uploader::Base
   end
 
   def fog_directory
-    'private_audio'
+    'public_audio'
   end
 
   def fog_public
-    false
+    true
+  end
+
+  def asset_host
+    Rails.application.secrets.rackspace_audio_asset_host
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
