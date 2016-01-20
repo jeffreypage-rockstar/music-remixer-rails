@@ -69,7 +69,7 @@ class Artist::SongsController < Artist::BaseController
         format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render json: @song }
         if params[:status] && params[:status] == "released"
-          @song.build_mixaudio          
+          MixaudioBuildWorker.perform_async @song.id
           $tracker.track(current_user.id, "#{@song.name} released by #{current_user.name}")
         end
        

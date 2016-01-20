@@ -21,6 +21,12 @@ class SongWaveformUploader < CarrierWave::Uploader::Base
     "#{secure_token(32)}.#{file.extension}" if original_filename.present?
   end
 
+  def remove!
+    begin
+      super
+    rescue Fog::Storage::Rackspace::NotFound
+    end
+  end
   protected
   def secure_token(length=16)
     var = :"@#{mounted_as}_secure_token"

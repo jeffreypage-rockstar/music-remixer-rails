@@ -85,6 +85,7 @@ class Song < ActiveRecord::Base
     if self.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
       dir_path = self.song_tmp_directory_path
       part_audio_paths = []
+      self.zipfile
 
       self.parts.each_with_index do |part, index|
         clips = part.clips
@@ -133,9 +134,7 @@ class Song < ActiveRecord::Base
         puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
       end
     end
-    self.save!
-    self.status = Song.statuses[:released]
-    self.save! 
+    self.save
   end
 
   def self.valid_zip?(file)
