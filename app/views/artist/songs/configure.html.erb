@@ -1,5 +1,16 @@
 <%- title("#{@song.name}") %>
 <% @currentIndex = 1 %>
+<% if @song.processing? %>
+	<div id="wrapper" class="toggled clearfix">
+		<div id="page-content-wrapper">
+			<div class="section section-shadow section-white">
+				<div id="tracker-head" class="container-fluid">
+						Your song is currently being processed, check back in a few minutes.
+				</div>
+			</div>
+		</div>
+	</div>
+<% else %>
 <div class="alert-custom"></div>
 <style>
 	.section {
@@ -127,7 +138,8 @@ $(document).ready(function(){
 			var tmpStr = $(topparent.children('input')[0]).val();
 			$(topparent.children('input')[0]).val('');
 			$(topparent.children('input')[0]).val(tmpStr);
-		});	
+		});
+
     $(window).keypress(function(e) {
         if ($('#mixaudioplayer').length > 0) {
             if (e.keyCode == 0 || e.keyCode == 32) {
@@ -198,7 +210,6 @@ $(document).ready(function(){
 		});
 
         $('#release-status').on('click', function(e) {
-			// $debugger;
 			var bpm_text = $('.bpm span').text();
             if ($(e.target).attr("data-status") == "working") {
             	if (<%= @song.bpm %> != 0 && bpm_text != '0') {
@@ -261,5 +272,5 @@ $(document).ready(function(){
             window.configurationBtn = this;
         });        
     });
-
 </script>
+<% end %>
