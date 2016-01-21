@@ -165,17 +165,17 @@ class Song < ActiveRecord::Base
     target_file_path = self.zipfile_tmp_path
     # If zipfile_tmp is nil, download zipfile
     if self.zipfile_tmp.nil? && self.zipfile.url
-      zipfile_wget_line = Cocaine::CommandLine.new('wget', ':input -P :output_directory')
+      zipfile_curl_line = Cocaine::CommandLine.new('curl', '-o :output :input')
       interpolations = {
           input: self.zipfile.url,
-          output_directory: dir_path
+          output: File.join(dir_path, File.basename(self.zipfile.url))
       }
       begin
-        puts "Download zip file: #{zipfile_wget_line.command(interpolations)}"
-        zipfile_wget_line.run(interpolations)
+        puts "Download zip file: #{zipfile_curl_line.command(interpolations)}"
+        zipfile_curl_line.run(interpolations)
         target_file_path = File.join(dir_path, File.basename(self.zipfile.url))
       rescue Cocaine::ExitStatusError => e
-        puts "error while running command #{zipfile_wget_line.command}: #{e}"
+        puts "error while running command #{zipfile_curl_line.command}: #{e}"
       end
     end
     Zip::File.open(target_file_path) do |files|
