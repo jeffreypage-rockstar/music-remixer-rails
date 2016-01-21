@@ -80,62 +80,53 @@ class Song < ActiveRecord::Base
   end
 
   def build_mixaudio(configuration='source')
-    self.status = Song.statuses[:processing_for_release]
-    self.save!
-    if self.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
-      dir_path = self.song_tmp_directory_path
-      self.extract_zipfile! unless File.directory?(dir_path)
-      part_audio_paths = []
-      self.zipfile
+    dir_path = self.song_tmp_directory_path
+    self.extract_zipfile! unless File.directory?(dir_path)
+    part_audio_paths = []
+    # self.zipfile
 
-      self.parts.each_with_index do |part, index|
-        clips = part.clips
-        clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
-        part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
+    self.parts.each_with_index do |part, index|
+      clips = part.clips
+      clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
+      part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
 
-        begin
-          interpolations = {output: part_audio_path}
-          if clip_file_paths.any?
-            input_params = []
-            clip_file_paths.each_with_index do |file_path, index|
-              input_params << "-i :input#{index}"
-              interpolations[:"input#{index}"] = file_path
-            end
-            interpolations[:filters] = "amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3"
-            part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
-            puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
-            part_audio_line.run(interpolations)
-          else
-            interpolations[:filters] = "aevalsrc=0 -t #{part.duration}"
-            part_audio_line = Cocaine::CommandLine.new('ffmpeg', '-filter_complex :filters -y :output')
-            puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
-            part_audio_line.run(interpolations)
-          end
-        rescue Cocaine::ExitStatusError => e
-          puts "error while running command #{part_audio_line.command(interpolations)}: #{e}"
-        end
-        part_audio_paths << part_audio_path
-      end
-
-      digest = Digest::MD5.hexdigest("#{Time.now}")
-      interpolations = {output: File.join(dir_path, "mix-audio-#{digest}.m4a")}
-      input_params = []
-      part_audio_paths.each_with_index do |audio_path, index|
-        input_params << "-i :input#{index}"
-        interpolations[:"input#{index}"] = audio_path
-      end      
-      mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")     
-      interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
-      
       begin
-        puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
-        mixaudio_line.run(interpolations)
-        self.mixaudio = File.open(interpolations[:output])
+        interpolations = {output: part_audio_path}
+        if clip_file_paths.any?
+          input_params = []
+          clip_file_paths.each_with_index do |file_path, index|
+            input_params << "-i :input#{index}"
+            interpolations[:"input#{index}"] = file_path
+          end
+          interpolations[:filters] = "amix=inputs=#{clip_file_paths.count}:duration=longest:dropout_transition=3"
+          part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
+          puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
+          part_audio_line.run(interpolations)
+        end
       rescue Cocaine::ExitStatusError => e
-        puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
+        puts "error while running command #{part_audio_line.command(interpolations)}: #{e}"
       end
+      part_audio_paths << part_audio_path
     end
-    self.save
+
+    digest = Digest::MD5.hexdigest("#{Time.now}")
+    interpolations = {output: File.join(dir_path, "mix-audio-#{digest}.m4a")}
+    input_params = []
+    part_audio_paths.each_with_index do |audio_path, index|
+      input_params << "-i :input#{index}"
+      interpolations[:"input#{index}"] = audio_path
+    end
+    mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
+    interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
+      
+    begin
+      puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
+      mixaudio_line.run(interpolations)
+      self.mixaudio = File.open(interpolations[:output])
+      self.save
+    rescue Cocaine::ExitStatusError => e
+      puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
+    end
   end
 
   def self.valid_zip?(file)
@@ -157,7 +148,6 @@ class Song < ActiveRecord::Base
   end
 
   def extract_zipfile!
-
     cache_directory = File.expand_path(self.zipfile.cache_dir, self.zipfile.root)
     dir_path = File.join(cache_directory, self.uuid)
     FileUtils.mkdir_p(dir_path) unless File.directory?(dir_path)
@@ -165,7 +155,7 @@ class Song < ActiveRecord::Base
     target_file_path = self.zipfile_tmp_path
     # If zipfile_tmp is nil, download zipfile
     if self.zipfile_tmp.nil? && self.zipfile.url
-      zipfile_wget_line = Cocaine::CommandLine.new('wget', ':input -P :output_directory')
+      zipfile_wget_line = Cocaine::CommandLine.new('wget', ':input -P :output_directory -T 300')
       interpolations = {
           input: self.zipfile.url,
           output_directory: dir_path
@@ -174,15 +164,19 @@ class Song < ActiveRecord::Base
         puts "Download zip file: #{zipfile_wget_line.command(interpolations)}"
         zipfile_wget_line.run(interpolations)
         target_file_path = File.join(dir_path, File.basename(self.zipfile.url))
+        puts "done Downloading zip file"
       rescue Cocaine::ExitStatusError => e
         puts "error while running command #{zipfile_wget_line.command}: #{e}"
       end
     end
+
+    puts "opening zip file: #{target_file_path}"
     Zip::File.open(target_file_path) do |files|
       files.each do |file|
+        puts "found file in zip: #{file.name}"
         if Song.valid_clip_file? file.name
-
           file_path = File.join(dir_path, File.basename(file.name))
+          puts "extracting file to #{file_path}"
           files.extract(file, file_path) unless File.exist?(file_path)
         end
       end

@@ -3,8 +3,14 @@ class MixaudioBuildWorker
   sidekiq_options retry: 10, queue: 'carrierwave'
 
   def perform(song_id)
-
     song = Song.find song_id
+    Rails.logger.info "MixaudioBuildWorker: calling build_mixaudio for song #{song_id}"
     song.build_mixaudio
+    Rails.logger.info "MixaudioBuildWorker: done with build_mixaudio for song #{song_id}"
+    if song.processing_for_release?
+      song.status = Song.statuses[:released]
+      song.save
+      Rails.logger.info "MixaudioBuildWorker: set status to 'released' for song #{song_id}"
+    end
   end
 end
