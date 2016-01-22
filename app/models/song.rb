@@ -32,6 +32,7 @@ class Song < ActiveRecord::Base
   has_many :parts, -> { order 'parts.column' }, dependent: :delete_all
   has_many :clips, dependent: :delete_all
   has_many :clip_types, -> { order 'clip_types.row' }, dependent: :delete_all
+  has_many :remixes, -> { order 'plays_count desc'}, dependent: :delete_all
 
   default_value_for :uuid do #important, needs to be in a block
     SecureRandom.hex(12)

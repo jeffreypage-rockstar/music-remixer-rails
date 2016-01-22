@@ -83,6 +83,32 @@
                         = image_tag 'tracks/share.png'
                       .like-unlike-song.pull-left
                         = render partial: 'app/songs/like_unlike_song', locals: {song: song}
+                - if song.remixes.count > 0
+                  li.remix-list
+                    table.table
+                      thead
+                        tr
+                          th &nbsp;
+                          th Remixer
+                          th Plays
+                          th Downloads
+                      tbody
+                      - song.remixes.each do |remix|
+                        tr.media.track.remix data-id="remix_#{remix.id}" data-audio='{"m4a": "#{remix.audio}"}'
+                          td.player
+                            a class="play"
+                              = image_tag 'tracks/play.png'
+                            a class="pause"
+                              = image_tag 'tracks/pause.png'
+                            .mix8-player
+                              .jp-player id="jquery_jplayer_#{song.id}_#{remix.id}"
+                              .jp-audio id="jp_container_#{song.id}_#{remix.id}"
+                          td.remixer
+                            = link_to app_show_profile_path(remix.user.username)
+                              = image_tag remix.user.profile_image.url(:thumb), class: 'img-cover'
+                              | #{remix.name} by #{remix.user.name}
+                          td.plays #{remix.plays_count}
+                          td.downloads #{remix.downloads_count}
       .col-md-4.col-md-pull-8
         .white-section.stats
           .row.stats-list

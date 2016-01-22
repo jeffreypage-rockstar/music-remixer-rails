@@ -88,7 +88,7 @@
         color: #ffffff;
         text-decoration: none;
         padding: 3px 5px;
-		font-size: 11px;
+        font-size: 11px;
       }
     }
   }
@@ -214,6 +214,34 @@
     .track-list {
       @include track-media(200px, 150px);
     }
+
+    .remix-list {
+      background-color: #eee;
+      font-size: 13px;
+      margin-left: 200px;
+
+      .remix.media {
+        td.player {
+          width: 20px;
+          img {
+            width: 20px;
+            margin-top: 4px;
+          }
+        }
+        td.remixer {
+          color: #9f9f9f;
+
+          img {
+            width: 30px;
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .table > thead > tr > th {
+        padding: 4px 4px 0 4px;
+      }
+    }
   }
 }
 
@@ -329,9 +357,9 @@
   }
 
   img.img-cover {
-	height: 30px;
-	width: 30px;
-	margin-right: 5px;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
   }
 
   .selected-songs {
@@ -349,12 +377,12 @@
   }
 
   .top-remixes {
-	.img, .track.media {
-	  padding: 10px 5px;
-	  width: 30px;
-	}
+    .img, .track.media {
+      padding: 10px 5px;
+      width: 30px;
+    }
 
-	.plays, .downloads, .remixes {
+    .plays, .downloads, .remixes {
       color: #9f9f9f;
     }
 
@@ -370,38 +398,38 @@
       margin-left: 7px;
     }
 
-	.track.media {
-	  .media-left {
-		position: relative;
-		height: 30px;
-		width: 30px;
+    .track.media {
+      .media-left {
+        position: relative;
+        height: 30px;
+        width: 30px;
 
-		.image {
-		  width: 30px;
-		  height: 30px;
-		}
+        .image {
+          width: 30px;
+          height: 30px;
+        }
 
-		.play, .pause {
-		  position: absolute;
-		  top: 0;
-		  left: 0;
-		  cursor: pointer;
+        .play, .pause {
+          position: absolute;
+          top: 0;
+          left: 0;
+          cursor: pointer;
 
-		  img {
-			width: 20px;
-			height: 20px;
-		  }
-		}
-	  }
+          img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
 
-	  .mix8-player {
-		position: absolute;
-		bottom: 15px;
-		left: 0;
-		right: 100px;
-		padding-left: 10px;
-	  }
-	}
+      .mix8-player {
+        position: absolute;
+        bottom: 15px;
+        left: 0;
+        right: 100px;
+        padding-left: 10px;
+      }
+    }
   }
 
   .released-songs {
@@ -460,12 +488,12 @@
 #newArtistSongPage {
   .song {
     margin-top: 30px;
-	.song_zipfile_filename {
-	  font-size: 15px;
-	  color: #000;
-	  font-weight: 600;
-	  margin-top: 7px;
-	}
+    .song_zipfile_filename {
+      font-size: 15px;
+      color: #000;
+      font-weight: 600;
+      margin-top: 7px;
+    }
   }
 }
 
