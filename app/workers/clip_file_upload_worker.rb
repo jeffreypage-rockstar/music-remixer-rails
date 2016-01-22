@@ -12,6 +12,11 @@ class ClipFileUploadWorker < ::CarrierWave::Workers::StoreAsset
       part.update_attribute(:duration, part.clips.average(:duration))
     end
 
+    if clip.song.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
+      # all clips are done processing, set status to working
+      clip.song.update_attribute(:status, :working)
+    end
+
   end
 
   sidekiq_retries_exhausted do
