@@ -6,7 +6,7 @@ class Remix < ActiveRecord::Base
 
 	enum status: {processing: 0, failed: 1, published: 2}
 
-  default_value_for :uuid do
+  default_value_for :uuid do  #important, needs to be in a block
     SecureRandom.hex(12)
   end
 
