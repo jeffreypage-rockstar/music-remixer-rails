@@ -224,7 +224,6 @@ class Song < ActiveRecord::Base
       end
     end
     self.save!
-    self.update_attribute(:status, :working)
   end
 
   def self.get_parts_from_filename(filename)
