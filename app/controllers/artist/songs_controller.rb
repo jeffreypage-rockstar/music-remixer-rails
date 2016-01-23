@@ -102,6 +102,18 @@ class Artist::SongsController < Artist::BaseController
   # DELETE /songs/1
   # DELETE /songs/1.json
   def destroy
+    @song.status = Song.statuses[:deleted]
+    @song.save
+    $tracker.track current_user.uuid, "Song: deleted", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
+    respond_to do |format|
+      format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
+      format.json { head :no_content }
+      format.js
+    end
+  end
+
+  # POST /songs/1/delete
+  def delete_song
     @song.destroy
     $tracker.track current_user.uuid, "Song: destroyed", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
     respond_to do |format|
