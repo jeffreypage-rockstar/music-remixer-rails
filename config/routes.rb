@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       get '/install' => 'home#install', as: 'install'
       get '/welcome_modal' => 'home#welcome_modal'
       get '/reset_password_success_modal' => 'passwords#reset_password_success_modal'
+      post '/resend_confirmation' => 'passwords#resend_confirmation', as: 'resend_confirmation'
 
       get '/sign_in' => 'sessions#new', as: 'sign_in'
       get '/sign_up' => 'users#new', as: 'sign_up'

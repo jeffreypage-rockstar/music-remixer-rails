@@ -1,0 +1,4 @@
+<%= simple_form_for :sessions, url: app_resend_confirmation_path do |f| %>
+	<%= f.input :email %>
+	<%= f.button :submit, 'Resend Confirmation Email' %>
+<% end %>
