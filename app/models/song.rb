@@ -231,6 +231,7 @@ class Song < ActiveRecord::Base
   end
 
   def self.get_parts_from_filename(filename)
+    Rails.logger.info("get_parts_from_filename(#{filename}")
     filename = File.basename(filename).strip.downcase
     re = /^([a-h])\s*([1-8])/
     m = re.match(filename)
