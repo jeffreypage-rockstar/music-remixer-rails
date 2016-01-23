@@ -5,6 +5,8 @@ class ClipFileUploadWorker < ::CarrierWave::Workers::StoreAsset
     super(*args)
 
     clip = constantized_resource.find id
+    logger.info "ClipFileUploadWorker starting job on Clip: #{clip.inspect}"
+
     clip.update_attribute(:storing_status, :storing_done)
     part = clip.part
 
@@ -17,6 +19,7 @@ class ClipFileUploadWorker < ::CarrierWave::Workers::StoreAsset
       clip.song.update_attribute(:status, :working)
     end
 
+    logger.info "ClipFileUploadWorker ended job on Clip: #{clip.inspect}"
   end
 
   sidekiq_retries_exhausted do

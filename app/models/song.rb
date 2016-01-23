@@ -37,7 +37,7 @@ class Song < ActiveRecord::Base
   default_value_for :uuid do #important, needs to be in a block
     SecureRandom.hex(12)
   end
-  default_value_for status: Song.statuses[:processing]
+  default_value_for :status, Song.statuses[:processing]
 
   # audio uploader
   validates :name, presence: true
@@ -231,13 +231,17 @@ class Song < ActiveRecord::Base
   end
 
   def self.get_parts_from_filename(filename)
-    Rails.logger.info("get_parts_from_filename(#{filename}")
-    filename = File.basename(filename).strip.downcase
-    re = /^([a-h])\s*([1-8])/
-    m = re.match(filename)
-    # new new new format, col (a-h) row (1-8)
-    col = m[1].ord-96 # convert alpha to numeric
-    row = m[2]
+    col = row = 0
+    begin
+      filename = File.basename(filename).strip.downcase
+      re = /^([a-h])\s*([1-8])/
+      m = re.match(filename)
+      # new new new format, col (a-h) row (1-8)
+      col = m[1].ord-96 # convert alpha to numeric
+      row = m[2]
+    rescue Exception => e
+      Rails.logger.error("get_parts_from_filename(#{filename}): #{e}")
+    end
     return [col.to_i, row.to_i]
   end
 
