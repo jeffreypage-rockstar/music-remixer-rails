@@ -10,35 +10,38 @@
 </div>
 <% @song.parts.each_with_index do |part, c| %>
 	<% c += 1 %>
-	<div id="clips-<%=c%>" class="tracker-part part<%=c%> clips<%=' focus' if c == @currentIndex %>" data-column="<%=c%>">
+	<% r = 0 %>
+	<div id="clips-<%=part.column%>" class="tracker-part part<%=part.column%> clips<%=' focus' if part.column == @currentIndex %>" data-column="<%=part.column%>">
 		<div class="part-play-btn disabled"></div>
-		<% part.clips.each_with_index do |clip, r| %>
-			<% r += 1 %>
+		<!--- ravi -->
+		<% part.clips.each_with_index do |clip, r| %>	
+			<% r += 1 %>	
 			<% if r == 5 %>
-				<div class="blank" rel="popover" data-popover-content="#myPopover">
+				<div class="blank">
 					<div class="play-btn"></div>
-				</div>
+				</div>				
+			<% end %>
+			<div id="clip-part-<%=clip.id%>" data-valid="<%=clip.column%><%=clip.row%>" class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
+				 data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=clip.row%>" data-col="<%=c%>" data-db-col="<%=clip.column%>" data-path="<%=clip.file%>"
+				 data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
+				 data-user-content="<%=clip.allow_ugc%>" rel="<%= 'popover' if ( clip.row == 0 || clip.column == 0 ) %>" data-popover-content="#myPopover" >
+				<div class="progress"></div>
+				<div class="opaque-gray"></div>
+				<div class="play-btn fa fa-play"></div>	
 				<div id="myPopover" class="hide">
 					<b>Resolve missing file:</b>
 					<ul>
-						<li>List item 1</li>
-						<li>List item 2</li>
-						<li>List item 3</li>
+						<% @clips.each do |t| %>
+							<li id="invalid-<%=t.id%>" ><%= t.original_filename %></li>
+						<% end %>
 					</ul>
 				</div>
-			<% end %>
-			<div id="clip-part-<%=c%><%=r%>" class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
-				 data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=r%>" data-path="<%=clip.file%>"
-				 data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
-				 data-user-content="<%=clip.allow_ugc%>">
-				<div class="progress"></div>
-				<div class="opaque-gray"></div>
-				<div class="play-btn fa fa-play"></div>
 				<% if clip.allow_ugc %>
 					<div class="user-content">0</div>
 				<% end %>
 			</div>
 		<% end %>
+		<!-- ravi -->
 		<div class="level column editable-text" tabindex="<%=c%>" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
 			<span><%=part.name%></span>
 			<input class="input_tabable <%=part.name%>" style="display: none" type="text" tabindex="<%=c%>" data-originalvalue="<%=part.name%>" value="<%=part.name%>">
@@ -46,7 +49,6 @@
 	</div>
 <% end %>
 <script type="text/javascript">
-
 	$('.editable-text').on('click',
 			'span',
 			function (e) {
@@ -135,7 +137,7 @@
 		}
 	}
 
-	updatePreview = function() {
+	updatePreview = function() {		
 		$(".wing").removeClass('muted');
 		$("#tracker-mixer #clips-"+sColumn).each(function(){
 			$(this).find('.clip').each(function(){
@@ -168,11 +170,12 @@
 			if (!wavesurfers[column]) wavesurfers[column] = {};
 			$(this).find('.clip').each(function(){
 				wavesurferPlayer(this, $(this).data('path'), $(this).state(), column, $(this).attr('data-row'));
+
 			})
 		});
 	}
 
-	reInitializeClipsState = function() {
+	reInitializeClipsState = function() {		
 		$("#tracker-mixer .clips").each(function(){
 			var column = $(this).attr('data-column');
 			$(this).find('.clip').each(function(){
@@ -232,11 +235,11 @@
 		});
 
 		wavesurfer.on('loading', function (_this, progress) {
-			$(_this.container).children(".progress").css("left", progress+"%");
+			$(_this.container).children(".progress").css("left", progress+"%");	
 		});
 
 		wavesurfer.load(src);
-		wavesurfers[column][row] = wavesurfer;
+		wavesurfers[column][row] = wavesurfer;		
 	}
 
 	isAllClipsLoadedOfThisPart = function(column) {
@@ -371,6 +374,9 @@
 
 	function clipDraggable(element, containment) {
 		element.draggable({
+			start: function( event, ui ) {
+				if ($(event.target).attr('data-valid').match('00')) return false;
+			},
 			revert: true,
 			containment: containment,
 			axis: "y",
@@ -467,7 +473,7 @@
 
 		clipDraggable($("#tracker-mixer .clip"), 'parent');
 		blankDroppable($("#tracker-mixer .blank"));
-
+		
 		$(".clips .level.column").click(function(event){
 			event.stopPropagation();
 			var column = $(event.target).parent().data('column');

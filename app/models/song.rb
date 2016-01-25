@@ -232,6 +232,7 @@ class Song < ActiveRecord::Base
 
   def self.get_parts_from_filename(filename)
     col = row = 0
+    
     begin
       filename = File.basename(filename).strip.downcase
       re = /^([a-h])\s*([1-8])/

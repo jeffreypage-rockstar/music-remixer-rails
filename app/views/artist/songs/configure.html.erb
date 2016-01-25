@@ -141,14 +141,23 @@ $(document).ready(function(){
 		});
 
     $(window).keypress(function(e) {
+
+
         if ($('#mixaudioplayer').length > 0) {
-            if (e.keyCode == 0 || e.keyCode == 32) {
+            if (e.keyCode == 0 || e.keyCode == 32) { 
+            var inputs = document.getElementsByTagName('input');
+
+		    for(var item in inputs)
+		    {
+		        if(inputs[item] == document.activeElement)
+		            return;
+		    }           	
                 e.preventDefault();
                 playOrPauseTopWavesurferPlayer();
             }
         }
     });
-
+    
     window.configuration = "<%=@configuration%>";
     initializeTopPlayer = function(mixedFilePath) {
         window.topWavesurfer = Object.create(WaveSurfer);
