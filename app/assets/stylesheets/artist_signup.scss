@@ -1,6 +1,5 @@
 /*
  *= require_self
- *= require cover
  */
 
 @import "bootstrap-sprockets";
@@ -37,9 +36,8 @@ body {
   margin-left: auto;
 }
 
-/* Padding for spacing */
 .inner {
-  padding: 30px;
+  margin:0 10px 20px 10px;
 }
 
 /*
@@ -114,16 +112,22 @@ body {
     margin-bottom: 35px;
   }
 
-  #artistSignUpForm {
+  .cover {
     max-width: 400px;
-    margin: 0 auto;
+    text-align: left;
     background-color: white;
     border-radius: 15px;
+    margin: 0 auto;
+  }
 
-    hr {
-      margin: 0;
+  #artistSignUpForm {
+    padding: 10px;
+
+    label {
+      color: #444;
+      font-weight: bold;
+      margin-bottom: 0;
     }
-
     .dont-have-a-code {
       text-align: center;
       padding: 20px;
@@ -135,60 +139,33 @@ body {
     }
 
     .form-group {
-      margin-bottom: 0;
-      border-bottom: 1px solid #e5e5e5;
-
-      .form-control {
-        text-align: center;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        box-shadow: none;
-
-        &.input-lg {
-          height: 60px;
-        }
-      }
+      margin-bottom: 5px;
     }
   }
 }
 
-@media (min-width: 768px) {
+@media (max-width: 991px) {
+  h2 {
+    font-size: 28px;
+  }
 }
+@media (max-width: 767px) {
+  #artistSignUpPage {
+    .logo {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+    }
+    .form-control {
+      height: 32px;
+    }
+  }
+}
+
 
 @media (max-width: 768px) {
-  .navbar-inverse {
-    .navbar-nav {
-      li > a {
-        color: #000;
-        background-color: #fff;
-      }
-    }
-  }
-  #signUpPage .container #signUpForm {
-    padding-top: 15px;
-  }
-  #signUpPage .container #signUpForm .form-group {
-    padding: 0 7px;
-  }
-  #signUpPage .container #signUpForm #betaUserForm {
-    padding-top: 5px;
-  }
-  #signUpPage .control-label {
-    font-size: 14px;
-    font-weight: bold;
-    background-color: #ddd;
-  }
-  #signUpPage span.checkbox {
-    padding-left: 5px;
-  }
-  #signUpPage .container #signUpForm #userForm .error-message {
-    margin-top: 0;
-  }
-  #signUpPage .container .signup-header h2 {
-    font-size: 22pt;
-    text-align: center;
-    margin-bottom: 0;
-  }
 }
 
