@@ -28,7 +28,7 @@ class Song < ActiveRecord::Base
   acts_as_taggable_on :genres
   acts_as_likeable
 
-  belongs_to :user, counter_cache: true
+  belongs_to :user
   has_many :parts, -> { order 'parts.column' }, dependent: :delete_all
   has_many :clips, dependent: :delete_all
   has_many :clip_types, -> { order 'clip_types.row' }, dependent: :delete_all

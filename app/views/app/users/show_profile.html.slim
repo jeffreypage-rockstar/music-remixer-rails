@@ -44,10 +44,10 @@
             h4.title Artist Bio
             .content #{@user.bio}
 
-        - if @user.songs.count > 0
-          = render partial: 'app/users/tracks', locals: {songs: @user.songs}
+        - if @user.songs_count > 0
+          = render partial: 'app/users/tracks', locals: {songs: @user.released_songs}
 
-        - if @user.remixes.count > 0
+        - if @user.remixes_count > 0
           = render partial: 'app/users/remixes', locals: {remixes: @user.remixes}
 
       .col-md-4.col-md-pull-8
@@ -63,7 +63,7 @@
 
             .col-xs-4.stat
               .name Tracks
-              .value #{@user.songs_count}
+              .value #{@user.released_songs.count}
 
         .white-section.followings
           h4 #{@user.followees_count} following
