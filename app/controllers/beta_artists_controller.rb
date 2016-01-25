@@ -1,5 +1,5 @@
 class BetaArtistsController < ApplicationController
-  # layout 'auth'
+  layout 'artist_signup'
 
   def join
     if request.post? && params.include?(:beta_artist)
@@ -11,6 +11,7 @@ class BetaArtistsController < ApplicationController
       end
     else
       @beta_artist = BetaArtist.new
+      @user = User.new
     end
   end
 

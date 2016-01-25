@@ -1,0 +1,13 @@
+= simple_form_for @user, html: {id: 'artistSignUpForm'}, url: beta_artist_path do | f|
+  = f.input :name, label: false, placeholder: 'Artist Name', input_html: { class: 'input-lg' }
+  = f.input :email, label: false, placeholder: 'Email', input_html: { class: 'input-lg' }
+  = f.input :username, label: false, placeholder: 'Username', input_html: { class: 'input-lg' }
+  = f.input :password, label: false, placeholder: 'Password', input_html: { class: 'input-lg' }
+  = f.input :invite_code, label: false, placeholder: 'Invite Code', input_html: { class: 'input-lg' }
+
+  /.dont-have-a-code
+  /  | Don't have a code?
+  /  =< link_to 'Get one here', beta_artists_path
+
+  .signup-wrapper
+    = f.button :submit, 'Sign Up', class: 'btn-block btn-round btn-lg'
