@@ -9,7 +9,7 @@ class Artist::SongsController < Artist::BaseController
   # GET /songs
   # GET /songs.json
   def index
-    @songs = @artist.songs.order("#{sort_column} #{sort_direction}")
+    @songs = @artist.artist_visible_songs.order("#{sort_column} #{sort_direction}")
   end
 
   # GET /songs/1
@@ -77,6 +77,7 @@ class Artist::SongsController < Artist::BaseController
             MixaudioBuildWorker.perform_async @song.id
             $tracker.track current_user.uuid, "Song: released", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
           elsif params[:status] == 'working'
+            User.decrement_counter(:songs_count, @song.user_id)
             $tracker.track current_user.uuid, "Song: unreleased", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
           end
         end
@@ -117,12 +118,15 @@ class Artist::SongsController < Artist::BaseController
 
   # POST /songs/1/delete
   def delete_song
-    @song.destroy
-    $tracker.track current_user.uuid, "Song: destroyed", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
-    respond_to do |format|
-      format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
-      format.json { head :no_content }
-      format.js
+    if current_user.is_admin?
+      @song.destroy
+      $tracker.track current_user.uuid, "Song: destroyed", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
+      respond_to do |format|
+        format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
+        format.json { head :no_content }
+        format.js
+      end
+    else
     end
   end
 
@@ -130,9 +134,9 @@ class Artist::SongsController < Artist::BaseController
   # Use callbacks to share common setup or constraints between actions.
   def set_song
     if action_name == 'configure' || action_name == 'mixaudio'
-      @song = current_user.songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
+      @song = current_user.artist_visible_songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
     else
-      @song = current_user.songs.find(params[:id])
+      @song = current_user.artist_visible_songs.find(params[:id])
     end
 
     unless @song

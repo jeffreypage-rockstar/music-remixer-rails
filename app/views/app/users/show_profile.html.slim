@@ -44,26 +44,14 @@
             h4.title Artist Bio
             .content #{@user.bio}
 
-        - if @user.songs.count > 0
-          = render partial: 'app/users/tracks', locals: {songs: @user.songs}
+        - if @user.songs_count > 0
+          = render partial: 'app/users/tracks', locals: {songs: @user.released_songs}
 
-        - if @user.remixes.count > 0
+        - if @user.remixes_count > 0
           = render partial: 'app/users/remixes', locals: {remixes: @user.remixes}
 
       .col-md-4.col-md-pull-8
         .white-section.stats
-          .row.stats-list
-            .col-xs-4.stat
-              .name Following
-              .value #{@user.followees_count}
-
-            .col-xs-4.stat
-              .name Followers
-              .value #{@user.followers_count}
-
-            .col-xs-4.stat
-              .name Tracks
-              .value #{@user.songs_count}
 
         .white-section.followings
           h4 #{@user.followees_count} following
@@ -76,9 +64,11 @@
             - @user.followees(User).each do |followee|
               li.media.following
                 .media-left
-                  img.profile-image src="#{followee.profile_image.url(:thumb)}"
+                  = link_to app_show_profile_path(followee.username)
+                    img.profile-image src="#{followee.profile_image.url(:thumb)}"
                 .media-body
-                  .name #{followee.name}
+                  = link_to app_show_profile_path(followee.username)
+                    .name #{followee.name}
 
                   .followers-count #{followee.followers_count} Followers
                   .location #{followee.location}
@@ -94,9 +84,11 @@
             - @user.followers(User).each do |follower|
               li.media.follower
                 .media-left
-                  img.profile-image src="#{follower.profile_image.url(:thumb)}"
+                  = link_to app_show_profile_path(follower.username)
+                    img.profile-image src="#{follower.profile_image.url(:thumb)}"
                 .media-body
-                  .name #{follower.name}
+                  = link_to app_show_profile_path(follower.username)
+                    .name #{follower.name}
 
                   .followers-count #{follower.followers_count} Followers
                   .location #{follower.location}

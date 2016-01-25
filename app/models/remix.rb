@@ -4,12 +4,12 @@ class Remix < ActiveRecord::Base
 	mount_uploader :audio, RemixAudioUploader
 	store_in_background :audio, RemixAudioUploadWorker
 
-	enum status: {processing: 0, failed: 1, published: 2}
+	enum status: {processing: 0, failed: 1, published: 2, archived: 3, deleted: 4}
 
   default_value_for :uuid do  #important, needs to be in a block
     SecureRandom.hex(12)
   end
 
-  belongs_to :user, counter_cache: true
+  belongs_to :user
 	belongs_to :song
 end

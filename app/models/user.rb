@@ -1,12 +1,17 @@
 class User < ActiveRecord::Base
-	# authentication (clearance and omniauth/fb)
-	include Clearance::User
-	include PublicActivity::Common
-	has_many :authentications, :dependent => :destroy
+  # authentication (clearance and omniauth/fb)
+  include Clearance::User
+  include PublicActivity::Common
+  has_many :authentications, :dependent => :destroy
 
-	# has many songs and remixes
-	has_many :songs, -> { order 'songs.created_at desc' }
-	has_many :remixes
+  # has many songs and remixes
+  has_many :songs, -> { order 'songs.created_at desc' }
+  has_many :released_songs, -> { where(status: Song.statuses[:released]).order('songs.created_at desc')}, class_name: 'Song'
+  has_many :artist_visible_songs, -> { where(status: [Song.statuses[:processing], Song.statuses[:working], Song.statuses[:released], Song.statuses[:processing_for_release]]).order('songs.created_at desc')}, class_name: 'Song'
+
+  has_many :remixes
+  has_many :released_remixes, -> { where(status: Remix.statuses[:published]).order('remixes.created_at desc')}, class_name: 'Remix'
+
 	has_one :beta_user
 	accepts_nested_attributes_for :beta_user
 

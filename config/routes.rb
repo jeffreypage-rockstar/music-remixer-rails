@@ -55,6 +55,10 @@ Rails.application.routes.draw do
     match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 
     get 'sign_in' => 'pages#redirect_sign_in', as: 'sign_in'
+
+    get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
+    get 'beta/thanks' => 'beta_artists#thanks', as: 'beta_artists_thanks'
+    post 'beta/artist' => 'beta_artists#join'
   end
 
 	# Normal site (no subdomain or www)
@@ -86,13 +90,6 @@ Rails.application.routes.draw do
           end
         end
       end
-
-      # get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
-      # # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
-      # post 'beta/artist' => 'beta_artists#join'
-      # get 'beta/sign_up/:invite_code' => 'beta_users#new', as: 'beta_sign_up'
-      # post 'beta/sign_up/:invite_code' => 'beta_users#create'
-      # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
 
       resources :songs do
         member do
