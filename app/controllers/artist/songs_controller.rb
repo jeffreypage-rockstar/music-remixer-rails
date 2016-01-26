@@ -133,12 +133,7 @@ class Artist::SongsController < Artist::BaseController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_song
-    if action_name == 'configure' || action_name == 'mixaudio'
-      @song = current_user.artist_visible_songs.includes(:clip_types, :parts => [:clips]).find_by(id: params[:id])
-    else
-      @song = current_user.artist_visible_songs.find(params[:id])
-    end
-
+    @song = current_user.artist_visible_songs.find(params[:id])
     unless @song
       return redirect_to artist_songs_path
     end
