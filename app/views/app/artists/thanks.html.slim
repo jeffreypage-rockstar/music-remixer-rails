@@ -1,0 +1,9 @@
+.container
+  .form400
+    h3 Nice work!
+    - if request.params[:ref] == 'apply'
+      p Thanks for applying!
+      p We will review your application and be in touch.
+    - if request.params[:ref] == 'join'
+      p We're glad you joined us, revolutions are fun!
+      p You'll receive an account activation email shortly.
