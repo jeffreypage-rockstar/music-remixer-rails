@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20160125233229) do
     t.datetime "updated_at",                null: false
   end
 
+  add_index "beta_artists", ["email"], name: "index_beta_artists_on_email", unique: true, using: :btree
   add_index "beta_artists", ["user_id"], name: "index_beta_artists_on_user_id", using: :btree
 
   create_table "beta_users", force: :cascade do |t|

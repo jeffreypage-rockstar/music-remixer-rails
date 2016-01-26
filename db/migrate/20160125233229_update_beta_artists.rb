@@ -1,6 +1,6 @@
 class UpdateBetaArtists < ActiveRecord::Migration
   def change
-    drop_table :beta_artists
+#    drop_table :beta_artists
     create_table :beta_artists do |t|
       t.references :user, index:true
       t.string :name, null: false
@@ -11,6 +11,8 @@ class UpdateBetaArtists < ActiveRecord::Migration
       t.string :invite_code
 
       t.timestamps null: false
+
+      t.index :email, :unique => true
     end
   end
 end

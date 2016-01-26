@@ -10,13 +10,18 @@ class App::ArtistsController < App::BaseController
     # end
     if request.post?
       @user = User.new(artist_join_params)
-      if @user.save
-        $tracker.alias @user.uuid, session.id
-        $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
-        $tracker.track @user.uuid, 'Artist Join: success', {'name' => @user.name, 'email' => @user.email}
-        UserNotifier.account_verification_email(@user).deliver_now
-        redirect_to '/artists/thanks?ref=join'
-        return
+      begin
+        if @user.save
+          $tracker.alias @user.uuid, session.id
+          $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
+          $tracker.track @user.uuid, 'Artist Join: success', {'name' => @user.name, 'email' => @user.email}
+          UserNotifier.account_verification_email(@user).deliver_now
+          redirect_to '/artists/thanks?ref=join'
+          return
+        end
+      rescue ActiveRecord::RecordNotUnique
+        @beta_artist.errors[:email] =  "This email has already joined."
+        false
       end
     else
       $tracker.track session.id, 'Artist Join: view'
@@ -27,11 +32,16 @@ class App::ArtistsController < App::BaseController
   # allow artists to submit information for evaluation
   def apply
     if request.post?
-      @beta_artist = BetaArtist.new(artist_apply_params)
-      if @beta_artist.save
-        $tracker.track session.id, 'Artist Apply: success', {'name' => @beta_artist.name, 'email' => @beta_artist.email}
-        redirect_to '/artists/thanks?ref=apply'
-        return
+      begin
+        @beta_artist = BetaArtist.new(artist_apply_params)
+        if @beta_artist.save
+          $tracker.track session.id, 'Artist Apply: success', {'name' => @beta_artist.name, 'email' => @beta_artist.email}
+          redirect_to '/artists/thanks?ref=apply'
+          return
+        end
+      rescue ActiveRecord::RecordNotUnique
+        @beta_artist.errors[:email] =  "This email has already applied."
+        false
       end
     else
       $tracker.track session.id, 'Artist Apply: view'

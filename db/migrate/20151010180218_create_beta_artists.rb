@@ -10,6 +10,8 @@ class CreateBetaArtists < ActiveRecord::Migration
       t.string :invite_code
 
       t.timestamps null: false
+
+      t.index :email, :unique => true
     end
   end
 end
