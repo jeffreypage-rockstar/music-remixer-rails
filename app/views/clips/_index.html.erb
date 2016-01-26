@@ -31,7 +31,7 @@
 				<div id="myPopover" class="hide">
 					<b>Resolve missing file:</b>
 					<ul>
-						<% @clips.each do |t| %>
+						<% @bad_clips.each do |t| %>
 							<li id="invalid-<%=t.id%>" ><%= t.original_filename %></li>
 						<% end %>
 					</ul>

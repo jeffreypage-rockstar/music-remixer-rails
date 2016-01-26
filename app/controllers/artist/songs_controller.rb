@@ -55,9 +55,8 @@ class Artist::SongsController < Artist::BaseController
       format.html {}
       format.js {}
     end
-    song = current_user.songs.find(params[:id])
-    @clips = song.clips.where(row: 0, column: 0)
-   
+
+    @bad_clips = @song.clips.where(row: 0, column: 0)
   end
 
   # PATCH/PUT /songs/1
