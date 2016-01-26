@@ -37,6 +37,8 @@ class User < ActiveRecord::Base
 	end
 	default_value_for :status, User.statuses[:beta_waitlisted]
 
+  validates :name, :presence => true
+  validates :email, :presence => true
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
 	validates :password, :presence => true, :on => :create
 	validates_confirmation_of :password, :message => 'Passwords do not match'

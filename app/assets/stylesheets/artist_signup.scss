@@ -120,9 +120,17 @@ body {
     margin: 0 auto;
   }
 
-  #artistSignUpForm {
+  #artistSignUpForm, #betaArtistSignUpForm {
     padding: 10px;
 
+    .has-error .help-block {
+      display: block;
+    }
+    .help-block {
+      float: right;
+      margin-top: -68px;
+      display: none;
+    }
     label {
       color: #444;
       font-weight: bold;
@@ -159,8 +167,13 @@ body {
       font-size: 20px;
       margin-bottom: 25px;
     }
-    .form-control {
-      height: 32px;
+    #artistSignUpForm, #betaArtistSignUpForm {
+      .help-block {
+        margin-top: -58px;
+      }
+      .form-control {
+        height: 32px;
+      }
     }
   }
 }

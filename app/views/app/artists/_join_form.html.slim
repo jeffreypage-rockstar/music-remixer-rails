@@ -1,13 +1,13 @@
-= simple_form_for @user, html: {id: 'artistSignUpForm', class: 'form-horizontal'}, url: beta_artist_path do | f|
+= simple_form_for @user, html: {id: 'artistSignUpForm', class: 'form-horizontal'}, wrapper: :vertical_form, url: app_artists_join_path do | f|
   = f.input :name, label: 'Artist Name', placeholder: 'Artist Name'
   = f.input :email, placeholder: 'Email'
   = f.input :username, placeholder: 'Username'
   = f.input :password, placeholder: 'Password'
-  = f.input :invite_code, placeholder: 'Invite Code'
+  /= f.input :invite_code, placeholder: 'Invite Code'
 
   /.dont-have-a-code
   /  | Don't have a code?
   /  =< link_to 'Get one here', beta_artists_path
 
   .signup-wrapper
-    = f.button :submit, 'Sign Up', class: 'btn-block btn-round btn-lg'
+    = f.button :submit, 'Join Now!', class: 'btn-block btn-round btn-lg'

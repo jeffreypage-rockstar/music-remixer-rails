@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     get 'about' => 'pages#about'
     get 'news' => 'pages#news'
     get 'contact' => 'pages#contact'
+    get 'artists' => 'pages#artists'
     get 'terms' => 'pages#terms'
     root 'pages#splash'
 
@@ -55,10 +56,6 @@ Rails.application.routes.draw do
     match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 
     get 'sign_in' => 'pages#redirect_sign_in', as: 'sign_in'
-
-    get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
-    get 'beta/thanks' => 'beta_artists#thanks', as: 'beta_artists_thanks'
-    post 'beta/artist' => 'beta_artists#join'
   end
 
 	# Normal site (no subdomain or www)
@@ -75,6 +72,12 @@ Rails.application.routes.draw do
       get '/sign_out' => 'sessions#destroy', as: 'sign_out'
       get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
       get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
+
+      get '/artists/join' => 'artists#join', as: 'artists_join'
+      post '/artists/join' => 'artists#join'
+      get '/artists/apply' => 'artists#apply', as: 'artists_apply'
+      post '/artists/apply' => 'artists#apply'
+      get '/artists/thanks' => 'artists#thanks', as: 'artists_thanks'
 
       # AUTHENTICATION
       resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy]
