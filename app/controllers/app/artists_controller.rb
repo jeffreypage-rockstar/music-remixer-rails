@@ -20,7 +20,7 @@ class App::ArtistsController < App::BaseController
           return
         end
       rescue ActiveRecord::RecordNotUnique
-        @beta_artist.errors[:email] =  "This email has already joined."
+        @beta_artist.errors[:email] =  "This email has already been used."
         false
       end
     else
@@ -40,7 +40,7 @@ class App::ArtistsController < App::BaseController
           return
         end
       rescue ActiveRecord::RecordNotUnique
-        @beta_artist.errors[:email] =  "This email has already applied."
+        @beta_artist.errors[:email] =  "This email has already been used."
         false
       end
     else
