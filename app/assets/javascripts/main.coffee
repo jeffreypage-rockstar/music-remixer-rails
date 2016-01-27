@@ -3,10 +3,16 @@ $.ajaxSetup
     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 $ ->
   refVal = GetURLParameter 'ref'
-  if refVal == 'confirm_email'
+  if refVal == 'confirm'
     modal_holder_selector = '#modal-holder';
     modal_selector = '.modal';
-    $.get '/welcome_modal', (data) ->
+    $.get '/welcome_modal?ref=new_user', (data) ->
+      $(modal_holder_selector).html(data).find(modal_selector).modal()
+      return
+  if refVal == 'artist_confirm'
+    modal_holder_selector = '#modal-holder';
+    modal_selector = '.modal';
+    $.get '/welcome_modal?ref=new_artist', (data) ->
       $(modal_holder_selector).html(data).find(modal_selector).modal()
       return
 

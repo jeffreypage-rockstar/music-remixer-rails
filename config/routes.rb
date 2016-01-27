@@ -79,13 +79,14 @@ Rails.application.routes.draw do
       get '/artists/apply' => 'artists#apply', as: 'artists_apply'
       post '/artists/apply' => 'artists#apply'
       get '/artists/thanks' => 'artists#thanks', as: 'artists_thanks'
+      get '/artists/confirm' => 'artists#confirm', as: 'artists_confirm'
 
       # AUTHENTICATION
       resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy]
       resources :passwords, :controller => 'passwords', :only => [:create, :new]
       resource	:users, controller: 'users', only: [:create] do
         member do
-          get :confirm_email
+          get :confirm
           get :create_success
         end
         resource :password, controller: 'passwords', only: [:create, :edit, :update] do
