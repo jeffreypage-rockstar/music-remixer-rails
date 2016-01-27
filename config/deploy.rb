@@ -12,6 +12,10 @@ set :rbenv_ruby, '2.2.3'
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_path, '/home/deploy/.rbenv/'
 
+set :rollbar_token, '9374ab06eda74e48bfc4cbc4251f6bbf' # mix8 token
+set :rollbar_env, Proc.new { fetch :stage }
+set :rollbar_role, Proc.new { :app }
+
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/deploy/mix8'
 

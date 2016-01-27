@@ -21,8 +21,8 @@
 				</div>				
 			<% end %>
 			<div id="clip-part-<%=clip.id%>" data-valid="<%=clip.column%><%=clip.row%>" class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
-				 data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=clip.row%>" data-col="<%=c%>" data-db-col="<%=clip.column%>" data-path="<%=clip.file%>"
-				 data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-duration="<%=clip.duration%>"
+           data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=clip.row%>" data-col="<%=c%>" data-db-col="<%=clip.column%>" data-path="<%=clip.file%>"
+           data-path-aac="<%=clip.file_aac%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>" data-duration="<%=clip.duration%>"
            data-user-content="<%=clip.allow_ugc%>" rel="<%= 'popover' if ( clip.row == 0 || clip.column == 0 ) %>" data-popover-content="#myPopover" >
         <% if ( clip.row == 0 || clip.column == 0 ) %>
             <p class="p-click"> click to fix </p>
@@ -168,7 +168,8 @@
 			var column = $(this).attr('data-column');
 			if (!wavesurfers[column]) wavesurfers[column] = {};
 			$(this).find('.clip').each(function(){
-				wavesurferPlayer(this, $(this).data('path'), $(this).state(), column, $(this).attr('data-row'));
+        path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
+				wavesurferPlayer(this, path, $(this).state(), column, $(this).attr('data-row'));
 
 			})
 		});
@@ -460,7 +461,10 @@
 		});
 	}
 
-
+  function canPlayOgg() {
+    var a = document.createElement('audio');
+    return !!(a.canPlayType && a.canPlayType('audio/ogg;').replace(/no/, ''));
+  }
 
   function documentReadyExcutables() {
     // window.wavesurfers = wavesurfers = {};

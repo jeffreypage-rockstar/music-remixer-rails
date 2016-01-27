@@ -1,4 +1,4 @@
-class ClipFileUploadWorker < ::CarrierWave::Workers::StoreAsset
+class ClipFileAacUploadWorker < ::CarrierWave::Workers::StoreAsset
   sidekiq_options retry: 10
 
   def perform(*args)
@@ -7,9 +7,10 @@ class ClipFileUploadWorker < ::CarrierWave::Workers::StoreAsset
     clip = constantized_resource.find id
     logger.info "ClipFileUploadWorker starting job on Clip: #{clip.inspect}"
 
-    unless clip.file_aac_tmp
+    unless clip.file_tmp
       clip.update_attribute(:storing_status, :storing_done)
     end
+
     part = clip.part
 
     if part.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0

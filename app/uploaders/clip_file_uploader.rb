@@ -3,8 +3,8 @@ class ClipFileUploader < CarrierWave::Uploader::Base
   before :cache, :save_duration
   before :cache, :save_original_filename
 
-  process encode_audio: [:m4a]
-  process encode_audio: [:ogg, false]
+  process encode_audio: [:ogg]
+  process encode_audio: [:aac, false]
 
   def save_duration(file)
     file = ::FFMPEG::Movie.new(file.path)
@@ -47,21 +47,29 @@ class ClipFileUploader < CarrierWave::Uploader::Base
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end
 
-  def encode_audio(format='m4a')
+  def encode_audio(format='ogg', overwrite=true)
     directory = File.dirname(current_path)
     tmpfile = File.join(directory, 'tmpfile')
-    File.rename(current_path, tmpfile)
+    if overwrite
+      FileUtils.mv(current_path, tmpfile)
+    else
+      FileUtils.cp(current_path, tmpfile)
+    end
 
     file = ::FFMPEG::Movie.new(tmpfile)
     new_name = File.basename(current_path, '.*') + '.' + format.to_s
     current_extension = File.extname(current_path).gsub('.', '')
     encoded_file = File.join(directory, new_name)
 
-    file.transcode(encoded_file)
+    file.transcode(encoded_file){ |progress| puts progress }
 
-    self.filename[-current_extension.size..-1] = format.to_s
-    self.file.file[-current_extension.size..-1] = format.to_s
+    if overwrite
+      self.filename[-current_extension.size..-1] = format.to_s
+      self.file.file[-current_extension.size..-1] = format.to_s
+      File.delete(tmpfile)
+    else
+      self.model.file_aac = File.open(encoded_file)
+    end
 
-    File.delete(tmpfile)
   end
 end
