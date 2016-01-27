@@ -21,9 +21,36 @@ $ ->
     return
 
   $('input.image-input').change ->
-    showSelectedImage(this)
+    if validateImageFileInput(this)
+      showSelectedImage(this)
     return
   return
+
+
+_validFileExtensions = [
+  '.jpg'
+  '.jpeg'
+  '.gif'
+  '.png'
+]
+
+validateImageFileInput = (oInput) ->
+  if oInput.type == 'file'
+    sFileName = oInput.value
+    if sFileName.length > 0
+      blnValid = false
+      j = 0
+      while j < _validFileExtensions.length
+        sCurExtension = _validFileExtensions[j]
+        if sFileName.substr(sFileName.length - (sCurExtension.length), sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()
+          blnValid = true
+          break
+        j++
+      if !blnValid
+        alert 'Sorry, ' + sFileName + ' is invalid, allowed extensions are: ' + _validFileExtensions.join(', ')
+        oInput.value = ''
+        return false
+  true
 
 GetURLParameter = (sParam) ->
   sPageURL = window.location.search.substring(1)
