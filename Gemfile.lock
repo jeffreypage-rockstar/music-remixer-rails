@@ -290,9 +290,6 @@ GEM
     ice_nine (0.11.1)
     inflecto (0.0.2)
     ipaddress (0.8.0)
-    jbuilder (2.3.2)
-      activesupport (>= 3.0.0, < 5)
-      multi_json (~> 1.2)
     jquery-fileupload-rails (0.4.6)
       actionpack (>= 3.1)
       railties (>= 3.1)
@@ -416,6 +413,8 @@ GEM
     request_store (1.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    rollbar (2.5.2)
+      multi_json
     rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sass (3.4.19)
@@ -521,7 +520,6 @@ DEPENDENCIES
   grape-swagger (~> 0.10.4)
   grape-swagger-rails
   hashie-forbidden_attributes
-  jbuilder (~> 2.0)
   jquery-fileupload-rails
   jquery-rails
   kaminari
@@ -542,6 +540,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_admin
   responders
+  rollbar (~> 2.5.0)
   rubyzip (~> 1.1)
   sass-rails (~> 5.0)
   sidekiq

@@ -24,17 +24,9 @@ gem 'rubyzip',  "~> 1.1", require: 'zip'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+# 3rd party gems
 gem 'mixpanel-ruby'
-# bundle exec rake doc:rails generates the API under doc/api.
-# gem 'sdoc', '~> 0.4.0', group: :doc
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'rollbar', '~> 2.5.0'
 
 # Bootsrap for user interface
 gem 'bootstrap-sass', '~> 3.3.1'
@@ -49,7 +41,9 @@ gem 'omniauth-facebook'
 # admin
 gem 'rails_admin'
 
+# todo: why do we have this gem?
 gem 'sinatra', require: nil
+
 # Workers
 gem 'sidekiq'
 
@@ -80,7 +74,7 @@ gem 'slim-rails'
 gem 'draper'
 gem 'responders'
 
-# authorization
+# authorization -- todo: why pundit too?
 gem 'pundit'
 
 # copy to clipboard
@@ -152,3 +146,4 @@ group :production do
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
+

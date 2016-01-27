@@ -2,7 +2,7 @@ class BetaUser < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :music_backgrounds
 
-  enum phone_type: {
+  enum phone_types: {
       iPhone: 0,
       Android: 1
   }

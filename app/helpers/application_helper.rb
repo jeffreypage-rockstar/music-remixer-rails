@@ -70,7 +70,7 @@ module ApplicationHelper
 	end
 
 	def welcome_description(user)
-		if user.beta_user.phone_type == 'iPhone'
+		if user.beta_user.phone_type == BetaUser.phone_types[:iPhone]
 			return 'The 8Stem Beta is being set up in our testing program. We’ll be in touch soon with your access information. In the meantime, click on the link below to fill out your	Profile Page.'
 		else
 			return 'We are currently running the iPhone beta test. But Android is next! We’ll be in touch soon when the Android beta is ready to begin. In the meantime, click on the link below to fill out your Profile Page.'
