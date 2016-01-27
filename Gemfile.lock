@@ -416,6 +416,8 @@ GEM
     request_store (1.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    rollbar (2.5.2)
+      multi_json
     rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sass (3.4.19)
@@ -542,6 +544,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_admin
   responders
+  rollbar (~> 2.5.0)
   rubyzip (~> 1.1)
   sass-rails (~> 5.0)
   sidekiq

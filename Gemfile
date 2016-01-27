@@ -152,3 +152,5 @@ group :production do
 end
 
 gem 'taglib-ruby', '~> 0.7.0'
+
+gem 'rollbar', '~> 2.5.0'
