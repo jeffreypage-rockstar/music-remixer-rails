@@ -93,12 +93,41 @@ $ ->
     content: ->
       clone = $($(this).data('popover-content')).clone(true).removeClass('hide')
       clone
-  ).click (e) ->  
-      
+  ).click (e) ->
+    $(".missing_file_pop").attr 'data-id', @id
     e.preventDefault()
-    event.stopPropagation()
     return
   return
+
 $(document).click ->
-  $('.popover').css 'display', 'none'
+  $('.popover').css('display','none')
+  return
+
+$(document).on 'ready page:load', ->
+  $('.missing_file_pop li').click ->
+    $('.alert-custom').css display: 'none'
+    bad_clip_id = @id
+    blank_id = $(this).parent().attr 'data-id'
+    row = $('#' + blank_id).attr('data-row')
+    col = $('#' + blank_id).attr('data-col')
+    blank_duration = $('#' + blank_id).attr('data-duration')
+    file_duration = $(this).attr('data-duration')
+    song_id = $('#song-clips').attr('data-id')
+    if blank_duration == file_duration
+      $.ajax
+        type: 'PUT'
+        dataType: 'json'
+        url: '/songs/'+song_id+'/clips/'+bad_clip_id
+        contentType: 'application/json'
+        data: JSON.stringify(clip: {row: row, column: col})
+        error: (jqXHR, textStatus, errorThrown) ->
+          alert textStatus
+        success: (data, textStatus, jqXHR) ->
+          $('.alert-custom').css display: 'block'
+          $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>File successfully placed.</p></div>");
+          $.get("/songs/"+song_id+"/reload_clips.js")
+    else
+      $('.alert-custom').css display: 'block'
+      $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>File cannot be placed here.</p></div>");
+    return
   return

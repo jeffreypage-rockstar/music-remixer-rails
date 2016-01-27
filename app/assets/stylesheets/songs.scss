@@ -50,32 +50,18 @@ img.dropdown-toggle {
   }
 
   #release-status {
-	/*height: 37px;*/
-	/*width: 85px;*/
-	/*margin-left: 500px;*/
-	/*text-align: center;*/
-	/*vertical-align: middle;*/
-	/*line-height: 32px;*/
-	/*background: red;*/
 	cursor: pointer;
 	float: right;
-    /* margin-right:10px;*/
     margin-top:12px;
     width: 100px;
     border-radius: 2px 2px 2px 2px;
-    /* margin-left: 500px; */
     text-align: center;
     vertical-align: middle;
-    /* line-height: 32px; */
-    /* padding: 0px; */
     background: #4E555A;
     color: white;
     font-weight: bold;
   }
 
-  #release-status.released {
-	/*background: green;*/
-  }
 
   //.full-play-btn {
 	//position: absolute;
@@ -275,7 +261,14 @@ img.dropdown-toggle {
 
   }
 
-  [data-valid='00'].clip *:not(#myPopover) {
+  .p-click{
+    //display: block !important;
+    color: #D61414;
+    font-weight: bolder;
+    padding: 4px;
+  }
+
+  [data-valid='00'].clip *:not(#myPopover):not(.p-click) {
   	display: none !important;
   }
 
@@ -514,37 +507,17 @@ img.dropdown-toggle {
   }
 
   /* Preview */
-  /*.iPhone {
+  .iPhone {
 	position: absolute;
 	top: -50px;
 	width: 240px;
 	height: 447px;
-	margin-left: 30px;
-	border-top: 55px solid black;
-	border-bottom: 55px solid black;
-	border-left: 10px solid black;
-	border-right: 10px solid black;
+	margin-left: 30px;	
 	border-top-right-radius: 25px;
 	border-top-left-radius: 25px;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
 	pointer-events: none;
-  }*/
- .iPhone {
-  position: absolute;
-  top: -50px;
-  width: 240px;
-  height: 447px;
-  margin-left: 30px;
-  /* border-top: 55px solid black; */
-  /* border-bottom: 55px solid black; */
-  /* border-left: 10px solid black; */
-  /* border-right: 10px solid black; */
-  border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
-  pointer-events: none;
   }
 
   .iPhone .mic { display:none;

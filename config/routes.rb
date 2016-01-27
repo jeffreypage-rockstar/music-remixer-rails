@@ -31,6 +31,7 @@ Rails.application.routes.draw do
           post :share
           post :toggle_like_song
           delete :toggle_like_song
+          get :reload_clips
         end
 				resources :parts
 				resources :clip_types
