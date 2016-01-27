@@ -13,19 +13,38 @@ User.create!(
 	password:'asdfasdf',
 	is_admin:true,
 	is_artist_admin:true,
-	confirmed_at:'2015-10-10 10:10',
-	profile_image: '',
-	profile_background_image: ''
+	confirmed_at:'2015-10-10 10:10'
 )
 
 User.where({email: 'testartist@8stem.com'}).delete_all
-User.create!(email:'testartist@8stem.com', username:'testartist', name:'Test Artist', password:'asdfasdf', is_admin:false, is_artist_admin:true, confirmed_at:'2015-10-01 10:10')
+User.create!(
+  email:'testartist@8stem.com',
+  username:'testartist',
+  name:'Test Artist',
+  password:'asdfasdf',
+  is_admin:false,
+  is_artist_admin:true,
+  confirmed_at:'2015-10-01 10:10'
+)
 
 User.where({email: 'testuser@8stem.com'}).delete_all
-User.create!(email:'testuser@8stem.com', username:'testuser', name:'Test User', password:'asdfasdf', is_admin:false, is_artist_admin:false, confirmed_at:'2015-10-01 10:10')
+User.create!(
+  email:'testuser@8stem.com',
+  username:'testuser',
+  name:'Test User',
+  password:'asdfasdf',
+  is_admin:false,
+  is_artist_admin:false,
+  confirmed_at:'2015-10-01 10:10'
+)
 
 BetaUser.where({email: 'betauser@8stem.com'}).delete_all
-BetaUser.create!(email:'betauser@8stem.com', name:'Beta User', invite_code:'abc123', age:23)
+BetaUser.create!(
+  email:'betauser@8stem.com',
+  name:'Beta User',
+  invite_code:'abc123',
+  age:23
+)
 
 MusicBackground.delete_all
 MusicBackground.create!(name: 'Music Fan')

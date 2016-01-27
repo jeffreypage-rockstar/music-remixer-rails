@@ -35,6 +35,14 @@ class App::PasswordsController < App::BaseController
     end
   end
 
+  def resend_confirmation
+    if user = User.find_by_email(params[:sessions][:email])
+      UserNotifier.account_verification_email(user).deliver_now
+    end
+    flash[:notice] = 'You will receive a new confirmation email within the next few minutes.'
+    redirect_to app_sign_in_path
+  end
+
   def reset_password_success_modal
     render layout: 'modal'
   end

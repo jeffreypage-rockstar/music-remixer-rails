@@ -1,0 +1,184 @@
+/*
+ *= require_self
+ */
+
+@import "bootstrap-sprockets";
+@import "mix8";
+@import "font-awesome";
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+  background-color: #333;
+}
+body {
+  color: #fff;
+  text-align: center;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  display: table;
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+}
+.site-wrapper-inner {
+  display: table-cell;
+  vertical-align: top;
+}
+.cover-container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.inner {
+  margin:0 10px 20px 10px;
+}
+
+/*
+ * Cover
+ */
+
+.cover {
+  padding: 0 20px;
+}
+.cover .btn-lg {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+.masthead {
+  margin-top: 65px;
+}
+
+
+/*
+ * Footer
+ */
+
+.mastfoot {
+  color: #999; /* IE8 proofing */
+}
+
+
+/*
+ * Affix and center
+ */
+
+@media (min-width: 768px) {
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed;
+    top: 0;
+  }
+  .mastfoot {
+    position: fixed;
+    bottom: 0;
+  }
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+@media (min-width: 992px) {
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 700px;
+  }
+}
+
+#artistSignUpPage {
+  background-image: image_url('signup-background.png');
+  -webkit-background-size: cover;
+  background-size: cover;
+
+  .logo {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 35px;
+  }
+
+  .cover {
+    max-width: 400px;
+    text-align: left;
+    background-color: white;
+    border-radius: 15px;
+    margin: 0 auto;
+  }
+
+  #artistSignUpForm, #betaArtistSignUpForm {
+    padding: 10px;
+
+    .has-error .help-block {
+      display: block;
+    }
+    .help-block {
+      float: right;
+      margin-top: -68px;
+      display: none;
+    }
+    label {
+      color: #444;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+    .dont-have-a-code {
+      text-align: center;
+      padding: 20px;
+      color: #9f9f9f;
+    }
+
+    .signup-wrapper {
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  h2 {
+    font-size: 28px;
+  }
+}
+@media (max-width: 767px) {
+  #artistSignUpPage {
+    .logo {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+    }
+    #artistSignUpForm, #betaArtistSignUpForm {
+      .help-block {
+        margin-top: -58px;
+      }
+      .form-control {
+        height: 32px;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+}
+

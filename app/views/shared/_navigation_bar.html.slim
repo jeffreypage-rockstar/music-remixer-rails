@@ -35,6 +35,8 @@ nav class="#{nav_class(layout)}" role="navigation"
             a href=news_url News
           li class=("#{'active' if current_page?(contact_path)}")
             a href=contact_url Contact
+          li class=("#{'active' if current_page?(artists_path)}")
+            a href=artists_url Artists
         - if signed_in?
           li.divider-vertical
           li.dropdown.profile-dropdown

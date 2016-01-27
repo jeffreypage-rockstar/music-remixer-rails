@@ -93,7 +93,8 @@ $ ->
     content: ->
       clone = $($(this).data('popover-content')).clone(true).removeClass('hide')
       clone
-  ).click (e) ->
+  ).click (e) ->  
+      
     e.preventDefault()
     event.stopPropagation()
     return

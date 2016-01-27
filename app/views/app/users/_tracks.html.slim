@@ -1,0 +1,64 @@
+.artist-tracks
+  h4.title Tracks
+  .content
+    ul.media-list.track-list
+      - songs = songs.decorate
+      - songs.each do |song|
+        li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}'
+          .media-left
+            img.image src="#{song.image.url(:thumb)}"
+            a class="play"
+              = image_tag 'tracks/play.png'
+            a class="pause"
+              = image_tag 'tracks/pause.png'
+          .media-body
+            h4.media-heading #{song.name}
+            span.by-artist by #{song.artist_name}
+
+            - if song.genres.any?
+              .tags
+                - song.genres.each do |genre|
+                  a.tag.badge href="##{genre.name}" #{genre.name}
+
+            .mix8-player
+              .jp-player id="jquery_jplayer_#{song.id}"
+              .jp-audio id="jp_container_#{song.id}"
+                .jp-time-holder
+                  .jp-current-time aria-label="time" role="timer"
+                  .duration #{song.duration}
+                .clearfix
+                .jp-progress
+                  .jp-seek-bar
+                    .jp-play-bar
+
+            .actions
+              = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: {modal: true} do
+                = image_tag 'tracks/share.png'
+              .like-unlike-song.pull-left
+                = render partial: 'app/songs/like_unlike_song', locals: {song: song}
+        - if song.remixes.count > 0
+          li.remix-list
+            table.table
+              thead
+                tr
+                  th &nbsp;
+                  th Remixer
+                  th Plays
+                  th Downloads
+              tbody
+              - song.remixes.each do |remix|
+                tr.media.track.remix data-id="remix_#{remix.id}" data-audio='{"m4a": "#{remix.audio}"}'
+                  td.player
+                    a class="play"
+                      = image_tag 'tracks/play.png'
+                    a class="pause"
+                      = image_tag 'tracks/pause.png'
+                    .mix8-player
+                      .jp-player id="jquery_jplayer_#{song.id}_#{remix.id}"
+                      .jp-audio id="jp_container_#{song.id}_#{remix.id}"
+                  td.remixer
+                    = link_to app_show_profile_path(remix.user.username)
+                      = image_tag remix.user.profile_image.url(:thumb), class: 'img-cover'
+                      | #{remix.name} by #{remix.user.name}
+                  td.plays #{remix.plays_count}
+                  td.downloads #{remix.downloads_count}

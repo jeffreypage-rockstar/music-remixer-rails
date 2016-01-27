@@ -1,0 +1,12 @@
+= simple_form_for @beta_artist, html: {id: 'betaArtistSignUpForm', class: 'form-horizontal'}, wrapper: :vertical_form, url: app_artists_apply_path do | f|
+  = f.input :artist_name, label: 'Artist Name', placeholder: 'Mocha Mark'
+  = f.input :artist_url, label: 'Artist Url', placeholder: 'www.mochamark.com'
+  = f.input :name, label: 'Your Name', placeholder: 'Your Name'
+  = f.input :email, placeholder: 'Email'
+  = f.input :message, label: 'Tell us about yourself'
+  /.dont-have-a-code
+  /  | Don't have a code?
+  /  =< link_to 'Get one here', beta_artists_path
+
+  .signup-wrapper
+    = f.button :submit, 'Apply Now!', class: 'btn-block btn-round btn-lg'

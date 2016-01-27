@@ -1,11 +1,11 @@
 class Clip < ActiveRecord::Base
-	default_scope { order(row: :asc) }
+	# default_scope { order(row: :asc) }
 	mount_uploader :file, ClipFileUploader
 	store_in_background :file, ClipFileUploadWorker
 
 	enum storing_status: { storing_pending: 0, storing_done: 1, storing_failed: 2 }
 
-	default_value_for :uuid do
+	default_value_for :uuid do  #important, needs to be in a block
 		SecureRandom.hex(12)
 	end
 	default_value_for :storing_status, Clip.storing_statuses[:storing_pending]

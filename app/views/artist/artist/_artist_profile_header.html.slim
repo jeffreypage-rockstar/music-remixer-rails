@@ -6,7 +6,7 @@
           = image_tag artist.profile_image.url(:thumb), class: 'img-circle profile-image'
         .media-body
           .artist-name #{artist.name}
-          .artist-stats #{artist.songs_count} tracks &bull; #{artist.remixes_count} remixes
+          .artist-stats #{artist.artist_visible_songs.count} songs &bull; #{artist.released_remixes.count} remixes
       .upload-music
         = link_to new_artist_song_path(artist), class: 'btn btn-primary btn-md' do
           => fa_icon 'cloud'

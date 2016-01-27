@@ -14,7 +14,7 @@ module ApplicationHelper
 
 	def provider_name(provider)
 		case provider
-			when 'google_oauth2'
+			when 'google'
 				'Google+'
 			when 'soundcloud'
 				'SoundCloud'
@@ -27,7 +27,7 @@ module ApplicationHelper
 
 	def provider_icon(provider)
 		case provider
-			when 'google_oauth2'
+			when 'google'
 				'google-plus'
 			else
 				provider
@@ -36,7 +36,7 @@ module ApplicationHelper
 
 	def provider_btn_class(provider)
 		case provider
-			when 'google_oauth2'
+			when 'google'
 				'btn-google-plus'
 			else
 				"btn-#{provider}"

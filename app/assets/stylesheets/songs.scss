@@ -260,12 +260,23 @@ img.dropdown-toggle {
 	right: 4px;
   }
 
-  .blank {
-	border: 2px solid #A7A1A1;
-	border-radius: 5px;
+  .blank, .invalid_blank, [data-valid='00'].clip {
+	border: 2px solid #A7A1A1 !important;
+	border-radius: 5px !important;
 	background-image: none !important;
-	height: 42px;
-	margin-top: 4px;
+	height: 42px !important;
+	margin-top: 4px !important;
+  }
+
+  .invalid_blank, [data-valid='00'].clip {
+	border: 2px solid #D61414 !important;
+	cursor: pointer;
+	height: 40px !important;
+
+  }
+
+  [data-valid='00'].clip *:not(#myPopover) {
+  	display: none !important;
   }
 
   .blank.no-border {

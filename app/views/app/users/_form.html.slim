@@ -23,9 +23,9 @@
           = buf.association :music_backgrounds, label: '*Music Background (check all that apply):', as: :check_boxes
           = buf.input :phone_type, collection: ['iPhone', 'Android'], include_blank: false, label: 'Select Phone:', input_html: {class: 'input-lg'}, as: :radio_buttons
       = content_for(:the_links) do
-        ' I agree to the
-        a href=terms_url terms and conditions
-        ' of the 8Stem Beta Team
+        | I agree to the&nbsp;
+        = link_to 'terms and conditions', terms_url
+        | &nbsp;of the 8Stem Beta Team
     .text-center.row
       = f.input :terms_of_service, :as => :boolean, :label => content_for(:the_links), error: false
       = f.button :submit, 'Sign me Up!', class: 'btn-round'

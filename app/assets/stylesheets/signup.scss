@@ -21,7 +21,6 @@ html, body {
   height: 100%;
 }
 
-
 .navbar-brand {
   height: 84px;
   padding-top: 12px;
@@ -58,6 +57,61 @@ html, body {
   }
   .media img {
     width: 250px;
+  }
+}
+
+#artistSignUpPage {
+  background-image: image_url('signup-background.png');
+  -webkit-background-size: cover;
+  background-size: cover;
+
+  .logo {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 35px;
+  }
+
+  #artistSignUpForm {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 15px;
+
+    hr {
+      margin: 0;
+    }
+
+    .dont-have-a-code {
+      text-align: center;
+      padding: 20px;
+      color: #9f9f9f;
+    }
+
+    .signup-wrapper {
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+      border-bottom: 1px solid #e5e5e5;
+
+      .form-control {
+        text-align: center;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none;
+
+        &.input-lg {
+          height: 60px;
+        }
+      }
+    }
   }
 }
 

@@ -1,5 +1,6 @@
-class CreateBetaArtists < ActiveRecord::Migration
+class UpdateBetaArtists < ActiveRecord::Migration
   def change
+    drop_table :beta_artists
     create_table :beta_artists do |t|
       t.references :user, index:true
       t.string :name, null: false

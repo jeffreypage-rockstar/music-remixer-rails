@@ -20,13 +20,13 @@
           overflow-x: hidden;
     }
 </style>
-<div id="wrapper" class="toggled clearfix">	
+<div id="wrapper" class="toggled clearfix">
 	<div id="page-content-wrapper">
 		<div class="section section-shadow section-white">
 			<div id="tracker-head" class="container-fluid">
 				<div class="clearfix clearfix-custom">
 					<a href="#" class="pull-right" style="margin-top: 10px" data-toggle="sidebar">Mobile Preview &raquo;</a>
-					<h3 class="pull-left editable-text songtitle"><span><%=@song.name%></span></h3>					
+					<h3 class="pull-left editable-text songtitle"><span><%=@song.name%></span></h3>
 				</div>
 				<div id="mixaudioplayer" class="row container-fluid main-player-area">
 					<%= render 'mixaudioplayer', song: @song, mixaudio: @mixaudio %>
@@ -58,7 +58,7 @@
 								RELEASED
 							<% elsif (@song.working?) %>
 								WORKING
-							<% else %> 
+							<% else %>
 								PROCESSING
 							<% end %>
 						</span>
@@ -80,7 +80,7 @@
 
 <script type="text/javascript">
 
-$(document).ready(function(){	
+$(document).ready(function(){
 	if($('#release-status').attr('data-status') == "processing_for_release"){
 		$('#release-status').css('display','none');
 	}
@@ -100,9 +100,9 @@ $(document).ready(function(){
 
 	$('.bpm').on('click',
 		'span',
-		function(e) {	
+		function(e) {
 			var topparent = $($(e.target).parent());
-			var classnm=$(e.target).text();	
+			var classnm=$(e.target).text();
 			$($(e.target).parent()).html('<input class="bpm_input" type="number" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
 				.on('blur keyup',
 				'input',
@@ -113,10 +113,10 @@ $(document).ready(function(){
 							$(this).blur();
 						}
 						return;
-					}							
+					}
 					e.stopPropagation();
 					var parent = $(e.target).parent();
-					$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');							
+					$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
 					if (parent.hasClass("bpm")) {
 						url = '/songs/' + <%=@song.id%>;
 					}
@@ -141,14 +141,23 @@ $(document).ready(function(){
 		});
 
     $(window).keypress(function(e) {
+
+
         if ($('#mixaudioplayer').length > 0) {
-            if (e.keyCode == 0 || e.keyCode == 32) {
+            if (e.keyCode == 0 || e.keyCode == 32) { 
+            var inputs = document.getElementsByTagName('input');
+
+		    for(var item in inputs)
+		    {
+		        if(inputs[item] == document.activeElement)
+		            return;
+		    }           	
                 e.preventDefault();
                 playOrPauseTopWavesurferPlayer();
             }
         }
     });
-
+    
     window.configuration = "<%=@configuration%>";
     initializeTopPlayer = function(mixedFilePath) {
         window.topWavesurfer = Object.create(WaveSurfer);
@@ -235,7 +244,7 @@ $(document).ready(function(){
 					})
 					.fail(function( msg ) {
 						console.log(  msg );
-					});			
+					});
 				}
 				else {
 					$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");
@@ -260,7 +269,7 @@ $(document).ready(function(){
 					console.log(  msg );
 				});
         	}
-        });		
+        });
 
         $('#mix-tabs .tab a').click(function (event) {
             event.preventDefault();
@@ -270,7 +279,7 @@ $(document).ready(function(){
             reInitializeClipsState();
             updatePreview();
             window.configurationBtn = this;
-        });        
+        });
     });
 </script>
 <% end %>

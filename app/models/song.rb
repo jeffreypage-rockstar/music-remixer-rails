@@ -22,18 +22,22 @@ class Song < ActiveRecord::Base
   store_in_background :zipfile, SongZipfileUploadWorker
 
   # songs status
-  enum status: { processing: 0, failed: 1, working: 2, processing_for_release: 3, released: 4, archived: 5 }
+  enum status: { processing: 0, failed: 1, working: 2, processing_for_release: 3, released: 4, archived: 5, deleted: 6 }
 
   # song genres
   acts_as_taggable_on :genres
   acts_as_likeable
 
-  belongs_to :user, counter_cache: true
+  belongs_to :user
   has_many :parts, -> { order 'parts.column' }, dependent: :delete_all
   has_many :clips, dependent: :delete_all
   has_many :clip_types, -> { order 'clip_types.row' }, dependent: :delete_all
+  has_many :remixes, -> { order 'plays_count desc'}, dependent: :delete_all
 
-  default_values uuid: SecureRandom.hex(12), status: Song.statuses[:processing]
+  default_value_for :uuid do #important, needs to be in a block
+    SecureRandom.hex(12)
+  end
+  default_value_for :status, Song.statuses[:processing]
 
   # audio uploader
   validates :name, presence: true
@@ -224,16 +228,21 @@ class Song < ActiveRecord::Base
       end
     end
     self.save!
-    self.update_attribute(:status, :working)
   end
 
   def self.get_parts_from_filename(filename)
-    filename = File.basename(filename).strip.downcase
-    re = /^([a-h])\s*([1-8])/
-    m = re.match(filename)
-    # new new new format, col (a-h) row (1-8)
-    col = m[1].ord-96 # convert alpha to numeric
-    row = m[2]
+    col = row = 0
+    
+    begin
+      filename = File.basename(filename).strip.downcase
+      re = /^([a-h])\s*([1-8])/
+      m = re.match(filename)
+      # new new new format, col (a-h) row (1-8)
+      col = m[1].ord-96 # convert alpha to numeric
+      row = m[2]
+    rescue Exception => e
+      Rails.logger.error("get_parts_from_filename(#{filename}): #{e}")
+    end
     return [col.to_i, row.to_i]
   end
 

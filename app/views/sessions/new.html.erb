@@ -1,4 +1,9 @@
 <div class="well form400">
-	<h3>Sign in</h3>
-	<%= render partial: '/sessions/form' %>
+	<% if !flash[:notice].blank? && flash[:notice] == "You must confirm your email address."  %>
+		<h3 style="font-size:32px">Send confirmation email</h3>
+		<%= render partial: '/sessions/resend_confirmation' %>
+	<% else %>
+		<h3>Sign in</h3>
+		<%= render partial: '/sessions/form' %>
+	<% end %>
 </div>

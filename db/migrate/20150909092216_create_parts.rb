@@ -4,7 +4,7 @@ class CreateParts < ActiveRecord::Migration
       t.references :song, index:true
       t.string :name, limit: 40
       t.integer :column
-      t.integer :duration
+      t.float :duration
 
       t.timestamps null: false
     end

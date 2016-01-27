@@ -1,5 +1,5 @@
 class Authentication < ActiveRecord::Base
-  PROVIDERS = %w(facebook twitter tumblr google_oauth2 soundcloud lastfm)
+  PROVIDERS = %w(facebook twitter tumblr google soundcloud lastfm)
 	belongs_to :user
 
 	def self.create_with_omniauth(auth_hash)

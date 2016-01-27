@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     get 'about' => 'pages#about'
     get 'news' => 'pages#news'
     get 'contact' => 'pages#contact'
+    get 'artists' => 'pages#artists'
     get 'terms' => 'pages#terms'
     root 'pages#splash'
 
@@ -64,12 +65,19 @@ Rails.application.routes.draw do
       get '/install' => 'home#install', as: 'install'
       get '/welcome_modal' => 'home#welcome_modal'
       get '/reset_password_success_modal' => 'passwords#reset_password_success_modal'
+      post '/resend_confirmation' => 'passwords#resend_confirmation', as: 'resend_confirmation'
 
       get '/sign_in' => 'sessions#new', as: 'sign_in'
       get '/sign_up' => 'users#new', as: 'sign_up'
       get '/sign_out' => 'sessions#destroy', as: 'sign_out'
       get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
       get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
+
+      get '/artists/join' => 'artists#join', as: 'artists_join'
+      post '/artists/join' => 'artists#join'
+      get '/artists/apply' => 'artists#apply', as: 'artists_apply'
+      post '/artists/apply' => 'artists#apply'
+      get '/artists/thanks' => 'artists#thanks', as: 'artists_thanks'
 
       # AUTHENTICATION
       resource	:session, :controller => 'sessions', :only => [:new, :create, :destroy]
@@ -85,13 +93,6 @@ Rails.application.routes.draw do
           end
         end
       end
-
-      # get 'beta/artist' => 'beta_artists#join', as: 'beta_artists'
-      # # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_artists_thanks'
-      # post 'beta/artist' => 'beta_artists#join'
-      # get 'beta/sign_up/:invite_code' => 'beta_users#new', as: 'beta_sign_up'
-      # post 'beta/sign_up/:invite_code' => 'beta_users#create'
-      # get 'beta/thanks' => 'beta_users#thanks', as: 'beta_thanks'
 
       resources :songs do
         member do

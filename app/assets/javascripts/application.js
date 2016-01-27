@@ -13,7 +13,6 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
-//= require turbolinks
 //= require jquery-ui/draggable
 //= require jquery-ui/droppable
 //= require jquery.jplayer.min

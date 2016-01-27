@@ -2,15 +2,15 @@
 #artistMusicPage
   = render partial: 'artist/artist/artist_profile_header', locals: { artist: @artist }  
   .container
-    - if @artist.songs.any?
+    - if @artist.artist_visible_songs.any?
       .selected-songs
-        h4 Selected Songs  
+        h4 My Songs
 
         table.table.table-mix8
           thead
             tr
               th
-              th #{sortable 'name', 'Track Name'}
+              th #{sortable 'name', 'Song Name'}
               th.text-center #{sortable 'duration', 'Duration'}
               th.text-center #{sortable 'plays_count', 'Plays'}
               th.text-center #{sortable 'downloads_count', 'Downloads'}
@@ -18,7 +18,7 @@
               th.text-center #{sortable 'status', 'Status'}
               th
           tbody
-            - selected_songs = @artist.songs.decorate
+            - selected_songs = @artist.artist_visible_songs.decorate
             - selected_songs.each_with_index do |song, index|             
               .modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="confirm-delete_#{song.id}"
                 .modal-dialog

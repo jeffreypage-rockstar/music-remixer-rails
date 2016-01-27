@@ -9,17 +9,23 @@ html lang="en"
       = I18n.t('brand.name')
     link href="https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900,900italic" rel="stylesheet" type="text/css" /
     link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css" /
-    = stylesheet_link_tag 'signup', media: 'all'
+    = stylesheet_link_tag 'artist_signup', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   body
     = render partial: 'shared/analytics'
-    = render partial: 'shared/navigation_bar', locals: {layout: '8stem'}
+    = render partial: 'shared/flash'
 
-    #signUpPage
-      = render partial: 'shared/flash'
-      = yield
+    #artistSignUpPage.site-wrapper
+      .site-wrapper-inner
+        .cover-container
+          = link_to root_url
+            = image_tag 'logo_small.png', class: 'logo'
 
-      footer
-        | Copyright 2016, all rights Reserved. 8stem is a registered trademark.&nbsp;
-        a href=terms_url Privacy and Terms
+          = yield
+
+          .mastfoot
+            .inner
+              p
+                | Copyright 2016, all rights Reserved. 8stem is a registered trademark.&nbsp;
+                a href=terms_url Privacy and Terms

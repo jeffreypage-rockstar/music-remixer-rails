@@ -9,6 +9,6 @@ class Artist::BaseController < ApplicationController
   end
 
   def validate_artist
-    redirect_to app_home_url unless current_user.is_artist_admin?
+    redirect_to app_home_url unless current_user && current_user.is_artist_admin?
   end
 end
