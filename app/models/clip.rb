@@ -1,5 +1,5 @@
 class Clip < ActiveRecord::Base
-	default_scope { order(id: :asc) }
+	default_scope { order(column: :asc, row: :asc) }
 	mount_uploader :file, ClipFileUploader
 	store_in_background :file, ClipFileUploadWorker
 	mount_uploader :file_aac, ClipFileAacUploader
