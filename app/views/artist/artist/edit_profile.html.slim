@@ -30,7 +30,7 @@
               .col-sm-4
                 = f.label :social_links
               .col-sm-8
-                = f.input :facebook, wrapper: :horizontal_input_group_without_label, label: false, input_html:{placeholder: 'instagram.com/handle'} do
+                = f.input :facebook, wrapper: :horizontal_input_group_without_label, label: false do
                   span.input-group-addon Facebook
                   = f.input_field :facebook, class: 'form-control', hint: 'facebook.com/facebookhandle'
 
@@ -38,9 +38,9 @@
                   span.input-group-addon Instagram
                   = f.input_field :instagram, class: 'form-control'
 
-                = f.input :twitter, wrapper: :horizontal_input_group_without_label, label: false do
+                = f.input :twitter, wrapper: :horizontal_input_group_without_label, label: false, input_html:{placeholder: 'instagram.com/handle'} do
                   span.input-group-addon Twitter
-                  = f.input_field :twitter, class: 'form-control'
+                  = f.input_field :twitter, class: 'form-control', html: {placeholder: 'instagram.com/handle'}
 
                 = f.input :soundcloud, wrapper: :horizontal_input_group_without_label, label: false do
                   span.input-group-addon Soundcloud

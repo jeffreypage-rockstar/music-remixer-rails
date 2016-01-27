@@ -2,6 +2,8 @@ class Clip < ActiveRecord::Base
 	# default_scope { order(row: :asc) }
 	mount_uploader :file, ClipFileUploader
 	store_in_background :file, ClipFileUploadWorker
+	mount_uploader :file_aac, ClipFileAacUploader
+	store_in_background :file_aac, ClipFileAacUploadWorker
 
 	enum storing_status: { storing_pending: 0, storing_done: 1, storing_failed: 2 }
 
