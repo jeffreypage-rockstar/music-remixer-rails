@@ -14,10 +14,10 @@ class Artist::ClipsController < Artist::BaseController
     respond_to do |format|
       # clip_type and part are nil when not placed in the grid correctly
       if @clip.clip_type.nil?
-        @clip.clip_type = ClipType.where({:song_id => @clip.song_id, :row => clip_params[:row]}).first
+        @clip.clip_type = ClipType.find_by(:song_id => @clip.song_id, :row => clip_params[:row])
       end
       if @clip.part.nil?
-        @clip.part = Part.where({:song_id => @clip.song_id, :column => clip_params[:column]}).first
+        @clip.part = Part.find_by(:song_id => @clip.song_id, :column => clip_params[:column])
       end
 
       if @clip.update(clip_params)
