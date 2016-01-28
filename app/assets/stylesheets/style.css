@@ -373,7 +373,7 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	padding-right: 21px !important;
 	height: 100%;
 	color: #788086;
-	background-image: url(iphone.png);
+	background-image: url(../images/iphone.png);
 	background-repeat: no-repeat;
 	background-size: cover !important;
 }
