@@ -1,5 +1,5 @@
 class Clip < ActiveRecord::Base
-	# default_scope { order(row: :asc) }
+	# default_scope { order(column: :asc, row: :asc) }
 	mount_uploader :file, ClipFileUploader
 	store_in_background :file, ClipFileUploadWorker
 	mount_uploader :file_aac, ClipFileAacUploader
@@ -26,6 +26,5 @@ class Clip < ActiveRecord::Base
 			file_tmp_path = File.join(cache_directory, self.file_tmp)
 		end
 		file_tmp_path
-	end
-	
+  end
 end

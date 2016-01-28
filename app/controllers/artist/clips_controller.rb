@@ -12,6 +12,14 @@ class Artist::ClipsController < Artist::BaseController
 
   def update
     respond_to do |format|
+      # clip_type and part are nil when not placed in the grid correctly
+      if @clip.clip_type.nil?
+        @clip.clip_type = ClipType.find_by(:song_id => @clip.song_id, :row => clip_params[:row])
+      end
+      if @clip.part.nil?
+        @clip.part = Part.find_by(:song_id => @clip.song_id, :column => clip_params[:column])
+      end
+
       if @clip.update(clip_params)
         format.json { render json: @clip}
       else

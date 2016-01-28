@@ -74,7 +74,7 @@ class SongDecorator < Draper::Decorator
   end
 
   def email_share_anchor
-    url = "mailto:subject=#{name_with_artist}&body=#{song_url}"
+    url = "mailto:?subject=#{name_with_artist}&body=#{song_url}"
     h.link_to url, class: 'social-share-link', target: '_blank', data: { channel: 'email' } do
       h.image_tag 'profile/email.png'
     end

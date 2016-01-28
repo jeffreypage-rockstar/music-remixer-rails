@@ -65,7 +65,7 @@
 				</div>
 				<div id="tracker-mixer" class="shadow">
 					<div class="mixer-row">
-						<div class="clearfix">
+						<div id="mixer-panel" class="clearfix">
 							<%= render 'clips/index' %>
 						</div>
 					</div>
@@ -141,19 +141,16 @@ $(document).ready(function(){
 		});
 
     $(window).keypress(function(e) {
-
-
         if ($('#mixaudioplayer').length > 0) {
             if (e.keyCode == 0 || e.keyCode == 32) { 
-            var inputs = document.getElementsByTagName('input');
-
-		    for(var item in inputs)
-		    {
-		        if(inputs[item] == document.activeElement)
-		            return;
-		    }           	
-                e.preventDefault();
-                playOrPauseTopWavesurferPlayer();
+	            var inputs = document.getElementsByTagName('input');
+			    for(var item in inputs)
+			    {
+			        if(inputs[item] == document.activeElement)
+			            return;
+			    }           	
+	                e.preventDefault();
+	                playOrPauseTopWavesurferPlayer();
             }
         }
     });
@@ -219,36 +216,36 @@ $(document).ready(function(){
 		});
 
         $('#release-status').on('click', function(e) {
-			var bpm_text = $('.bpm span').text();
+			    var bpm_text = $('.bpm span').text();
             if ($(e.target).attr("data-status") == "working") {
             	if (<%= @song.bpm %> != 0 && bpm_text != '0') {
             		$(e.target).attr("data-status","processing_for_release");
-					$(e.target).attr("class","processing_for_release");
-					$('#release-progress span').html(' PROCESSING');
-					$(e.target).css('display','none');
-                    $.ajax({
-	                    type: "PUT",
-	                    dataType: "json",
-	                    url: '/songs/<%=@song.id%>',
-	                    contentType: 'application/json',
-	                    data: JSON.stringify({status: "released"})
-	                })
-					.done(function( msg ) {
-						console.log( "Data Saved: " + msg );
-						$(e.target).attr("data-status","released");
-						$(e.target).attr("class","released");
-						$('#release-progress span').html(' RELEASED');
-						$(e.target).css('display','block');
-						$(e.target).html('UNRELEASE');
-						$('.alert-custom').css({display: "none"});
-					})
-					.fail(function( msg ) {
-						console.log(  msg );
-					});
-				}
-				else {
-					$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");
-				}
+                $(e.target).attr("class","processing_for_release");
+                $('#release-progress span').html(' PROCESSING');
+                $(e.target).css('display','none');
+                $.ajax({
+                  type: "PUT",
+                  dataType: "json",
+                  url: '/songs/<%=@song.id%>',
+                  contentType: 'application/json',
+                  data: JSON.stringify({status: "released"})
+                })
+                .done(function( msg ) {
+                  console.log( "Data Saved: " + msg );
+                  $(e.target).attr("data-status","released");
+                  $(e.target).attr("class","released");
+                  $('#release-progress span').html(' RELEASED');
+                  $(e.target).css('display','block');
+                  $(e.target).html('UNRELEASE');
+                  $('.alert-custom').css({display: "none"});
+                })
+                .fail(function( msg ) {
+                  console.log(  msg );
+                });
+				      }
+              else {
+                $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");
+              }
 	        }
             else {
         		$.ajax({

@@ -5,7 +5,7 @@ class Referral < ActiveRecord::Base
   attr_accessor :emails
 
   default_value_for :invite_code do
-    SecureRandom.hex(5)
+    SecureRandom.hex(10)
   end
 
   scope :virgin, -> { where(referred_id: nil, signed_up_at: nil) }

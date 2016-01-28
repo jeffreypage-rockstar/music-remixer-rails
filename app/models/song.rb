@@ -29,10 +29,10 @@ class Song < ActiveRecord::Base
   acts_as_likeable
 
   belongs_to :user
-  has_many :parts, -> { order 'parts.column' }, dependent: :delete_all
-  has_many :clips, dependent: :delete_all
-  has_many :clip_types, -> { order 'clip_types.row' }, dependent: :delete_all
-  has_many :remixes, -> { order 'plays_count desc'}, dependent: :delete_all
+  has_many :parts,      -> { order 'parts.column' },            dependent: :delete_all
+  has_many :clips,      -> { order 'clips.row, clips.column' }, dependent: :delete_all
+  has_many :clip_types, -> { order 'clip_types.row' },          dependent: :delete_all
+  has_many :remixes,    -> { order 'remixes.plays_count desc'}, dependent: :delete_all
 
   default_value_for :uuid do #important, needs to be in a block
     SecureRandom.hex(12)
@@ -222,22 +222,26 @@ class Song < ActiveRecord::Base
         if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
           clip_file_path = File.join self.song_tmp_directory_path, file
           column, row = Song.get_parts_from_filename(file)
+          # puts "column=#{column}, row=#{row}, file=#{file}"
 
-          unless clip_types[row]
-            level_type = ClipType.row_name(row)
-            clip_type = self.clip_types.find_or_initialize_by(name: level_type)
-            clip_type.attributes = {row: row}
-            clip_types[row] = clip_type
+          if column > 0 && row > 0
+            unless clip_types[row]
+              level_type = ClipType.row_name(row)
+              clip_type = self.clip_types.find_or_initialize_by(name: level_type)
+              clip_type.attributes = {row: row}
+              clip_types[row] = clip_type
+            end
+            unless parts[column]
+              part = self.parts.find_or_initialize_by(column: column)
+              part.attributes = {name: "Part #{column}"}
+              parts[column] = part
+            end
+            clip = self.clips.find_or_initialize_by(row: row, column: column)
+            clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
+          else
+            # add unplaced clip (col=0, row=0)
+            self.clips << Clip.new({row: row, column: column, file: File.open(clip_file_path)})
           end
-
-          unless parts[column]
-            part = self.parts.find_or_initialize_by(column: column)
-            part.attributes = {name: "Part #{column}"}
-            parts[column] = part
-          end
-
-          clip = self.clips.find_or_initialize_by(row: row, column: column)
-          clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
         end
       end
     end
@@ -246,7 +250,6 @@ class Song < ActiveRecord::Base
 
   def self.get_parts_from_filename(filename)
     col = row = 0
-    
     begin
       filename = File.basename(filename).strip.downcase
       re = /^([a-h])\s*([1-8])/
@@ -256,6 +259,7 @@ class Song < ActiveRecord::Base
       row = m[2]
     rescue Exception => e
       Rails.logger.error("get_parts_from_filename(#{filename}): #{e}")
+      col = row = 0
     end
     return [col.to_i, row.to_i]
   end

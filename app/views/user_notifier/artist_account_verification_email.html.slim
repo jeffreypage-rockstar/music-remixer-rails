@@ -1,0 +1,9 @@
+p
+  = "Hello #{@user.name},"
+  /TODO: need artist blurb here
+p Click the button below to verify your email and activate your artist account.
+br
+.text-center
+  = link_to 'Verify Email Address', confirm_app_artists_url(confirmation_token: @user.confirmation_token), {class: 'btn btndiv'}
+br
+br

@@ -3,7 +3,7 @@ class Artist::SongsController < Artist::BaseController
   helper_method :sort_column, :sort_direction
 
   before_action :require_login
-  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :destroy]
+  before_action :set_song, only: [:show, :edit, :update, :configure, :reload_clips, :mixaudio, :share_modal, :toggle_like_song, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs
@@ -51,6 +51,16 @@ class Artist::SongsController < Artist::BaseController
   end
 
   def configure
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
+
+    @bad_clips = @song.clips.where(row: 0, column: 0)
+  end
+
+  def reload_clips
+    @currentIndex = 1
     respond_to do |format|
       format.html {}
       format.js {}

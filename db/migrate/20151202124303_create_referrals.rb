@@ -5,6 +5,7 @@ class CreateReferrals < ActiveRecord::Migration
       t.string :name
       t.string :invite_code, null: false
       t.string :message
+      t.boolean :is_artist_referral
 
       t.references :referring, references: :users, index: true
       t.references :referred, references: :users, index: true

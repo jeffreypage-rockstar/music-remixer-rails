@@ -8,48 +8,74 @@
 		<h6 id="level-<%=r%>" data-id="<%= clip_type.id %>" class="<%='editable-text' if r >= 5%>"><span><%=clip_type.name%></span></h6>
 	<% end %>
 </div>
-<% @song.parts.each_with_index do |part, c| %>
-	<% c += 1 %>
-	<% r = 0 %>
-	<div id="clips-<%=part.column%>" class="tracker-part part<%=part.column%> clips<%=' focus' if part.column == @currentIndex %>" data-column="<%=part.column%>">
-		<div class="part-play-btn disabled"></div>
-		<!--- ravi -->
-		<% part.clips.each_with_index do |clip, r| %>	
-			<% r += 1 %>	
-			<% if r == 5 %>
-				<div class="blank">
-					<div class="play-btn"></div>
-				</div>				
-			<% end %>
-			<div id="clip-part-<%=clip.id%>" data-valid="<%=clip.column%><%=clip.row%>" class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
-				 data-id="<%=clip.id%>" data-row="<%=r%>" data-db-row="<%=clip.row%>" data-col="<%=c%>" data-db-col="<%=clip.column%>" data-path="<%=clip.file%>"
-                 data-path-aac="<%=clip.file_aac%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
-				 data-user-content="<%=clip.allow_ugc%>" rel="<%= 'popover' if ( clip.row == 0 || clip.column == 0 ) %>" data-popover-content="#myPopover" >
-				<div class="progress"></div>
-				<div class="opaque-gray"></div>
-				<div class="play-btn fa fa-play"></div>	
-				<div id="myPopover" class="hide">
-					<b>Resolve missing file:</b>
-					<ul>
-						<% @bad_clips.each do |t| %>
-							<li id="invalid-<%=t.id%>" ><%= t.original_filename %></li>
-						<% end %>
-					</ul>
-				</div>
-				<% if clip.allow_ugc %>
-					<div class="user-content">0</div>
-				<% end %>
-			</div>
-		<% end %>
-		<!-- ravi -->
-		<div class="level column editable-text" tabindex="<%=c%>" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
-			<span><%=part.name%></span>
-			<input class="input_tabable <%=part.name%>" style="display: none" type="text" tabindex="<%=c%>" data-originalvalue="<%=part.name%>" value="<%=part.name%>">
-		</div>
-	</div>
+<% @song.parts.each do |part| %>
+    <% next if part.column == 0 %>
+    <% c = part.column %>
+    <div id="clips-<%=part.column%>" class="tracker-part part<%=part.column%> clips<%=' focus' if part.column == @currentIndex %>" data-column="<%=part.column%>">
+      <div class="part-play-btn disabled"></div>
+      <% r = 0 %>
+      <% part.clips.each do |clip| %>
+          <% while r < clip.row %>
+              <% r += 1 %>
+              <% if r == 5 %>
+                  <div class="blank">
+                    <div class="play-btn"></div>
+                  </div>
+              <% end %>
+              <% if clip.row == r %>
+                  <div id="clip-part-<%=clip.id%>"
+                       class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
+                       data-id="<%=clip.id%>"
+                       data-clip-type-id="<%=clip.clip_type_id%>"
+                       data-part-id="<%=clip.part_id%>"
+                       data-row="<%=r%>" data-db-row="<%=clip.row%>"
+                       data-col="<%=c%>" data-db-col="<%=clip.column%>"
+                       data-path="<%=clip.file%>" data-path-aac="<%=clip.file_aac%>"
+                       data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
+                       data-duration="<%=clip.duration%>"
+                       data-user-content="<%=clip.allow_ugc%>"
+                      >
+                    <div class="progress"></div>
+                    <div class="opaque-gray"></div>
+                    <div class="play-btn fa fa-play"></div>
+                    <% if clip.allow_ugc %>
+                        <div class="user-content">0</div>
+                    <% end %>
+                  </div>
+              <% else %>
+                  <div id="clip-part-<%=clip.id%>"
+                       class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
+                       data-id="<%=clip.id-1%>"
+                       data-row="<%=r%>" data-db-row="<%=clip.row%>"
+                       data-path="<%=clip.file%>" data-path-aac="<%=clip.file_aac%>"
+                       data-col="<%=c%>" data-db-col="<%=clip.column%>"
+                       data-duration="<%=clip.duration%>"
+                       data-valid="00"
+                       rel="popover"
+                       data-popover-content="#myPopover"
+                      >
+                    <p class="p-click"> click to fix </p>
+                    <% # TODO: this needs to be rendered outside of this loop, only need one block %>
+                    <div id="myPopover" class="hide">
+                      <b>Resolve missing file:</b>
+                      <ul class="missing_file_pop">
+                        <% @bad_clips.each do |t| %>
+                            <li id="<%=t.id%>" data-duration="<%=t.duration%>" > <%= t.original_filename %> </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+              <% end %>
+          <% end %>
+      <% end %>
+      <div class="level column editable-text" tabindex="<%=c%>" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
+        <span><%=part.name%></span>
+        <input class="input_tabable <%=part.name%>" style="display: none" type="text" tabindex="<%=c%>" data-originalvalue="<%=part.name%>" value="<%=part.name%>">
+      </div>
+    </div>
 <% end %>
 <script type="text/javascript">
-	$('.editable-text').on('click',
+  $('.editable-text').on('click',
 			'span',
 			function (e) {
 				var topparent = $($(e.target).parent());
@@ -84,8 +110,6 @@
 									}
 								}
 							}
-							// console.log(url);
-
 							if (url.length) {
 								$.ajax({
 									type: "PUT",
@@ -169,7 +193,7 @@
 			var column = $(this).attr('data-column');
 			if (!wavesurfers[column]) wavesurfers[column] = {};
 			$(this).find('.clip').each(function(){
-                path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
+        path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
 				wavesurferPlayer(this, path, $(this).state(), column, $(this).attr('data-row'));
 
 			})
@@ -462,137 +486,147 @@
 		});
 	}
 
-    function canPlayOgg() {
-        var a = document.createElement('audio');
-        return !!(a.canPlayType && a.canPlayType('audio/ogg;').replace(/no/, ''));
-    }
+  function canPlayOgg() {
+    var a = document.createElement('audio');
+    return !!(a.canPlayType && a.canPlayType('audio/ogg;').replace(/no/, ''));
+  }
 
-	$(document).on('ready page:load', function () {
-		// window.wavesurfers = wavesurfers = {};
-		// window.draggableElm = {};
-		updatePreview();
-		// Intialize all sound clips for play
-		setTimeout(function(){
-			loadPartClips();
-			showUserContent();
-		}, 500);
+  function documentReadyExcutables() {
+    console.log("Document");
+    // window.wavesurfers = wavesurfers = {};
+    // window.draggableElm = {};
+    updatePreview();
+    // Intialize all sound clips for play
+    setTimeout(function(){
+      loadPartClips();
+      showUserContent();
+    }, 500);
 
-		clipDraggable($("#tracker-mixer .clip"), 'parent');
-		blankDroppable($("#tracker-mixer .blank"));
-		
-		$(".clips .level.column").click(function(event){
-			event.stopPropagation();
-			var column = $(event.target).parent().data('column');
-			if (!column) { return }
-			if (column == sColumn) { return }
+    clipDraggable($("#tracker-mixer .clip"), 'parent');
+    blankDroppable($("#tracker-mixer .blank"));
 
-			// Paused Sound Clips
-			$(".full-play-btn").removeClass('playing');
-			stopPartPlayers(true);
+    $(".clips .level.column").click(function(event){
+      event.stopPropagation();
+      var column = $(event.target).parent().data('column');
+      if (!column) { return }
+      if (column == sColumn) { return }
 
-			$("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
-			sColumn = column;
+      // Paused Sound Clips
+      $(".full-play-btn").removeClass('playing');
+      stopPartPlayers(true);
 
-			isPartPlayerReady(column);
-			showCurrentPartDetails();
-			$("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
-			playNext();
+      $("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
+      sColumn = column;
 
-			updatePreview();
-		});
+      isPartPlayerReady(column);
+      showCurrentPartDetails();
+      $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
+      playNext();
 
-		$(".clips .part-play-btn").click(function(event){
-			event.stopPropagation();
-			var column = $(event.target).parent().data('column');
-			if (!column) { return }
-			if (column != sColumn) { return }
+      updatePreview();
+    });
 
-			// Stop any signle player
-			stopTopPlayer();
-			stopClipPreviewPlayer(true);
+    $(".clips .part-play-btn").click(function(event){
+      event.stopPropagation();
+      var column = $(event.target).parent().data('column');
+      if (!column) { return }
+      if (column != sColumn) { return }
 
-			// Attach Listener
-			addRemoveEventListener(true);
+      // Stop any signle player
+      stopTopPlayer();
+      stopClipPreviewPlayer(true);
 
-			// Play or Paused Sound Clips
-			for (var i = 1; i <= 8; i++) {
-				var wavesurfer = wavesurfers[sColumn][i];
-				if (wavesurfer.backend.isPaused()) {
-					$(event.target).parent().addClass('playing');
-					wavesurfer.play();
-				} else {
-					$(event.target).parent().removeClass('playing');
-					wavesurfer.pause();
-				}
-			}
-		});
+      // Attach Listener
+      addRemoveEventListener(true);
 
-		$(".clip").click(function(event){
-			event.stopPropagation();
-			var row = $(event.target).data('row');
-			var column = $(event.target).parent().data('column');
-			if (!row || !column) { return }
-			if (!wavesurfers[column]) { return }
+      // Play or Paused Sound Clips
+      for (var i = 1; i <= 8; i++) {
+        var wavesurfer = wavesurfers[sColumn][i];
+        if (wavesurfer.backend.isPaused()) {
+          $(event.target).parent().addClass('playing');
+          wavesurfer.play();
+        } else {
+          $(event.target).parent().removeClass('playing');
+          wavesurfer.pause();
+        }
+      }
+    });
 
-			var wavesurfer = wavesurfers[column][row];
-			if (!wavesurfer) { return }
+    $(".clip").click(function(event){
+      event.stopPropagation();
+      var row = $(event.target).data('row');
+      var column = $(event.target).parent().data('column');
+      if (!row || !column) { return }
+      if (!wavesurfers[column]) { return }
 
-			$(event.target).toggleClass('muted');
-			wavesurfer.toggleMute();
+      var wavesurfer = wavesurfers[column][row];
+      if (!wavesurfer) { return }
 
-			var state = wavesurfer.isMuted ? true : false;
-			$(event.target).updateState(state);
-			var song_id = $("#song-clips").data('id');
-			var updateClipUrl = "/songs/"+song_id+"/clips/"+$(event.target).data('id')
+      $(event.target).toggleClass('muted');
+      wavesurfer.toggleMute();
 
-			// Update song name
-			var clip = { clip: { state: state } };
-			if (configuration == 'mix2') {
-				clip = { clip: { state2: state } }
-			} else if (configuration == 'mix3') {
-				clip = { clip: { state3: state } }
-			}
-			if (column == sColumn) {
-				updatePreviewForClip($(event.target).data('row'), state);
-			}
-			updateClip(clip, updateClipUrl);
-		});
+      var state = wavesurfer.isMuted ? true : false;
+      $(event.target).updateState(state);
+      var song_id = $("#song-clips").data('id');
+      var updateClipUrl = "/songs/"+song_id+"/clips/"+$(event.target).data('id')
 
-		$(".clip .play-btn").click(function(event){
-			event.stopPropagation();
-			var row = $(event.target).parents('.clip').data('row');
-			var column = $(event.target).parents('.clips').data('column');
-			if (!row || !column) { return }
+      // Update song name
+      var clip = { clip: { state: state } };
+      if (configuration == 'mix2') {
+        clip = { clip: { state2: state } }
+      } else if (configuration == 'mix3') {
+        clip = { clip: { state3: state } }
+      }
+      if (column == sColumn) {
+        updatePreviewForClip($(event.target).data('row'), state);
+      }
+      updateClip(clip, updateClipUrl);
+    });
 
-			stopTopPlayer();
+    $(".clip .play-btn").click(function(event){
+      event.stopPropagation();
+      var row = $(event.target).parents('.clip').data('row');
+      var column = $(event.target).parents('.clips').data('column');
+      if (!row || !column) { return }
 
-			// If already playing same audio file
-			if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {
-				if (clipPreviewPlayer.backend.isPaused()) {
-					$(event.target).addClass('paused');
-					clipPreviewPlayer.play();
-				} else {
-					$(event.target).removeClass('paused');
-					clipPreviewPlayer.pause();
-				}
-				return;
-			}
+      stopTopPlayer();
 
-			addRemoveEventListener(false);
-			$(".clips.playing").removeClass('playing');
-			stopPartPlayers(true);
+      // If already playing same audio file
+      if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {
+        if (clipPreviewPlayer.backend.isPaused()) {
+          $(event.target).addClass('paused');
+          clipPreviewPlayer.play();
+        } else {
+          $(event.target).removeClass('paused');
+          clipPreviewPlayer.pause();
+        }
+        return;
+      }
 
-			clipPreviewPlayerRow = row;
-			clipPreviewPlayerColumn = column;
-			stopClipPreviewPlayer(false);
+      addRemoveEventListener(false);
+      $(".clips.playing").removeClass('playing');
+      stopPartPlayers(true);
 
-			$(event.target).addClass('paused');
-			clipPreviewPlayer = wavesurfers[column][row];
-			clipPreviewPlayer.seekTo(0);
-			clipPreviewPlayer.play();
-			clipPreviewPlayer.on('finish', singleClipEndedCallback);
-			window.isPartPlayerStarted = false;
-		});
-	});
+      clipPreviewPlayerRow = row;
+      clipPreviewPlayerColumn = column;
+      stopClipPreviewPlayer(false);
+
+      $(event.target).addClass('paused');
+      clipPreviewPlayer = wavesurfers[column][row];
+      clipPreviewPlayer.seekTo(0);
+      clipPreviewPlayer.play();
+      clipPreviewPlayer.on('finish', singleClipEndedCallback);
+      window.isPartPlayerStarted = false;
+    });
+  }
+
+  if (window.isFromReloadPartial) {
+    documentReadyExcutables();
+  } else {
+    $(document).on('ready page:load', function () {
+      documentReadyExcutables();
+    });
+  }
+
 </script>
 <!-- Clips Segment Area End -->

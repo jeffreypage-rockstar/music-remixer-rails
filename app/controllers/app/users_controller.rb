@@ -85,7 +85,7 @@ class App::UsersController < App::BaseController
     end
   end
 
-  def confirm_email
+  def confirm
     user = User.find_by_confirmation_token(params[:confirmation_token])
     if user && user.confirmation_token == params[:confirmation_token]
       user.email_activate
@@ -93,14 +93,15 @@ class App::UsersController < App::BaseController
       sign_in(user) do |status|
         if status.success?
           $tracker.track user.uuid, 'Signup: Account activated'
-          redirect_to "#{app_edit_profile_url(user.username)}?ref=confirm_email"
+          # the ref here triggers a modal on the landing page
+          redirect_to "#{app_edit_profile_url(user.username)}?ref=confirm"
         else
           $tracker.track user.uuid, 'Signup: Account activation failed'
-          redirect_to "#{root_url}?ref=confirm_email_failure"
+          redirect_to "#{root_url}?ref=confirm_failure"
         end
       end
     else
-      redirect_to "#{root_url}?ref=confirm_email_token_not_found"
+      redirect_to "#{root_url}?ref=confirm_token_not_found"
     end
   end
 

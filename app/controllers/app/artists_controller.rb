@@ -15,8 +15,8 @@ class App::ArtistsController < App::BaseController
           $tracker.alias @user.uuid, session.id
           $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
           $tracker.track @user.uuid, 'Artist Join: success', {'name' => @user.name, 'email' => @user.email}
-          UserNotifier.account_verification_email(@user).deliver_now
-          redirect_to '/artists/thanks?ref=join'
+          UserNotifier.artist_account_verification_email(@user).deliver_now
+          redirect_to "#{app_artists_thanks_url}?ref=join"
           return
         end
       rescue ActiveRecord::RecordNotUnique
@@ -24,8 +24,18 @@ class App::ArtistsController < App::BaseController
         false
       end
     else
-      $tracker.track session.id, 'Artist Join: view'
-      @user = User.new
+      if params[:invite_code]
+        beta_artist = BetaArtist.find_by(invite_code: params[:invite_code])
+        if beta_artist
+          @user = User.new
+          @user.name = beta_artist.artist_name
+          @user.email = beta_artist.email
+          $tracker.track session.id, 'Artist Join: view'
+          return
+        end
+      end
+      # no valid invite_code, no go
+      redirect_to "#{app_artists_apply_url}?ref=join"
     end
   end
 
@@ -36,7 +46,7 @@ class App::ArtistsController < App::BaseController
         @beta_artist = BetaArtist.new(artist_apply_params)
         if @beta_artist.save
           $tracker.track session.id, 'Artist Apply: success', {'name' => @beta_artist.name, 'email' => @beta_artist.email}
-          redirect_to '/artists/thanks?ref=apply'
+          redirect_to "#{app_artists_thanks_url}?ref=apply"
           return
         end
       rescue ActiveRecord::RecordNotUnique
@@ -52,6 +62,26 @@ class App::ArtistsController < App::BaseController
   def thanks
   end
 
+  # similar to user confirm, just with 'artist' stuff
+  def confirm
+    user = User.find_by_confirmation_token(params[:confirmation_token])
+    if user && user.confirmation_token == params[:confirmation_token]
+      user.email_activate
+      sign_in(user) do |status|
+        if status.success?
+          $tracker.track user.uuid, 'Artist Signup: account activated'
+          # the ref here triggers a modal on the landing page
+          redirect_to "#{app_edit_profile_url(user.username)}?ref=artist_confirm"
+        else
+          $tracker.track user.uuid, 'Artist Signup: activation failed'
+          redirect_to "#{root_url}?ref=artist_confirm_failure"
+        end
+      end
+    else
+      redirect_to "#{root_url}?ref=artist_confirm_token_not_found"
+    end
+  end
+
   private
 
   def set_referral
@@ -64,6 +94,7 @@ class App::ArtistsController < App::BaseController
 
   def artist_join_params
     params.require(:user).permit(:name, :username, :email, :password)
+    params[:is_artist_admin] = true
   end
 
   def artist_apply_params
