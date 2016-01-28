@@ -1,5 +1,5 @@
 class ClipType < ActiveRecord::Base
-	default_scope { order('row') }
+	# default_scope { order('row') }
 	
 	belongs_to :song
 
