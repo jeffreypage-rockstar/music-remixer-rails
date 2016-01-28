@@ -75,6 +75,20 @@ class Song < ActiveRecord::Base
       errors.add(:zipfile, 'Not a valid zip file.')
     else
       Zip::File.open(self.zipfile_tmp_path) do |files|
+
+        # Check out if zip contains invalid files
+        valid = true
+        files.each do |file|
+          unless Song.valid_clip_file? file.name
+            valid = false
+            break
+          end
+        end
+        unless valid
+           errors.add(:zipfile, 'Zip file contains invalid files')
+        end
+
+        # Check out if zip file doesn't contain enough audio clips.
         file_count = files.count { |file| Song.valid_clip_file? file.name }
         unless file_count > 32
           errors.add(:zipfile, 'Zip file does not contain enough audio clips.')
