@@ -69,7 +69,6 @@ class Artist::SongsController < Artist::BaseController
     @bad_clips = @song.clips.where(row: 0, column: 0)
   end
 
-
   # PATCH/PUT /songs/1
   # PATCH/PUT /songs/1.json
   def update

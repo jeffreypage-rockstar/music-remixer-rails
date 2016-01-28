@@ -9,67 +9,69 @@
 	<% end %>
 </div>
 <% @song.parts.each do |part| %>
-	<% next if part.column == 0 %>
-	<% c = part.column %>
-	<div id="clips-<%=part.column%>" class="tracker-part part<%=part.column%> clips<%=' focus' if part.column == @currentIndex %>" data-column="<%=part.column%>">
-		<div class="part-play-btn disabled"></div>
-		<% r = 0 %>
-		<% part.clips.each do |clip| %>
-			<% while r < clip.row %>
-				<% r += 1 %>
-				<% if r == 5 %>
-					<div class="blank">
-						<div class="play-btn"></div>
-					</div>
-				<% end %>
-				<% if clip.row == r %>
-					<div id="clip-part-<%=clip.id%>"
-						 class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
-						 data-id="<%=clip.id%>"
-						 data-row="<%=r%>" data-db-row="<%=clip.row%>"
-						 data-col="<%=c%>" data-db-col="<%=clip.column%>"
-						 data-path="<%=clip.file%>" data-path-aac="<%=clip.file_aac%>"
-						 data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
-						 data-duration="<%=clip.duration%>"
-						 data-user-content="<%=clip.allow_ugc%>"
-						>
-						<div class="progress"></div>
-						<div class="opaque-gray"></div>
-						<div class="play-btn fa fa-play"></div>
-						<% if clip.allow_ugc %>
-							<div class="user-content">0</div>
-						<% end %>
-					</div>
-				<% else %>
-					<div id="clip-part-<%=clip.id%>"
-						 class="mixer-part clip clipstyle clip-<%=r%>"
-						 data-id="<%=clip.id%>"
-						 data-row="<%=r%>" data-db-row="<%=clip.row%>"
-						 data-col="<%=c%>" data-db-col="<%=clip.column%>"
-						 data-duration="<%=clip.duration%>"
-						 data-valid="00"
-						 rel="popover"
-						 data-popover-content="#myPopover"
-						>
-						<p class="p-click"> click to fix </p>
-						<% # TODO: this needs to be rendered outside of this loop, only need one block %>
-						<div id="myPopover" class="hide">
-							<b>Resolve missing file:</b>
-							<ul class="missing_file_pop">
-								<% @bad_clips.each do |t| %>
-									<li id="<%=t.id%>" data-duration="<%=t.duration%>" > <%= t.original_filename %> </li>
-								<% end %>
-							</ul>
-						</div>
-					</div>
-				<% end %>
-			<% end %>
-		<% end %>
-		<div class="level column editable-text" tabindex="<%=c%>" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
-			<span><%=part.name%></span>
-			<input class="input_tabable <%=part.name%>" style="display: none" type="text" tabindex="<%=c%>" data-originalvalue="<%=part.name%>" value="<%=part.name%>">
-		</div>
-	</div>
+    <% next if part.column == 0 %>
+    <% c = part.column %>
+    <div id="clips-<%=part.column%>" class="tracker-part part<%=part.column%> clips<%=' focus' if part.column == @currentIndex %>" data-column="<%=part.column%>">
+      <div class="part-play-btn disabled"></div>
+      <% r = 0 %>
+      <% part.clips.each do |clip| %>
+          <% while r < clip.row %>
+              <% r += 1 %>
+              <% if r == 5 %>
+                  <div class="blank">
+                    <div class="play-btn"></div>
+                  </div>
+              <% end %>
+              <% if clip.row == r %>
+                  <div id="clip-part-<%=clip.id%>"
+                       class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
+                       data-id="<%=clip.id%>"
+                       data-clip-type-id="<%=clip.clip_type_id%>"
+                       data-part-id="<%=clip.part_id%>"
+                       data-row="<%=r%>" data-db-row="<%=clip.row%>"
+                       data-col="<%=c%>" data-db-col="<%=clip.column%>"
+                       data-path="<%=clip.file%>" data-path-aac="<%=clip.file_aac%>"
+                       data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
+                       data-duration="<%=clip.duration%>"
+                       data-user-content="<%=clip.allow_ugc%>"
+                      >
+                    <div class="progress"></div>
+                    <div class="opaque-gray"></div>
+                    <div class="play-btn fa fa-play"></div>
+                    <% if clip.allow_ugc %>
+                        <div class="user-content">0</div>
+                    <% end %>
+                  </div>
+              <% else %>
+                  <div id="clip-part-<%=clip.id%>"
+                       class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
+                       data-id="<%=clip.id-1%>"
+                       data-row="<%=r%>" data-db-row="<%=clip.row%>"
+                       data-col="<%=c%>" data-db-col="<%=clip.column%>"
+                       data-duration="<%=clip.duration%>"
+                       data-valid="00"
+                       rel="popover"
+                       data-popover-content="#myPopover"
+                      >
+                    <p class="p-click"> click to fix </p>
+                    <% # TODO: this needs to be rendered outside of this loop, only need one block %>
+                    <div id="myPopover" class="hide">
+                      <b>Resolve missing file:</b>
+                      <ul class="missing_file_pop">
+                        <% @bad_clips.each do |t| %>
+                            <li id="<%=t.id%>" data-duration="<%=t.duration%>" > <%= t.original_filename %> </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+              <% end %>
+          <% end %>
+      <% end %>
+      <div class="level column editable-text" tabindex="<%=c%>" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
+        <span><%=part.name%></span>
+        <input class="input_tabable <%=part.name%>" style="display: none" type="text" tabindex="<%=c%>" data-originalvalue="<%=part.name%>" value="<%=part.name%>">
+      </div>
+    </div>
 <% end %>
 <script type="text/javascript">
   $('.editable-text').on('click',
@@ -489,6 +491,7 @@
   }
 
   function documentReadyExcutables() {
+    console.log("Document");
     // window.wavesurfers = wavesurfers = {};
     // window.draggableElm = {};
     updatePreview();
