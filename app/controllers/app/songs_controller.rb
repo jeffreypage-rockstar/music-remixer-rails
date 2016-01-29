@@ -14,7 +14,13 @@ class App::SongsController < App::BaseController
       }
       part.clips.each do |clip|
         partBlob[:clips] << {
-            :id => clip.id, :url => clip.file.to_s, :style1 => clip.state, :style2 => clip.state2, :style3 => clip.state3
+            :id => clip.id,
+            :url => clip.file.to_s,
+            :styles => {
+                :Original => clip.state,
+                :Mix2 => clip.state2,
+                :Mix3 => clip.state3
+            }
         }
       end
       @clips << partBlob
