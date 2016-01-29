@@ -1,0 +1,131 @@
+<div class="container">
+	<div class="row">
+		<div class="col-sm-7">
+			<img src="<%= @song.image_url(:medium) %>" />
+		</div>
+		<div class="col-sm-5">
+			<h3><%= @song.name %></h3>
+			<button class="play-button paused">Play</button>
+			<!--<ul class="list-group" style="margin-top:20px; width: 100px; text-align: center;">-->
+				<!--<a href="#" class="list-group-item active">Original</a>-->
+				<!--<a href="#" class="list-group-item">Mix2</a>-->
+				<!--<a href="#" class="list-group-item">Mix3</a>-->
+			<!--</ul>-->
+			<div style="margin-top: 20px;">
+				<ul class="btn-group" role="group" style="padding-left:0">
+					<button type="button" class="style btn btn-primary" data-style="Original">Original</button>
+					<button type="button" class="style btn btn-default" data-style="Mix2">Mix2</button>
+					<button type="button" class="style btn btn-default" data-style="Mix3">Mix3</button>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var parts = <%= raw(@clips.to_json) %>;
+
+	var currentPart = 0, sounds = [];
+	var partCount = <%= @song.parts.count %>;
+	function intializeSoundClips() {
+		var sound = null;
+		for (var i = 0; i < partCount; i++) {
+			sounds[i] = [];
+			var clipCount = parts[i].clips.length;
+			for (var j = 0; j < clipCount; j++) {
+				console.log(parts[i].clips[j].url);
+				sound = new Audio(parts[i].clips[j].url);
+				sounds[i][j] = sound;
+				sounds[i][j].buffered;
+			}
+		}
+		playNext();
+	}
+
+	function playNext() {
+		console.log("currentPart ::", currentPart);
+		if (currentPart >= parts.length) {
+			return
+		}
+		sounds[currentPart][0].addEventListener("ended", function() {
+			currentPart++;
+			console.log(currentPart+ " Clip ended !!!");
+			$("#clips-"+currentPart).removeClass("playing");
+			if (currentPart >= partCount) {
+				currentPart = 0;
+				return;
+			}
+
+			playNext();
+			$("#clips-"+(currentPart+1)).addClass("playing");
+			for (var i = 0; i < sounds[currentPart].length-1; i++) {
+				var sound = sounds[currentPart][i];
+				sound.play();
+			}
+		})
+	}
+
+	$(document).ready(function(){
+		$(".play-button").click(function(event){
+			event.stopPropagation();
+
+			// Play or Paused Sound Clips
+			if ($(event.target).hasClass('paused')) {
+				$(event.target).html('Pause');
+			}
+			else {
+				$(event.target).html('Play');
+			}
+
+			for (var i = 0; i < sounds[currentPart].length-1; i++) {
+				var sound = sounds[currentPart][i];
+				if ($(event.target).hasClass('paused')) {
+					sound.play();
+				} else {
+					sound.pause();
+				}
+			}
+			$(event.target).toggleClass('paused');
+		});
+
+		$("button.style").click(function(event) {
+			event.stopPropagation();
+			var style = $(event.target).data('style');
+			$('button.style').removeClass('btn-primary');
+			$('button.style').addClass('btn-default');
+			$(this).addClass('btn-primary');
+		});
+
+		$("button.remix").click(function(event) {
+			event.stopPropagation();
+			var remix = $(event.target).data('remix');
+		});
+
+		$(".clip").click(function(event){
+			event.stopPropagation();
+			var row = $(event.target).data('row');
+			var column = $(event.target).data('column');
+			console.log("Clip Clicked : ", row, column);
+			$(event.target).toggleClass('muted');
+			if (sounds[row - 1]) {
+				var sound = sounds[row - 1][column];
+				if(sound.volume == 0) {
+					sound.volume = 1;
+				} else {
+					sound.volume = 0;
+				}
+			}
+		});
+
+		$(".clip .play-btn").click(function(event){
+			event.stopPropagation();
+			var row = $(event.target).parent().data('row');
+			var column = $(event.target).parent().data('column');
+			console.log("Play Button Clicked : ", row, column);
+
+		});
+
+		// Intialize all sound clips for play
+		intializeSoundClips();
+	});
+</script>

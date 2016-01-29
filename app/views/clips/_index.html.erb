@@ -195,9 +195,8 @@
 			var column = $(this).attr('data-column');
 			if (!wavesurfers[column]) wavesurfers[column] = {};
 			$(this).find('.clip').each(function(){
-        path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
+				path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
 				wavesurferPlayer(this, path, $(this).state(), column, $(this).attr('data-row'));
-
 			})
 		});
 	}

@@ -7,6 +7,18 @@ class App::SongsController < App::BaseController
   # GET /songs/1
   # GET /songs/1.json
   def show
+    @clips = []
+    @song.parts.each do |part|
+      partBlob = {
+          :id => part.id, :name => part.name, :clips => []
+      }
+      part.clips.each do |clip|
+        partBlob[:clips] << {
+            :id => clip.id, :url => clip.file.to_s, :style1 => clip.state, :style2 => clip.state2, :style3 => clip.state3
+        }
+      end
+      @clips << partBlob
+    end
   end
 
   def share_modal
