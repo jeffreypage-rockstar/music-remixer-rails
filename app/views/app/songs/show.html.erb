@@ -1,7 +1,9 @@
+<%= stylesheet_link_tag 'gapless5', media: 'all' %>
+<%= javascript_include_tag 'gapless5' %>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-7">
-			<img src="<%= @song.image_url(:medium) %>" />
+			<img src="<%# @song.image_url(:medium) %>" />
 		</div>
 		<div class="col-sm-5">
 			<h3><%= @song.name %></h3>
@@ -20,6 +22,11 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<% @song.parts.each do |part| %>
+		<div id="part-<%= part.id %>"></div>
+		<% end %>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -35,6 +42,7 @@
 			for (var j = 0; j < clipCount; j++) {
 				console.log(parts[i].clips[j].url);
 				sound = new Audio(parts[i].clips[j].url);
+				sound.volume = parts[i].clips[j].styles['Original'] ? 0 : 1;
 				sounds[i][j] = sound;
 				sounds[i][j].buffered;
 			}
@@ -94,35 +102,24 @@
 			$('button.style').removeClass('btn-primary');
 			$('button.style').addClass('btn-default');
 			$(this).addClass('btn-primary');
+
+			for (var i = 0; i < partCount; i++) {
+				for (var j = 0; j < sounds[i].length-1; j++) {
+					var sound = sounds[i][j];
+					if (parts[i].clips[j].styles[style] == true) {
+						console.log("Muting i:"+i+", j:"+j+", style:"+style);
+						sound.volume = 0;
+					}
+					else {
+						sound.volume = 1;
+					}
+				}
+			}
 		});
 
 		$("button.remix").click(function(event) {
 			event.stopPropagation();
 			var remix = $(event.target).data('remix');
-		});
-
-		$(".clip").click(function(event){
-			event.stopPropagation();
-			var row = $(event.target).data('row');
-			var column = $(event.target).data('column');
-			console.log("Clip Clicked : ", row, column);
-			$(event.target).toggleClass('muted');
-			if (sounds[row - 1]) {
-				var sound = sounds[row - 1][column];
-				if(sound.volume == 0) {
-					sound.volume = 1;
-				} else {
-					sound.volume = 0;
-				}
-			}
-		});
-
-		$(".clip .play-btn").click(function(event){
-			event.stopPropagation();
-			var row = $(event.target).parent().data('row');
-			var column = $(event.target).parent().data('column');
-			console.log("Play Button Clicked : ", row, column);
-
 		});
 
 		// Intialize all sound clips for play
