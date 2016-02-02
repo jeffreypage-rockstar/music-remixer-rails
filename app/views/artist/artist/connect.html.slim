@@ -14,12 +14,6 @@
   .container
     h4 Recent Activity
 
-    .white-section.recent-activity
-      ul.list-group.activities
-        = render_activities(@activities.limit(2), fallback: 'default')
-
-    h4 History
-
     .white-section.history
       ul.list-group.activities
         = render_activities(@activities, fallback: 'default')
