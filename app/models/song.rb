@@ -29,6 +29,8 @@ class Song < ActiveRecord::Base
   acts_as_likeable
 
   belongs_to :user
+  belongs_to :artist, class_name: 'User'
+
   has_many :parts,      -> { order 'parts.column' },            dependent: :delete_all
   has_many :clips,      -> { order 'clips.row, clips.column' }, dependent: :delete_all
   has_many :clip_types, -> { order 'clip_types.row' },          dependent: :delete_all

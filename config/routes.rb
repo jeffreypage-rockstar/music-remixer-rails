@@ -107,19 +107,20 @@ Rails.application.routes.draw do
         end
       end
 
-      get '/:username',      to: 'users#show_profile', as: 'show_profile'
-      get '/:username/edit', to: 'users#edit_profile', as: 'edit_profile'
-      patch '/:username/update' => 'users#update_profile', as: 'update_profile'
-      patch '/:username/update_account' => 'users#update_account', as: 'update_account'
-      post '/:username/follow' => 'users#follow', as: 'follow'
-      delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
+      get    '/auth/:provider/callback' => 'sessions#create_from_omniauth'
       delete 'identity/:provider/disconnect' => 'users#disconnect_identity', as: 'disconnect_identity'
 
       get 'referrals/:invite_code' => 'referrals#track', as: 'referral_invite'
       get 'referrals/thanks' => 'referrals#thanks'
       post 'referrals' => 'referrals#create'
 
-      get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
+      get '/:username',      to: 'users#show_profile', as: 'show_profile'
+      get '/:username/edit', to: 'users#edit_profile', as: 'edit_profile'
+      patch '/:username/update' => 'users#update_profile', as: 'update_profile'
+      patch '/:username/update_account' => 'users#update_account', as: 'update_account'
+      post '/:username/follow' => 'users#follow', as: 'follow'
+      delete '/:username/unfollow' => 'users#unfollow', as: 'unfollow'
+      # NOTE: nothing below this!
     end
 	end
 
