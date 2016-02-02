@@ -91,7 +91,7 @@
 								}
 								return;
 							}
-              var tabindexValue= $(this).attr('tabindex');
+              				var tabindexValue= $(this).attr('tabindex');
 							e.stopPropagation();
 							var parent = $(e.target).parent();
 							$(parent).html('<span tabindex="'+tabindexValue+'">' + $(e.target).val() + '</span>');
@@ -300,12 +300,11 @@
 	clipEndedCallback = function() {
 		if (sColumn == 8) {
 			$(".full-play-btn").removeClass('playing');
-			$("#clips-"+sColumn).removeClass('playing');
+			$("#clips-"+sColumn).removeClass('playing');			
 			stopPartPlayers(true);
 			return;
 		}
 		$("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
-
 		if (sColumn < 8) sColumn++;
 		$("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
 		showCurrentPartDetails();
