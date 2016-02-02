@@ -3,11 +3,12 @@
   = f.input :email, placeholder: 'Email'
   = f.input :username, placeholder: 'Username'
   = f.input :password, placeholder: 'Password'
-  /= f.input :invite_code, placeholder: 'Invite Code'
 
-  /.dont-have-a-code
-  /  | Don't have a code?
-  /  =< link_to 'Get one here', beta_artists_path
+  = content_for(:the_links) do
+    | I agree to the&nbsp;
+    = link_to 'Artist Terms of Service', artists_terms_url, target: '_blank'
+  .text-center
+    = f.input :terms_of_service, :as => :boolean, :label => content_for(:the_links), error: false
 
   .signup-wrapper
     = f.button :submit, 'Join Now!', class: 'btn-block btn-round btn-lg'

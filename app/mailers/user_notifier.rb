@@ -28,6 +28,6 @@ class UserNotifier < ApplicationMailer
   # Send artist invite email
   def artist_invite_to_join_email(beta_artist)
     @beta_artist = beta_artist
-    mail(:to => @beta_artist.email, :subject => 'Join the music revolution')
+    mail(:to => @beta_artist.email, :subject => 'Hello from 8Stem')
   end
 end

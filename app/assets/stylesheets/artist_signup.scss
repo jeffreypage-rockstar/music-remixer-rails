@@ -102,14 +102,14 @@ body {
   background-size: cover;
 
   .logo {
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 20px;
   }
 
   h2 {
     color: #ffffff;
     margin-top: 0;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
   }
 
   .cover {
@@ -118,6 +118,11 @@ body {
     background-color: white;
     border-radius: 15px;
     margin: 0 auto;
+  }
+
+  .cover.dark {
+    background-color: #333;
+    padding: 15px 20px;
   }
 
   #artistSignUpForm, #betaArtistSignUpForm {
@@ -147,7 +152,16 @@ body {
     }
 
     .form-group {
-      margin-bottom: 5px;
+      margin-bottom: 0;
+    }
+    textarea.form-control {
+      height: auto;
+      line-height: 20px;
+    }
+    .form-control {
+      height: 36px;
+      line-height: 36px;
+      padding: 0 10px;
     }
   }
 }
@@ -164,8 +178,8 @@ body {
       margin-bottom: 15px;
     }
     h2 {
-      font-size: 20px;
-      margin-bottom: 25px;
+      font-size: 25px;
+      margin-bottom: 20px;
     }
     #artistSignUpForm, #betaArtistSignUpForm {
       .help-block {
@@ -173,12 +187,12 @@ body {
       }
       .form-control {
         height: 32px;
+        line-height: 32px;
+      }
+      .form-group.user_terms_of_service {
+        font-size: 14px;
       }
     }
   }
-}
-
-
-@media (max-width: 768px) {
 }
 
