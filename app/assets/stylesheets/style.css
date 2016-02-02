@@ -147,9 +147,9 @@
 	font-weight: 700;
 	font-size: 10px;
 	margin-left: 5px;
-	line-height: 97px;
-	/*line-height: 28px;*/
 	position: absolute;
+	margin-top: 40px;
+    line-height: 16px;
 	z-index: 2;
 }
 #tracker-compiled .gradient {
