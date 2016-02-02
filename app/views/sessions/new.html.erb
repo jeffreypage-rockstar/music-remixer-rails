@@ -1,9 +1,32 @@
-<div class="well form400">
+<div class="well form400" style="width:318px">
 	<% if !flash[:notice].blank? && flash[:notice] == "You must confirm your email address."  %>
 		<h3 style="font-size:32px">Send confirmation email</h3>
 		<%= render partial: '/sessions/resend_confirmation' %>
 	<% else %>
-		<h3>Sign in</h3>
+		<style>
+			div.social {
+				text-align: center;
+			}
+			div.social a {
+				margin: 5px 0;
+				width: 100%;
+			}
+			div.social .or {
+				margin: 10px 0;
+				font-weight: bold;
+			}
+			#loginForm {
+				margin-top:10px;
+			}
+			#loginForm input.btn {
+				width: 100%;
+			}
+		</style>
+		<div class="social">
+			<a class="btn btn-facebook" href="/auth/facebook"><i class="fa fa-facebook"></i> Log in with Facebook</a>
+			<!--<a class="btn btn-twitter" href="/auth/twitter"><i class="fa fa-twitter"></i> Log in with Twitter</a>-->
+			<div class="or">-- or --</div>
+		</div>
 		<%= render partial: '/sessions/form' %>
 	<% end %>
 </div>

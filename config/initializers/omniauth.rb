@@ -4,6 +4,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
 	# 8stem - Dev
 	provider :facebook, Rails.application.secrets.facebook_key, Rails.application.secrets.facebook_secret, provider_ignores_state: true
+  provider :twitter, Rails.application.secrets.twitter_key, Rails.application.secrets.twitter_secret, provider_ignores_state: true
 
 	# from Adam
 	# provider :facebook, '1519009081750998', '45c00ac7fe9f421588d9fdffe07d24b1'

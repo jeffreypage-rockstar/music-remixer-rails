@@ -1,7 +1,7 @@
-<%= simple_form_for :session, url: app_session_path do |f| %>
+<%= simple_form_for :session, url: app_session_path, html: {id: 'loginForm'} do |f| %>
 	<%= f.input :email %>
     <%= f.input :password %>
-    <%= f.button :submit, 'Sign In' %>
+    <%= f.button :submit, 'Log In' %>
 
 	<div class="form-group text-center">
 		<%= link_to t(".forgot_password"), new_app_password_path, class: 'btn btn-link' %>
