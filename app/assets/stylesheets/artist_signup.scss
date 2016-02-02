@@ -136,6 +136,13 @@ body {
       margin-top: -68px;
       display: none;
     }
+    .has-error label {
+      color: #e51c23;
+    }
+    .has-error a {
+      color: #e51c23;
+      text-decoration: underline;
+    }
     label {
       color: #444;
       font-weight: bold;
@@ -162,6 +169,9 @@ body {
       height: 36px;
       line-height: 36px;
       padding: 0 10px;
+    }
+    .form-group.user_terms_of_service.has-error {
+      color: #900 !important;
     }
   }
 }
