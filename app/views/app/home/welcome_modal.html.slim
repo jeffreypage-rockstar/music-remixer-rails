@@ -1,15 +1,27 @@
-p
-  = "Nice work, #{@user.name}!"
-p Your account has been activated. Welcome to the Beta Team!
-p
-  = welcome_description @user
-br
-.text-center
-  button.btn.btn-primary data-dismiss="modal" type="button"
-    | Complete Your Profile
-
-br
-p
-  | We can’t wait to turn you loose on the platform!
+- if request.params[:ref] == 'new_user'
+  h4
+    = "Nice work, #{@user.name}!"
+  p
+    | Your account has been activated. Welcome to the Beta Team!
+  p
+    = welcome_description @user
   br
-  | 8Stem Beta Team
+  .text-center
+    button.btn.btn-primary data-dismiss="modal" type="button"
+      | Complete Your Profile
+
+  br
+  p
+    | We can't wait to turn you loose on the platform!
+    br
+    | 8Stem Beta Team
+
+- if request.params[:ref] == 'new_artist'
+  h4 Welcome!
+  p We're stoked to have you on board! Be sure to let your followers know you're part of the interactive music revolution.
+  br
+  .text-center
+    button.btn.btn-primary data-dismiss="modal" type="button"
+      | Complete Your Profile
+  br
+  br
