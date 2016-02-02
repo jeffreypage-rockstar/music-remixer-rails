@@ -2,3 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#home {
+  h4.song {
+    margin: 0;
+  }
+  .artist {
+    font-size: 14px;
+    color: #9f9f9f;
+  }
+  .thumbnail .caption {
+    padding: 5px 0 0 5px;
+  }
+}
