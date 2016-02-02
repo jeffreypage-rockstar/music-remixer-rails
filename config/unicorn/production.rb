@@ -1,4 +1,4 @@
-root = "/home/deploy/mix8"
+root = "/home/deploy/8stem"
 current_dir = "#{root}/current"
 shared_dir = "#{root}/shared"
 

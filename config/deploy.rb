@@ -1,23 +1,24 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-set :application, 'mix8'
+set :application, '8stem'
 
 set :repo_url, 'git@bitbucket.org:8stem/akashic-nga.git'
 set :deploy_via, :remote_cache
-set :branch, "master"
+set :branch, "8stem_deploy"
 
 set :rbenv_type, :user
 set :rbenv_ruby, '2.2.3'
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_path, '/home/deploy/.rbenv/'
 
-set :rollbar_token, '9374ab06eda74e48bfc4cbc4251f6bbf' # mix8 token
+#set :rollbar_token, '9374ab06eda74e48bfc4cbc4251f6bbf' # mix8 token
+set :rollbar_token, 'd1f50300ea374553b47c73471ef2fa80' # 8stem token
 set :rollbar_env, Proc.new { fetch :stage }
 set :rollbar_role, Proc.new { :app }
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/deploy/mix8'
+set :deploy_to, '/home/deploy/8stem'
 
 # Default value for :scm is :git
 # set :scm, :git

@@ -3,7 +3,9 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '162.242.246.25', user: 'deploy', roles: %w{app db web}
+# server '104.130.230.73', user: 'deploy', roles: %w{app}
+server '104.130.173.100', user: 'deploy', roles: %w{web}
+server '104.130.173.100', user: 'deploy', roles: %w{db}  # migrations are run from web1
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
