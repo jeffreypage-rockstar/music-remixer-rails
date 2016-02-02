@@ -83,7 +83,7 @@ class SongMixaudioUploader < CarrierWave::Uploader::Base
         start: 0,
         end: model.duration,
         width: 640,
-        height: 80,
+        height: 160,
         output: File.join(directory, 'waveform.png'),
         waveform_color: 'aaaaaa',
         background_color: 'ffffff00'
