@@ -52,6 +52,7 @@
                        data-duration="<%=clip.duration%>"
                        data-valid="00"
                        rel="popover"
+                       data-toggle="popover" data-trigger="focus" tabindex="0"
                        data-popover-content="#myPopover"
                       >
                     <p class="p-click"> click to fix </p>
@@ -68,14 +69,13 @@
               <% end %>
           <% end %>
       <% end %>
-      <div class="level column editable-text" tabindex="<%=c%>" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
-        <span><%=part.name%></span>
-        <input class="input_tabable <%=part.name%>" style="display: none" type="text" tabindex="<%=c%>" data-originalvalue="<%=part.name%>" value="<%=part.name%>">
+      <div class="level column editable-text" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
+        <span tabindex="<%=c%>"><%=part.name%></span>
       </div>
     </div>
 <% end %>
 <script type="text/javascript">
-  $('.editable-text').on('click',
+  $('.editable-text').on('click focus',
 			'span',
 			function (e) {
 				var topparent = $($(e.target).parent());
@@ -90,10 +90,11 @@
 									$(this).blur();
 								}
 								return;
-							}							
+							}
+              var tabindexValue= $(this).attr('tabindex');
 							e.stopPropagation();
 							var parent = $(e.target).parent();
-							$(parent).html('<span>' + $(e.target).val() + '</span>');
+							$(parent).html('<span tabindex="'+tabindexValue+'">' + $(e.target).val() + '</span>');
 
 							var url = '';
 							if (parent.hasClass("songtitle")) {
@@ -492,7 +493,6 @@
   }
 
   function documentReadyExcutables() {
-    console.log("Document");
     // window.wavesurfers = wavesurfers = {};
     // window.draggableElm = {};
     updatePreview();
@@ -620,13 +620,10 @@
     });
   }
 
-  if (window.isFromReloadPartial) {
+  $(document).on('ready page:load', function () {
     documentReadyExcutables();
-  } else {
-    $(document).on('ready page:load', function () {
-      documentReadyExcutables();
-    });
-  }
+  });
+
 
 </script>
 <!-- Clips Segment Area End -->

@@ -103,7 +103,7 @@ $(document).ready(function(){
 		function(e) {
 			var topparent = $($(e.target).parent());
 			var classnm=$(e.target).text();
-			$($(e.target).parent()).html('<input class="bpm_input" type="number" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
+			$($(e.target).parent()).html('<input class="bpm_input" type="number" step="0.1" min="0" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
 				.on('blur keyup',
 				'input',
 				function(e) {

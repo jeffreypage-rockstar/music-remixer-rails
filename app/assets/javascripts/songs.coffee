@@ -95,12 +95,9 @@ $ ->
       clone
   ).click (e) ->
     $(".missing_file_pop").attr 'data-id', @id
-    e.preventDefault()
+    e.preventDefault();
+    $(this).focus();
     return
-  return
-
-$(document).click ->
-  $('.popover').css('display','none')
   return
 
 $(document).on 'ready page:load', ->
@@ -125,7 +122,7 @@ $(document).on 'ready page:load', ->
         success: (data, textStatus, jqXHR) ->
           $('.alert-custom').css display: 'block'
           $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>File successfully placed.</p></div>");
-          $.get("/songs/"+song_id+"/reload_clips.js")
+          location.reload()
     else
       $('.alert-custom').css display: 'block'
       $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>File cannot be placed here.</p></div>");

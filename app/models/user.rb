@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :email, :presence => true
-	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}
+	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}, :format => { :with => /[a-zA-Z0-9_\-]+/ }
 	validates :password, :presence => true, :on => :create
 	validates_confirmation_of :password, :message => 'Passwords do not match'
 	validates :terms_of_service, acceptance: true
@@ -67,14 +67,15 @@ class User < ActiveRecord::Base
 		false
 	end
 
-	def self.create_with_auth_and_hash(auth_hash)
-		puts "in create_with_auth_and_hash: #{auth_hash.inspect}"
+	def self.create_with_auth_hash(auth_hash)
+		puts "in create_with_auth_hash: #{auth_hash.inspect}"
     # new user account added via fb connect
+    user = nil
     create! do |u|
       u.name = auth_hash["info"]["name"]
       u.email = auth_hash["extra"]["raw_info"]["email"]
       u.username = self.create_unique_username(u.email)
-      u.encrypted_password = SecureRandom.hex(20)
+      u.password = SecureRandom.hex(20)
       u.confirmed_at = Time.now
       user = u
     end
@@ -96,8 +97,9 @@ class User < ActiveRecord::Base
 
 	def self.create_unique_username(email)
 		loop do
-			username = "#{email[/^[^@]*/]}_#{SecureRandom.hex(3)}"
-			puts "Trying username: #{username}"
+			username = "#{email[/^[^@]*/]}_#{SecureRandom.hex(2)}"
+      username = username.gsub('.', '-')
+      logger.debug("Trying username: #{username}")
 			return username if User.find_by_username(username).nil?
 		end
 	end

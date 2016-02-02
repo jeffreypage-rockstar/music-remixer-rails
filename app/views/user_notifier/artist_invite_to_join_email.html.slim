@@ -1,7 +1,7 @@
 p
   = "Hello #{@beta_artist.name},"
   /TODO: need artist invite blurb here
-p We are excited to have you on our platform.  Click below to join the music revolution.
+p We are excited to have you on our platform.  Click below to make your music interactive.
 br
 .text-center
   = link_to 'Join Now!', app_artists_join_url(invite_code: @beta_artist.invite_code), {class: 'btn btndiv'}
