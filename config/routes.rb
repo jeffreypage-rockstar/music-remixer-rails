@@ -51,6 +51,8 @@ Rails.application.routes.draw do
     get 'contact' => 'pages#contact'
     get 'artists' => 'pages#artists'
     get 'terms' => 'pages#terms'
+    get 'artists/terms' => 'pages#artists_terms'
+    get 'privacy' => 'pages#privacy'
     root 'pages#splash'
 
     # rackspace hits this url nonstop for uptime check
