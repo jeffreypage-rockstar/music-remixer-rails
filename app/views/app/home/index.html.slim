@@ -1,15 +1,19 @@
-.container.splash.row
-  .white-section.col-md-6.pull-left
-    h3 Welcome
-    - if current_user.status == 'beta_waitlisted'
-      p You are currently on our beta waitlist...it won't be long!
-    - else
-      p Thanks for joining the team! The beta should be up and running soon, we promise!
-      /button Get the app
-  .white-section.col-md-6.pull-right
-    h3 Share with friends
-    #referralWrapper
-      = render partial: 'app/referrals/modal'
-      a data-href="#" data-toggle="modal" data-target="#invite-friends-modal" href="#" Invite Friends
-      .success.hidden
-        | Your invites have been sent!
+#home
+  .container
+    .white-section
+      h3 Welcome
+      - if false && current_user.status == 'beta_waitlisted'
+        p You are currently on our beta waitlist.  We are allowing people onto the 8Stem platform in waves in order to ensure a quality experience.
+      - else
+        p Thanks for joining the team! The beta should be up and running soon, we promise!
+        /button Get the app
+    /.white-section.col-md-6.pull-right
+    /  h3 Share with friends
+    /  #referralWrapper
+    /    = render partial: 'app/referrals/modal'
+    /    a data-href="#" data-toggle="modal" data-target="#invite-friends-modal" href="#" Invite Friends
+    /    .success.hidden
+    /      | Your invites have been sent!
+
+  .container
+    = render partial: 'app/home/songs'

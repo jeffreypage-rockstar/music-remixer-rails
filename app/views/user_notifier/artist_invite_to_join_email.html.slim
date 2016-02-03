@@ -1,9 +1,11 @@
 p
-  = "Hello #{@beta_artist.name},"
-  /TODO: need artist invite blurb here
-p We are excited to have you on our platform.  Click below to make your music interactive.
+  = @beta_artist.name
+
+p We're honored to have you involved with our interactive platform!
+p Please click the link below to complete your artist profile. Once you're in our system, you'll see how to upload tracks and connect with our A&R team.
 br
 .text-center
   = link_to 'Join Now!', app_artists_join_url(invite_code: @beta_artist.invite_code), {class: 'btn btndiv'}
 br
-br
+p Look forward to blowing up the the scene with you!
+p 8Stem A&R team

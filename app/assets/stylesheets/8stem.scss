@@ -175,7 +175,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .jumbotron {
     margin-bottom: 20px;
 	padding-top: 0px;
@@ -191,6 +191,10 @@
   }
   .media img {
     width: 120px;
+  }
+  body.artists h3 {
+    font-size: 26px;
+    margin-top: 5px;
   }
 }
 
