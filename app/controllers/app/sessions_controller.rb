@@ -27,24 +27,32 @@ class App::SessionsController < Clearance::SessionsController
 			@next = app_home_url
     else
       logger.debug "XXX no user found for authentication"
-      email = auth_hash["extra"]["raw_info"]["email"]
-      user = User.find_by_email(email)
-      if user.nil?
-        # new user account via fb connect
-        user = User.create_with_auth_hash(auth_hash)
-        $tracker.alias user.uuid, session.id
-        $tracker.track user.uuid, 'Signup: via facebook connect'
-        @next = "#{app_show_profile_path(user.username)}?ref=confirm"
+      if signed_in?
+        # signed in user is connecting to network
+        current_user.authentications << authentication
+        $tracker.track current_user.uuid, 'Social: connect', {'provider' => auth_hash['provider']}
+        @next = app_edit_profile_path(username: current_user.username, tab: 'connections')
+        @notice = 'Successfully connected'
       else
-        # user already has account, first time logging in with FB
-        user.confirmed_at = Time.now if user.confirmed_at.nil?
-        $tracker.track user.uuid, 'Social: connect', {'provider' => 'facebook'}
-        @next = app_show_profile_path(user.username)
-      end
+        email = auth_hash["extra"]["raw_info"]["email"]
+        user = User.find_by_email(email)
+        if user.nil?
+          # new user account
+          user = User.create_with_auth_hash(auth_hash)
+          $tracker.alias user.uuid, session.id
+          $tracker.track user.uuid, 'Signup: via facebook connect'
+          @next = "#{app_show_profile_path(user.username)}?ref=confirm"
+        else
+          # user already has account, first time logging in with FB
+          user.confirmed_at = Time.now if user.confirmed_at.nil?
+          $tracker.track user.uuid, 'Social: connect', {'provider' => 'facebook'}
+          @next = app_show_profile_path(user.username)
+        end
 
-      user.authentications << (authentication)
-      logger.debug "calling sign_in for user: #{user.inspect}"
-      sign_in user
+        user.authentications << (authentication)
+        logger.debug "calling sign_in for user: #{user.inspect}"
+        sign_in user
+      end
     end
 		redirect_to @next, :notice => @notice
 	end

@@ -38,6 +38,7 @@ gem 'clearance', '~> 1.11'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'omniauth-soundcloud'
 
 # admin
 gem 'rails_admin'
