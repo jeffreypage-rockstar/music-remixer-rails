@@ -16,8 +16,16 @@ class Song < ActiveRecord::Base
   mount_uploader :image, SongImageUploader
   mount_uploader :waveform, SongWaveformUploader
   mount_uploader :waveform_data, SongWaveformDataUploader
+  mount_uploader :waveform_mix2, SongWaveformMix2Uploader
+  mount_uploader :waveform_data_mix2, SongWaveformDataMix2Uploader
+  mount_uploader :waveform_mix3, SongWaveformMix3Uploader
+  mount_uploader :waveform_data_mix3, SongWaveformDataMix3Uploader
   mount_uploader :mixaudio, SongMixaudioUploader
   store_in_background :mixaudio, SongProcessWorker
+  mount_uploader :mixaudio_mix2, SongMixaudioMix2Uploader
+  store_in_background :mixaudio_mix2, SongProcessMix2Worker
+  mount_uploader :mixaudio_mix3, SongMixaudioMix3Uploader
+  store_in_background :mixaudio_mix3, SongProcessMix3Worker
   mount_uploader :zipfile, SongZipfileUploader
   store_in_background :zipfile, SongZipfileUploadWorker
 
@@ -59,7 +67,7 @@ class Song < ActiveRecord::Base
   end
 
   def processed?
-    self.mixaudio_tmp.blank?
+    self.mixaudio_tmp.blank? && self.mixaudio_mix2_tmp.blank? && self.mixaudio_mix3_tmp.blank?
   end
 
   def zipfile_tmp_path
@@ -97,7 +105,7 @@ class Song < ActiveRecord::Base
     end
   end
 
-  def build_mixaudio(configuration='source')
+  def build_mixaudio(source='origin')
     self.status = Song.statuses[:processing_for_release]
     self.save!
     if self.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
@@ -108,7 +116,14 @@ class Song < ActiveRecord::Base
 
       self.parts.each_with_index do |part, index|
         clips = part.clips
-        clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
+        if source == 'origin'
+          clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
+        elsif source == 'mix2'
+          clip_file_paths = clips.select { |clip| !clip.state2 }.map { |clip| File.join(dir_path, clip.original_filename) }
+        else
+          clip_file_paths = clips.select { |clip| !clip.state3 }.map { |clip| File.join(dir_path, clip.original_filename) }
+        end
+
         part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
 
         begin
@@ -148,7 +163,14 @@ class Song < ActiveRecord::Base
       begin
         puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
         mixaudio_line.run(interpolations)
-        self.mixaudio = File.open(interpolations[:output])
+        if source == 'origin'
+          self.mixaudio = File.open(interpolations[:output])
+        elsif source == 'mix2'
+          self.mixaudio_mix2 = File.open(interpolations[:output])
+        else
+          self.mixaudio_mix3 = File.open(interpolations[:output])
+        end
+
       rescue Cocaine::ExitStatusError => e
         puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
       end

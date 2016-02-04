@@ -1,4 +1,4 @@
-class SongProcessWorker < ::CarrierWave::Workers::StoreAsset
+class SongProcessMix2Worker < ::CarrierWave::Workers::StoreAsset
   sidekiq_options retry: 10
 
   def perform(*args)

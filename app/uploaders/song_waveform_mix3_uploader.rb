@@ -1,5 +1,5 @@
-class SongWaveformUploader < CarrierWave::Uploader::Base
-  # include CarrierWave::MiniMagick
+class SongWaveformMix3Uploader < CarrierWave::Uploader::Base
+  include CarrierWave::MiniMagick
   # process crop: '640x80+0+40!'
   #
   # def crop(geometry)

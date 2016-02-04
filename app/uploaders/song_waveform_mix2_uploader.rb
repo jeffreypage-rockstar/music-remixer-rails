@@ -1,4 +1,4 @@
-class SongWaveformUploader < CarrierWave::Uploader::Base
+class SongWaveformMix2Uploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
   # process crop: '640x80+0+40!'
   #

@@ -1,15 +1,5 @@
-class SongWaveformUploader < CarrierWave::Uploader::Base
-  # include CarrierWave::MiniMagick
-  # process crop: '640x80+0+40!'
-  #
-  # def crop(geometry)
-  #   manipulate! do |img|
-  #     img.crop(geometry)
-  #     img
-  #   end
-  # end
-
-  # Override the directory where uploaded files will be stored
+class SongWaveformDataMix2Uploader < CarrierWave::Uploader::Base
+  # Override the directory where uploaded files will be stored.
   def store_dir
     "#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
   end
