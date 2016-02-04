@@ -6,6 +6,8 @@ class MixaudioBuildWorker
     song = Song.find song_id
     Rails.logger.info "MixaudioBuildWorker: calling build_mixaudio for song #{song_id}"
     song.build_mixaudio
+    song.build_mixaudio 'mix2'
+    song.build_mixaudio 'mix3'
     Rails.logger.info "MixaudioBuildWorker: done with build_mixaudio for song #{song_id}"
     if song.processing_for_release?
       song.status = Song.statuses[:released]
