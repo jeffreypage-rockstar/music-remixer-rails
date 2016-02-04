@@ -41,19 +41,26 @@
     }
 
     .tags {
+      position: absolute;
+      bottom: 13px;
+
       .tag {
         padding: 5px 10px;
         background-color: #737373;
         text-transform: uppercase;
         margin-right: 7px;
+
+        .selected {
+          background-color: #41c7ff;
+        }
       }
     }
 
     .mix8-player {
       position: absolute;
-      bottom: 15px;
+      bottom: 49px;
       left: 0;
-      right: 100px;
+      right: 22px;
       padding-left: 10px;
 
       .jp-time-holder {
@@ -99,8 +106,8 @@
 
     .actions {
       position: absolute;
-      bottom: 15px;
-      right: 0;
+      bottom: 105px;
+      right: 15px;
 
       .share-song, .like-unlike-song {
         margin: 5px;
