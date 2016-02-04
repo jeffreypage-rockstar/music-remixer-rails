@@ -10,10 +10,13 @@ class ClipFileUploadWorker < ::CarrierWave::Workers::StoreAsset
     unless clip.file_aac_tmp
       clip.update_attribute(:storing_status, :storing_done)
     end
-    part = clip.part
 
-    if part.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
-      part.update_attribute(:duration, part.clips.average(:duration))
+    # if this clip has not yet been placed into the grid, part will be nil
+    part = clip.part
+    unless part.nil?
+      if part.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
+        part.update_attribute(:duration, part.clips.average(:duration))
+      end
     end
 
     if clip.song.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
