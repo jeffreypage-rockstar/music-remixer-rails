@@ -23,7 +23,7 @@
 						<% if c == 1 %>
 							<% time_increment = 0.0 %>
 						<% end %>
-						<div id="clip-part-<%=c%>" class="clip" data-id="<%=clip.id%>" data-path="<%=clip.file%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>">
+						<div id="clip-part-<%=c%>" class="clip" data-id="<%=clip.id%>" data-path="<%=clip.file%>"  data-path-aac="<%=clip.file_aac%>" data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>">
 								<!-- <p class="left-time-inline"><%= Time.at(song_start_time + time_increment).utc.strftime("%M:%S") %></p> -->
 								<span class="time"><%= Time.at(song_start_time = song_start_time + part.duration).utc.strftime("%M:%S") %></span>
 								<span class="gradient"></span>
@@ -127,7 +127,8 @@
             var column = $(this).attr('data-column');
             if (!wavesurfers[column]) wavesurfers[column] = {};
             $(this).find('.clip').each(function(){
-                topWavesurferPlayer(this, $(this).data('path'), parseInt(column));
+                var path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
+                topWavesurferPlayer(this, path, parseInt(column));
             })
         }); 
     };
