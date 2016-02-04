@@ -45,7 +45,8 @@ module Mix8
         expose :state2
         expose :state3
         expose :file do |instance|
-          instance.file_url
+          # expose aac file explicitly, unless it doesn't exist
+          instance.file_aac_url.blank? ? instance.file_url : instance.file_aac_url
         end
       end
 
