@@ -12,4 +12,7 @@ class Remix < ActiveRecord::Base
 
   belongs_to :user
 	belongs_to :song
+
+  # allow comments on remixes
+  acts_as_commentable
 end

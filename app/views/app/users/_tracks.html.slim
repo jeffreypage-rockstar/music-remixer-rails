@@ -32,9 +32,10 @@
                     .jp-play-bar
 
             .tags
-              - ['Original', 'Mix2', 'Mix3'].each do |style|
-                a.tag.badge href="##{style}" #{style}
-
+              / @Oleg, these should be buttons instead
+              a.tag.badge.selected href="#Original" Original
+              a.tag.badge href="#Mix2" Mix2
+              a.tag.badge href="#Mix3" Mix3
             .actions
               = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: {modal: true} do
                 = image_tag 'tracks/share.png'

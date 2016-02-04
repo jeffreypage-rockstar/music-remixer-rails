@@ -36,6 +36,9 @@ class Song < ActiveRecord::Base
   acts_as_taggable_on :genres
   acts_as_likeable
 
+  # allow comments on songs
+  acts_as_commentable
+
   belongs_to :user
   belongs_to :artist, class_name: 'User'
 

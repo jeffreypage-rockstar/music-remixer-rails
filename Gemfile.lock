@@ -65,11 +65,17 @@ GEM
       tzinfo (~> 1.1)
     acts-as-taggable-on (3.5.0)
       activerecord (>= 3.2, < 5)
+    acts_as_commentable_with_threading (2.0.1)
+      activerecord (>= 4.0)
+      activesupport (>= 4.0)
+      awesome_nested_set (>= 3.0)
     addressable (2.4.0)
     arel (6.0.3)
     autoprefixer-rails (6.3.1)
       execjs
       json
+    awesome_nested_set (3.0.3)
+      activerecord (>= 4.0.0, < 5)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -512,6 +518,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 3.4)
+  acts_as_commentable_with_threading
   autoprefixer-rails
   bootstrap-sass (~> 3.3.1)
   byebug
