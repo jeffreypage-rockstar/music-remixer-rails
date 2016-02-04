@@ -4,7 +4,7 @@ class ClipFileUploader < CarrierWave::Uploader::Base
   before :cache, :save_original_filename
 
   process encode_audio: [:ogg]
-  process encode_audio: [:aac, false]
+  process encode_audio: [:m4a, false]
 
   def save_duration(file)
     file = ::FFMPEG::Movie.new(file.path)

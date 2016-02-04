@@ -42,7 +42,7 @@
 				<h5 class="tab"><a href="#" data-id="<%= current_user.name %>" data-mix="mix2">Mix2</a></h5>
                 <h5 class="tab"><a href="#" data-id="<%= current_user.name %>" data-mix="mix3">Mix3</a></h5>
                 <h5 class="bmp_margin"> <label>BPM :</label></h5>
-                <h5 class="bpm"><span><%=@song.bpm%></span></h5>
+                <h5 class="bpm" data-id="<%=@song.bpm%>"><span><%=@song.bpm%></span></h5>
 				<div id="release-status" data-status="<%= @song.status.to_s %>" class="<%= @song.status.to_s %>">
 					<% if (@song.released?) %>
 						UNRELEASE
@@ -116,6 +116,7 @@ $(document).ready(function(){
 					}
 					e.stopPropagation();
 					var parent = $(e.target).parent();
+					$('.bpm').attr('data-id',$(e.target).val());
 					$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
 					if (parent.hasClass("bpm")) {
 						url = '/songs/' + <%=@song.id%>;
@@ -139,6 +140,7 @@ $(document).ready(function(){
 			$(topparent.children('input')[0]).val('');
 			$(topparent.children('input')[0]).val(tmpStr);
 		});
+
 
     $(window).keypress(function(e) {
         if ($('#mixaudioplayer').length > 0) {
@@ -215,11 +217,12 @@ $(document).ready(function(){
 			$("#wrapper").toggleClass("toggled");
 		});
 
-        $('#release-status').on('click', function(e) {
-			    var bpm_text = $('.bpm span').text();
+		$('#release-status').click(function(e) {
             if ($(e.target).attr("data-status") == "working") {
-            	if (<%= @song.bpm %> != 0 && bpm_text != '0') {
-            		$(e.target).attr("data-status","processing_for_release");
+            	var bpm_value = $('.bpm').attr("data-id")           
+            	if (parseInt(bpm_value)!= 0) {
+	            	console.log("bpm_yes")
+                $(e.target).attr("data-status","processing_for_release");
                 $(e.target).attr("class","processing_for_release");
                 $('#release-progress span').html(' PROCESSING');
                 $(e.target).css('display','none');
@@ -244,9 +247,11 @@ $(document).ready(function(){
                 });
 				      }
               else {
+              	console.log("bpm_not")
+              	$('.alert-custom').css({display: "block"});
                 $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Please specify a BPM.</p></div>");
               }
-	        }
+	          }
             else {
         		$.ajax({
                     type: "PUT",
@@ -268,6 +273,7 @@ $(document).ready(function(){
         	}
         });
 
+        
         $('#mix-tabs .tab a').click(function (event) {
             event.preventDefault();
             $('#mix-tabs .tab').removeClass('active');

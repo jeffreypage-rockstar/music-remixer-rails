@@ -93,7 +93,7 @@ class App::ArtistsController < App::BaseController
   end
 
   def artist_join_params
-    artist = params.require(:user).permit(:name, :username, :email, :password)
+    artist = params.require(:user).permit(:name, :username, :email, :password, :terms_of_service)
     artist[:is_artist_admin] = true
     artist
   end

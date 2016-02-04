@@ -1,8 +1,11 @@
-.form400
-  h3 Nice work!
-  - if request.params[:ref] == 'apply'
-    p Thanks for applying!
-    p We will review your application and be in touch.
-  - if request.params[:ref] == 'join'
-    p We're glad you joined us, revolutions are fun!
-    p You'll receive an account activation email shortly.
+.inner
+  .cover.dark
+    h2.text-center Thank you!
+    - if request.params[:ref] == 'apply'
+      p We're stoked you want to join the interactive music revolution! We look forward to checking out your tracks online.
+      p Be patient; we're going through submissions as fast as we can. We can't reply to every artist, but we try!
+      p Hope to be in touch soon,
+      p 8Stem A&R Team
+    - if request.params[:ref] == 'join'
+      p We're glad you joined us, revolutions are fun!
+      p You'll receive an account activation email shortly.

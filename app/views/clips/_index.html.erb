@@ -8,22 +8,24 @@
 		<h6 id="level-<%=r%>" data-id="<%= clip_type.id %>" class="<%='editable-text' if r >= 5%>"><span><%=clip_type.name%></span></h6>
 	<% end %>
 </div>
+<% tab = 0 %>
 <% @song.parts.each do |part| %>
+	<% tab += 1 %>
     <% next if part.column == 0 %>
     <% c = part.column %>
     <div id="clips-<%=part.column%>" class="tracker-part part<%=part.column%> clips<%=' focus' if part.column == @currentIndex %>" data-column="<%=part.column%>">
-      <div class="part-play-btn disabled"></div>
-      <% r = 0 %>
-      <% part.clips.each do |clip| %>
-          <% while r < clip.row %>
-              <% r += 1 %>
-              <% if r == 5 %>
-                  <div class="blank">
+	<div class="part-play-btn disabled"></div>
+	<% r = 0 %>	
+    <% part.clips.each do |clip| %>
+        <% while r < clip.row %>
+            <% r += 1 %>
+            <% if r == 5 %>              
+                <div class="blank">
                     <div class="play-btn"></div>
-                  </div>
-              <% end %>
-              <% if clip.row == r %>
-                  <div id="clip-part-<%=clip.id%>"
+                </div>
+            <% end %>
+            <% if clip.row == r %>
+                <div id="clip-part-<%=clip.id%>"
                        class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
                        data-id="<%=clip.id%>"
                        data-clip-type-id="<%=clip.clip_type_id%>"
@@ -41,9 +43,9 @@
                     <% if clip.allow_ugc %>
                         <div class="user-content">0</div>
                     <% end %>
-                  </div>
-              <% else %>
-                  <div id="clip-part-<%=clip.id%>"
+                </div>
+            <% else %>
+                <div id="clip-part-<%=clip.id%>"
                        class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
                        data-id="<%=clip.id-1%>"
                        data-row="<%=r%>" data-db-row="<%=clip.row%>"
@@ -65,12 +67,12 @@
                         <% end %>
                       </ul>
                     </div>
-                  </div>
-              <% end %>
-          <% end %>
-      <% end %>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
       <div class="level column editable-text" data-id="<%=part.id%>" data-name="<%=part.name%>" data-time="<%= Time.at(part.duration).utc.strftime("%M:%S") %>">
-        <span tabindex="<%=c%>"><%=part.name%></span>
+        <span tabindex="<%=tab%>"><%=part.name%></span>
       </div>
     </div>
 <% end %>
@@ -79,8 +81,8 @@
 			'span',
 			function (e) {
 				var topparent = $($(e.target).parent());
-				var classnm=$(e.target).text();
-				$($(e.target).parent()).html('<input type="text" tabindex="'+ classnm.substring(4,classnm.length).trim() +'" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
+				var classnm=$(e.target).attr('tabindex');
+				$($(e.target).parent()).html('<input type="text" tabindex="'+ classnm +'" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
 						.off('blur keyup', 'input').on('blur keyup',
 						'input',
 						function(e) {
@@ -91,10 +93,9 @@
 								}
 								return;
 							}
-              var tabindexValue= $(this).attr('tabindex');
 							e.stopPropagation();
 							var parent = $(e.target).parent();
-							$(parent).html('<span tabindex="'+tabindexValue+'">' + $(e.target).val() + '</span>');
+							$(parent).html('<span tabindex="'+classnm+'">' + $(e.target).val() + '</span>');
 
 							var url = '';
 							if (parent.hasClass("songtitle")) {
@@ -194,9 +195,8 @@
 			var column = $(this).attr('data-column');
 			if (!wavesurfers[column]) wavesurfers[column] = {};
 			$(this).find('.clip').each(function(){
-        path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
+				path = canPlayOgg() ? $(this).data('path') : $(this).data('path-aac');
 				wavesurferPlayer(this, path, $(this).state(), column, $(this).attr('data-row'));
-
 			})
 		});
 	}
@@ -300,12 +300,11 @@
 	clipEndedCallback = function() {
 		if (sColumn == 8) {
 			$(".full-play-btn").removeClass('playing');
-			$("#clips-"+sColumn).removeClass('playing');
+			$("#clips-"+sColumn).removeClass('playing');			
 			stopPartPlayers(true);
 			return;
 		}
 		$("#clips-"+sColumn+", #clips-"+sColumn+"0").removeClass('focus playing');
-
 		if (sColumn < 8) sColumn++;
 		$("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
 		showCurrentPartDetails();

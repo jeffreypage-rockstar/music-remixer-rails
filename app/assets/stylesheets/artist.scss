@@ -553,7 +553,7 @@
       border: none;
 
       & > li {
-        padding: 0 25px;
+        padding: 0 18px;
 
         & > a {
           padding: 15px 0;
@@ -580,6 +580,12 @@
     }
   }
 
+  @media screen and (max-width: $screen-sm-min) {
+    .history {
+      padding: 0;
+    }
+  }
+
   .activities {
     .activity {
       .media {
@@ -602,6 +608,9 @@
           .activity-icon {
             padding-left: 5px;
             padding-right: 5px;
+            @media screen and (max-width: $screen-md-min) {
+              display: none;
+            }
           }
         }
       }

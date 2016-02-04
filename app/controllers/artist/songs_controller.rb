@@ -62,8 +62,8 @@ class Artist::SongsController < Artist::BaseController
   # PATCH/PUT /songs/1
   # PATCH/PUT /songs/1.json
   def update
-    respond_to do |format|
-      if params[:status] && params[:status] == "released" && @song.bpm == 0        
+    respond_to do |format|      
+      if params[:status] && params[:status] == "released" && @song.bpm == 0
         return
       end
     

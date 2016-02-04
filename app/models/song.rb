@@ -12,7 +12,7 @@ class Song < ActiveRecord::Base
   # tracked owner: Proc.new { |controller, model| controller.current_user ? controller.current_user : nil },
   # 		    title: Proc.new { |controller, model| model.title }
 
-  ACCEPTED_CLIP_FORMATS = %w(m4a mp3 aac amr aiff ogg oga wav flac act 3gp mp4)
+  ACCEPTED_CLIP_FORMATS = %w(m4a mp3 ogg wav als)
   mount_uploader :image, SongImageUploader
   mount_uploader :waveform, SongWaveformUploader
   mount_uploader :waveform_data, SongWaveformDataUploader
@@ -37,6 +37,8 @@ class Song < ActiveRecord::Base
   acts_as_likeable
 
   belongs_to :user
+  belongs_to :artist, class_name: 'User'
+
   has_many :parts,      -> { order 'parts.column' },            dependent: :delete_all
   has_many :clips,      -> { order 'clips.row, clips.column' }, dependent: :delete_all
   has_many :clip_types, -> { order 'clip_types.row' },          dependent: :delete_all
@@ -84,17 +86,15 @@ class Song < ActiveRecord::Base
     else
       Zip::File.open(self.zipfile_tmp_path) do |files|
 
-        # Check out if zip contains invalid files
-        valid = true
-        files.each do |file|
-          unless Song.valid_clip_file? file.name
-            valid = false
-            break
-          end
-        end
-        unless valid
-           errors.add(:zipfile, 'Zip file contains invalid files')
-        end
+        # # Check out if zip contains invalid files
+        # valid = true
+        # files.each do |file|
+        #   unless Song.valid_clip_file? file.name
+        #     errors.add(:zipfile, "Zip file contains invalid file: #{file.name}")
+        #     valid = false
+        #     break
+        #   end
+        # end
 
         # Check out if zip file doesn't contain enough audio clips.
         file_count = files.count { |file| Song.valid_clip_file? file.name }
@@ -240,30 +240,27 @@ class Song < ActiveRecord::Base
       file_path = File.join(self.song_tmp_directory_path, file)
 
       if Song.valid_clip_file? file_path
-        file_extension = File.extname(file_path)
-        if ACCEPTED_CLIP_FORMATS.map { |format| ".#{format}" }.include? file_extension
-          clip_file_path = File.join self.song_tmp_directory_path, file
-          column, row = Song.get_parts_from_filename(file)
-          # puts "column=#{column}, row=#{row}, file=#{file}"
+        clip_file_path = File.join self.song_tmp_directory_path, file
+        column, row = Song.get_parts_from_filename(file)
+        puts "column=#{column}, row=#{row}, file=#{file}"
 
-          if column > 0 && row > 0
-            unless clip_types[row]
-              level_type = ClipType.row_name(row)
-              clip_type = self.clip_types.find_or_initialize_by(name: level_type)
-              clip_type.attributes = {row: row}
-              clip_types[row] = clip_type
-            end
-            unless parts[column]
-              part = self.parts.find_or_initialize_by(column: column)
-              part.attributes = {name: "Part #{column}"}
-              parts[column] = part
-            end
-            clip = self.clips.find_or_initialize_by(row: row, column: column)
-            clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
-          else
-            # add unplaced clip (col=0, row=0)
-            self.clips << Clip.new({row: row, column: column, file: File.open(clip_file_path)})
+        if column > 0 && row > 0
+          unless clip_types[row]
+            level_type = ClipType.row_name(row)
+            clip_type = self.clip_types.find_or_initialize_by(name: level_type)
+            clip_type.attributes = {row: row}
+            clip_types[row] = clip_type
           end
+          unless parts[column]
+            part = self.parts.find_or_initialize_by(column: column)
+            part.attributes = {name: "Part #{column}"}
+            parts[column] = part
+          end
+          clip = self.clips.find_or_initialize_by(row: row, column: column)
+          clip.attributes = {file: File.open(clip_file_path), part: parts[column], clip_type: clip_types[row]}
+        else
+          # add unplaced clip (col=0, row=0)
+          self.clips << Clip.new({row: row, column: column, file: File.open(clip_file_path)})
         end
       end
     end

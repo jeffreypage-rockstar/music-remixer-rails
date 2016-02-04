@@ -8,6 +8,6 @@
           .artist-name #{artist.name}
           .artist-stats #{artist.artist_visible_songs.count} songs &bull; #{artist.released_remixes.count} remixes
       .upload-music
-        = link_to new_artist_song_path(artist), class: 'btn btn-primary btn-md' do
+        = link_to new_artist_song_path(artist), class: 'btn btn-primary btn-md hidden-xs' do
           => fa_icon 'cloud'
           | Upload Music

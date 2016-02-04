@@ -137,8 +137,6 @@
 	padding-top:10px;
 }
 #tracker-compiled .tracker-part {
-	/*height: 24px;*/
-	height: px;
 	overflow: visible;
 	background-color: #323a40;
 	margin-bottom: 10px;
@@ -147,9 +145,9 @@
 	font-weight: 700;
 	font-size: 10px;
 	margin-left: 5px;
-	line-height: 97px;
-	/*line-height: 28px;*/
 	position: absolute;
+	margin-top: 40px;
+    line-height: 16px;
 	z-index: 2;
 }
 #tracker-compiled .gradient {
