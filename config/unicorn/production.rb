@@ -9,7 +9,7 @@ pid "#{shared_dir}/tmp/pids/unicorn.pid"
 stderr_path "#{shared_dir}/log/unicorn.error.log"
 stdout_path "#{shared_dir}/log/unicorn.access.log"
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
+worker_processes Integer(ENV['WEB_CONCURRENCY'] || 4)
 timeout 30
 preload_app true
 
