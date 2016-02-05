@@ -53,8 +53,7 @@
 		<div class="section section-shadow section-white">
 			<div id="tracker-head" class="container-fluid">
 				<div class="clearfix clearfix-custom">
-					<a href="#" class="pull-right" style="margin-top: 10px" data-toggle="sidebar">Mobile Preview »</a>
-					<h3 class="pull-left editable-text songtitle"><span>Dirtwire - Riptide (AJ Sorbello Master)</span></h3>
+					<h3 class="pull-left songtitle"><span>Dirtwire - Riptide (AJ Sorbello Master)</span></h3>
 				</div>
 				<div id="mixaudioplayer" class="row container-fluid main-player-area">
 					<!-- Main player Area Start -->
@@ -192,7 +191,6 @@
             }       
                  
             playNext();
-            updatePreview();
         }
         
         for (var i = 0; i <= 8; i++) {
@@ -707,32 +705,6 @@
 		}
 	}
 
-	updatePreview = function() {		
-		$(".wing").removeClass('muted');
-		$("#tracker-mixer #clips-"+sColumn).each(function(){
-			$(this).find('.clip').each(function(){
-				if ($(this).state()) {
-					var row = $(this).data('row');
-					$(".wing"+row).addClass('muted');
-				}
-			});
-		});
-	}
-
-	updatePreviewPlayBtn = function(playing) {
-		$("#preview .playBtn").removeClass('playing');
-		if (playing) {
-			$("#preview .playBtn").addClass('playing');
-		}
-	}
-
-	updatePreviewForClip = function(row, state) {
-		$(".wing"+row).removeClass('muted');
-		if (state) {
-			$(".wing"+row).addClass('muted');
-		}
-	}
-
 	loadPartClips = function() {
 		var wavesurfer = null;
 		$("#tracker-mixer #clips-"+loadColumn).each(function(){
@@ -1027,9 +999,6 @@
   }
 
   function documentReadyExcutables() {
-    // window.wavesurfers = wavesurfers = {};
-    // window.draggableElm = {};
-    updatePreview();
     // Intialize all sound clips for play
     setTimeout(function(){
       loadPartClips();
@@ -1056,8 +1025,6 @@
       showCurrentPartDetails();
       $("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus');
       playNext();
-
-      updatePreview();
     });
 
     $(".clips .part-play-btn").click(function(event){
@@ -1111,9 +1078,6 @@
       } else if (configuration == 'mix3') {
         clip = { clip: { state3: state } }
       }
-      if (column == sColumn) {
-        updatePreviewForClip($(event.target).data('row'), state);
-      }
       updateClip(clip, updateClipUrl);
     });
 
@@ -1164,43 +1128,6 @@
 						</div>
 					</div>
 				</div>
-				<div id="sidebar-wrapper"><div id="preview">
-					<div id="tracker-mobile" class="iPhone">
-    <div class="mic"></div>
-    <div class="speaker"></div>
-    <div class="home-btn"></div> 
-    <div class="screen">
-        <div class="navigation-bar">
-            <i class="fa fa-reorder"></i> 
-            <label>8Stem</label>
-        </div>
-        <div class="wing-group">
-            <div class="playBtn"></div>
-            <div class="wing wing1 lead"></div>
-            <div class="wing wing2 bass"></div>
-            <div class="wing wing3 drums"></div>
-            <div class="wing wing4 instruments"></div>
-            <div class="wing wing5 rmx1 muted"></div>
-            <div class="wing wing6 rmx2 muted"></div>
-            <div class="wing wing7 rmx3 muted"></div>
-            <div class="wing wing8 rmx4 muted"></div>
-        </div>
-        <div class="configbtn" style="display:none">
-            <div class="style-up"> Style <i class="fa fa-chevron-circle-up"></i> </div>
-            <div class="source source"> Source </div>
-            <div class="style-down"> Style <i class="fa fa-chevron-circle-down"></i> </div>
-        </div>
-        <div class="bar" style="display:none">
-            <i class="fa fa-angle-left"></i>
-            <i class="fa fa-angle-right"></i> 
-        </div>
-        <div class="bar" style="display:none">
-            <i class="fa fa-angle-left"></i>
-            <i class="fa fa-angle-right"></i> 
-        </div>
-    </div>
-</div>
-				</div></div>
 			</div>
 		</div>
 	</div>
@@ -1262,7 +1189,6 @@ $(document).ready(function(){
         });
 
         window.topWavesurfer.on('finish', function () {
-            updatePreviewPlayBtn(false);
             $(".full-play-btn").removeClass('playing');
             window.topWavesurfer.seekTo(0);
         });
@@ -1295,19 +1221,12 @@ $(document).ready(function(){
 			$("#tracker-compiled .tracker-part.part" + current + " .gradient").css("outline-width", "2px");
 		}
 
-		/* Mobile Version Toggle */
-		$("a[data-toggle='sidebar']").click(function(e) {
-			e.preventDefault();
-			$("#wrapper").toggleClass("toggled");
-		});
-
         $('#mix-tabs .tab a').click(function (event) {
             event.preventDefault();
             $('#mix-tabs .tab').removeClass('active');
             $(this).closest('.tab').addClass('active');
             window.configuration = $(this).data('mix');
             reInitializeClipsState();
-            updatePreview();
             window.configurationBtn = this;
         });
     });
