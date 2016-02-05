@@ -20,7 +20,8 @@ class BetaUser < ActiveRecord::Base
   default_values phone_type: BetaUser.phone_types[:iPhone]
 
   validates :name, presence: true
-	validates :email, presence: true, email: true
-	validates :phone_type, presence: true
+  validates :email, presence: true, email: true
+  validates :phone_type, presence: true
   validates :age, numericality: { greater_than: 0, less_than: 101}
+
 end
