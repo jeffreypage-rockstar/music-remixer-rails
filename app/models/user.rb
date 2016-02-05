@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   # acts_as_mentionable
 
   # allow comments on users
-  acts_as_commentable
+  # acts_as_commentable
 
 	# profile images
 	mount_uploader :profile_image, ProfileImageUploader
@@ -42,7 +42,8 @@ class User < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :email, :presence => true
-	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}, :format => { :with => /[a-zA-Z0-9_\-]+/ }
+	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}, :format => { :with => /[a-zA-Z0-9_-]+/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }
+	validates :facebook, :format => { :with => /[a-zA-Z0-9_-]+/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }
 	validates :password, :presence => true, :on => :create
 	validates_confirmation_of :password, :message => 'Passwords do not match'
 	validates :terms_of_service, acceptance: true

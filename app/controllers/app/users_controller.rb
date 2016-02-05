@@ -12,6 +12,7 @@ class App::UsersController < App::BaseController
 
   def update_profile
     if current_user.update(profile_params)
+      puts profile_params
       $tracker.track current_user.uuid, 'User: Profile updated'
       redirect_to app_show_profile_path, notice: 'Profile successfully updated'
     else
@@ -71,7 +72,7 @@ class App::UsersController < App::BaseController
 
   def create
     user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
-    @user = User.create(user)
+    @user = User.new(user)
     if @user.valid?
       $tracker.alias @user.uuid, session.id
       $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
@@ -81,6 +82,7 @@ class App::UsersController < App::BaseController
       UserNotifier.account_verification_email(@user).deliver_now
       redirect_to "#{app_sign_up_thanks_url}?ref=signup"
     else
+      puts @user.errors.full_messages
       render :new, layout: 'signup'
     end
   end

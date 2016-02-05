@@ -1,5 +1,5 @@
 class BetaArtist < ActiveRecord::Base
-	validates :name, presence: true
+  validates :name, presence: true, format: { :with => /[a-zA-Z0-9_-]+/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }
 	validates :email, presence: true, email: true
 	validates :artist_name, presence: true
 	validates :artist_url, presence: true
