@@ -7,6 +7,9 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
+# mix8.com
+server '162.242.246.25', user: 'deploy', roles: %w{app db web}
+
 
 
 # role-based syntax
@@ -31,6 +34,14 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
+set :application, 'mix8'
+set :branch, "master"
+set :deploy_to, '/home/deploy/mix8'
+
+set :stage, :staging
+set :rails_env, "production"
+
+set :rollbar_token, '9374ab06eda74e48bfc4cbc4251f6bbf' # mix8 token
 
 
 # Custom SSH Options

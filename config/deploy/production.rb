@@ -7,10 +7,6 @@ server '104.130.173.100', user: 'deploy', roles: %w{app}
 server '104.130.173.100', user: 'deploy', roles: %w{web}
 server '104.130.173.100', user: 'deploy', roles: %w{db}  # migrations are run from web1
 
-# server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
-# server 'db.example.com', user: 'deploy', roles: %w{db}
-
-
 
 # role-based syntax
 # ==================
@@ -39,9 +35,14 @@ server '104.130.173.100', user: 'deploy', roles: %w{db}  # migrations are run fr
 #set :rvm_type, :system
 # set :rvm_custom_path, '/home/ubuntu/.rvm'  # only needed if not detected
 
+set :application, '8stem'
+set :branch, "8stem_deploy"
+set :deploy_to, '/home/deploy/8stem'
+
 set :stage, :production
 set :rails_env, "production"
 
+set :rollbar_token, 'd1f50300ea374553b47c73471ef2fa80' # 8stem token
 
 # Custom SSH Options
 # ==================
