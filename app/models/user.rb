@@ -43,10 +43,10 @@ class User < ActiveRecord::Base
   validates :name, :presence => true
   validates :email, :presence => true
 	validates :username, :presence => true, :uniqueness => {:case_sensitive => false}, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }
-	validates :facebook, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.facebook.blank? }
-	validates :twitter, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.twitter.blank? }
-	validates :soundcloud, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.soundcloud.blank? }
-	validates :instagram, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.instagram.blank? }
+	# validates :facebook, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.facebook.blank? }
+	# validates :twitter, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.twitter.blank? }
+	# validates :soundcloud, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.soundcloud.blank? }
+	# validates :instagram, :format => { :with => /\A[a-zA-Z0-9_\-]+\z/, :message => "can contain only a-z, A-Z, 0-9, _ and -" }, :unless => Proc.new { |a| a.instagram.blank? }
 	validates :password, :presence => true, :on => :create
 	validates_confirmation_of :password, :message => 'Passwords do not match'
 	validates :terms_of_service, acceptance: true

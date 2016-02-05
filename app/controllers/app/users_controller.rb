@@ -12,7 +12,6 @@ class App::UsersController < App::BaseController
 
   def update_profile
     if current_user.update(profile_params)
-      puts profile_params
       $tracker.track current_user.uuid, 'User: Profile updated'
       redirect_to app_show_profile_path, notice: 'Profile successfully updated'
     else
@@ -24,8 +23,7 @@ class App::UsersController < App::BaseController
   def update_account
     if current_user.update(account_params)
       $tracker.track current_user.uuid, 'User: Account updated'
-      sign_in current_user
-      redirect_to app_show_profile_path, notice: 'Account successfully updated'
+      redirect_to app_show_profile_path(current_user.username), notice: 'Account successfully updated'
     else
       @active_tab = 'account'
       render :edit_profile
@@ -72,7 +70,7 @@ class App::UsersController < App::BaseController
 
   def create
     user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
-    @user = User.new(user)
+    @user = User.create(user)
     if @user.valid?
       $tracker.alias @user.uuid, session.id
       $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
@@ -82,13 +80,12 @@ class App::UsersController < App::BaseController
       UserNotifier.account_verification_email(@user).deliver_now
       redirect_to "#{app_sign_up_thanks_url}?ref=signup"
     else
-      puts @user.errors.full_messages
       render :new, layout: 'signup'
     end
   end
 
   def confirm
-    user = User.find_by_confirmation_token(params[:confirmation_token])
+    user = User.find_by_confirmation_token(params[:confirmation_token]) if !params[:confirmation_token].blank?
     if user && user.confirmation_token == params[:confirmation_token]
       user.email_activate
       # flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed. Please sign in to continue.'
