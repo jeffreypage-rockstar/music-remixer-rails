@@ -127,7 +127,7 @@ class Song < ActiveRecord::Base
           clip_file_paths = clips.select { |clip| !clip.state3 }.map { |clip| File.join(dir_path, clip.original_filename) }
         end
 
-        part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.m4a")
+        part_audio_path = File.join(dir_path, "mix_audio_part_#{part.column}.wav")
 
         begin
           interpolations = {output: part_audio_path}
@@ -139,11 +139,6 @@ class Song < ActiveRecord::Base
             end
             interpolations[:filters] = "amix=inputs=#{clip_file_paths.count},volume=#{clip_file_paths.count}"
             part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
-            puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
-            part_audio_line.run(interpolations)
-          else
-            interpolations[:filters] = "aevalsrc=0 -t #{part.duration}"
-            part_audio_line = Cocaine::CommandLine.new('ffmpeg', '-filter_complex :filters -y :output')
             puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
             part_audio_line.run(interpolations)
           end
