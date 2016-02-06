@@ -35,11 +35,11 @@ server '162.242.246.25', user: 'deploy', roles: %w{app db web}
 # Feel free to add new variables to customise your setup.
 
 set :application, 'mix8'
-set :branch, "master"
+set :branch, "8stem_deploy"
 set :deploy_to, '/home/deploy/mix8'
 
 set :stage, :staging
-set :rails_env, "production"
+set :rails_env, "staging"
 
 set :rollbar_token, '9374ab06eda74e48bfc4cbc4251f6bbf' # mix8 token
 
