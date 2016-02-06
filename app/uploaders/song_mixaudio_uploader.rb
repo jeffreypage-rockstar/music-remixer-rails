@@ -13,7 +13,8 @@ class SongMixaudioUploader < CarrierWave::Uploader::Base
 
   # Override the directory where uploaded files will be stored.
   def store_dir
-    "#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
+    env = Rails.env.staging? ? 'production' : Rails.env
+    "#{env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
   end
 
   def fog_directory
