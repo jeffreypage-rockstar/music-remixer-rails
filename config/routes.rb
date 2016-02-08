@@ -59,6 +59,8 @@ Rails.application.routes.draw do
     match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 
     get 'sign_in' => 'pages#redirect_sign_in', as: 'sign_in'
+
+    get '/beta' => redirect('/')
   end
 
 	# Normal site (no subdomain or www)
