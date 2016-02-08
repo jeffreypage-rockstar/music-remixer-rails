@@ -25,6 +25,7 @@ class App::SongsController < App::BaseController
       end
       @clips << partBlob
     end
+    # @song = @song.decorate
   end
 
   def share_modal
@@ -61,5 +62,6 @@ class App::SongsController < App::BaseController
     unless @song
       return redirect_to artist_songs_path
     end
+    @song = @song.decorate
   end
 end

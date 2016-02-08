@@ -12,6 +12,10 @@ module ApplicationHelper
 		content_for(:title) { page_title }
 	end
 
+  def image_url(source)
+    "#{app_home_url}#{image_path(source)}"
+  end
+
 	def provider_name(provider)
 		case provider
 			when 'google'

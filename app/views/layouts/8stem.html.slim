@@ -5,6 +5,7 @@ html lang="en"
     meta charset="utf-8" /
     meta content="IE=edge" http-equiv="X-UA-Compatible" /
     meta content="width=device-width, initial-scale=1" name="viewport" /
+    = content_for?(:head) ? yield(:head) : ''
     title
       = content_for?(:title) ? "#{content_for(:title)} | " : ""
       = I18n.t('brand.name')
