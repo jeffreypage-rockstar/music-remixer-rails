@@ -9,7 +9,6 @@ html
         display: block;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-style: normal;
-        font-variant: normal;
         line-height: 16px;
         background-color: #dbdbdb;
         letter-spacing: 0.01em;
@@ -33,26 +32,21 @@ html
         text-decoration: none;
       }
 
-      #body-header {
+      #body-wrapper {
         background-color: #24292d;
         border-radius: 7px;
-
       }
 
       .logo {
         padding-left: 20px;
         padding-bottom: 5px;
         padding-top: 5px;
-
       }
 
-      .body-mesage {
+      .body-message {
         background-color: white;
-        padding-bottom: 5px;
-        padding-top: 10px;
         padding-left: 20px;
         padding-right: 30px;
-
       }
 
       .message {
@@ -62,7 +56,6 @@ html
         font-weight: 300;
         font-size: 13px;
         padding-bottom: 30px;
-        -webkit-font-smoothing: antialiased;
       }
 
       .footer {
@@ -71,7 +64,6 @@ html
         padding-top: 15px;
         font-size: 12px;
         font-weight: 200;
-
       }
 
       .msg-bold {
@@ -88,7 +80,6 @@ html
         width: 70%;
         height: 20px;
         margin: auto;
-
       }
 
       .banner {
@@ -175,16 +166,16 @@ html
       /#post-header
       /  | If you can't read this email, please
       /  a href="#"  view online
-      br
+      /br
       header
-        #body-header
+        #body-wrapper
           .logo
-            = image_tag 'logo-blue.png'
-          .banner
-            .banner-text Making Music Interactive
-            .banner-img
-              = image_tag 'phone.png', width: 130
-          .body-mesage
+            = image_tag 'logo-blue.png', alt: "8Stem logo"
+          /.banner
+          /  .banner-text Making Music Interactive
+          /  .banner-img
+          /    = image_tag 'phone.png', width: 130
+          .body-message
             .message
               = yield
           .footer
