@@ -4,19 +4,25 @@
     <div class="home-btn"></div> 
     <div class="screen">
         <div class="navigation-bar">
-            <i class="fa fa-reorder"></i> 
-            <label>8Stem</label>
+            <label><%=@song.name%></label>
+          <div id="mix-tabs">
+            <h6 class="tab col-md-4"><a href="#" data-id="<%= current_user.name %>" data-mix="mix2">Mix2</a></h6>
+            <h6 class="tab col-md-4 active"><a href="#" data-id="<%= current_user.name %>" data-mix="original">Original</a></h6>
+            <h6 class="tab col-md-4"><a href="#" data-id="<%= current_user.name %>" data-mix="mix3">Mix3</a></h6>
+          </div>
         </div>
         <div class="wing-group">
-            <div class="playBtn"></div>
             <div class="wing wing1 lead"></div>
             <div class="wing wing2 bass"></div>
             <div class="wing wing3 drums"></div>
             <div class="wing wing4 instruments"></div>
-            <div class="wing wing5 rmx1"></div>
-            <div class="wing wing6 rmx2"></div>
-            <div class="wing wing7 rmx3"></div>
-            <div class="wing wing8 rmx4"></div>
+            <% r = 4 %>
+            <% c = 0 %>
+            <% @song.clip_types.slice(4, 8).each do |clip_type| %>
+              <% r += 1 %>
+              <% c += 1 %>
+              <div class="wing wing<%=r%> level-<%=r%> rmx<%=c%>"><%=clip_type.name%></div>
+            <% end %>
         </div>
         <div class="configbtn" style="display:none">
             <div class="style-up<%=' active' if @configuration == 'style-up'%>"> Style <i class="fa fa-chevron-circle-up"></i> </div>
@@ -30,6 +36,13 @@
         <div class="bar" style="display:none">
             <i class="fa fa-angle-left"></i>
             <i class="fa fa-angle-right"></i> 
+        </div>
+        <div class="bar">
+            <div class="playBtn"></div>
+            <div><div class="reMix"></div><span class="reMix_span">Remix</span></div>
+            <div><div class="music_btm"></div><span class="music_span">Music</span></div>
+            <div><div class="social_btm"></div><span class="social_span">Social</span></div>
+            <div><div class="setting_btm"></div><span class="setting_span">Settings</span></div>
         </div>
     </div>
 </div>

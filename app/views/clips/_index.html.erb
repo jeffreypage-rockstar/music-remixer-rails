@@ -96,7 +96,8 @@
 							e.stopPropagation();
 							var parent = $(e.target).parent();
 							$(parent).html('<span tabindex="'+classnm+'">' + $(e.target).val() + '</span>');
-
+              var level_id = topparent.attr('id');
+              $('.'+level_id).text($(e.target).val());
 							var url = '';
 							if (parent.hasClass("songtitle")) {
 								url = '/songs/' + <%=@song.id%>;

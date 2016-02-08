@@ -365,11 +365,9 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 #tracker-mobile {	
 	width: 250px !important;
 	height: 503px !important;
-	padding-top: 76px !important;
-	padding-bottom: 69px !important;
-	padding-left: 23px !important;
-	padding-right: 21px !important;
+	padding-bottom: 40px !important;
 	height: 100%;
+    margin-top: 12px;
 	color: #788086;
 	background-image: url(../images/iphone.png);
 	background-repeat: no-repeat;

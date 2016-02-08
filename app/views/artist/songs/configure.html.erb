@@ -278,6 +278,8 @@ $(document).ready(function(){
             event.preventDefault();
             $('#mix-tabs .tab').removeClass('active');
             $(this).closest('.tab').addClass('active');
+            var data_mix = $(this).attr('data-mix');
+            $('.iPhone #mix-tabs a[data-mix='+data_mix+']').parent().addClass("active");
             window.configuration = $(this).data('mix');
             reInitializeClipsState();
             updatePreview();
