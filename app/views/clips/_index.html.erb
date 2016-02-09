@@ -96,6 +96,8 @@
 							e.stopPropagation();
 							var parent = $(e.target).parent();
 							$(parent).html('<span tabindex="'+classnm+'">' + $(e.target).val() + '</span>');
+              var song_title = topparent.attr('class').split(' ')[2];
+              $('#'+song_title).text($(e.target).val());
               var level_id = topparent.attr('id');
               $('.'+level_id).text($(e.target).val());
 							var url = '';
