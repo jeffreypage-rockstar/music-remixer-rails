@@ -26,7 +26,7 @@
                 | Edit Profile
   .container
     .row
-      .col-md-8.col-md-push-4
+      .col-sm-8.col-sm-push-4
         .white-section
           .row
             .col-sm-9.artist-tags
@@ -41,8 +41,10 @@
 
         - unless @user.bio.blank?
           .artist-bio
-            h4.title Artist Bio
-            .content #{@user.bio}
+            h4.title
+              = @user.is_artist_admin? ? 'Artist Bio' : 'User Bio'
+            .content
+              = auto_link(@user.bio, :html => { :target => '_blank', :rel => 'nofollow' })
 
         - if @user.songs_count > 0
           = render partial: 'app/users/tracks', locals: {songs: @user.released_songs}
@@ -50,7 +52,7 @@
         - if @user.remixes_count > 0
           = render partial: 'app/users/remixes', locals: {remixes: @user.remixes}
 
-      .col-md-4.col-md-pull-8
+      .col-sm-4.col-sm-pull-8
         .white-section.stats
 
         .white-section.followings

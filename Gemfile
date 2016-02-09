@@ -64,6 +64,9 @@ gem 'acts-as-taggable-on', '~> 3.4'
 # commenting
 gem 'acts_as_commentable_with_threading'
 
+# auto-linking
+gem 'rails_autolink'
+
 # Table generator
 # gem 'simple_table_for'
 
