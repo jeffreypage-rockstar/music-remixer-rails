@@ -99,6 +99,7 @@ module Mix8
         expose :key, as: :verb
         expose :trackable, using: Trackable, as: :object
         expose :created_at, as: :published
+        expose :parameters, as: :data
       end
     end
   end
