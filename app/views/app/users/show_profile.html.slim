@@ -29,11 +29,11 @@
       .col-sm-8.col-sm-push-4
         .white-section
           .row
-            .col-sm-9.artist-tags
+            .col-xs-12.col-sm-8.artist-tags
               - @user.genres.each do |genre|
                 a href="##{genre.name}" class="tag badge" #{genre.name}
 
-            .col-sm-3.social-links.text-right
+            .col-xs-12.col-sm-4.social-links.text-right.no-gutter
               = @user.facebook_link
               = @user.instagram_link
               = @user.twitter_link
