@@ -87,6 +87,12 @@
 	margin: 0 10px 0px 0;
 }
 
+@media(max-width: 1435px){
+    #tracker-desktop #mix-tabs{
+        width: 100%;
+    }
+}
+
 #tracker-desktop .tab.active a {
 	color: inherit;
 	background-color: #fff;
