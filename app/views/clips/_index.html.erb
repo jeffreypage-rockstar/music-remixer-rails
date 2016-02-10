@@ -311,6 +311,7 @@
 		if (sColumn < 8) sColumn++;
 		$("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
 		showCurrentPartDetails();
+    updatePreview();
 		playNext();
 
 		for (var i = 0; i <= 8; i++) {
