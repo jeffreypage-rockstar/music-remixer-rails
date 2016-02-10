@@ -88,7 +88,7 @@
 }
 
 @media(max-width: 1435px){
-    #tracker-desktop #mix-tabs{
+    #tracker-desktop #mix-tabs.mobile_toggle{
         width: 100%;
     }
 }
