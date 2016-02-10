@@ -108,7 +108,7 @@ class Song < ActiveRecord::Base
     end
   end
 
-  def build_mixaudio(source='origin')
+  def build_mixaudio(source='original')
     self.status = Song.statuses[:processing_for_release]
     self.save!
     if self.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
@@ -119,7 +119,7 @@ class Song < ActiveRecord::Base
 
       self.parts.each_with_index do |part, index|
         clips = part.clips
-        if source == 'origin'
+        if source == 'original'
           clip_file_paths = clips.select { |clip| !clip.state }.map { |clip| File.join(dir_path, clip.original_filename) }
         elsif source == 'mix2'
           clip_file_paths = clips.select { |clip| !clip.state2 }.map { |clip| File.join(dir_path, clip.original_filename) }
@@ -139,11 +139,11 @@ class Song < ActiveRecord::Base
             end
             interpolations[:filters] = "amix=inputs=#{clip_file_paths.count},volume=#{clip_file_paths.count}"
             part_audio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
-            puts "Generating part audio #{index+1}: #{part_audio_line.command(interpolations)}"
+            puts "Generating part audio #{index+1} for #{source}: #{part_audio_line.command(interpolations)}"
             part_audio_line.run(interpolations)
           end
         rescue Cocaine::ExitStatusError => e
-          puts "error while running command #{part_audio_line.command(interpolations)}: #{e}"
+          puts "error while running command for #{source}: #{part_audio_line.command(interpolations)}: #{e}"
         end
         part_audio_paths << part_audio_path
       end
@@ -159,16 +159,15 @@ class Song < ActiveRecord::Base
       interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
       
       begin
-        puts "Generating mix audio: #{mixaudio_line.command(interpolations)}"
+        puts "Generating mix audio for #{source}: #{mixaudio_line.command(interpolations)}"
         mixaudio_line.run(interpolations)
-        if source == 'origin'
+        if source == 'original'
           self.mixaudio = File.open(interpolations[:output])
         elsif source == 'mix2'
           self.mixaudio_mix2 = File.open(interpolations[:output])
         else
           self.mixaudio_mix3 = File.open(interpolations[:output])
         end
-
       rescue Cocaine::ExitStatusError => e
         puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
       end

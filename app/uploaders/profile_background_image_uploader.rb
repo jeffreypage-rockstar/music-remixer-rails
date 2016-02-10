@@ -35,7 +35,7 @@ class ProfileBackgroundImageUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{secure_token(32)}.#{file.extension}" if original_filename.present?
+    "#{secure_token(16)}.#{file.extension}" if original_filename.present?
   end
 
   protected

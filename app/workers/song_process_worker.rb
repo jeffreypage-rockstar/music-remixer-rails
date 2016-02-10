@@ -5,9 +5,14 @@ class SongProcessWorker < ::CarrierWave::Workers::StoreAsset
     super(*args)
 
     song = constantized_resource.find id
+    logger.info "SongProcessWorker starting job on Song: #{song.inspect}"
+
     if song.clips.where.not(storing_status: Clip.storing_statuses[:storing_done]).count == 0
-      #FileUtils.rm_r(song.song_tmp_directory_path, :force => true)
-      song.update_attribute(:status, :released) if song.processed?
+      logger.info "SongProcessWorker all clips have been processed on Song: #{song.id}"
+      if song.processed?
+        song.update_attribute(:status, :released)
+        logger.info "SongProcessWorker setting song status to released for Song: #{song.id}"
+      end
     end
   end
 

@@ -19,7 +19,7 @@ class SongWaveformDataMix3Uploader < CarrierWave::Uploader::Base
 
   # Override the filename of the uploaded files:
   def filename
-    "#{secure_token(32)}.#{file.extension}" if original_filename.present?
+    "#{secure_token(16)}.#{file.extension}" if original_filename.present?
   end
 
   def remove!

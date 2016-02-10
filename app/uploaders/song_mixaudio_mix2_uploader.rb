@@ -3,12 +3,12 @@ class SongMixaudioMix2Uploader < CarrierWave::Uploader::Base
   before :cache, :save_duration
 
   process encode_audio: [:m4a]
-  process encode_audio: [:mp3, false]
+  process encode_audio: [:mp3]
   process :generate_waveform
 
   def save_duration(file)
-    file = ::FFMPEG::Movie.new(file.path)
-    model.duration = file.duration
+    cmd = "ffprobe -i \"#{file.path}\" -show_entries format=duration -of default=nk=1:nw=1 -v warning"
+    model.duration = `#{cmd}`
   end
 
   # Override the directory where uploaded files will be stored.
@@ -35,7 +35,7 @@ class SongMixaudioMix2Uploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{secure_token(32)}.#{file.extension}" if original_filename.present?
+    "#{secure_token(16)}.#{file.extension}" if original_filename.present?
   end
 
   def remove!
@@ -51,14 +51,11 @@ class SongMixaudioMix2Uploader < CarrierWave::Uploader::Base
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end
 
-  def encode_audio(format='m4a', overwrite=true)
+  def encode_audio(format)
     directory = File.dirname(current_path)
     tmpfile = File.join(directory, 'tmpfile')
-    if overwrite
-      FileUtils.mv(current_path, tmpfile)
-    else
-      FileUtils.cp(current_path, tmpfile)
-    end
+    FileUtils.cp(current_path, tmpfile)
+    Rails.logger.info "SongMixaudioMix2Uploader::encode_audio(#{format}) starting, tmpfile=#{tmpfile}"
 
     file = ::FFMPEG::Movie.new(tmpfile)
     new_name = File.basename(current_path, '.*') + '.' + format.to_s
@@ -67,16 +64,16 @@ class SongMixaudioMix2Uploader < CarrierWave::Uploader::Base
 
     file.transcode(encoded_file)
 
-    if overwrite
+    if format == :m4a
       self.filename[-current_extension.size..-1] = format.to_s
       self.file.file[-current_extension.size..-1] = format.to_s
-
-      File.delete(tmpfile)
     end
+    Rails.logger.info "SongMixaudioMix2Uploader::encode_audio(#{format}) ended, tmpfile=#{tmpfile}"
   end
 
   def generate_waveform
     directory = File.dirname(current_path)
+    Rails.logger.info "SongMixaudioMix2Uploader::generate_waveform starting, directory=#{directory}"
 
     waveform_line = Cocaine::CommandLine.new('audiowaveform', '-i :input -s :start -e :end -w :width -h :height -o :output --no-axis-labels --waveform-color :waveform_color --background-color :background_color')
     interpolations = {
@@ -94,7 +91,7 @@ class SongMixaudioMix2Uploader < CarrierWave::Uploader::Base
       waveform_line.run(interpolations)
       self.model.waveform_mix2 = File.open(interpolations[:output])
     rescue Cocaine::ExitStatusError => e
-      puts "error while running command #{waveform_line.command(interpolations)}: #{e}"
+      Rails.logger.info "error while running command #{waveform_line.command(interpolations)}: #{e}"
     end
 
     waveform_data_line = Cocaine::CommandLine.new('audiowaveform', '-i :input -o :output -z :samples_per_pixel')
@@ -107,7 +104,8 @@ class SongMixaudioMix2Uploader < CarrierWave::Uploader::Base
       waveform_data_line.run(interpolations)
       self.model.waveform_data_mix2 = File.open(interpolations[:output])
     rescue Cocaine::ExitStatusError => e
-      puts "error while running command #{waveform_data_line.command}: #{e}"
+      Rails.logger.info "error while running command #{waveform_data_line.command}: #{e}"
     end
+    Rails.logger.info "SongMixaudioMix2Uploader::generate_waveform ended, directory=#{directory}"
   end
 end

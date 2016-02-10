@@ -27,7 +27,7 @@ class RemixAudioUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{secure_token(32)}.#{file.extension}" if original_filename.present?
+    "#{secure_token(16)}.#{file.extension}" if original_filename.present?
   end
 
   protected
@@ -36,7 +36,8 @@ class RemixAudioUploader < CarrierWave::Uploader::Base
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end
 
-  def encode_audio(format='m4a')
+  def encode_audio(format)
+    Rails.logger.info "RemixAudioUploader::encode_audio(#{format}) starting"
     directory = File.dirname(current_path)
     tmpfile = File.join(directory, 'tmpfile')
     File.rename(current_path, tmpfile)
@@ -52,5 +53,6 @@ class RemixAudioUploader < CarrierWave::Uploader::Base
     self.file.file[-current_extension.size..-1] = format.to_s
 
     File.delete(tmpfile)
+    Rails.logger.info "RemixAudioUploader::encode_audio(#{format}) ended"
   end
 end
