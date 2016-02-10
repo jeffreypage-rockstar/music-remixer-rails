@@ -14,28 +14,28 @@
 ActiveRecord::Schema.define(version: 20160204230127) do
 
   create_table "activities", force: :cascade do |t|
-    t.integer  "trackable_id",   limit: 4
-    t.string   "trackable_type", limit: 255
-    t.integer  "owner_id",       limit: 4
-    t.string   "owner_type",     limit: 255
-    t.string   "key",            limit: 255
-    t.text     "parameters",     limit: 65535
-    t.integer  "recipient_id",   limit: 4
-    t.string   "recipient_type", limit: 255
+    t.integer  "trackable_id"
+    t.string   "trackable_type"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "key"
+    t.text     "parameters"
+    t.integer  "recipient_id"
+    t.string   "recipient_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
-  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
-  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
+  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
+  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
+  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
 
   create_table "authentications", force: :cascade do |t|
-    t.integer  "user_id",       limit: 4
-    t.string   "provider",      limit: 255, null: false
-    t.string   "uid",           limit: 255, null: false
-    t.string   "token",         limit: 255
-    t.string   "refresh_token", limit: 255
+    t.integer  "user_id"
+    t.string   "provider",      null: false
+    t.string   "uid",           null: false
+    t.string   "token"
+    t.string   "refresh_token"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,19 +44,19 @@ ActiveRecord::Schema.define(version: 20160204230127) do
   add_index "authentications", ["uid"], name: "index_authentications_on_uid", using: :btree
 
   create_table "beta_artists", force: :cascade do |t|
-    t.integer  "user_id",     limit: 4
-    t.string   "name",        limit: 255,   null: false
-    t.string   "email",       limit: 255,   null: false
-    t.string   "artist_name", limit: 255,   null: false
-    t.string   "artist_url",  limit: 255,   null: false
-    t.text     "message",     limit: 65535
-    t.string   "invite_code", limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "user_id"
+    t.string   "name",        null: false
+    t.string   "email",       null: false
+    t.string   "artist_name", null: false
+    t.string   "artist_url",  null: false
+    t.text     "message"
+    t.string   "invite_code"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
-  add_index "beta_artists", ["email"], name: "index_beta_artists_on_email", unique: true, using: :btree
-  add_index "beta_artists", ["user_id"], name: "index_beta_artists_on_user_id", using: :btree
+  add_index "beta_artists", ["email"], name: "index_beta_artists_on_email", unique: true
+  add_index "beta_artists", ["user_id"], name: "index_beta_artists_on_user_id"
 
   create_table "beta_users", force: :cascade do |t|
     t.integer  "user_id",     limit: 4
@@ -70,25 +70,25 @@ ActiveRecord::Schema.define(version: 20160204230127) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id", using: :btree
+  add_index "beta_users", ["user_id"], name: "index_beta_users_on_user_id"
 
   create_table "beta_users_music_backgrounds", force: :cascade do |t|
-    t.integer "beta_user_id",        limit: 4
-    t.integer "music_background_id", limit: 4
+    t.integer "beta_user_id"
+    t.integer "music_background_id"
   end
 
-  add_index "beta_users_music_backgrounds", ["beta_user_id"], name: "index_beta_users_music_backgrounds_on_beta_user_id", using: :btree
-  add_index "beta_users_music_backgrounds", ["music_background_id"], name: "index_beta_users_music_backgrounds_on_music_background_id", using: :btree
+  add_index "beta_users_music_backgrounds", ["beta_user_id"], name: "index_beta_users_music_backgrounds_on_beta_user_id"
+  add_index "beta_users_music_backgrounds", ["music_background_id"], name: "index_beta_users_music_backgrounds_on_music_background_id"
 
   create_table "clip_types", force: :cascade do |t|
-    t.integer  "song_id",    limit: 4
+    t.integer  "song_id"
     t.string   "name",       limit: 40
-    t.integer  "row",        limit: 4
+    t.integer  "row"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
 
-  add_index "clip_types", ["song_id"], name: "index_clip_types_on_song_id", using: :btree
+  add_index "clip_types", ["song_id"], name: "index_clip_types_on_song_id"
 
   create_table "clips", force: :cascade do |t|
     t.integer  "song_id",           limit: 4
@@ -117,99 +117,99 @@ ActiveRecord::Schema.define(version: 20160204230127) do
   add_index "clips", ["uuid"], name: "index_clips_on_uuid", unique: true, using: :btree
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "commentable_id",   limit: 4
-    t.string   "commentable_type", limit: 255
-    t.string   "title",            limit: 255
-    t.text     "body",             limit: 65535
-    t.string   "subject",          limit: 255
-    t.integer  "user_id",          limit: 4,     null: false
-    t.integer  "parent_id",        limit: 4
-    t.integer  "lft",              limit: 4
-    t.integer  "rgt",              limit: 4
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.string   "title"
+    t.text     "body"
+    t.string   "subject"
+    t.integer  "user_id",          null: false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "follows", force: :cascade do |t|
-    t.string   "follower_type",   limit: 255
-    t.integer  "follower_id",     limit: 4
-    t.string   "followable_type", limit: 255
-    t.integer  "followable_id",   limit: 4
+    t.string   "follower_type"
+    t.integer  "follower_id"
+    t.string   "followable_type"
+    t.integer  "followable_id"
     t.datetime "created_at"
   end
 
-  add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree
-  add_index "follows", ["follower_id", "follower_type"], name: "fk_follows", using: :btree
+  add_index "follows", ["followable_id", "followable_type"], name: "fk_followables"
+  add_index "follows", ["follower_id", "follower_type"], name: "fk_follows"
 
   create_table "likes", force: :cascade do |t|
-    t.string   "liker_type",    limit: 255
-    t.integer  "liker_id",      limit: 4
-    t.string   "likeable_type", limit: 255
-    t.integer  "likeable_id",   limit: 4
+    t.string   "liker_type"
+    t.integer  "liker_id"
+    t.string   "likeable_type"
+    t.integer  "likeable_id"
     t.datetime "created_at"
   end
 
-  add_index "likes", ["likeable_id", "likeable_type"], name: "fk_likeables", using: :btree
-  add_index "likes", ["liker_id", "liker_type"], name: "fk_likes", using: :btree
+  add_index "likes", ["likeable_id", "likeable_type"], name: "fk_likeables"
+  add_index "likes", ["liker_id", "liker_type"], name: "fk_likes"
 
   create_table "mailkick_opt_outs", force: :cascade do |t|
-    t.string   "email",      limit: 255
-    t.integer  "user_id",    limit: 4
-    t.string   "user_type",  limit: 255
-    t.boolean  "active",                 default: true, null: false
-    t.string   "reason",     limit: 255
-    t.string   "list",       limit: 255
+    t.string   "email"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.boolean  "active",     default: true, null: false
+    t.string   "reason"
+    t.string   "list"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "mailkick_opt_outs", ["email"], name: "index_mailkick_opt_outs_on_email", using: :btree
-  add_index "mailkick_opt_outs", ["user_id", "user_type"], name: "index_mailkick_opt_outs_on_user_id_and_user_type", using: :btree
+  add_index "mailkick_opt_outs", ["email"], name: "index_mailkick_opt_outs_on_email"
+  add_index "mailkick_opt_outs", ["user_id", "user_type"], name: "index_mailkick_opt_outs_on_user_id_and_user_type"
 
   create_table "mentions", force: :cascade do |t|
-    t.string   "mentioner_type",   limit: 255
-    t.integer  "mentioner_id",     limit: 4
-    t.string   "mentionable_type", limit: 255
-    t.integer  "mentionable_id",   limit: 4
+    t.string   "mentioner_type"
+    t.integer  "mentioner_id"
+    t.string   "mentionable_type"
+    t.integer  "mentionable_id"
     t.datetime "created_at"
   end
 
-  add_index "mentions", ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
-  add_index "mentions", ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
+  add_index "mentions", ["mentionable_id", "mentionable_type"], name: "fk_mentionables"
+  add_index "mentions", ["mentioner_id", "mentioner_type"], name: "fk_mentions"
 
   create_table "music_backgrounds", force: :cascade do |t|
-    t.string "name", limit: 255, null: false
+    t.string "name", null: false
   end
 
   create_table "parts", force: :cascade do |t|
-    t.integer  "song_id",    limit: 4
+    t.integer  "song_id"
     t.string   "name",       limit: 40
-    t.integer  "column",     limit: 4
-    t.float    "duration",   limit: 24
+    t.integer  "column"
+    t.float    "duration"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
 
-  add_index "parts", ["song_id"], name: "index_parts_on_song_id", using: :btree
+  add_index "parts", ["song_id"], name: "index_parts_on_song_id"
 
   create_table "referrals", force: :cascade do |t|
-    t.string   "email",        limit: 255, null: false
-    t.string   "name",         limit: 255
-    t.string   "invite_code",  limit: 255, null: false
-    t.string   "message",      limit: 255
-    t.integer  "referring_id", limit: 4
-    t.integer  "referred_id",  limit: 4
+    t.string   "email",        null: false
+    t.string   "name"
+    t.string   "invite_code",  null: false
+    t.string   "message"
+    t.integer  "referring_id"
+    t.integer  "referred_id"
     t.datetime "clicked_at"
     t.datetime "signed_up_at"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "referrals", ["referred_id"], name: "index_referrals_on_referred_id", using: :btree
-  add_index "referrals", ["referring_id"], name: "index_referrals_on_referring_id", using: :btree
+  add_index "referrals", ["referred_id"], name: "index_referrals_on_referred_id"
+  add_index "referrals", ["referring_id"], name: "index_referrals_on_referring_id"
 
   create_table "remixes", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
@@ -262,24 +262,24 @@ ActiveRecord::Schema.define(version: 20160204230127) do
   add_index "songs", ["uuid"], name: "index_songs_on_uuid", unique: true, using: :btree
 
   create_table "taggings", force: :cascade do |t|
-    t.integer  "tag_id",        limit: 4
-    t.integer  "taggable_id",   limit: 4
-    t.string   "taggable_type", limit: 255
-    t.integer  "tagger_id",     limit: 4
-    t.string   "tagger_type",   limit: 255
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
     t.string   "context",       limit: 128
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
 
   create_table "tags", force: :cascade do |t|
-    t.string  "name",           limit: 255
-    t.integer "taggings_count", limit: 4,   default: 0
+    t.string  "name"
+    t.integer "taggings_count", default: 0
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "uuid",                     limit: 24

@@ -516,7 +516,7 @@ img.dropdown-toggle {
 	top: -50px;
 	width: 240px;
 	height: 447px;
-	margin-left: 30px;	
+	margin-left: 25px;
 	border-top-right-radius: 25px;
 	border-top-left-radius: 25px;
 	border-bottom-left-radius: 25px;
@@ -562,7 +562,7 @@ img.dropdown-toggle {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	background-image: image-url('bg.png');
+    background: #FFFFFF;
   }
 
   .iPhone .navigation-bar {
@@ -572,6 +572,7 @@ img.dropdown-toggle {
 	color: #fff;
 	font-weight: bold;
 	font-size: 16px;
+    background: #3A444B;
   }
 
   .iPhone .navigation-bar i.fa {
@@ -592,11 +593,11 @@ img.dropdown-toggle {
 
   .iPhone .screen .playBtn {
 	position: absolute;
-	width: 61px;
-	height: 61px;
-	top: 100px;
-	left: 69px;
-	background-image: image-url('play_preview.png');
+	width: 68px;
+	height: 56px;
+	top: -10px;
+	left: 93px;
+	background-image: image-url('mobile_play_btn.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	z-index: 1000;
@@ -607,116 +608,198 @@ img.dropdown-toggle {
 	background-image: image-url('pause_preview.png');
   }
 
-  .iPhone .screen [class*="wing"],
+  .iPhone .screen .reMix {
+    position: absolute;
+    width: 18px;
+    height: 21px;
+    top: 10px;
+    left: 15px;
+    background-image: image-url('mobile_rmx.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1000;
+  }
+
+  .iPhone .screen .reMix_span{
+    padding-left: 9px;
+    padding-right: 8px;
+    background: #323941;
+  }
+  .iPhone .screen .music_span{
+    padding-left: 55px;
+  }
+  .iPhone .screen .social_span{
+    right: 51px;
+  }
+  .iPhone .screen .setting_span{
+    right: 3px;
+  }
+
+
+  .iPhone .screen .music_btm {
+    position: absolute;
+    width: 18px;
+    height: 21px;
+    top: 10px;
+    left: 58px;
+    background-image: image-url('mobile_music.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1000;
+  }
+
+  .iPhone .screen span{
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    padding-top: 26px;
+    position: absolute;
+  }
+
+  .iPhone .screen .social_btm {
+    position: absolute;
+    width: 18px;
+    height: 21px;
+    top: 10px;
+    left: 174px;
+    background-image: image-url('mobile_social.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1000;
+  }
+
+  .iPhone .screen .setting_btm {
+    position: absolute;
+    width: 18px;
+    height: 21px;
+    top: 10px;
+    left: 216px;
+    background-image: image-url('mobile_sett.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1000;
+  }
+
+
+.iPhone .screen [class*="wing"],
   .iPhone .screen .configbtn {
 	position: absolute;
 	z-index: 999;
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
+    margin-top:6px;
   }
 
-  .iPhone .screen .wing4,
-  .iPhone .screen .wing2 {
-	width: 49px;
-	height: 68px;
-	top: 96px;
-  }
 
   .iPhone .screen .wing4 {
-	left: 33px;
-	background-image: image-url('wing_1_s@2x.png');
+	top: 267px;
+	background-image: image-url('mobile_inst.png');
   }
 
   .iPhone .screen .wing4.muted {
-	background-image: image-url('wing_1@2x.png');
+	background-image: image-url('mobile_inst_muted.png');
   }
 
   .iPhone .screen .wing2 {
-	left: 116px;
-	background-image: image-url('wing_2_s@2x.png');
+	top: 137px;
+	background-image: image-url('mobile_bass.png');
   }
 
   .iPhone .screen .wing2.muted {
-	background-image: image-url('wing_2@2x.png');
+	background-image: image-url('mobile_bass_muted.png');
   }
 
   .iPhone .screen .wing1,
-  .iPhone .screen .wing3 {
-	width: 68px;
-	height: 50px;
-	left: 65px;
+  .iPhone .screen .wing2,
+  .iPhone .screen .wing3,
+  .iPhone .screen .wing4{
+	width: 100px;
+	height: 65px;
+    left: -4px;
   }
 
   .iPhone .screen .wing1 {
-	top: 63px;
-	background-image: image-url('wing_3_s@2x.png');
+	top: 72px;
+    margin-bottom: 0px !important;
+	background-image: image-url('mobile_vocals.png');
   }
 
   .iPhone .screen .wing1.muted {
-	background-image: image-url('wing_3@2x.png');
+	background-image: image-url('mobile_vocals_muted.png');
+
   }
 
   .iPhone .screen .wing3 {
-	top: 147px;
-	background-image: image-url('wing_4_s@2x.png');
+	top: 202px;
+	background-image: image-url('mobile_drums.png');
   }
 
   .iPhone .screen .wing3.muted {
-	background-image: image-url('wing_4@2x.png');
+	background-image: image-url('mobile_drums_muted.png');
   }
 
   .iPhone .screen .wing5,
   .iPhone .screen .wing6,
   .iPhone .screen .wing8,
   .iPhone .screen .wing7 {
-	width: 41px;
-	height: 41px;
+	width: 100px;
+	height: 65px;
   }
 
   .iPhone .screen .wing5,
-  .iPhone .screen .wing6 {
-	top: 58px;
+  .iPhone .screen .wing6,
+  .iPhone .screen .wing7,
+  .iPhone .screen .wing8{
+    left: 145px;
+    font-weight: 800;
+    font-size: 9px;
+    padding-left: 10px;
+    padding-top: 47px;
   }
 
   .iPhone .screen .wing5 {
-	left: 27px;
-	background-image: image-url('wing_5_s@2x.png');
+    top: 69px;
+    color: #18380C;
+    margin-top: 10px;
+	background-image: image-url('mobile_rmx1.png');
   }
 
   .iPhone .screen .wing5.muted {
-	background-image: image-url('wing_5@2x.png');
+    color: #909090;
+	background-image: image-url('mobile_rmx_muted.png');
   }
 
   .iPhone .screen .wing6 {
-	left: 130px;
-	background-image: image-url('wing_6_s@2x.png');
+    top: 138px;
+    color: #BA3647;
+	background-image: image-url('mobile_rmx2.png');
   }
 
   .iPhone .screen .wing6.muted {
-	background-image: image-url('wing_6@2x.png');
-  }
-
-  .iPhone .screen .wing8,
-  .iPhone .screen .wing7 {
-	top: 161px;
+    color: #909090;
+	background-image: image-url('mobile_rmx_muted.png');
   }
 
   .iPhone .screen .wing8 {
-	left: 27px;
-	background-image: image-url('wing_7_s@2x.png');
+    top: 268px;
+    color: #B2961F;
+	background-image: image-url('mobile_rmx4.png');
   }
 
   .iPhone .screen .wing8.muted {
-	background-image: image-url('wing_7@2x.png');
+    color: #909090;
+	background-image: image-url('mobile_rmx_muted.png');
   }
 
   .iPhone .screen .wing7 {
-	left: 130px;
-	background-image: image-url('wing_8_s@2x.png');
+    top: 203px;
+    color: #3969C3;
+	background-image: image-url('mobile_rmx3.png');
   }
 
   .iPhone .screen .wing7.muted {
-	background-image: image-url('wing_8@2x.png');
+    color: #909090;
+	background-image: image-url('mobile_rmx_muted.png');
   }
 
   .iPhone .screen .configbtn {
@@ -749,13 +832,10 @@ img.dropdown-toggle {
 
   .iPhone .screen .bar {
 	position: absolute;
-	background-color: #146d86;
-	bottom: 35px;
-	left: 10px;
-	right: 10px;
-	height: 18px;
-	line-height: 18px;
-	border-radius: 12px;
+    background: #3A444B;
+    left: 0px;
+    right: 0px;
+    height: 46px;
   }
 
   .iPhone .screen .bar:last-child {
@@ -772,6 +852,52 @@ img.dropdown-toggle {
 	float: right;
   }
 
+  .iPhone #mix-tabs{
+    padding-top: 23px;
+  }
+
+  .iPhone .tab a.padd_top{
+    padding: 10px 0 !important;
+  }
+
+  .iPhone .tab{
+    border-bottom: 3px groove #00acf3 !important;
+    background: #3A444B !important;
+  }
+
+  .iPhone .tab a {
+    position: relative !important;
+    padding: 10px 10px 10px 10px !important;
+    float: left !important;
+    margin: 0px !important;
+    color: #ffffff !important;
+  }
+
+  .iPhone .tab.active {
+    background-color: #fff !important;
+    border-top: 3px groove #00acf3 !important;
+    border-bottom: none !important;
+  }
+  .iPhone .tab.active a {
+    color: inherit !important;
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0.1) !important;
+  }
+  .iPhone .tab.active a:hover {
+    text-decoration: none;
+  }
+  .iPhone .tab.active a:after {
+    content: ' ';
+    position: absolute;
+    display: block;
+    height: 10px;
+    left: 0px;
+    right: -10px;
+    bottom: -10px;
+    background-color: #fff;
+
+  }
 
 
 
