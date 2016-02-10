@@ -12,7 +12,8 @@ class MixaudioBuildWorker
     if song.processing_for_release?
       song.status = Song.statuses[:released]
       song.save
-      User.increment_counter(:songs_count, song.user_id)
+      song.create_activity :release, owner: song.artist
+      song.user.update_attribute(:songs_count, song.user.released_songs.count)
       Rails.logger.info "MixaudioBuildWorker: set status to 'released' for song #{song_id}"
     end
   end

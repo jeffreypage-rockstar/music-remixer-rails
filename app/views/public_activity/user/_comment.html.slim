@@ -1,0 +1,11 @@
+li.list-group-item.activity.follow
+  .row
+    .col-sm-5
+      = render partial: 'public_activity/user_name_with_avatar', locals: { user: activity.owner, channel: '8stem', activity: 'comment' }
+    .col-sm-7
+      span.title
+        => "said #{activity.parameters[:comment]}"
+        strong
+          => fa_icon 'user'
+          = activity.trackable.name
+      span.when.pull-right #{time_ago_in_words activity.created_at} ago

@@ -46,11 +46,11 @@
             .content
               = auto_link(@user.bio, :html => { :target => '_blank', :rel => 'nofollow' })
 
-        - if @user.songs_count > 0
+        - if @user.released_songs.count > 0
           = render partial: 'app/users/tracks', locals: {songs: @user.released_songs}
 
-        - if @user.remixes_count > 0
-          = render partial: 'app/users/remixes', locals: {remixes: @user.remixes}
+        - if @user.released_remixes.count > 0
+          = render partial: 'app/users/remixes', locals: {remixes: @user.released_remixes}
 
       .col-sm-4.col-sm-pull-8
         .white-section.stats
