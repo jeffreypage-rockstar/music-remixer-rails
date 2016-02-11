@@ -254,6 +254,11 @@
 	text-decoration: none;
         opacity: 1;*/
 }
+
+.dnd-hover {
+    border: 2px solid #97e800 !important;
+}
+
 #tracker-mixer .tracker-part:hover:before {
 	content: ' ';
 	display: block;
@@ -375,7 +380,6 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	height: 100%;
     margin-top: 12px;
 	color: #788086;
-	background-image: url(../images/iphone.png);
 	background-repeat: no-repeat;
 	background-size: cover !important;
 }
