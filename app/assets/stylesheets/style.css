@@ -254,6 +254,11 @@
 	text-decoration: none;
         opacity: 1;*/
 }
+
+.dnd-hover {
+    border: 2px solid #97e800 !important;
+}
+
 #tracker-mixer .tracker-part:hover:before {
 	content: ' ';
 	display: block;

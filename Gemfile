@@ -88,6 +88,8 @@ gem 'pundit'
 # copy to clipboard
 gem 'zeroclipboard-rails'
 
+gem 'dropzonejs-rails'
+
 # pagination
 gem 'kaminari'
 
