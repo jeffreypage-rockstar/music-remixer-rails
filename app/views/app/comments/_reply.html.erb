@@ -1,0 +1,31 @@
+<% comments.each do |comment| %>
+	<div class="comments-show">
+		<div class="comment">
+			<div class="avatar"><%= image_tag(comment.user.profile_image.url(:thumb)) %></div>
+			<div class="body">
+				<div class="header">
+					<span class="author"><%= comment.user.username %></span>
+					<span class="timestamp">&ndash; <%= comment.created_at.strftime('%H:%M:%S %-d %B %Y') %></span>
+				</div>
+				<p><%= comment.body %><br></p>
+				<div class="comment-nav"><a href="#" class="comment-reply">reply</a></div>
+				<div class="reply-form">
+					<%= form_for @new_comment, url: app_comments_path do |f| %>
+						<%= f.hidden_field :commentable_id, value: @new_comment.commentable_id %>
+						<%= f.hidden_field :commentable_type, value: @new_comment.commentable_type %>
+						<%= f.hidden_field :comment_id, value: comment.id %>
+						<div class="field form-group">
+							<%= f.text_area :body, class: 'form-control' %>
+						</div>
+						<div class="field form-group">
+							<%= submit_tag "Post reply", class: 'btn btn-primary' %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+		<% if comment.children.count > 0 %>
+			<%= render partial: "app/comments/reply", locals: {comments: comment.children} %>
+		<% end %>
+	</div>
+<% end %>

@@ -37,11 +37,8 @@
       - @song.parts.each do |part|
         div id="part-#{part.id}"
 
-    = render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
-
 javascript:
-  var parts = {};
-  var parts2 = #{raw(@clips.to_json)};
+  var parts = #{raw(@clips.to_json)};
   var currentPart = 0, sounds = [];
   var partCount = #{@song.parts.count};
 

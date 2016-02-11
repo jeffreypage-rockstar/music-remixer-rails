@@ -25,7 +25,7 @@ class App::SongsController < App::BaseController
       end
       @clips << partBlob
     end
-    # @song = @song.decorate
+    @new_comment = Comment.build_from(@song, current_user.id, "")
   end
 
   def share_modal

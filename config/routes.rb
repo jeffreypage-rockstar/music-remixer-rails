@@ -109,6 +109,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :comments
+
       get    '/auth/:provider/callback' => 'sessions#create_from_omniauth'
       delete 'identity/:provider/disconnect' => 'users#disconnect_identity', as: 'disconnect_identity'
 
