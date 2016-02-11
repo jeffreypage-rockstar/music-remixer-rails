@@ -115,7 +115,7 @@ javascript:
 
       for (var i = 0; i < mixCount; i ++) {
         var sound = sounds[i];
-        if (mixes[i].style == style) {
+        if (mixes[i].style != style) {
           console.log("Muting i:" + i + ", style:" + style);
           sound.volume = 0;
         } else {
