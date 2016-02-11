@@ -45,7 +45,7 @@
             .content #{@user.bio}
 
         - if @user.songs_count > 0
-          = render partial: 'app/users/tracks', locals: {songs: @user.released_songs}
+          = render partial: 'app/users/tracks', locals: {songs: @user.released_songs, mixes: @user.mixes}
 
         - if @user.remixes_count > 0
           = render partial: 'app/users/remixes', locals: {remixes: @user.remixes}
