@@ -40,25 +40,24 @@
     /= render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
 
 javascript:
-  var parts = {};
-  var parts2 = #{raw(@clips.to_json)};
+  var mixes = #{raw(@mixes.to_json)};
   var currentPart = 0, sounds = [];
-  var partCount = #{@song.parts.count};
+  //var partCount = #{@song.parts.count};
+  var mixCount = #{@mixes.count};
 
-  function intializeSoundClips() {
+  function intializeSoundMixes() {
     var sound = null;
-    for (var i = 0; i < partCount; i++) {
-      sounds[i] = [];
-      var clipCount = parts[i].clips.length;
-      for (var j = 0; j < clipCount; j++) {
-        console.log(parts[i].clips[j].url);
-        sound = new Audio(parts[i].clips[j].url);
-        sound.volume = parts[i].clips[j].styles['Original'] ? 0 : 1;
-        sounds[i][j] = sound;
-        sounds[i][j].buffered;
-      }
+    for (var i = 0; i < mixCount; i++) {
+      //sounds[i] = [];
+
+      console.log(mixes[i].url);
+      sound = new Audio(mixes[i].url);
+      sound.volume = mixes[i].style == 'Original' ? 0 : 1;
+      sounds[i] = sound;
+      sounds[i].buffered;
+
     }
-    playNext();
+    //playNext();
   }
 
   function playNext() {
@@ -96,8 +95,8 @@ javascript:
         $(event.target).html('Play');
       }
 
-      for (var i = 0; i < sounds[currentPart].length - 1; i++) {
-        var sound = sounds[currentPart][i];
+      for (var i = 0; i < sounds.length; i++) {
+        var sound = sounds[i];
         if ($(event.target).hasClass('paused')) {
           sound.play();
         } else {
@@ -114,16 +113,13 @@ javascript:
       $('button.style').addClass('btn-default');
       $(this).addClass('btn-primary');
 
-      for (var i = 0; i < partCount; i++) {
-        for (var j = 0; j < sounds[i].length - 1; j++) {
-          var sound = sounds[i][j];
-          if (parts[i].clips[j].styles[style] == true) {
-            console.log("Muting i:" + i + ", j:" + j + ", style:" + style);
-            sound.volume = 0;
-          }
-          else {
-            sound.volume = 1;
-          }
+      for (var i = 0; i < mixCount; i ++) {
+        var sound = sounds[i];
+        if (mixes[i].style == style) {
+          console.log("Muting i:" + i + ", style:" + style);
+          sound.volume = 0;
+        } else {
+          sound.volume = 1;
         }
       }
     });
@@ -134,5 +130,5 @@ javascript:
     });
 
     // Intialize all sound clips for play
-    intializeSoundClips();
+    intializeSoundMixes();
   });

@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   # acts_as_mentionable
 
   # allow comments on users
-  acts_as_commentable
+  # acts_as_commentable
 
 	# profile images
 	mount_uploader :profile_image, ProfileImageUploader
