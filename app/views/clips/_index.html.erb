@@ -25,25 +25,27 @@
                 </div>
             <% end %>
             <% if clip.row == r %>
-                <div id="clip-part-<%=clip.id%>"
-                       class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%>"
-                       data-id="<%=clip.id%>"
-                       data-clip-type-id="<%=clip.clip_type_id%>"
-                       data-part-id="<%=clip.part_id%>"
-                       data-row="<%=r%>" data-db-row="<%=clip.row%>"
-                       data-col="<%=c%>" data-db-col="<%=clip.column%>"
-                       data-path="<%=clip.file%>" data-path-aac="<%=clip.file_aac%>"
-                       data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
-                       data-duration="<%=clip.duration%>"
-                       data-user-content="<%=clip.allow_ugc%>"
-                      >
-                    <div class="progress"></div>
-                    <div class="opaque-gray"></div>
-                    <div class="play-btn fa fa-play"></div>
-                    <% if clip.allow_ugc %>
-                        <div class="user-content">0</div>
-                    <% end %>
-                </div>
+                  <div id="clip-part-<%=clip.id%>"
+                         class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%> dropable"
+                         data-id="<%=clip.id%>"
+                         data-clip-type-id="<%=clip.clip_type_id%>"
+                         data-part-id="<%=clip.part_id%>"
+                         data-row="<%=r%>" data-db-row="<%=clip.row%>"
+                         data-col="<%=c%>" data-db-col="<%=clip.column%>"
+                         data-path="<%=clip.file%>" data-path-aac="<%=clip.file_aac%>"
+                         data-state1="<%=clip.state%>" data-state2="<%=clip.state2%>" data-state3="<%=clip.state3%>"
+                         data-duration="<%=clip.duration%>"
+                         data-user-content="<%=clip.allow_ugc%>"
+                         data-file-name="<%=clip.original_filename%>"
+                        >
+                      <div class="progress"></div>
+                      <div class="opaque-gray"></div>
+                      <div class="play-btn fa fa-play"></div>
+                      <% if clip.allow_ugc %>
+                          <div class="user-content">0</div>
+                      <% end %>
+
+                  </div>
             <% else %>
                 <div id="clip-part-<%=clip.id%>"
                        class="mixer-part clip clipstyle clip-<%=r%><%=' muted' if clip.state%>"
@@ -76,7 +78,76 @@
       </div>
     </div>
 <% end %>
+<!-- Preview Template -->
+<div id="template" style="display: none">
+  <div class="dz-preview dz-file-preview">
+    <div class="dz-details">
+      <div class="dz-filename"><span data-dz-name></span></div>
+      <div class="dz-size" data-dz-size></div>
+      <img data-dz-thumbnail />
+    </div>
+    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+    <div class="dz-success-mark"><span>✔</span></div>
+    <div class="dz-error-mark"><span>✘</span></div>
+    <div class="dz-error-message"><span data-dz-errormessage></span></div>
+  </div>
+</div>
+<!-- Preview Template -->
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="replace_file" class="btn btn-danger btn-ok" data-dismiss="modal">Yes</button>
+        <button type="button" id="not_replace_file" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
 <script type="text/javascript">
+
+  $(document).ready (function(){
+    $(".dropable").dropzone({
+      url: "/file/post",
+      autoProcessQueue: false,
+      previewTemplate: $('#template').html(),
+      init: function () {
+        var myDropzone = this; //closure
+        myDropzone.on("addedfile", function (file) {
+          var file_name = $(event.target).attr('data-file-name');
+          var file_name_drop = $('.dz-filename span').text();
+          $('#myModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
+          $('#myModal').modal('show');
+          $('#replace_file').click(function(e){
+            myDropzone.processQueue();
+          });
+          $('#replace_file').click(function(e){
+            myDropzone.removeFile(file);
+          });
+        });
+        myDropzone.on("dragenter", function(event) {
+          console.log(event);
+          $(event.target).addClass('dnd-hover');
+        });
+        myDropzone.on('dragleave', function(event) {
+          $(event.target).removeClass('dnd-hover');
+        });
+        myDropzone.on('drop', function(event) {
+          $(event.target).removeClass('dnd-hover');
+        });
+      }
+
+    });
+
+  });
   $('.editable-text').on('click focus',
 			'span',
 			function (e) {

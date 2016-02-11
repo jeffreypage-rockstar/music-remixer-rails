@@ -19,6 +19,7 @@
 //= require bootstrap-filestyle
 //= require bootstrap-tagsinput
 //= require zeroclipboard
+//= require dropzone
 //= require jquery-fileupload/basic
 //= require lobibox
 //= require wavesurfer.min
