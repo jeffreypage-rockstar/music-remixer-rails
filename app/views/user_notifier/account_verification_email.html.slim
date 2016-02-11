@@ -3,9 +3,20 @@ p
 p You successfully navigated the form page; just the skills we’re looking for in our beta testers :)
 p Only one last step to join the Beta Team. Click the button below to verify your email and activate your account.
 br
-.text-center
-  = link_to 'Verify Email Address', confirm_app_users_url(confirmation_token: @user.confirmation_token), {class: 'btn btndiv'}
-br
+table.row
+  tbody
+    tr
+      td.wrapper.last
+        table.five.columns
+          tbody
+            tr
+              td
+                table.button
+                  tbody
+                    tr
+                      td
+                        = link_to 'Verify Email Address', confirm_app_users_url(confirmation_token: @user.confirmation_token)
+                      td.expander
 br
 p To thank you for your early interest in testing 8Stem, we’ll always recognize you as a founding Beta Team member. You’ll get access to new releases, promotions, and more.
 p Get ready!
