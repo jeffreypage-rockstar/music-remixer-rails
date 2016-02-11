@@ -4,7 +4,7 @@
     ul.media-list.track-list
       - songs = songs.decorate
       - songs.each do |song|
-        li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}'
+        li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
           .media-left
             img.image src="#{song.image.url(:thumb)}"
             a class="play"
@@ -15,13 +15,20 @@
             h4.media-heading #{song.name}
             span.by-artist by #{song.artist_name}
 
-            /- if song.genres.any?
-            /  .tags
-            /    - song.genres.each do |genre|
-            /      a.tag.badge href="##{genre.name}" #{genre.name}
+            - if song.genres.any?
+              .tags
+                - song.genres.each do |genre|
+                  a.tag.badge href="##{genre.name}" #{genre.name}
 
+            /.mix8-html-player
+            /  .time-holder
+            /    .current-time 00:00
+            /    .duration #{song.duration}
+            /  progress value="0" max="1" id="progress_#{song.id}" style="width:400px;"
             .mix8-player
-              .jp-player id="jquery_jplayer_#{song.id}"
+              .jp-player.original id="jquery_jplayer_#{song.id}"
+              .jp-player.mix2
+              .jp-player.mix3
               .jp-audio id="jp_container_#{song.id}"
                 .jp-time-holder
                   .jp-current-time aria-label="time" role="timer"
@@ -30,12 +37,10 @@
                 .jp-progress
                   .jp-seek-bar
                     .jp-play-bar
-
             .tags
-              / @Oleg, these should be buttons instead
-              a.tag.badge.selected href="#Original" Original
-              a.tag.badge href="#Mix2" Mix2
-              a.tag.badge href="#Mix3" Mix3
+              button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
+              button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix2
+              button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix3
             .actions
               = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: {modal: true} do
                 = image_tag 'tracks/share.png'

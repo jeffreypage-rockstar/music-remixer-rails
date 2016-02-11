@@ -38,4 +38,23 @@ class UserDecorator < Draper::Decorator
       object.bio.html_safe
     end
   end
+
+  def mixes
+    mix_blobs = []
+
+    object.released_songs.each do |song|
+      mix_blob = {id: song.id, mixes: []}
+      mix_blob[:mixes] << {
+          :url => song.mixaudio_mix2.url,
+          :style => 'Mix2'
+      }
+      mix_blob[:mixes] << {
+          :url => song.mixaudio_mix3.url,
+          :style => 'Mix3'
+      }
+      mix_blobs << mix_blob
+    end
+    puts mix_blobs
+    mix_blobs
+  end
 end

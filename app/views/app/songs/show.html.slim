@@ -42,7 +42,6 @@
 javascript:
   var mixes = #{raw(@mixes.to_json)};
   var currentPart = 0, sounds = [];
-  //var partCount = #{@song.parts.count};
   var mixCount = #{@mixes.count};
 
   function intializeSoundMixes() {
@@ -52,7 +51,7 @@ javascript:
 
       console.log(mixes[i].url);
       sound = new Audio(mixes[i].url);
-      sound.volume = mixes[i].style == 'Original' ? 0 : 1;
+      sound.volume = mixes[i].style == 'Original' ? 1 : 0;
       sounds[i] = sound;
       sounds[i].buffered;
 

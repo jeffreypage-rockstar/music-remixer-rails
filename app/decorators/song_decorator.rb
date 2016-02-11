@@ -21,6 +21,8 @@ class SongDecorator < Draper::Decorator
     h.app_song_url(object)
   end
 
+
+
   def status_icon
     case object.status
       when 'processing'
