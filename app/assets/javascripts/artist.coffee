@@ -66,8 +66,8 @@
     ready: ->
 
       audio = trackElement.data('audio-mix2')
-      mix2Player.jPlayer 'setMedia',
-        m4a: audio.m4a
+      mix2Player.jPlayer 'setMedia', m4a: audio.m4a
+      mix2Player.jPlayer 'volume', 0
       return
 
     swfPath: '/swf'
@@ -81,8 +81,8 @@
     ready: ->
 
       audio = trackElement.data('audio-mix3')
-      mix3Player.jPlayer 'setMedia',
-        m4a: audio.m4a
+      mix3Player.jPlayer 'setMedia', m4a: audio.m4a
+      mix3Player.jPlayer 'volume', 0
       return
 
     swfPath: '/swf'
