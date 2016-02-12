@@ -2,7 +2,7 @@
   .header style="background-image: url(#{@user.profile_background_image.url}); background-size: cover;"
     .container
       .row.row-eq-height
-        .col-xs-4
+        .col-xs-5
           img.img-responsive src="#{@user.profile_image.url(:medium)}"
           - if policy(@user).follow?
             = link_to app_follow_path, class: 'follow', method: :post do
@@ -10,7 +10,7 @@
           - if policy(@user).unfollow?
             = link_to app_unfollow_path, class: 'unfollow', method: :delete do
               = image_tag 'unfollow.png'
-        .col-xs-8
+        .col-xs-7
           .content
             .name
               span.black #{@user.name}

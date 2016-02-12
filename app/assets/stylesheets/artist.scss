@@ -40,9 +40,14 @@
       -moz-border-radius: 32px;
       border-radius: 32px;
 
-      @media screen and (max-width: $screen-md-min) {
-        top: -32px;
-        bottom: auto;
+      @media screen and (max-width: $screen-xs-min) {
+        width: 32px;
+        height: 32px;
+        margin-left: -16px;
+        bottom: -16px;
+        img {
+          width: 32px;
+        }
       }
     }
 
