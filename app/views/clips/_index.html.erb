@@ -115,8 +115,8 @@
 <script type="text/javascript">
 
   $(document).ready (function(){
-    $(".dropable").dropzone({
-      url: "/file/post",
+  	var clip_id;
+    $(".dropable").dropzone({         
       autoProcessQueue: false,
       previewTemplate: $('#template').html(),
       init: function () {
@@ -126,25 +126,31 @@
           var file_name_drop = $('.dz-filename span').text();
           $('#myModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
           $('#myModal').modal('show');
-          $('#replace_file').click(function(e){
+          $('#replace_file').click(function(e){          	
             myDropzone.processQueue();
           });
-          $('#replace_file').click(function(e){
+          $('#not_replace_file').click(function(e){
             myDropzone.removeFile(file);
           });
         });
         myDropzone.on("dragenter", function(event) {
           console.log(event);
+          console.log($(event.target).data('id'));
+          clip_id = $(event.target).data('id');
+          myDropzone.options.url = "/songs/" + <%=@song.id%> + "/clips/"+ clip_id;
           $(event.target).addClass('dnd-hover');
         });
         myDropzone.on('dragleave', function(event) {
           $(event.target).removeClass('dnd-hover');
         });
         myDropzone.on('drop', function(event) {
+        	console.log(clip_id + " drop");
           $(event.target).removeClass('dnd-hover');
         });
-      }
-
+      },
+       url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id,
+       headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'},  
+       method: "PUT"   
     });
 
   });

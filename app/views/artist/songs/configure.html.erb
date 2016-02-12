@@ -66,7 +66,7 @@
 				<div id="tracker-mixer" class="shadow">
 					<div class="mixer-row">
 						<div id="mixer-panel" class="clearfix">
-							<%= render 'clips/index' %>
+              <%= render 'clips/index' %>
 						</div>
 					</div>
 				</div>
@@ -96,51 +96,56 @@ $(document).ready(function(){
 	if($('#release-status').attr('data-status') == "archived"){
 		$('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Song is archived.</p></div>");
 	}
-});
+});        
+  $('.bpm').on('click',
+    'span',
+    function(e) {
+      var topparent = $($(e.target).parent());
+      var classnm=$(e.target).text();
+      $($(e.target).parent()).html('<input class="bpm_input" type="number" step="0.1" min="0" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
+        .on('blur keyup',
+        'input',
+        function(e) {
 
-	$('.bpm').on('click',
-		'span',
-		function(e) {
-			var topparent = $($(e.target).parent());
-			var classnm=$(e.target).text();
-			$($(e.target).parent()).html('<input class="bpm_input" type="number" step="0.1" min="0" data-originalvalue="' + $(e.target).text() + '" value="' + $(e.target).text() + '">')
-				.on('blur keyup',
-				'input',
-				function(e) {
-					if (e.type == 'keyup') {
-						var key = e.keyCode || e.which;
-						if (key == 13 || 0) {
-							$(this).blur();
-						}
-						return;
-					}
-					e.stopPropagation();
-					var parent = $(e.target).parent();
-					$('.bpm').attr('data-id',$(e.target).val());
-					$($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
-					if (parent.hasClass("bpm")) {
-						url = '/songs/' + <%=@song.id%>;
-					}
-					$.ajax({
-						type: "PUT",
-						dataType: "json",
-						url: url,
-						contentType: 'application/json',
-						data: JSON.stringify({bpm: $(e.target).val() })
-					})
-						.done(function( msg ) {
-							console.log( "Data Saved: " + msg );
-						})
-						.fail(function( msg ) {
-							console.log(  msg );
-						});
-				});
-			topparent.children('input')[0].focus();
-			var tmpStr = $(topparent.children('input')[0]).val();
-			$(topparent.children('input')[0]).val('');
-			$(topparent.children('input')[0]).val(tmpStr);
-		});
+          if (e.type == 'keyup') {
+            var key = e.keyCode || e.which;
+            if (key == 13 || 0) {
+              $(this).blur();
+            }
+            return;
+          }
+          e.stopPropagation();
+          var parent = $(e.target).parent();          
+          if($(e.target).val()==''){
+            $(e.target).val('0');
+          }
+          $('.bpm').attr('data-id',$(e.target).val());
+          $($(e.target).parent()).html('<span>' + $(e.target).val() + '</span>');
+          if (parent.hasClass("bpm")) {
+            url = '/songs/' + <%=@song.id%>;
+          }
+          $.ajax({
+            type: "PUT",
+            dataType: "json",
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify({bpm: $(e.target).val() })
+          })
+            .done(function( msg ) {
+              console.log( "Data Saved: " + msg );
+            })
+            .fail(function( msg ) {
+              console.log(  msg );
+            });
+        });
 
+        setTimeout(function(){
+          topparent.children('input')[0].focus();
+        }, 0)        
+        var tmpStr = $(topparent.children('input')[0]).val();
+        $(topparent.children('input')[0]).val('');
+        $(topparent.children('input')[0]).val(tmpStr);
+    });
 
     $(window).keypress(function(e) {
         if ($('#mixaudioplayer').length > 0) {
