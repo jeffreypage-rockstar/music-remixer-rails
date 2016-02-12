@@ -198,8 +198,12 @@
     padding: 25px 0;
 
     .title {
-      padding-bottom: 25px;
+      padding-bottom: 10px;
       margin: 0;
+
+      @media screen and (max-width: $screen-xs-min) {
+        padding-bottom: 5px;
+      }
     }
 
     .content {
@@ -217,7 +221,7 @@
     }
 
     .track-list {
-      @include track-media(150px, 100px);
+      @include track-media(150px, 125px);
     }
 
     .remix-list {
@@ -408,6 +412,7 @@
         position: relative;
         height: 30px;
         width: 30px;
+
 
         .image {
           width: 30px;

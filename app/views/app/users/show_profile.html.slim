@@ -2,7 +2,7 @@
   .header style="background-image: url(#{@user.profile_background_image.url}); background-size: cover;"
     .container
       .row.row-eq-height
-        .col-xs-5
+        .col-xs-5.col-sm-4
           img.img-responsive src="#{@user.profile_image.url(:medium)}"
           - if policy(@user).follow?
             = link_to app_follow_path, class: 'follow', method: :post do
@@ -10,7 +10,7 @@
           - if policy(@user).unfollow?
             = link_to app_unfollow_path, class: 'unfollow', method: :delete do
               = image_tag 'unfollow.png'
-        .col-xs-7
+        .col-xs-7.col-sm-8
           .content
             .name
               span.black #{@user.name}
@@ -53,7 +53,7 @@
           = render partial: 'app/users/remixes', locals: {remixes: @user.released_remixes}
 
       .col-sm-4.col-sm-pull-8
-        .white-section.stats
+        .white-section.stats.hidden-xs
 
         .white-section.followings
           h4 #{@user.followees_count} following
