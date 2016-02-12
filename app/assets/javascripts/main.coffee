@@ -68,3 +68,10 @@ GetURLParameter = (sParam) ->
       return sParameterName[1]
     i++
   return
+
+$ ->
+  $('a.follow, a.share-song, a.like-song').click ->
+    if (!window._8StemGlobals._loggedIn)
+      location.href = '/sign_in?backto='+window.location.pathname;
+      return false;
+    return

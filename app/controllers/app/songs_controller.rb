@@ -1,7 +1,7 @@
 class App::SongsController < App::BaseController
   respond_to :html, :json
 
-  before_action :require_login
+  before_action :require_login, only: [:share_modal, :share, :toggle_like_song]
   before_action :set_song, only: [:show, :share_modal, :toggle_like_song]
 
   # GET /songs/1
@@ -22,7 +22,7 @@ class App::SongsController < App::BaseController
         :style => 'Mix3'
     }
 
-    @new_comment = Comment.build_from(@song, current_user.id, "")
+    @new_comment = Comment.build_from(@song, current_user ? current_user.id : nil, "")
   end
 
   def share_modal

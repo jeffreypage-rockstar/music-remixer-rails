@@ -1,6 +1,13 @@
 class App::SessionsController < Clearance::SessionsController
   layout '8stem'
 
+  def new
+    unless params[:backto].blank?
+      puts "XXX setting session backto: #{params[:backto]}"
+      session[:backto] = params[:backto]
+    end
+  end
+
   def destroy
     $tracker.track current_user.uuid, 'Signout: success'
     sign_out
@@ -9,6 +16,12 @@ class App::SessionsController < Clearance::SessionsController
 
 	def url_after_create
     $tracker.track current_user.uuid, 'Signin: via email'
+    puts "XXX after create: #{params[:backto]}"
+    unless session[:backto].nil?
+      url = session[:backto]
+      # todo: unset session[:backto]
+      return "#{url}?ref=signin"
+    end
     current_user.is_artist_admin? ? "#{artist_music_url}" : "#{app_home_url}?ref=signin"
 	end
 
