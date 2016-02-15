@@ -94,7 +94,7 @@
 </div>
 <!-- Preview Template -->
 <!-- Modal -->
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog">
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="dragDropModal" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
@@ -118,14 +118,15 @@
   	var clip_id;
     $(".dropable").dropzone({         
       autoProcessQueue: false,
+      clickable: false,
       previewTemplate: $('#template').html(),
       init: function () {
         var myDropzone = this; //closure
         myDropzone.on("addedfile", function (file) {
           var file_name = $(event.target).attr('data-file-name');
           var file_name_drop = $('.dz-filename span').text();
-          $('#myModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
-          $('#myModal').modal('show');
+          $('#dragDropModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
+          $('#dragDropModal').modal('show');
           $('#replace_file').click(function(e){          	
             myDropzone.processQueue();
           });
@@ -134,26 +135,25 @@
           });
         });
         myDropzone.on("dragenter", function(event) {
-          console.log(event);
-          console.log($(event.target).data('id'));
           clip_id = $(event.target).data('id');
-          myDropzone.options.url = "/songs/" + <%=@song.id%> + "/clips/"+ clip_id;
+          myDropzone.options.url = "/songs/" + <%=@song.id%> + "/clips/"+ clip_id+ "/update_clip";
           $(event.target).addClass('dnd-hover');
         });
         myDropzone.on('dragleave', function(event) {
           $(event.target).removeClass('dnd-hover');
         });
         myDropzone.on('drop', function(event) {
-        	console.log(clip_id + " drop");
           $(event.target).removeClass('dnd-hover');
         });
       },
-       url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id,
+       url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id + "/update_clip",
        headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'},  
        method: "PUT"   
     });
-
   });
+	$('#dragDropModal').on('hidden.bs.modal', function () {
+  		$( ".dz-preview.dz-file-preview" ).remove();
+	})
   $('.editable-text').on('click focus',
 			'span',
 			function (e) {
@@ -464,10 +464,13 @@
 		}
 	}
 
-	stopClipPreviewPlayer = function(reset) {
-		if (clipPreviewPlayer) {
+	stopClipPreviewPlayer = function(reset) {		
+		if (clipPreviewPlayer) {			
 			$(".play-btn").removeClass("paused");
 			clipPreviewPlayer.seekTo(0);
+			if(flag == 1){
+				clipPreviewPlayer.seekTo(positionReset);
+			}
 			if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
 			clipPreviewPlayer.un('finish', singleClipEndedCallback);
 			if (reset && clipPreviewPlayerRow != 0) {
@@ -475,6 +478,7 @@
 				playNext();
 			}
 			clipPreviewPlayer = false;
+
 		}
 	}
 
@@ -668,9 +672,8 @@
       var row = $(event.target).parents('.clip').data('row');
       var column = $(event.target).parents('.clips').data('column');
       if (!row || !column) { return }
-
       stopTopPlayer();
-
+  	  $(".full-play-btn").removeClass('playing');
       // If already playing same audio file
       if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {
         if (clipPreviewPlayer.backend.isPaused()) {
