@@ -9,19 +9,6 @@ class App::SongsController < App::BaseController
   def show
     @mixes = []
 
-    @mixes << {
-        :url => @song.mixaudio.url,
-        :style => 'Original'
-    }
-    @mixes << {
-        :url => @song.mixaudio_mix2.url,
-        :style => 'Mix2'
-    }
-    @mixes << {
-        :url => @song.mixaudio_mix3.url,
-        :style => 'Mix3'
-    }
-
     @new_comment = Comment.build_from(@song, current_user.id, "")
   end
 

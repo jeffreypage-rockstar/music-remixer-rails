@@ -3,6 +3,12 @@
 @mixin track-media($image_size, $image_sm_size) {
   .track.media {
     background-color: #ffffff;
+    border: thin solid #ededed;
+    padding-bottom: 10px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 4px 4px -2px #dcdcdc;
+    -moz-box-shadow: 0 4px 4px -2px #dcdcdc;
+    box-shadow: 0 4px 4px -2px #dcdcdc;
 
     .by-artist {
       color: #9f9f9f;
@@ -11,7 +17,7 @@
 
     .media-left {
       position: relative;
-
+      padding-right: 0px;
       .image {
         width: $image_size;
         height: $image_size;
@@ -36,89 +42,135 @@
     }
 
     .media-body {
-      padding: 20px 20px 15px 10px;
-      position: relative;
-    }
+      .media-content {
+        padding: 10px 20px 12px 10px;
+        position: relative;
+        overflow: visible;
 
-    .tags {
-      position: absolute;
-      bottom: 13px;
+        .actions {
 
-      .tag {
-        padding: 5px 10px;
-        background-color: #737373;
-        text-transform: uppercase;
-        margin-right: 7px;
+          .share-song, .remixes-button {
+            margin: 5px;
+            line-height: 25px;
+            width: 25px;
+            height: 25px;
+            display: block;
 
-      }
-      .selected {
-        background-color: #41c7ff;
-      }
-    }
-
-    .mix8-player {
-      position: absolute;
-      bottom: 49px;
-      left: 0;
-      right: 22px;
-      padding-left: 10px;
-
-      .jp-time-holder {
-        width: 100%;
-        font-size: 12px;
-        color: #9f9f9f;
-
-        .jp-current-time {
-          display: inline;
-          float: left;
+            img {
+              display: inline-block;
+            }
+          }
         }
 
-        .duration {
-          display: inline;
-          float: right;
-        }
-      }
+        .mix8-player {
+          .jp-time-holder {
+            width: 100%;
+            font-size: 12px;
+            color: #9f9f9f;
 
-      .jp-audio .jp-progress {
-        height: 6px;
-        background-color: #f4f4f4;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
+            .jp-current-time {
+              display: inline;
+              float: left;
+            }
 
-        .jp-seek-bar {
-          height: 6px;
-          -webkit-border-radius: 3px;
-          -moz-border-radius: 3px;
-          border-radius: 3px;
-          cursor: pointer;
+            .duration {
+              display: inline;
+              float: right;
+            }
+          }
 
-          .jp-play-bar {
+          .jp-audio .jp-progress {
             height: 6px;
+            background-color: #f4f4f4;
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px;
-            background-color: #41c7ff;
+
+            .jp-seek-bar {
+              height: 6px;
+              -webkit-border-radius: 3px;
+              -moz-border-radius: 3px;
+              border-radius: 3px;
+              cursor: pointer;
+
+              .jp-play-bar {
+                height: 6px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                background-color: #41c7ff;
+              }
+            }
           }
         }
       }
-    }
 
-    .actions {
-      position: absolute;
-      bottom: 105px;
-      right: 15px;
+      ul.nav-tabs {
+        border-top: thin solid #ededed;
+        border-bottom: thin solid #ededed;
 
-      .share-song, .like-unlike-song {
-        margin: 5px;
-        line-height: 25px;
-        width: 25px;
-        height: 25px;
-        display: block;
+        li {
+          width:119px;
 
-        img {
-          display: inline-block;
+          a {
+            color: #c8ccce;
+            text-align: center;
+
+            img {
+              vertical-align: top;
+              margin-top: 5px;
+              margin-right: 2px;
+            }
+          }
+
+          .like-unlike-song {
+            text-align: center;
+            margin-top: 10px;
+            i {
+              margin-right: 5px;
+            }
+          }
         }
+        li.active {
+          a {
+            color: #41c7ff;
+
+            img.comments-image-tag {
+              content: url('profile/comments-tab-h.png')
+            }
+            img.mixes-image-tag {
+              content: url('profile/comments-tab-h.png')
+            }
+          }
+
+          a.comments-tab {
+            border-color: transparent;
+          }
+
+        }
+
+        li:not(.active):not(:last-child) {
+          border-right: thin solid #ededed;
+        }
+      }
+    }
+  }
+  .tab-content {
+    margin: 14px 14px 0 14px;
+    .tags {
+      position: relative;
+      .tag {
+        padding: 5px 10px;
+        width: 80px;
+        height: 33px;
+        background-color: #e8e9ea;
+        margin-right: 7px;
+        border-radius: 3px;
+        color: #535b62;
+      }
+      .selected {
+        color: white;
+        background-color: #41c7ff;
       }
     }
   }

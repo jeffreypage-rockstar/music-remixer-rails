@@ -1,0 +1,10 @@
+<div class="comment">
+  <div class="avatar"><%= image_tag(comment.user.profile_image.url(:thumb)) %></div>
+  <div class="body">
+    <div class="header">
+      <span class="author"><%= link_to comment.user.title, app_show_profile_path(comment.user.username) %></span>
+      <span class="comment-text"><%= comment.body %><br></span>
+    </div>
+    <p class="timestamp"><%= time_ago_in_words(comment.created_at) %></p>
+  </div>
+</div>

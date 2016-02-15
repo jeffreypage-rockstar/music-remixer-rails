@@ -3,7 +3,9 @@
   .content
     ul.media-list.track-list
       - songs = songs.decorate
+
       - songs.each do |song|
+        - new_comment = Comment.build_from(song, current_user.id, "")
         li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
           .media-left
             img.image src="#{song.image.url(:thumb)}"
@@ -12,40 +14,68 @@
             a class="pause"
               = image_tag 'tracks/pause.png'
           .media-body
-            h4.media-heading #{song.name}
-            span.by-artist by #{song.artist_name}
+            .media-content
+              .media-description.pull-left
+                h4.media-heading #{song.name}
+                span.by-artist by #{song.artist_name}
+              .actions.pull-right
+                = link_to share_modal_artist_song_path(song), :class => 'share-song pull-left', :data => {:modal => true} do
+                  = image_tag 'tracks/share.png'
+                .pull-left.remixes-button
+                  = image_tag 'profile/remix.png'
+              .clearfix
+              /- if song.genres.any?
+              /  .tags
+              /    - song.genres.each do |genre|
+              /      a.tag.badge href="##{genre.name}" #{genre.name}
 
-            /- if song.genres.any?
-            /  .tags
-            /    - song.genres.each do |genre|
-            /      a.tag.badge href="##{genre.name}" #{genre.name}
+              /.mix8-html-player
+              /  .time-holder
+              /    .current-time 00:00
+              /    .duration #{song.duration}
+              /  progress value="0" max="1" id="progress_#{song.id}" style="width:400px;"
+              .mix8-player
+                .jp-player.original id="jquery_jplayer_#{song.id}"
+                .jp-player.mix2
+                .jp-player.mix3
+                .jp-audio id="jp_container_#{song.id}"
+                  .jp-time-holder
+                    .jp-current-time aria-label="time" role="timer"
+                    .duration #{song.duration}
+                  .clearfix
+                  .jp-progress
+                    .jp-seek-bar
+                      .jp-play-bar
+            ul.nav.nav-tabs role="tablist"
+              li
+                a
+                  = image_tag 'profile/time-tab.png'
+                  = Time.now.strftime("%I:%M")
+              li
+                a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab"
+                  = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
+                  | 8
+              li
+                .like-unlike-song
+                  = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
 
-            /.mix8-html-player
-            /  .time-holder
-            /    .current-time 00:00
-            /    .duration #{song.duration}
-            /  progress value="0" max="1" id="progress_#{song.id}" style="width:400px;"
-            .mix8-player
-              .jp-player.original id="jquery_jplayer_#{song.id}"
-              .jp-player.mix2
-              .jp-player.mix3
-              .jp-audio id="jp_container_#{song.id}"
-                .jp-time-holder
-                  .jp-current-time aria-label="time" role="timer"
-                  .duration #{song.duration}
-                .clearfix
-                .jp-progress
-                  .jp-seek-bar
-                    .jp-play-bar
-            .tags
-              button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
-              button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix2
-              button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix3
-            .actions
-              = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: {modal: true} do
-                = image_tag 'tracks/share.png'
-              .like-unlike-song.pull-left
-                = render partial: 'app/songs/like_unlike_song', locals: {song: song}
+              li
+                a
+                  = image_tag 'profile/retweets-tab.png'
+                  | 126
+              li
+                a.comments-tab data-toggle="tab" href="#comments_#{song.id}" role="tab"
+                  = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
+                  | 2
+          .clearfix
+          .tab-content
+            div id="mixes_#{song.id}" class="tab-pane fade"
+              .tags
+                button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
+                button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix 2
+                button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix 3
+            div id="comments_#{song.id}" class="tab-pane fade"
+              = render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}
         - if song.remixes.count > 0
           li.remix-list
             table.table

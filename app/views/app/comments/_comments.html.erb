@@ -1,0 +1,5 @@
+<% comments.each do |comment| %>
+	<div class="comments-show">
+      <%= render partial: "app/comments/comment", locals: {comment: comment} %>
+	</div>
+<% end %>

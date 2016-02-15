@@ -1,0 +1,1 @@
+$("#comments_<%= @commentable.id %>").html("<%= escape_javascript(render partial: "app/comments/template", locals: {commentable: @commentable, new_comment: @new_comment} ) %>");

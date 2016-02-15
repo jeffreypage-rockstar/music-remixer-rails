@@ -2,14 +2,18 @@ class App::CommentsController < App::BaseController
   before_action :require_login
 
   def create
-    commentable = commentable_type.constantize.find(commentable_id)
-    @comment = Comment.build_from(commentable, current_user.id, body)
+    @commentable = commentable_type.constantize.find(commentable_id)
+    @comment = Comment.build_from(@commentable, current_user.id, body)
 #    @comments = Comment.where(commentable_id: commentable_id)
 
     respond_to do |format|
       if @comment.save
         make_child_comment
         format.html  { redirect_to(:back, :notice => 'Comment was successfully added.') }
+        format.js do
+          @new_comment = Comment.build_from(@commentable, current_user.id, "")
+          render :comments_template
+        end
       else
         format.html  { render :action => "new" }
       end
