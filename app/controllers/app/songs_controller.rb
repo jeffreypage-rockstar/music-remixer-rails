@@ -1,7 +1,7 @@
 class App::SongsController < App::BaseController
   respond_to :html, :json
 
-  before_action :require_login
+  before_action :require_login, only: [:share_modal, :share, :toggle_like_song]
   before_action :set_song, only: [:show, :share_modal, :toggle_like_song]
 
   # GET /songs/1

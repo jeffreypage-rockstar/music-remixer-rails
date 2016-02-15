@@ -20,7 +20,7 @@
         h3
           = @song.name
         h4
-          = @song.artist_name
+          = link_to @song.artist_name, app_show_profile_path(@song.user.username)
 
         br
         button.play-button.paused Play
