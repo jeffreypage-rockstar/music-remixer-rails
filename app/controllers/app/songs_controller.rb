@@ -7,9 +7,21 @@ class App::SongsController < App::BaseController
   # GET /songs/1
   # GET /songs/1.json
   def show
+    @new_comment = Comment.build_from(@song, current_user.id, "")
     @mixes = []
 
-    @new_comment = Comment.build_from(@song, current_user.id, "")
+    @mixes << {
+        :url => @song.mixaudio.url,
+        :style => 'Original'
+    }
+    @mixes << {
+        :url => @song.mixaudio_mix2.url,
+        :style => 'Mix2'
+    }
+    @mixes << {
+        :url => @song.mixaudio_mix3.url,
+        :style => 'Mix3'
+    }
   end
 
   def share_modal

@@ -44,6 +44,7 @@
     window.wavesurfers = wavesurfers = {};
     window.draggableElm = {};
     var loadTopColumn = 1;
+    flag = 0;   
 
     topWavesurferPlayer = function(container, src, column) {
         var wavesurfer = Object.create(WaveSurfer);
@@ -83,7 +84,7 @@
                 seekingColumn = -1;
                 return true;
             };
-
+            positionReset = position;
             // console.log("Position : ", position);
             seekAllClips(_this.column, position);
         });
@@ -104,7 +105,6 @@
             if ($(".full-play-btn").hasClass('playing')) {
                 $("#clips-"+sColumn).addClass('playing');               
             }       
-                 
             playNext();
             updatePreview();
         }
@@ -135,8 +135,8 @@
 
     var playOrPauseTopWavesurferPlayer = function () {
         // Stop any signle player
+        flag = 1;
         stopClipPreviewPlayer(true);
-
         // Attach Listener
         addRemoveEventListener(true);
         $(".full-play-btn").toggleClass('playing');
