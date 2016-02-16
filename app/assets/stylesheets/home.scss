@@ -3,14 +3,30 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #home {
-  h4.song {
-    margin: 0;
+  .container {
+    .songs {
+      .song {
+        h4 {
+          margin: 0;
+        }
+        .thumbnail {
+          .caption {
+            padding: 5px 0 0 5px;
+          }
+        }
+        @media (max-width: 767px) {
+          .thumbnail {
+            margin-bottom: 1px;
+            .caption {
+              height: 72px;
+            }
+          }
+        }
+      }
+    }
   }
   .artist {
     font-size: 14px;
     color: #9f9f9f;
-  }
-  .thumbnail .caption {
-    padding: 5px 0 0 5px;
   }
 }
