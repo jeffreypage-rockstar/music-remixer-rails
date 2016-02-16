@@ -26,7 +26,7 @@
             <% end %>
             <% if clip.row == r %>
                   <div id="clip-part-<%=clip.id%>"
-                         class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%> dropable"
+                         class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%> droppable"
                          data-id="<%=clip.id%>"
                          data-clip-type-id="<%=clip.clip_type_id%>"
                          data-part-id="<%=clip.part_id%>"
@@ -100,7 +100,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title">Replace File</h4>
       </div>
       <div class="modal-body">
       </div>
@@ -116,17 +116,32 @@
 
   $(document).ready (function(){
   	var clip_id;
-    $(".dropable").dropzone({         
+    $(".droppable").dropzone({         
       autoProcessQueue: false,
       clickable: false,
+      uploadMultiple: false,
+      acceptedFiles: '.ogg, .m4a, .mp3, .wav, .als',
+      maxFiles: 1,
       previewTemplate: $('#template').html(),
       init: function () {
         var myDropzone = this; //closure
         myDropzone.on("addedfile", function (file) {
-          var file_name = $(event.target).attr('data-file-name');
-          var file_name_drop = $('.dz-filename span').text();
+          var file_name = $(event.target).attr('data-file-name');         
+          var file_name_drop = $('.dz-filename span').text();          
+          var ext = file_name_drop.split('.')[1];
           $('#dragDropModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
-          $('#dragDropModal').modal('show');
+          if( ext != "ogg" && ext != "m4a" && ext != "mp3" && ext != "wav" && ext != "als")
+          	{
+          		console.log("error");
+          		$('.alert-custom').css({display: "block"});
+                $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>You can't upload files of this type.</p></div>");
+                $( ".dz-preview" ).remove();
+            }
+          else{
+          	$('#dragDropModal').modal('show');
+          	$('.alert-custom').css({display: "none"});
+          }
+
           $('#replace_file').click(function(e){          	
             myDropzone.processQueue();
           });
@@ -145,16 +160,21 @@
         myDropzone.on('drop', function(event) {
           $(event.target).removeClass('dnd-hover');
         });
+        myDropzone.on("error", function (file) { 
+        	$('.alert-custom').css({display: "block"});
+            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Duration does not match.</p></div>");
+       } );
       },
        url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id + "/update_clip",
        headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'},  
-       method: "PUT"   
+       method: "PUT",
+
     });
   });
 
-  $('#dragDropModal').on('hidden.bs.modal', function () {
-   $( ".dz-preview.dz-file-preview" ).remove();
-  });
+	$('#dragDropModal').on('hidden.bs.modal', function () {
+  		$( ".dz-preview" ).remove();
+	})
 
   $('.editable-text').on('click focus',
 			'span',
