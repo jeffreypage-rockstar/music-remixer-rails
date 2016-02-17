@@ -317,15 +317,15 @@
 			cursorColor: "yellow"
 		});
 
-		// Create a compressor node
-		var compressor = wavesurfer.backend.ac.createDynamicsCompressor();
-		compressor.threshold.value = -5.25;
-		compressor.knee.value = 6;
-		compressor.ratio.value = 1.5;
-		compressor.reduction.value = -2;
-		compressor.attack.value = 0;
-		compressor.release.value = 0.25;//time (in seconds) to increase the gain by 10dB
-		wavesurfer.backend.setFilter(compressor);
+//		// Create a compressor node
+//		var compressor = wavesurfer.backend.ac.createDynamicsCompressor();
+//		compressor.threshold.value = -5.25;
+//		compressor.knee.value = 6;
+//		compressor.ratio.value = 1.5;
+//		compressor.reduction.value = -2;
+//		compressor.attack.value = 0;
+//		compressor.release.value = 0.25;//time (in seconds) to increase the gain by 10dB
+//		wavesurfer.backend.setFilter(compressor);
 
 		// Create a limiter node
 		var limiter = wavesurfer.backend.ac.createDynamicsCompressor();
