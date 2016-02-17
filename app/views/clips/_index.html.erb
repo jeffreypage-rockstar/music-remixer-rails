@@ -115,8 +115,9 @@
 <script type="text/javascript">
 
   $(document).ready (function(){
-  	var clip_id;
-    $(".droppable").dropzone({         
+  	var clip_id, alert_type = 0;
+    $(".droppable").dropzone({ 
+      paramName: 'file',        
       autoProcessQueue: false,
       clickable: false,
       uploadMultiple: false,
@@ -128,11 +129,11 @@
         myDropzone.on("addedfile", function (file) {
           var file_name = $(event.target).attr('data-file-name');         
           var file_name_drop = $('.dz-filename span').text();          
-          var ext = file_name_drop.split('.')[1];
+          var ext = file_name_drop.split('.')[1];          
           $('#dragDropModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
           if( ext != "ogg" && ext != "m4a" && ext != "mp3" && ext != "wav" && ext != "als")
-          	{
-          		console.log("error");
+          	{          		
+          		alert_type = 1;
           		$('.alert-custom').css({display: "block"});
                 $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>You can't upload files of this type.</p></div>");
                 $( ".dz-preview" ).remove();
@@ -161,12 +162,14 @@
           $(event.target).removeClass('dnd-hover');
         });
         myDropzone.on("error", function (file) { 
-        	$('.alert-custom').css({display: "block"});
-            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Duration does not match.</p></div>");
+        	if(alert_type != 1){
+	        	$('.alert-custom').css({display: "block"});
+	            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Duration does not match.</p></div>");
+        	}
        } );
       },
        url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id + "/update_clip",
-       headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'},  
+       headers: {'X-CSRF-Token': "<%= form_authenticity_token.to_s %>"},  
        method: "PUT",
 
     });
