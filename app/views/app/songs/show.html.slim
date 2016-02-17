@@ -37,7 +37,7 @@
       - @song.parts.each do |part|
         div id="part-#{part.id}"
 
-    = render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
+    /= render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
 
 javascript:
   var mixes = #{raw(@mixes.to_json)};
