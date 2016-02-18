@@ -36,6 +36,9 @@ Rails.application.routes.draw do
 				resources :parts
 				resources :clip_types
 				resources :clips do
+          member do
+            put "update_clip"
+          end
 					collection do
 						post :state
 					end

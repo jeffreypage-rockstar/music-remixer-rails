@@ -80,6 +80,10 @@
     overflow: hidden;
 }
 
+#tracker-desktop {
+    padding: 0;
+}
+
 #tracker-desktop .tab a {
 	position: relative;
 	padding: 15px 20px 15px 20px;
@@ -376,12 +380,13 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 #tracker-mobile {	
 	width: 250px !important;
 	height: 503px !important;
-	padding-bottom: 40px !important;
+	padding: 76px 21px 60px 23px !important;
 	height: 100%;
-    margin-top: 12px;
+    right: -25px;
 	color: #788086;
 	background-repeat: no-repeat;
-	background-size: cover !important;
+	background-size: cover !important;	
+  	background-image: url("iphone.png");
 }
 
 #tracker-mobile .btn-group {

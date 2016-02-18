@@ -5,7 +5,7 @@
       - songs = songs.decorate
 
       - songs.each do |song|
-        - new_comment = Comment.build_from(song, current_user.id, "")
+        - new_comment = Comment.build_from(song, current_user ? current_user.id : nil, "")
         li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
           .media-left
             img.image src="#{song.image.url(:thumb)}"

@@ -513,7 +513,7 @@ img.dropdown-toggle {
   /* Preview */
   .iPhone {
 	position: absolute;
-	top: -50px;
+	top: -98px;
 	width: 240px;
 	height: 447px;
 	margin-left: 25px;
@@ -593,10 +593,10 @@ img.dropdown-toggle {
 
   .iPhone .screen .playBtn {
 	position: absolute;
-	width: 68px;
-	height: 56px;
+	width: 56px;
+	height: 46px;
 	top: -10px;
-	left: 93px;
+	left: 76px;
 	background-image: image-url('mobile_play_btn.png');
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -610,10 +610,10 @@ img.dropdown-toggle {
 
   .iPhone .screen .reMix {
     position: absolute;
-    width: 18px;
-    height: 21px;
-    top: 10px;
-    left: 15px;
+    width: 15px;
+    height: 15px;
+    top: 5px;
+    left: 11px;
     background-image: image-url('mobile_rmx.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -621,27 +621,27 @@ img.dropdown-toggle {
   }
 
   .iPhone .screen .reMix_span{
-    padding-left: 9px;
-    padding-right: 8px;
+    padding-left: 4px;
+    padding-right: 7px;
     background: #323941;
   }
   .iPhone .screen .music_span{
-    padding-left: 55px;
+    padding-left: 45px;
   }
   .iPhone .screen .social_span{
-    right: 51px;
+    right: 44px;
   }
   .iPhone .screen .setting_span{
-    right: 3px;
+    right: 1px;
   }
 
 
   .iPhone .screen .music_btm {
     position: absolute;
-    width: 18px;
-    height: 21px;
-    top: 10px;
-    left: 58px;
+    width: 15px;
+    height: 15px;
+    top: 5px;
+    left: 50px;
     background-image: image-url('mobile_music.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -649,19 +649,19 @@ img.dropdown-toggle {
   }
 
   .iPhone .screen span{
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     color: #ffffff;
-    padding-top: 26px;
+    padding-top: 18px;
     position: absolute;
   }
 
   .iPhone .screen .social_btm {
     position: absolute;
-    width: 18px;
-    height: 21px;
-    top: 10px;
-    left: 174px;
+    width: 15px;
+    height: 15px;
+    top: 5px;
+    left: 141px;
     background-image: image-url('mobile_social.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -670,10 +670,10 @@ img.dropdown-toggle {
 
   .iPhone .screen .setting_btm {
     position: absolute;
-    width: 18px;
-    height: 21px;
-    top: 10px;
-    left: 216px;
+    width: 15px;
+    height: 15px;
+    top: 5px;
+    left: 179px;
     background-image: image-url('mobile_sett.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -692,7 +692,7 @@ img.dropdown-toggle {
 
 
   .iPhone .screen .wing4 {
-	top: 267px;
+	top: 234px;
 	background-image: image-url('mobile_inst.png');
   }
 
@@ -701,7 +701,7 @@ img.dropdown-toggle {
   }
 
   .iPhone .screen .wing2 {
-	top: 137px;
+	top: 126px;
 	background-image: image-url('mobile_bass.png');
   }
 
@@ -713,9 +713,9 @@ img.dropdown-toggle {
   .iPhone .screen .wing2,
   .iPhone .screen .wing3,
   .iPhone .screen .wing4{
-	width: 100px;
-	height: 65px;
-    left: -4px;
+	width: 78px;
+	height: 55px;
+    left: -5px;
   }
 
   .iPhone .screen .wing1 {
@@ -730,7 +730,7 @@ img.dropdown-toggle {
   }
 
   .iPhone .screen .wing3 {
-	top: 202px;
+	top: 180px;
 	background-image: image-url('mobile_drums.png');
   }
 
@@ -742,19 +742,19 @@ img.dropdown-toggle {
   .iPhone .screen .wing6,
   .iPhone .screen .wing8,
   .iPhone .screen .wing7 {
-	width: 100px;
-	height: 65px;
+	width: 78px;
+	height: 55px;
   }
 
   .iPhone .screen .wing5,
   .iPhone .screen .wing6,
   .iPhone .screen .wing7,
   .iPhone .screen .wing8{
-    left: 145px;
+    left: 123px;
     font-weight: 800;
-    font-size: 9px;
+    font-size: 8px;
     padding-left: 10px;
-    padding-top: 47px;
+    padding-top: 38px;
   }
 
   .iPhone .screen .wing5 {
@@ -770,7 +770,7 @@ img.dropdown-toggle {
   }
 
   .iPhone .screen .wing6 {
-    top: 138px;
+    top: 128px;
     color: #BA3647;
 	background-image: image-url('mobile_rmx2.png');
   }
@@ -781,7 +781,7 @@ img.dropdown-toggle {
   }
 
   .iPhone .screen .wing8 {
-    top: 268px;
+    top: 236px;
     color: #B2961F;
 	background-image: image-url('mobile_rmx4.png');
   }
@@ -792,7 +792,7 @@ img.dropdown-toggle {
   }
 
   .iPhone .screen .wing7 {
-    top: 203px;
+    top: 182px;
     color: #3969C3;
 	background-image: image-url('mobile_rmx3.png');
   }
@@ -835,11 +835,11 @@ img.dropdown-toggle {
     background: #3A444B;
     left: 0px;
     right: 0px;
-    height: 46px;
+    height: 36px;
   }
 
   .iPhone .screen .bar:last-child {
-	bottom: 10px;
+	bottom: 0px;
   }
 
   .iPhone .screen .bar i.fa {
@@ -863,6 +863,7 @@ img.dropdown-toggle {
   .iPhone .tab{
     border-bottom: 3px groove #00acf3 !important;
     background: #3A444B !important;
+    padding-left: 8px!important;
   }
 
   .iPhone .tab a {
@@ -877,6 +878,7 @@ img.dropdown-toggle {
     background-color: #fff !important;
     border-top: 3px groove #00acf3 !important;
     border-bottom: none !important;
+    padding-left: 9px !important;
   }
   .iPhone .tab.active a {
     color: inherit !important;

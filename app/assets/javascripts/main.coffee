@@ -70,6 +70,11 @@ GetURLParameter = (sParam) ->
   return
 
 $ ->
+  $('form#new_comment').submit ->
+    if (!window._8StemGlobals._loggedIn)
+      location.href = '/sign_in?backto='+window.location.pathname;
+      return false;
+    return
   $('a.follow, a.share-song, a.like-song').click ->
     if (!window._8StemGlobals._loggedIn)
       location.href = '/sign_in?backto='+window.location.pathname;

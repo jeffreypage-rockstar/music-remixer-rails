@@ -3,23 +3,21 @@ class App::SessionsController < Clearance::SessionsController
 
   def new
     unless params[:backto].blank?
-      puts "XXX setting session backto: #{params[:backto]}"
       session[:backto] = params[:backto]
     end
   end
 
   def destroy
-    $tracker.track current_user.uuid, 'Signout: success'
+    $tracker.track current_user.uuid, 'Signout: success' if current_user
     sign_out
     redirect_to url_after_destroy
   end
 
 	def url_after_create
     $tracker.track current_user.uuid, 'Signin: via email'
-    puts "XXX after create: #{params[:backto]}"
     unless session[:backto].nil?
       url = session[:backto]
-      # todo: unset session[:backto]
+      session[:backto] = nil
       return "#{url}?ref=signin"
     end
     current_user.is_artist_admin? ? "#{artist_music_url}" : "#{app_home_url}?ref=signin"
@@ -39,7 +37,6 @@ class App::SessionsController < Clearance::SessionsController
       $tracker.track authentication.user.uuid, 'Signin: via facebook connect'
 			@next = app_home_url
     else
-      logger.debug "XXX no user found for authentication"
       if signed_in?
         # signed in user is connecting to network
         current_user.authentications << authentication

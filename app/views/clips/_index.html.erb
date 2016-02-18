@@ -94,7 +94,7 @@
 </div>
 <!-- Preview Template -->
 <!-- Modal -->
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog">
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="dragDropModal" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
@@ -115,26 +115,28 @@
 <script type="text/javascript">
 
   $(document).ready (function(){
-    $(".dropable").dropzone({
-      url: "/file/post",
+  	var clip_id;
+    $(".dropable").dropzone({         
       autoProcessQueue: false,
+      clickable: false,
       previewTemplate: $('#template').html(),
       init: function () {
         var myDropzone = this; //closure
         myDropzone.on("addedfile", function (file) {
           var file_name = $(event.target).attr('data-file-name');
           var file_name_drop = $('.dz-filename span').text();
-          $('#myModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
-          $('#myModal').modal('show');
-          $('#replace_file').click(function(e){
+          $('#dragDropModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
+          $('#dragDropModal').modal('show');
+          $('#replace_file').click(function(e){          	
             myDropzone.processQueue();
           });
-          $('#replace_file').click(function(e){
+          $('#not_replace_file').click(function(e){
             myDropzone.removeFile(file);
           });
         });
         myDropzone.on("dragenter", function(event) {
-          console.log(event);
+          clip_id = $(event.target).data('id');
+          myDropzone.options.url = "/songs/" + <%=@song.id%> + "/clips/"+ clip_id+ "/update_clip";
           $(event.target).addClass('dnd-hover');
         });
         myDropzone.on('dragleave', function(event) {
@@ -143,11 +145,17 @@
         myDropzone.on('drop', function(event) {
           $(event.target).removeClass('dnd-hover');
         });
-      }
-
+      },
+       url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id + "/update_clip",
+       headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'},  
+       method: "PUT"   
     });
-
   });
+
+  $('#dragDropModal').on('hidden.bs.modal', function () {
+   $( ".dz-preview.dz-file-preview" ).remove();
+  });
+
   $('.editable-text').on('click focus',
 			'span',
 			function (e) {
@@ -308,6 +316,26 @@
 			cursorWidth: 2,
 			cursorColor: "yellow"
 		});
+
+		// Create a compressor node
+//		var compressor = wavesurfer.backend.ac.createDynamicsCompressor();
+//		compressor.threshold.value = -5.25;
+//		compressor.knee.value = 6;
+//		compressor.ratio.value = 1.5;
+//		compressor.reduction.value = -2;
+//		compressor.attack.value = 0;
+//		compressor.release.value = 0.25;//time (in seconds) to increase the gain by 10dB
+//		wavesurfer.backend.setFilter(compressor);
+
+		// Create a limiter node
+//		var limiter = wavesurfer.backend.ac.createDynamicsCompressor();
+//		limiter.threshold.value = -0.5; // this is the pitfall, leave some headroom
+//		limiter.knee.value = -0.3; // brute force
+//		limiter.ratio.value = 12.0; // max compression
+//		limiter.attack.value = 0.005; // 5ms attack
+//		limiter.release.value = 0.050; // 50ms release
+//		wavesurfer.backend.setFilter(limiter);
+
 		wavesurfer.on('ready', function (_this) {
 			$(_this.container).addClass('loaded');
 			if ($(_this.container).state()) {
@@ -335,11 +363,11 @@
 		});
 
 		wavesurfer.on('loading', function (_this, progress) {
-			$(_this.container).children(".progress").css("left", progress+"%");	
+			$(_this.container).children(".progress").css("left", progress+"%");
 		});
 
 		wavesurfer.load(src);
-		wavesurfers[column][row] = wavesurfer;		
+		wavesurfers[column][row] = wavesurfer;
 	}
 
 	isAllClipsLoadedOfThisPart = function(column) {
@@ -374,7 +402,7 @@
 	clipEndedCallback = function() {
 		if (sColumn == 8) {
 			$(".full-play-btn").removeClass('playing');
-			$("#clips-"+sColumn).removeClass('playing');			
+			$("#clips-"+sColumn).removeClass('playing');
 			stopPartPlayers(true);
 			return;
 		}
@@ -382,7 +410,7 @@
 		if (sColumn < 8) sColumn++;
 		$("#clips-"+sColumn+", #clips-"+sColumn+"0").addClass('focus playing');
 		showCurrentPartDetails();
-    updatePreview();
+		updatePreview();
 		playNext();
 
 		for (var i = 0; i <= 8; i++) {
@@ -458,10 +486,13 @@
 		}
 	}
 
-	stopClipPreviewPlayer = function(reset) {
-		if (clipPreviewPlayer) {
+	stopClipPreviewPlayer = function(reset) {		
+		if (clipPreviewPlayer) {			
 			$(".play-btn").removeClass("paused");
 			clipPreviewPlayer.seekTo(0);
+			if(flag == 1){
+				clipPreviewPlayer.seekTo(positionReset);
+			}
 			if (!clipPreviewPlayer.backend.isPaused()) clipPreviewPlayer.pause();
 			clipPreviewPlayer.un('finish', singleClipEndedCallback);
 			if (reset && clipPreviewPlayerRow != 0) {
@@ -469,6 +500,7 @@
 				playNext();
 			}
 			clipPreviewPlayer = false;
+
 		}
 	}
 
@@ -662,9 +694,8 @@
       var row = $(event.target).parents('.clip').data('row');
       var column = $(event.target).parents('.clips').data('column');
       if (!row || !column) { return }
-
       stopTopPlayer();
-
+  	  $(".full-play-btn").removeClass('playing');
       // If already playing same audio file
       if (clipPreviewPlayerRow == row && clipPreviewPlayerColumn == column) {
         if (clipPreviewPlayer.backend.isPaused()) {

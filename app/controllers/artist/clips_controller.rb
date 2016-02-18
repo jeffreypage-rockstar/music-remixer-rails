@@ -1,5 +1,5 @@
 class Artist::ClipsController < Artist::BaseController
-  before_action :set_clip, only: [:show, :edit, :update, :destroy]
+  before_action :set_clip, only: [:show, :edit, :update, :destroy, :update_clip]
   
   def new
   end
@@ -26,6 +26,13 @@ class Artist::ClipsController < Artist::BaseController
         format.json { render json: @clip.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def update_clip
+      respond_to do |format|
+        @clip.update(file: params[:file], storing_status: 0)
+        format.json { render json: @clip}
+      end
   end
 
   private
