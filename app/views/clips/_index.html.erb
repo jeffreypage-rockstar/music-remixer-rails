@@ -115,7 +115,7 @@
 <script type="text/javascript">
 
   $(document).ready (function(){
-  	var clip_id, alert_type = 0;
+  	var clip_id;
     $(".droppable").dropzone({ 
       paramName: 'file',        
       autoProcessQueue: false,
@@ -123,51 +123,59 @@
       uploadMultiple: false,
       acceptedFiles: '.ogg, .m4a, .mp3, .wav, .als',
       maxFiles: 1,
-      previewTemplate: $('#template').html(),
+      previewTemplate: $('#template').html(), 
       init: function () {
-        var myDropzone = this; //closure
+        var myDropzone = this;
         myDropzone.on("addedfile", function (file) {
           var file_name = $(event.target).attr('data-file-name');         
           var file_name_drop = $('.dz-filename span').text();          
           var ext = file_name_drop.split('.')[1];          
           $('#dragDropModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
-          if( ext != "ogg" && ext != "m4a" && ext != "mp3" && ext != "wav" && ext != "als")
-          	{          		
-          		alert_type = 1;
-          		$('.alert-custom').css({display: "block"});
-                $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>You can't upload files of this type.</p></div>");
-                $( ".dz-preview" ).remove();
-            }
-          else{
-          	$('#dragDropModal').modal('show');
-          	$('.alert-custom').css({display: "none"});
-          }
+          $('.alert-custom').css({display: "none"});
+		  // $('#dragDropModal').modal('show');     	  
 
-          $('#replace_file').click(function(e){          	
+          $('#replace_file').click(function(e){
             myDropzone.processQueue();
           });
           $('#not_replace_file').click(function(e){
             myDropzone.removeFile(file);
           });
         });
-        myDropzone.on("dragenter", function(event) {
+        myDropzone.on("dragenter", function (event) {
           clip_id = $(event.target).data('id');
           myDropzone.options.url = "/songs/" + <%=@song.id%> + "/clips/"+ clip_id+ "/update_clip";
           $(event.target).addClass('dnd-hover');
         });
-        myDropzone.on('dragleave', function(event) {
+        myDropzone.on('dragleave', function (event) {
           $(event.target).removeClass('dnd-hover');
         });
         myDropzone.on('drop', function(event) {
           $(event.target).removeClass('dnd-hover');
         });
-        myDropzone.on("error", function (file) { 
-        	if(alert_type != 1){
+        myDropzone.on("error", function (file, response) { 
+        	if(!file.accepted){
+        		$('#dragDropModal').modal('hide');       		
 	        	$('.alert-custom').css({display: "block"});
+	            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>"+response+"</p></div>");
+	            $( ".dz-preview" ).remove();
+        	}
+        	else{
+        		$('.alert-custom').css({display: "block"});
 	            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Duration does not match.</p></div>");
         	}
-       } );
+       	});
+       	myDropzone.on("success",function (file, response){
+       		console.log(response);
+	       		setTimeout(function(){
+	       			location.reload();
+	       		}, 14000);       		
+       	});
       },
+
+      accept: function(file, done) {
+        $('#dragDropModal').modal('show');
+        done();
+       },
        url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id + "/update_clip",
        headers: {'X-CSRF-Token': "<%= form_authenticity_token.to_s %>"},  
        method: "PUT",

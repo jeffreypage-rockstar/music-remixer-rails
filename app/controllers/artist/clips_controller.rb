@@ -36,8 +36,10 @@ class Artist::ClipsController < Artist::BaseController
        aFile.close
        file = ::FFMPEG::Movie.new(file_path)
        if @clip.duration == file.duration
-        @clip.update(file: File.open(file_path), storing_status: 0)
-        format.json { render json: @clip}
+        @new_clip = Clip.new ({id: @clip.id, row: @clip.row, column: @clip.column, storing_status: 0, file: File.open(file_path), song: @clip.song, clip_type: @clip.clip_type, part: @clip.part})
+        @clip.destroy
+        @new_clip.save
+        format.json { render json: @new_clip}
        else
         format.json { render json: @clip.errors, status: :unprocessable_entity }
        end
