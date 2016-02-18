@@ -46,27 +46,23 @@
                   .jp-progress
                     .jp-seek-bar
                       .jp-play-bar
-            ul.nav.nav-tabs role="tablist"
-              li
-                a
-                  = image_tag 'profile/time-tab.png'
-                  = Time.now.strftime("%I:%M")
-              li
-                a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab"
-                  = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
-                  | 8
-              li
-                .like-unlike-song
+              ul.nav.nav-tabs role="tablist"
+                li
+                  .tab-caption
+                    = image_tag 'profile/time-tab.png'
+                    = song.duration
+                li
+                  a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab"
+                    = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
+                    | #{3+song.remixes.count}
+                li.like-unlike-song
                   = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
 
-              li
-                a
-                  = image_tag 'profile/retweets-tab.png'
-                  | 126
-              li
-                a.comments-tab data-toggle="tab" href="#comments_#{song.id}" role="tab"
-                  = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
-                  | 2
+                li
+                  a.comments-tab data-toggle="tab" href="#comments_#{song.id}" data-commentable-id="#{song.id}" data-target-url="#{app_comments_url}" role="tab"
+                    = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
+                    .comments-count
+                      = song.root_comments.count
           .clearfix
           .tab-content
             div id="mixes_#{song.id}" class="tab-pane fade"
@@ -75,7 +71,7 @@
                 button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix 2
                 button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix 3
             div id="comments_#{song.id}" class="tab-pane fade"
-              = render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}
+              /= render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}
         - if song.remixes.count > 0
           li.remix-list
             table.table

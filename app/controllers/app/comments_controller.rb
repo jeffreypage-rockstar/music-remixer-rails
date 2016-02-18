@@ -20,6 +20,12 @@ class App::CommentsController < App::BaseController
     end
   end
 
+  def index
+    @commentable = params[:commentable_type].constantize.find(params[:commentable_id])
+    @new_comment = Comment.build_from(@commentable, current_user.id, "")
+    render :comments_template
+  end
+
   private
 
   def comment_params

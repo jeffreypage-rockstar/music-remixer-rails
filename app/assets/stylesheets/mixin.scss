@@ -43,7 +43,7 @@
 
     .media-body {
       .media-content {
-        padding: 10px 20px 12px 10px;
+        padding: 10px 20px 7px 15px;
         position: relative;
         overflow: visible;
 
@@ -106,13 +106,14 @@
       }
 
       ul.nav-tabs {
-        border-top: thin solid #ededed;
-        border-bottom: thin solid #ededed;
+        margin-top: 8px;
 
         li {
           width:119px;
+          height: 50px;
+          border: thin solid #ededed;
 
-          a {
+          a, .tab-caption {
             color: #c8ccce;
             text-align: center;
 
@@ -121,6 +122,9 @@
               margin-top: 5px;
               margin-right: 2px;
             }
+          }
+          .tab-caption {
+            margin-top: 10px;
           }
 
           .like-unlike-song {
@@ -132,25 +136,31 @@
           }
         }
         li.active {
+          margin-bottom: -2px;
+          background-color: #EEEEEE;
+
           a {
             color: #41c7ff;
-
+            border-color: transparent;
+            background-color: transparent;
             img.comments-image-tag {
               content: url('profile/comments-tab-h.png')
             }
             img.mixes-image-tag {
-              content: url('profile/comments-tab-h.png')
+              content: url('profile/mixes-tab-h.png')
             }
-          }
-
-          a.comments-tab {
-            border-color: transparent;
           }
 
         }
 
-        li:not(.active):not(:last-child) {
-          border-right: thin solid #ededed;
+        li:last-child {
+          a {
+            height: 50px;
+
+            .comments-count {
+              display: inline-block;
+            }
+          }
         }
       }
     }
@@ -173,5 +183,11 @@
         background-color: #41c7ff;
       }
     }
+  }
+
+  .fa-heart {
+    font-size: 18px;
+    color: #41c7ff;
+    margin-right: 4px;
   }
 }
