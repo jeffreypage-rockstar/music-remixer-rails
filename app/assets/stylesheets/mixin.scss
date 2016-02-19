@@ -13,6 +13,9 @@
     .by-artist {
       color: #9f9f9f;
       font-size: 14px;
+      @media screen and (max-width: $screen-xs-max) {
+        margin-top: -7px;
+      }
     }
 
     .media-left {
@@ -43,7 +46,7 @@
 
     .media-body {
       .media-content {
-        padding: 10px 20px 7px 15px;
+        padding: 10px 10px 5px 10px;
         position: relative;
         overflow: visible;
         @media screen and (max-width: $screen-xs-max) {
@@ -115,17 +118,18 @@
       }
 
       ul.nav-tabs {
+        border: 0;
         margin-top: 8px;
         font-size: 13px;
 
         li {
-          width: 24%;
-          height: 44px;
-          border: thin solid #ededed;
-          margin-right: 2px;
+          height: 36px;
+          border: 1px solid #eee;
+          border-radius: 3px;
+          margin-left: 4px;
 
           a {
-            padding: 8px 5px;
+            padding: 4px;
           }
           a, .tab-caption {
             color: #c8ccce;
@@ -136,6 +140,10 @@
               margin-top: 5px;
               margin-right: 2px;
             }
+          }
+          a:hover {
+            background: transparent;
+            border-color: transparent;
           }
           .tab-caption {
             margin-top: 10px;
@@ -151,27 +159,31 @@
 
           .count {
             display: inline-block;
+            vertical-align: top;
+          }
+          img.mixes-image-tag {
+            margin-top:3px;
           }
         }
+        li:hover {
+          background-color: #eee;
+        }
+        li:first-child {
+          margin-right: 4px;
+        }
         li.active {
-          margin-bottom: -2px;
-          background-color: #EEEEEE;
-
           a {
             color: #41c7ff;
             border-color: transparent;
             background-color: transparent;
             img.comments-image-tag {
-              content: url('profile/comments-tab-h.png')
+              content: url('profile/comments-tab-h.png');
             }
             img.mixes-image-tag {
-              content: url('profile/mixes-tab-h.png')
+              content: url('profile/mixes-tab-h.png');
+              margin-top:3px;
             }
           }
-        }
-
-        li:last-child {
-          margin-right: 0;
         }
       }
     }
@@ -183,6 +195,7 @@
   .fa-heart {
     font-size: 18px;
     color: #41c7ff;
+    padding-top: 4px;
     margin-right: 4px;
   }
 }

@@ -13,11 +13,12 @@
               = image_tag 'tracks/play.png'
             a class="pause"
               = image_tag 'tracks/pause.png'
+          .clearfix.hidden-sm.hidden-md.hidden-lg
           .media-body
             .media-content
               .media-description.pull-left
                 h4.media-heading #{song.name}
-                span.by-artist by #{song.artist_name}
+                .by-artist #{song.artist_name}
               .actions.pull-right
                 .tags
                   button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
@@ -29,11 +30,6 @@
               /    - song.genres.each do |genre|
               /      a.tag.badge href="##{genre.name}" #{genre.name}
 
-              /.mix8-html-player
-              /  .time-holder
-              /    .current-time 00:00
-              /    .duration #{song.duration}
-              /  progress value="0" max="1" id="progress_#{song.id}" style="width:400px;"
               .mix8-player
                 .jp-player.original id="jquery_jplayer_#{song.id}"
                 .jp-player.mix2
@@ -47,23 +43,18 @@
                     .jp-seek-bar
                       .jp-play-bar
               ul.nav.nav-tabs role="tablist"
-                li
-                  .tab-caption
-                    = image_tag 'profile/time-tab.png'
-                    = song.duration
+                li.like-unlike-song
+                  = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
                 li
                   a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab" data-song-id="#{song.id}" data-target-url="#{show_remixes_app_song_url(song.id)}"
                     = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
                     .count
                       = song.remixes.count
-                li.like-unlike-song
-                  = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
-
                 li
                   a.comments-tab data-toggle="tab" href="#comments_#{song.id}" data-commentable-id="#{song.id}" data-target-url="#{app_comments_url}" role="tab"
                     = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
                     .count
-                      = song.root_comments.count
+                      = song.root_comments.count*100
           .clearfix
           .tab-content
             div id="mixes_#{song.id}" class="tab-pane fade"
