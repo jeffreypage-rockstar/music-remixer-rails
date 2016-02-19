@@ -192,10 +192,12 @@
     margin: 14px 14px 0 14px;
   }
 
-  .fa-heart {
+  .fa-heart, .fa-heart-o {
     font-size: 18px;
-    color: #41c7ff;
     padding-top: 4px;
     margin-right: 4px;
+  }
+  .fa-heart {
+    color: #41c7ff;
   }
 }
