@@ -26,7 +26,7 @@
             <% end %>
             <% if clip.row == r %>
                   <div id="clip-part-<%=clip.id%>"
-                         class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%> dropable"
+                         class="mixer-part clip clipstyle clip-<%=clip.row%><%=' muted' if clip.state%> droppable"
                          data-id="<%=clip.id%>"
                          data-clip-type-id="<%=clip.clip_type_id%>"
                          data-part-id="<%=clip.part_id%>"
@@ -100,7 +100,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title">Replace File</h4>
       </div>
       <div class="modal-body">
       </div>
@@ -116,45 +116,76 @@
 
   $(document).ready (function(){
   	var clip_id;
-    $(".dropable").dropzone({         
+    $(".droppable").dropzone({ 
+      paramName: 'file',        
       autoProcessQueue: false,
       clickable: false,
-      previewTemplate: $('#template').html(),
+      uploadMultiple: false,
+      acceptedFiles: '.ogg, .m4a, .mp3, .wav, .als',
+      maxFiles: 1,
+      previewTemplate: $('#template').html(), 
       init: function () {
-        var myDropzone = this; //closure
+        var myDropzone = this;
         myDropzone.on("addedfile", function (file) {
-          var file_name = $(event.target).attr('data-file-name');
-          var file_name_drop = $('.dz-filename span').text();
+          var file_name = $(event.target).attr('data-file-name');         
+          var file_name_drop = $('.dz-filename span').text();          
+          var ext = file_name_drop.split('.')[1];          
           $('#dragDropModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
-          $('#dragDropModal').modal('show');
-          $('#replace_file').click(function(e){          	
+          $('.alert-custom').css({display: "none"});
+		  // $('#dragDropModal').modal('show');     	  
+
+          $('#replace_file').click(function(e){
             myDropzone.processQueue();
           });
           $('#not_replace_file').click(function(e){
             myDropzone.removeFile(file);
           });
         });
-        myDropzone.on("dragenter", function(event) {
+        myDropzone.on("dragenter", function (event) {
           clip_id = $(event.target).data('id');
           myDropzone.options.url = "/songs/" + <%=@song.id%> + "/clips/"+ clip_id+ "/update_clip";
           $(event.target).addClass('dnd-hover');
         });
-        myDropzone.on('dragleave', function(event) {
+        myDropzone.on('dragleave', function (event) {
           $(event.target).removeClass('dnd-hover');
         });
         myDropzone.on('drop', function(event) {
           $(event.target).removeClass('dnd-hover');
         });
+        myDropzone.on("error", function (file, response) { 
+        	if(!file.accepted){
+        		$('#dragDropModal').modal('hide');       		
+	        	$('.alert-custom').css({display: "block"});
+	            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>"+response+"</p></div>");
+	            $( ".dz-preview" ).remove();
+        	}
+        	else{
+        		$('.alert-custom').css({display: "block"});
+	            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Duration does not match.</p></div>");
+        	}
+       	});
+       	myDropzone.on("success",function (file, response){
+       		console.log(response);
+	       		setTimeout(function(){
+	       			location.reload();
+	       		}, 14000);       		
+       	});
       },
+
+      accept: function(file, done) {
+        $('#dragDropModal').modal('show');
+        done();
+       },
        url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id + "/update_clip",
-       headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'},  
-       method: "PUT"   
+       headers: {'X-CSRF-Token': "<%= form_authenticity_token.to_s %>"},  
+       method: "PUT",
+
     });
   });
 
-  $('#dragDropModal').on('hidden.bs.modal', function () {
-   $( ".dz-preview.dz-file-preview" ).remove();
-  });
+	$('#dragDropModal').on('hidden.bs.modal', function () {
+  		$( ".dz-preview" ).remove();
+	})
 
   $('.editable-text').on('click focus',
 			'span',

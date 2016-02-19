@@ -30,8 +30,20 @@ class Artist::ClipsController < Artist::BaseController
 
   def update_clip
       respond_to do |format|
-        @clip.update(file: params[:file], storing_status: 0)
-        format.json { render json: @clip}
+       file_path = "#{Rails.root}/public/uploads/tmp/" + params[:file].original_filename
+       aFile = File.new(file_path, "w")
+       aFile.write(open(params[:file]).read)
+       aFile.close
+       file = ::FFMPEG::Movie.new(file_path)
+       if @clip.duration == file.duration
+        @new_clip = Clip.new ({id: @clip.id, row: @clip.row, column: @clip.column, storing_status: 0, file: File.open(file_path), song: @clip.song, clip_type: @clip.clip_type, part: @clip.part})
+        @clip.destroy
+        @new_clip.save
+        format.json { render json: @new_clip}
+       else
+        format.json { render json: @clip.errors, status: :unprocessable_entity }
+       end
+       FileUtils.rm_rf(file_path)
       end
   end
 
