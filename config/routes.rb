@@ -109,6 +109,7 @@ Rails.application.routes.draw do
           post :share
           post :toggle_like_song
           delete :toggle_like_song
+          post :show_remixes
         end
       end
 

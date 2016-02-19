@@ -19,10 +19,10 @@
                 h4.media-heading #{song.name}
                 span.by-artist by #{song.artist_name}
               .actions.pull-right
-                = link_to share_modal_artist_song_path(song), :class => 'share-song pull-left', :data => {:modal => true} do
-                  = image_tag 'tracks/share.png'
-                .pull-left.remixes-button
-                  = image_tag 'profile/remix.png'
+                .tags
+                  button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
+                  button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix 2
+                  button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix 3
               .clearfix
               /- if song.genres.any?
               /  .tags
@@ -52,9 +52,10 @@
                     = image_tag 'profile/time-tab.png'
                     = song.duration
                 li
-                  a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab"
+                  a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab" data-song-id="#{song.id}" data-target-url="#{show_remixes_app_song_url(song.id)}"
                     = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
-                    | #{3+song.remixes.count}
+                    .mixes-count
+                      = 3 + song.remixes.count
                 li.like-unlike-song
                   = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
 
@@ -66,35 +67,6 @@
           .clearfix
           .tab-content
             div id="mixes_#{song.id}" class="tab-pane fade"
-              .tags
-                button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
-                button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix 2
-                button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix 3
+              /= render partial: "remixes", locals: {song: song}
             div id="comments_#{song.id}" class="tab-pane fade"
               /= render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}
-        - if song.remixes.count > 0
-          li.remix-list
-            table.table
-              thead
-                tr
-                  th &nbsp;
-                  th Remixer
-                  th Plays
-                  th Downloads
-              tbody
-              - song.remixes.each do |remix|
-                tr.media.track.remix data-id="remix_#{remix.id}" data-audio='{"m4a": "#{remix.audio}"}'
-                  td.player
-                    a class="play"
-                      = image_tag 'tracks/play.png'
-                    a class="pause"
-                      = image_tag 'tracks/pause.png'
-                    .mix8-player
-                      .jp-player id="jquery_jplayer_#{song.id}_#{remix.id}"
-                      .jp-audio id="jp_container_#{song.id}_#{remix.id}"
-                  td.remixer
-                    = link_to app_show_profile_path(remix.user.username)
-                      = image_tag remix.user.profile_image.url(:thumb), class: 'img-cover'
-                      | #{remix.name} by #{remix.user.name}
-                  td.plays #{remix.plays_count}
-                  td.downloads #{remix.downloads_count}

@@ -49,15 +49,20 @@
 
         .actions {
 
-          .share-song, .remixes-button {
-            margin: 5px;
-            line-height: 25px;
-            width: 25px;
-            height: 25px;
-            display: block;
-
-            img {
-              display: inline-block;
+          .tags {
+            position: relative;
+            .tag {
+              padding: 5px 10px;
+              width: 80px;
+              height: 33px;
+              background-color: #e8e9ea;
+              margin-right: 7px;
+              border-radius: 3px;
+              color: #535b62;
+            }
+            .selected {
+              color: white;
+              background-color: #41c7ff;
             }
           }
         }
@@ -134,6 +139,10 @@
               margin-right: 5px;
             }
           }
+
+          .mixes-count {
+            display: inline-block;
+          }
         }
         li.active {
           margin-bottom: -2px;
@@ -167,22 +176,7 @@
   }
   .tab-content {
     margin: 14px 14px 0 14px;
-    .tags {
-      position: relative;
-      .tag {
-        padding: 5px 10px;
-        width: 80px;
-        height: 33px;
-        background-color: #e8e9ea;
-        margin-right: 7px;
-        border-radius: 3px;
-        color: #535b62;
-      }
-      .selected {
-        color: white;
-        background-color: #41c7ff;
-      }
-    }
+
   }
 
   .fa-heart {

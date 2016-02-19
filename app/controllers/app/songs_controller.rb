@@ -1,8 +1,8 @@
 class App::SongsController < App::BaseController
   respond_to :html, :json
 
-  before_action :require_login, only: [:share_modal, :share, :toggle_like_song]
-  before_action :set_song, only: [:show, :share_modal, :toggle_like_song]
+  before_action :require_login, only: [:share_modal, :share, :toggle_like_song, :show_remixes]
+  before_action :set_song, only: [:show, :share_modal, :toggle_like_song, :show_remixes]
 
   # GET /songs/1
   # GET /songs/1.json
@@ -50,6 +50,10 @@ class App::SongsController < App::BaseController
     respond_to do |format|
       format.js { render :like_unlike_song }
     end
+  end
+
+  def show_remixes
+    render :remixes
   end
 
   private
