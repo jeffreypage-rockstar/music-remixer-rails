@@ -188,6 +188,10 @@
   }
 
   .social-links {
+    padding: 0;
+    @media screen and (max-width: $screen-xs-max) {
+      padding: 10px 5px 0 0;
+    }
     .social-link {
       padding: 10px;
       color: #9f9f9f;
@@ -221,7 +225,7 @@
     }
 
     .track-list {
-      @include track-media(150px, 125px);
+      @include track-media(150px, 100px);
     }
 
     .remix-list {

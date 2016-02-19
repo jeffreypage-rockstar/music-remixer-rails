@@ -46,19 +46,23 @@
         padding: 10px 20px 7px 15px;
         position: relative;
         overflow: visible;
-
+        @media screen and (max-width: $screen-xs-max) {
+          padding: 5px 10px;
+        }
         .actions {
 
           .tags {
             position: relative;
             .tag {
-              padding: 5px 10px;
-              width: 80px;
+              padding: 5px 5px;
               height: 33px;
               background-color: #e8e9ea;
               margin-right: 7px;
               border-radius: 3px;
               color: #535b62;
+              @media screen and (max-width: $screen-xs-max) {
+                margin-right: 5px;
+              }
             }
             .selected {
               color: white;
