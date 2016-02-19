@@ -30,7 +30,6 @@
           height: $image_sm_size;
         }
       }
-
       .play, .pause {
         position: absolute;
         top: ($image_size - 50px) / 2;
@@ -40,6 +39,16 @@
         @media screen and (max-width: $screen-sm-min) {
           top: ($image_sm_size - 50px) / 2;
           left: ($image_sm_size - 50px) / 2;
+        }
+      }
+      @media screen and (min-width: 321px) and (max-width: $screen-sm-min) {
+        display:block;
+        .wrapper {
+          display: block;
+          margin: 0 auto;
+          width: $image_sm_size;
+          position: relative;
+          margin-top: 5px;
         }
       }
     }
