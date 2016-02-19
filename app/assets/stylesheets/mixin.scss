@@ -114,9 +114,10 @@
         margin-top: 8px;
 
         li {
-          width:119px;
+          width: 24%;
           height: 50px;
           border: thin solid #ededed;
+          margin-right: 2px;
 
           a, .tab-caption {
             color: #c8ccce;
@@ -140,7 +141,7 @@
             }
           }
 
-          .mixes-count {
+          .count {
             display: inline-block;
           }
         }
@@ -159,24 +160,16 @@
               content: url('profile/mixes-tab-h.png')
             }
           }
-
         }
 
         li:last-child {
-          a {
-            height: 50px;
-
-            .comments-count {
-              display: inline-block;
-            }
-          }
+          margin-right: 0;
         }
       }
     }
   }
   .tab-content {
     margin: 14px 14px 0 14px;
-
   }
 
   .fa-heart {

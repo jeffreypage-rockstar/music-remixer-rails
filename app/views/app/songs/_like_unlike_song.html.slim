@@ -1,8 +1,10 @@
 - if current_user && current_user.likes?(song)
   = link_to toggle_like_song_app_song_path(song), class: 'like_unlike_song-song', method: :delete, remote: true do
     i.fa.fa-heart
-    = song.likers(User).count
+    .count
+      = song.likers(User).count
 - else
   = link_to toggle_like_song_app_song_path(song), class: 'like-song', method: :post, remote: true do
     i.fa.fa-heart-o
-    = song.likers(User).count
+    .count
+      = song.likers(User).count
