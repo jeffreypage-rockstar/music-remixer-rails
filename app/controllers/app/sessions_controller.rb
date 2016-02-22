@@ -7,6 +7,19 @@ class App::SessionsController < Clearance::SessionsController
     end
   end
 
+  def create
+    @user = authenticate(params)
+
+    sign_in(@user) do |status|
+      if status.success?
+        redirect_back_or url_after_create
+      else
+        flash.now.notice = status.failure_message
+        render template: "app/sessions/new", status: :unauthorized
+      end
+    end
+  end
+
   def destroy
     $tracker.track current_user.uuid, 'Signout: success' if current_user
     sign_out
