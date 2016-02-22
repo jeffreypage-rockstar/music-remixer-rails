@@ -11,7 +11,8 @@ class SongWaveformMix2Uploader < CarrierWave::Uploader::Base
 
   # Override the directory where uploaded files will be stored
   def store_dir
-    "#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
+    env = Rails.env.staging? ? 'production' : Rails.env
+    "#{env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.uuid}"
   end
 
   def fog_directory
@@ -28,7 +29,7 @@ class SongWaveformMix2Uploader < CarrierWave::Uploader::Base
 
   # Override the filename of the uploaded files:
   def filename
-    "#{secure_token(32)}.#{file.extension}" if original_filename.present?
+    "#{secure_token(16)}.#{file.extension}" if original_filename.present?
   end
 
   def remove!

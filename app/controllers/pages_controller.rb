@@ -6,6 +6,11 @@ class PagesController < ApplicationController
 	end
 
   def splash
+    # do we really want to do this?
+    # if signed_in? && request.env["HTTP_REFERER"].blank?
+    #   redirect_to app_home_url
+    #   return
+    # end
   end
 
   def about

@@ -3,72 +3,62 @@
   .content
     ul.media-list.track-list
       - songs = songs.decorate
+
       - songs.each do |song|
+        - new_comment = Comment.build_from(song, current_user ? current_user.id : nil, "")
         li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
           .media-left
-            img.image src="#{song.image.url(:thumb)}"
-            a class="play"
-              = image_tag 'tracks/play.png'
-            a class="pause"
-              = image_tag 'tracks/pause.png'
+            .wrapper
+              img.image src="#{song.image.url(:thumb)}"
+              a class="play"
+                = image_tag 'tracks/play.png'
+              a class="pause"
+                = image_tag 'tracks/pause.png'
+          .clearfix.hidden-sm.hidden-md.hidden-lg
           .media-body
-            h4.media-heading #{song.name}
-            span.by-artist by #{song.artist_name}
+            .media-content
+              .media-description.pull-left
+                h4.media-heading #{song.name}
+                .by-artist #{song.artist_name}
+              .actions.pull-right
+                .tags
+                  button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
+                  button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix 2
+                  button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix 3
+              .clearfix
+              /- if song.genres.any?
+              /  .tags
+              /    - song.genres.each do |genre|
+              /      a.tag.badge href="##{genre.name}" #{genre.name}
 
-            - if song.genres.any?
-              .tags
-                - song.genres.each do |genre|
-                  a.tag.badge href="##{genre.name}" #{genre.name}
-
-            /.mix8-html-player
-            /  .time-holder
-            /    .current-time 00:00
-            /    .duration #{song.duration}
-            /  progress value="0" max="1" id="progress_#{song.id}" style="width:400px;"
-            .mix8-player
-              .jp-player.original id="jquery_jplayer_#{song.id}"
-              .jp-player.mix2
-              .jp-player.mix3
-              .jp-audio id="jp_container_#{song.id}"
-                .jp-time-holder
-                  .jp-current-time aria-label="time" role="timer"
-                  .duration #{song.duration}
-                .clearfix
-                .jp-progress
-                  .jp-seek-bar
-                    .jp-play-bar
-            .tags
-              button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
-              button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix2
-              button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix3
-            .actions
-              = link_to share_modal_artist_song_path(song), class: 'share-song pull-left', data: {modal: true} do
-                = image_tag 'tracks/share.png'
-              .like-unlike-song.pull-left
-                = render partial: 'app/songs/like_unlike_song', locals: {song: song}
-        - if song.remixes.count > 0
-          li.remix-list
-            table.table
-              thead
-                tr
-                  th &nbsp;
-                  th Remixer
-                  th Plays
-                  th Downloads
-              tbody
-              - song.remixes.each do |remix|
-                tr.media.track.remix data-id="remix_#{remix.id}" data-audio='{"m4a": "#{remix.audio}"}'
-                  td.player
-                    a class="play"
-                      = image_tag 'tracks/play.png'
-                    a class="pause"
-                      = image_tag 'tracks/pause.png'
-                    .mix8-player
-                      .jp-player id="jquery_jplayer_#{song.id}_#{remix.id}"
-                      .jp-audio id="jp_container_#{song.id}_#{remix.id}"
-                  td.remixer
-                    = link_to app_show_profile_path(remix.user.username)
-                      = image_tag remix.user.profile_image.url(:thumb), class: 'img-cover'
-                      | #{remix.name} by #{remix.user.name}
-                  td.plays #{remix.plays_count}
-                  td.downloads #{remix.downloads_count}
+              .mix8-player
+                .jp-player.original id="jquery_jplayer_#{song.id}"
+                .jp-player.mix2
+                .jp-player.mix3
+                .jp-audio id="jp_container_#{song.id}"
+                  .jp-time-holder
+                    .jp-current-time aria-label="time" role="timer"
+                    .duration #{song.duration}
+                  .clearfix
+                  .jp-progress
+                    .jp-seek-bar
+                      .jp-play-bar
+              ul.nav.nav-tabs role="tablist"
+                li.like-unlike-song
+                  = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
+                li
+                  a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab" data-song-id="#{song.id}" data-target-url="#{show_remixes_app_song_url(song.id)}"
+                    = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
+                    .count
+                      = song.remixes.count
+                li
+                  a.comments-tab data-toggle="tab" href="#comments_#{song.id}" data-commentable-id="#{song.id}" data-target-url="#{app_comments_url}" role="tab"
+                    = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
+                    .count
+                      = song.root_comments.count*100
+          .clearfix
+          .tab-content
+            div id="mixes_#{song.id}" class="tab-pane fade"
+              /= render partial: "remixes", locals: {song: song}
+            div id="comments_#{song.id}" class="tab-pane fade"
+              /= render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}

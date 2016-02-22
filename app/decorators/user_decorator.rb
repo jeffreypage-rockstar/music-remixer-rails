@@ -3,7 +3,7 @@ class UserDecorator < Draper::Decorator
 
   def facebook_link
     unless object.facebook.blank?
-      h.link_to "https://facebook.com/#{object.facebook}", class: 'social-link' do
+      h.link_to "https://facebook.com/#{object.facebook}", class: 'social-link', target: '_blank' do
         h.fa_icon 'facebook'
       end
     end
@@ -11,7 +11,7 @@ class UserDecorator < Draper::Decorator
 
   def instagram_link
     unless object.instagram.blank?
-      h.link_to "https://instagram.com/#{object.instagram}", class: 'social-link' do
+      h.link_to "https://instagram.com/#{object.instagram}", class: 'social-link', target: '_blank' do
         h.fa_icon 'instagram'
       end
     end
@@ -19,7 +19,7 @@ class UserDecorator < Draper::Decorator
 
   def twitter_link
     unless object.twitter.blank?
-      h.link_to "https://twitter.com/#{object.twitter}", class: 'social-link' do
+      h.link_to "https://twitter.com/#{object.twitter}", class: 'social-link', target: '_blank' do
         h.fa_icon 'twitter'
       end
     end
@@ -27,7 +27,7 @@ class UserDecorator < Draper::Decorator
 
   def soundcloud_link
     unless object.soundcloud.blank?
-      h.link_to "https://soundcloud.com/#{object.soundcloud}", class: 'social-link' do
+      h.link_to "https://soundcloud.com/#{object.soundcloud}", class: 'social-link', target: '_blank' do
         h.fa_icon 'soundcloud'
       end
     end

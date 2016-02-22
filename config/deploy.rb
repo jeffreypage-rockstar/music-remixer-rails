@@ -1,35 +1,17 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-set :application, 'mix8'
-
 set :repo_url, 'git@bitbucket.org:8stem/akashic-nga.git'
 set :deploy_via, :remote_cache
-set :branch, "master"
 
 set :rbenv_type, :user
 set :rbenv_ruby, '2.2.3'
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_path, '/home/deploy/.rbenv/'
 
-set :rollbar_token, '9374ab06eda74e48bfc4cbc4251f6bbf' # mix8 token
 set :rollbar_env, Proc.new { fetch :stage }
 set :rollbar_role, Proc.new { :app }
-
-# Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/deploy/mix8'
-
-# Default value for :scm is :git
-# set :scm, :git
-
-# Default value for :format is :pretty
-# set :format, :pretty
-
-# Default value for :log_level is :debug
-# set :log_level, :debug
-
-# Default value for :pty is false
-# set :pty, true
+set :unicorn_roles, :web
 
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')

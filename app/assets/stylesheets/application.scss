@@ -14,6 +14,7 @@
  *= require bootstrap-tagsinput
  *= require lobibox
  *= require_tree .
+ *= stub bootstrap
  *= stub 8stem.scss
  *= stub signup
  *= stub artist_signup
@@ -24,6 +25,18 @@
 @import "bootstrap-sprockets";
 @import "mix8";
 @import "font-awesome";
+
+.no-gutter > [class*='col-'] {
+  padding-right:0;
+  padding-left:0;
+}
+
+@media (max-width: 767px) {
+  .no-gutter-xs > [class*='col-xs'] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
 
 #main {
   margin-top: 65px;

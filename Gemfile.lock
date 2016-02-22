@@ -423,6 +423,8 @@ GEM
       remotipart (~> 1.0)
       safe_yaml (~> 1.0)
       sass-rails (>= 4.0, < 6)
+    rails_autolink (1.1.6)
+      rails (> 3.1)
     railties (4.2.4)
       actionpack (= 4.2.4)
       activesupport (= 4.2.4)
@@ -570,6 +572,7 @@ DEPENDENCIES
   rack-cors
   rails (= 4.2.4)
   rails_admin
+  rails_autolink
   responders
   rollbar (~> 2.5.0)
   rubyzip (~> 1.1)

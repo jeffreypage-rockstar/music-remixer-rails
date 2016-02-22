@@ -15,7 +15,7 @@ class App::ArtistsController < App::BaseController
           $tracker.alias @user.uuid, session.id
           $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
           $tracker.track @user.uuid, 'Artist Join: success', {'name' => @user.name, 'email' => @user.email}
-          UserNotifier.artist_account_verification_email(@user).deliver_now
+          ArtistNotifier.artist_account_verification_email(@user).deliver_now
           redirect_to "#{app_artists_thanks_url}?ref=join"
           return
         end

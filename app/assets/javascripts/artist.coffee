@@ -98,6 +98,12 @@
     initializePlayer '#' + $(player).find('.jp-player').prop('id'), '#' + $(player).find('.jp-audio').prop('id')
     return
 
+  $('.mixes-tab').click ->
+    target = $(this).data('target-url')
+    $.post target,
+      id: $(this).data('song-id')
+    return true
+
   return
 
 @artistMusicPageReady = ->

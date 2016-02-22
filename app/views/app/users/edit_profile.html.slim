@@ -60,7 +60,7 @@
                 = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input, input_html: { class: 'image-input' }
                 = f.hidden_field :profile_background_image_cache
               .col-sm-8
-                = image_tag current_user.profile_background_image.url, class: 'img-responsive'
+                = image_tag current_user.profile_background_image.url, class: 'img-responsive', id: 'user_profile_background_image_preview'
 
             hr
             .row

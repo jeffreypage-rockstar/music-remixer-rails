@@ -1,9 +1,9 @@
 class UserPolicy < ApplicationPolicy
   def follow?
-    not (user.follows?(record) or user.id == record.id)
+    user.nil? or (!user.follows?(record) and user.id != record.id)
   end
 
   def unfollow?
-    user.follows?(record)
+    !user.nil? and user.follows?(record)
   end
 end

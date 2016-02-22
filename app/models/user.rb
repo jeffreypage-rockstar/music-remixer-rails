@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   # acts_as_mentionable
 
   # allow comments on users
-  # acts_as_commentable
+  acts_as_commentable
 
 	# profile images
 	mount_uploader :profile_image, ProfileImageUploader
@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
 		user = authentication.user
 
 		if user.nil?
-			user = User.find_by(email: profile[:email]) || User.create(
+			user = User.find_by(email: profile['email']) || User.create(
 					name: "#{profile['first_name']} #{profile['last_name']}",
 					email: profile['email'],
 					username: self.create_unique_username(profile['email']),

@@ -92,6 +92,16 @@ module Mix8
       class Trackable < Grape::Entity
         expose :id
         expose :name
+        expose :image_url do |instance|
+          case instance.class.name.split('::').last
+            when 'Song'
+              instance.image_url(:thumb)
+            when 'User'
+              instance.profile_image_url(:thumb)
+            when 'Remix'
+              instance.song.image_url(:thumb)
+          end
+        end
       end
 
       class Activity < Grape::Entity
@@ -99,6 +109,7 @@ module Mix8
         expose :key, as: :verb
         expose :trackable, using: Trackable, as: :object
         expose :created_at, as: :published
+        expose :parameters, as: :data
       end
     end
   end

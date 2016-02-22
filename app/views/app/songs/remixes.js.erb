@@ -1,0 +1,2 @@
+$("#mixes_<%= @song.id %>").html("<%= escape_javascript(render partial: "remixes", locals: {song: @song} ) %>");
+$("a[data-song-id=<%=@song.id%>]").find('.mixes-count').html("<%= html_escape(3 + @song.remixes.count) %>")

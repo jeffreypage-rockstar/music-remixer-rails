@@ -1,29 +1,13 @@
 class App::SongsController < App::BaseController
   respond_to :html, :json
 
-  before_action :require_login
-  before_action :set_song, only: [:show, :share_modal, :toggle_like_song]
+  before_action :require_login, only: [:share_modal, :share, :toggle_like_song, :show_remixes]
+  before_action :set_song, only: [:show, :share_modal, :toggle_like_song, :show_remixes]
 
   # GET /songs/1
   # GET /songs/1.json
   def show
-    # @clips = []
-    # @song.parts.each do |part|
-    #   partBlob = {
-    #       :id => part.id, :name => part.name, :clips => []
-    #   }
-    #   part.clips.each do |clip|
-    #     partBlob[:clips] << {
-    #         :id => clip.id,
-    #         :url => clip.file.to_s,
-    #         :styles => {
-    #             :Original => clip.state,
-    #             :Mix2 => clip.state2,
-    #             :Mix3 => clip.state3
-    #         }
-    #     }
-    #   end
-    #   @clips << partBlob
+    @new_comment = Comment.build_from(@song, current_user ? current_user.id : nil, "")
     @mixes = []
 
     @mixes << {
@@ -38,7 +22,6 @@ class App::SongsController < App::BaseController
         :url => @song.mixaudio_mix3.url,
         :style => 'Mix3'
     }
-
   end
 
   def share_modal
@@ -69,11 +52,16 @@ class App::SongsController < App::BaseController
     end
   end
 
+  def show_remixes
+    render :remixes
+  end
+
   private
   def set_song
     @song = Song.find(params[:id])
     unless @song
       return redirect_to artist_songs_path
     end
+    @song = @song.decorate
   end
 end

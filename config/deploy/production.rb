@@ -3,10 +3,9 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '162.242.246.25', user: 'deploy', roles: %w{app db web}
-# server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
-# server 'db.example.com', user: 'deploy', roles: %w{db}
-
+server '104.130.173.100', user: 'deploy', roles: %w{app}
+server '104.130.173.100', user: 'deploy', roles: %w{web}
+server '104.130.173.100', user: 'deploy', roles: %w{db}  # migrations are run from web1
 
 
 # role-based syntax
@@ -36,9 +35,14 @@ server '162.242.246.25', user: 'deploy', roles: %w{app db web}
 #set :rvm_type, :system
 # set :rvm_custom_path, '/home/ubuntu/.rvm'  # only needed if not detected
 
+set :application, '8stem'
+set :branch, "8stem_deploy"
+set :deploy_to, '/home/deploy/8stem'
+
 set :stage, :production
 set :rails_env, "production"
 
+set :rollbar_token, 'd1f50300ea374553b47c73471ef2fa80' # 8stem token
 
 # Custom SSH Options
 # ==================

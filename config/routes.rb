@@ -62,6 +62,8 @@ Rails.application.routes.draw do
     match '/lbstatus' => 'pages#lbstatus', via: [:get, :options]
 
     get 'sign_in' => 'pages#redirect_sign_in', as: 'sign_in'
+
+    get '/beta' => redirect('/')
   end
 
 	# Normal site (no subdomain or www)
@@ -107,8 +109,11 @@ Rails.application.routes.draw do
           post :share
           post :toggle_like_song
           delete :toggle_like_song
+          post :show_remixes
         end
       end
+
+      resources :comments
 
       get    '/auth/:provider/callback' => 'sessions#create_from_omniauth'
       delete 'identity/:provider/disconnect' => 'users#disconnect_identity', as: 'disconnect_identity'

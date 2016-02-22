@@ -1,0 +1,5 @@
+<%= render partial: "app/comments/form", locals: {new_comment: new_comment} %>
+
+<div class="comments-container">
+	<%= render partial: "app/comments/comments", locals: {comments: commentable.root_comments.sort_by{|comment|comment[:created_at]}.reverse} %>
+</div>

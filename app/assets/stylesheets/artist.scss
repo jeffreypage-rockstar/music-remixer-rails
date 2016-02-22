@@ -40,9 +40,14 @@
       -moz-border-radius: 32px;
       border-radius: 32px;
 
-      @media screen and (max-width: $screen-md-min) {
-        top: -32px;
-        bottom: auto;
+      @media screen and (max-width: $screen-xs-min) {
+        width: 32px;
+        height: 32px;
+        margin-left: -16px;
+        bottom: -16px;
+        img {
+          width: 32px;
+        }
       }
     }
 
@@ -183,6 +188,10 @@
   }
 
   .social-links {
+    padding: 0;
+    @media screen and (max-width: $screen-xs-max) {
+      padding: 10px 5px 0 0;
+    }
     .social-link {
       padding: 10px;
       color: #9f9f9f;
@@ -193,8 +202,12 @@
     padding: 25px 0;
 
     .title {
-      padding-bottom: 25px;
+      padding-bottom: 10px;
       margin: 0;
+
+      @media screen and (max-width: $screen-xs-min) {
+        padding-bottom: 5px;
+      }
     }
 
     .content {
@@ -212,7 +225,7 @@
     }
 
     .track-list {
-      @include track-media(150px, 100px);
+      @include track-media(150px, 300px);
     }
 
     .remix-list {
@@ -404,6 +417,7 @@
         height: 30px;
         width: 30px;
 
+
         .image {
           width: 30px;
           height: 30px;
@@ -425,7 +439,7 @@
       .mix8-player {
         position: absolute;
         bottom: 49px;
-        left: 0;
+        left: 10px;
         right: 22px;
         padding-left: 10px;
       }

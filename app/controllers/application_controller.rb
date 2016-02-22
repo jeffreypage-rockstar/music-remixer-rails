@@ -21,7 +21,8 @@ class ApplicationController < ActionController::Base
   before_action :http_basic_auth, :except => 'lbstatus'
 
   def http_basic_auth
-    return true if Rails.env.development? || Rails.env.test?
+    # basic auth only on staging server
+    return true unless Rails.env.staging?
 	  if request.subdomain == ''
 		  authenticate_or_request_with_http_basic("Administration") do |user,pass|
 			  # user == ENV["WEBSITE_USERNAME"] && pass = ENV["WEBSITE_PASSWORD"]

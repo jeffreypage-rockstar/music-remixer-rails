@@ -13,7 +13,7 @@
 
   .media-body
     h4.media-heading #{song.name}
-    span.by-artist by #{song.artist_name}
+    .by-artist #{song.artist_name}
 
     - if song.genres.any?
       .tags
