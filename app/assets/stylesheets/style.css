@@ -580,3 +580,8 @@ wave {
 .paused + wave > wave {
 	border-right-style: solid!important;
 }
+.spinner{
+	content: url("spinner.gif");
+	width: 112px;
+	height: 40px;
+}

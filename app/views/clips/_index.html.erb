@@ -113,7 +113,7 @@
 </div>
 <!-- Modal -->
 <script type="text/javascript">
-
+  var interval;
   $(document).ready (function(){
   	var clip_id;
     $(".droppable").dropzone({ 
@@ -126,14 +126,16 @@
       init: function () {
         var myDropzone = this;
         myDropzone.on("addedfile", function (file) {
+
           var file_name = $(event.target).attr('data-file-name');         
-          var file_name_drop = $('.dz-filename span').text();          
+          var file_name_drop = $('.dz-filename span').text();      
           var ext = file_name_drop.split('.')[1];          
           $('#dragDropModal .modal-body').html('<p>Are you sure you want to replace <strong>'+ file_name +'</strong> with <strong>'+ file_name_drop +'</strong></p>');
           $('.alert-custom').css({display: "none"});
 		  // $('#dragDropModal').modal('show');     	  
 
           $('#replace_file').click(function(e){
+          	$('#clip-part-'+clip_id).prepend('<img class="spinner"/>');
             myDropzone.processQueue();
           });
           $('#not_replace_file').click(function(e){
@@ -154,6 +156,7 @@
           $(event.target).removeClass('dnd-hover');
         });
         myDropzone.on("error", function (file, response) { 
+        	$('#clip-part-'+clip_id+" .spinner").remove();
         	if(!file.accepted){
         		$('#dragDropModal').modal('hide');       		
 	        	$('.alert-custom').css({display: "block"});
@@ -165,14 +168,21 @@
 	            $('.alert-custom').html("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Duration does not match.</p></div>");
         	}
        	});
-       	myDropzone.on("success",function (file, response){
+       	myDropzone.on("success",function (file, response){       		
        		$('#clip-part-'+response.id+" wave").remove();
-
-       		setTimeout(function(){
-       			$('.alert-custom').css({display: "block"});
-	            $('.alert-custom').html("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Clip replaced successfully.</p></div>");
-	            	location.reload();
-			    }, 1800);     		
+       		var myClip = $('#clip-part-'+response.id);
+   			interval = setInterval(function () {
+   				$.when(recursiveCallback(response.id, response.song_id)).done(function(status, data){
+			       	if(status){
+			   			myClip.attr({'data-path':data.file.url, 'data-path-aac':data.file_aac.url});
+			   			var path = canPlayOgg() ? data.file.url : data.file_aac.url;
+			   			wavesurferPlayer(myClip[0], path, myClip.state(), myClip.attr('data-col'), myClip.attr('data-row'));
+			   			$('.alert-custom').css({display: "block"});
+			            $('.alert-custom').html("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><p style='margin: 0;'>Clip replaced successfully.</p></div>");
+			            $('#clip-part-'+response.id+" .spinner").remove();
+	   				}
+   				});
+   			}, 4000);
        	});
       },
 
@@ -183,14 +193,32 @@
        url: "/songs/" + <%=@song.id%> + "/clips/"+ clip_id + "/update_clip",
        headers: {'X-CSRF-Token': "<%= form_authenticity_token.to_s %>"},  
        method: "PUT",
-
     });
   });
 
+	var recursiveCallback = function(clip_Gid, song_Gid) { 
+	  	var dfd = new $.Deferred();
+		$.ajax({
+        url: '/songs/'+song_Gid+'/clips/'+clip_Gid,                              
+        type: 'GET',
+        dataType: 'json',
+          success: function (data) { 
+           if(data.storing_status != 'storing_done') {
+           		dfd.resolve(false, data);
+           }
+           else {
+           		clearInterval(interval);
+           		dfd.resolve(true, data);
+           }           
+          }
+        });        
+          return dfd.promise();
+	}
+
 	$('#dragDropModal').on('hidden.bs.modal', function () {
-  		$( ".dz-preview" ).remove();
+			$( ".dz-preview" ).remove();
 	})
-  $('.editable-text').on('click focus',
+  	$('.editable-text').on('click focus',
 			'span',
 			function (e) {
 				var topparent = $($(e.target).parent());

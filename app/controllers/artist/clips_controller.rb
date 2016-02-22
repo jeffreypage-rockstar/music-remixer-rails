@@ -5,6 +5,10 @@ class Artist::ClipsController < Artist::BaseController
   end
 
   def show
+    @clip = Clip.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @clip}
+    end
   end
 
   def edit
