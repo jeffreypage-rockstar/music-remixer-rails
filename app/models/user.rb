@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
 		user = authentication.user
 
 		if user.nil?
-			user = User.find_by(email: profile[:email]) || User.create(
+			user = User.find_by(email: profile['email']) || User.create(
 					name: "#{profile['first_name']} #{profile['last_name']}",
 					email: profile['email'],
 					username: self.create_unique_username(profile['email']),
