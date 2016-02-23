@@ -134,6 +134,7 @@ class App::UsersController < App::BaseController
   end
 
   def set_profile_user
-    @user = User.find_by_username(params[:username]).decorate
+    @user = User.find_by_username(params[:username]) or not_found
+    @user = @user.decorate if @user
   end
 end
