@@ -35,7 +35,7 @@ server '162.242.246.25', user: 'deploy', roles: %w{app db web}
 # Feel free to add new variables to customise your setup.
 
 set :application, 'mix8'
-set :branch, "8stem_deploy"
+set :branch, "master"
 set :deploy_to, '/home/deploy/mix8'
 
 set :stage, :staging
