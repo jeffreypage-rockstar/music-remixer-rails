@@ -363,6 +363,7 @@
 		});
 	}
 
+    var _masterGain = null;
 	wavesurferPlayer = function(container, src, mute, column, row) {
 		var wavesurfer = Object.create(WaveSurfer);
 		wavesurfer.row = row;
@@ -378,26 +379,42 @@
 			cursorColor: "yellow"
 		});
 
-		// Create a compressor node
-//		var compressor = wavesurfer.backend.ac.createDynamicsCompressor();
-//		compressor.threshold.value = -5.25;
-//		compressor.knee.value = 6;
-//		compressor.ratio.value = 1.5;
-//		compressor.reduction.value = -2;
-//		compressor.attack.value = 0;
-//		compressor.release.value = 0.25;//time (in seconds) to increase the gain by 10dB
-//		wavesurfer.backend.setFilter(compressor);
-
-		// Create a limiter node
-//		var limiter = wavesurfer.backend.ac.createDynamicsCompressor();
-//		limiter.threshold.value = -0.5; // this is the pitfall, leave some headroom
-//		limiter.knee.value = -0.3; // brute force
-//		limiter.ratio.value = 12.0; // max compression
-//		limiter.attack.value = 0.005; // 5ms attack
-//		limiter.release.value = 0.050; // 50ms release
-//		wavesurfer.backend.setFilter(limiter);
-
 		wavesurfer.on('ready', function (_this) {
+			if (_masterGain == null) {
+				console.log("creating master gain");
+				_masterGain = wavesurfer.WebAudio.getAudioContext().createGain();
+			}
+
+			console.log("connecting wavesurfer to masterGain");
+			wavesurfer.backend.source.connect(_masterGain);
+
+			if (column == 8 && row == 8) {
+				console.log("connecting masterGain to compressor and limiter");
+
+				// Create a compressor node
+				var compressor = wavesurfer.backend.ac.createDynamicsCompressor();
+				compressor.threshold.value = -5.25;
+				compressor.knee.value = 6;
+				compressor.ratio.value = 1.5;
+				compressor.reduction.value = -2;
+				compressor.attack.value = 0;
+				compressor.release.value = 0.25;//time (in seconds) to increase the gain by 10dB
+				// wavesurfer.backend.setFilter(compressor);
+				_masterGain.connect(compressor);
+				compressor.connect(wavesurfer.backend.ac.destination);
+
+				// Create a limiter node
+				var limiter = wavesurfer.backend.ac.createDynamicsCompressor();
+				limiter.threshold.value = -0.5; // this is the pitfall, leave some headroom
+				limiter.knee.value = -0.3; // brute force
+				limiter.ratio.value = 12.0; // max compression
+				limiter.attack.value = 0.005; // 5ms attack
+				limiter.release.value = 0.050; // 50ms release
+				// wavesurfer.backend.setFilter(limiter);
+				_masterGain.connect(limiter);
+				limiter.connect(wavesurfer.backend.ac.destination);
+			}
+
 			$(_this.container).addClass('loaded');
 			if ($(_this.container).state()) {
 				if (!_this.isMuted) {
