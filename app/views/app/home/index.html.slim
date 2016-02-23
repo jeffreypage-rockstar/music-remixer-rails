@@ -15,6 +15,6 @@
     /    .success.hidden
     /      | Your invites have been sent!
 
-  - if current_user && current_user.status == 'active' || current_user.is_artist_admin?
+  - if current_user && (current_user.status == 'active' || current_user.is_artist_admin?)
     .container
       = render partial: 'app/home/songs'
