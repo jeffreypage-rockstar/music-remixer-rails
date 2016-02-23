@@ -386,7 +386,7 @@ a:hover .mixer-part:not(.empty):not(.spacer):before {
 	color: #788086;
 	background-repeat: no-repeat;
 	background-size: cover !important;	
-  	background-image: url("iphone.png");
+  	background-image: url(<%= asset_path 'iphone.png' %>);
 }
 
 #tracker-mobile .btn-group {
@@ -584,7 +584,7 @@ wave {
 	border-right-style: solid!important;
 }
 .spinner{
-	content: url("spinner.gif");
+	content: url(<%= asset_path 'spinner.gif' %>);
 	width: 112px;
 	height: 40px;
 }

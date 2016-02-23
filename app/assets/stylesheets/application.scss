@@ -16,8 +16,8 @@
  *= require_tree .
  *= stub bootstrap
  *= stub 8stem.scss
- *= stub signup
- *= stub artist_signup
+ *= stub signup.scss.erb
+ *= stub artist_signup.scss.erb
  *= require_self
  *= require dropzone/dropzone
  */
