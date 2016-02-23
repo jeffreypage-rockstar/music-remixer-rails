@@ -51,11 +51,7 @@
                     li
                       a data-id=song.name data-href="#{song.id}" data-toggle="modal" data-target="#confirm-delete_#{song.id}" href="#" Delete
                     li
-                      a.status-event data-status="#{song.status}" data-attributes="#{song.id}" data-bpm="#{song.bpm}"
-                        - if (song.working?)
-                          | Release
-                        - if (song.released?)
-                          | Unrelease
+                      a.status-event href="#{edit_artist_song_path(song)}" Edit
 
     - if @artist.remixes.any?
       .top-remixes

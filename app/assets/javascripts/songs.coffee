@@ -10,7 +10,7 @@ uploadProgressBox = null
     buttonText: 'Update Image'
     buttonName: 'btn-primary btn-round'
 
-  $('#song_zipfile').filestyle
+  $('#newArtistSongPage #song_zipfile').filestyle
     icon: false
     badge: false
     input: false
@@ -19,7 +19,7 @@ uploadProgressBox = null
 
   $('#song_genre_list').tagsinput()
 
-  $('#songForm').fileupload(
+  $('#newArtistSongPage #songForm').fileupload(
     autoUpload: false
     singleFileUploads: false
     add: (event, data) ->
@@ -54,9 +54,9 @@ uploadProgressBox = null
       return
   )
 
-  $('#songForm').submit (event) ->
+  $('#newArtistSongPage #songForm').submit (event) ->
     event.preventDefault()
-    $('#songForm').fileupload 'send',
+    $('#newArtistSongPage #songForm').fileupload 'send',
       files: uploadable
       paramName: paramNames
 #      formData: [

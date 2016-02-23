@@ -1,0 +1,5 @@
+#editArtistSongPage
+  = render partial: 'artist/artist/artist_profile_header', locals: {artist: @artist}
+  .container
+    .white-section.song
+      = render 'form', editSong: true

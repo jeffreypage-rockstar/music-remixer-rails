@@ -1,4 +1,7 @@
-= simple_form_for @song, url: artist_songs_path, html: { id: 'songForm', class: 'form-horizontal' }, authenticity_token: true, wrapper: :horizontal_form do |f|
+- editSong = false unless defined? editSong
+- url = editSong ? artist_song_path : artist_songs_path;
+- method = editSong ? :put : :post
+= simple_form_for @song, url: url, method: method, html: { id: 'songForm', class: 'form-horizontal' }, authenticity_token: true, wrapper: :horizontal_form do |f|
   = f.input :name
 
   hr
@@ -12,15 +15,19 @@
     .col-sm-8
       = image_tag @song.image.url(:thumb), id: 'song_image_preview', class: 'image-preview'
 
-  hr
-  .row
-    .col-sm-4
-      = f.input :zipfile, label: 'Zipfile<p class="hint">Your zipfile containing .wav files</p>'.html_safe, as: :file, wrapper: :vertical_file_input
-      = f.hidden_field :zipfile_cache
-    .col-sm-8
-      .song_zipfile_filename
+  - unless editSong
+    hr
+    .row
+      .col-sm-4
+        = f.input :zipfile, label: 'Zipfile<p class="hint">Your zipfile containing .wav files</p>'.html_safe, as: :file, wrapper: :vertical_file_input
+        = f.hidden_field :zipfile_cache
+      .col-sm-8
+        .song_zipfile_filename
 
   hr
   = f.button :button, class: 'btn-round', data: { loading: false } do
     => fa_icon 'spinner spin', class: 'loading'
-    | Submit Song
+    | Submit
+  /- else
+  /  hr
+  /    = f.submit 'Submit'
