@@ -186,10 +186,10 @@
             border-color: transparent;
             background-color: transparent;
             img.comments-image-tag {
-              content: url('profile/comments-tab-h.png');
+              content: image_url('profile/comments-tab-h.png');
             }
             img.mixes-image-tag {
-              content: url('profile/mixes-tab-h.png');
+              content: image_url('profile/mixes-tab-h.png');
               margin-top:3px;
             }
           }
