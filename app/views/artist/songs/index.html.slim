@@ -49,10 +49,9 @@
                   = image_tag 'edit.png', class: 'dropdown-toggle', :aria => { :expanded => false, :haspopup => true}, :data => {:toggle => 'dropdown'}
                   ul.dropdown-menu
                     li
-                      a data-id=song.name data-href="#{song.id}" data-toggle="modal" data-target="#confirm-delete_#{song.id}" href="#" Delete
-                    li
                       a.status-event href="#{edit_artist_song_path(song)}" Edit
-
+                    li
+                      a data-id=song.name data-href="#{song.id}" data-toggle="modal" data-target="#confirm-delete_#{song.id}" href="#" Delete
     - if @artist.remixes.any?
       .top-remixes
         h4 Top Remixes
