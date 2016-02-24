@@ -1,12 +1,12 @@
 .artist-tracks
-  h4.title Tracks
+  h4.title Remixes
   .content
     ul.media-list.track-list
-      - songs = songs.decorate
+      - songs = remixes.decorate
 
       - songs.each do |song|
         - new_comment = Comment.build_from(song, current_user ? current_user.id : nil, "")
-        li.media.track data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
+        li.media.track data-id="remix_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
           .media-left
             .wrapper
               img.image src="#{song.image.url(:thumb)}"
@@ -18,10 +18,8 @@
           .media-body
             .media-content
               .media-description.pull-left
-                h4.media-heading
-                  = link_to song.name, app_song_url(song)
-                .by-artist
-                  = link_to song.artist_name, app_show_profile_url(song.user)
+                h4.media-heading #{song.name}
+                .by-artist #{song.artist_name}
               .actions.pull-right
                 .tags
                   button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
@@ -61,6 +59,6 @@
           .clearfix
           .tab-content
             div id="mixes_#{song.id}" class="tab-pane fade"
-              /= render partial: "remixes", locals: {song: song}
+            /= render partial: "remixes", locals: {song: song}
             div id="comments_#{song.id}" class="tab-pane fade"
               /= render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}

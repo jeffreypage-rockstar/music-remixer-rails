@@ -49,8 +49,8 @@
         - if @user.released_songs.count > 0
           = render partial: 'app/users/tracks', locals: {songs: @user.released_songs, mixes: @user.mixes}
 
-        /- if @user.released_remixes.count > 0
-        /  = render partial: 'app/users/remixes', locals: {remixes: @user.released_remixes}
+        - if @user.released_remixes.count > 0
+          = render partial: 'app/users/remixes', locals: {remixes: @user.released_remixes}
 
       .col-sm-4.col-sm-pull-8
         .white-section.stats.hidden-xs
@@ -69,9 +69,8 @@
                   = link_to app_show_profile_path(followee.username)
                     img.profile-image src="#{followee.profile_image.url(:thumb)}"
                 .media-body
-                  = link_to app_show_profile_path(followee.username)
-                    .name #{followee.name}
-
+                  .name
+                    = link_to followee.name, app_show_profile_path(followee.username)
                   .followers-count #{followee.followers_count} Followers
                   .location #{followee.location}
 
@@ -89,8 +88,7 @@
                   = link_to app_show_profile_path(follower.username)
                     img.profile-image src="#{follower.profile_image.url(:thumb)}"
                 .media-body
-                  = link_to app_show_profile_path(follower.username)
-                    .name #{follower.name}
-
+                  .name
+                    = link_to follower.name, app_show_profile_path(follower.username)
                   .followers-count #{follower.followers_count} Followers
                   .location #{follower.location}

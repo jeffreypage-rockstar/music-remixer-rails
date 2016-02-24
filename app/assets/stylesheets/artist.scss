@@ -124,9 +124,11 @@
     }
   }
 
-  .followings {
+  .followings, .followers {
     position: relative;
     margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 18px;
 
     .view-all {
       position: absolute;
@@ -134,7 +136,7 @@
       right: 20px;
     }
 
-    .following {
+    .following, .follower {
       .profile-image {
         width: 50px;
         height: 50px;
@@ -143,33 +145,9 @@
       .name {
         font-weight: 600;
         margin: 0;
-      }
-
-      .location {
-        color: #9f9f9f;
-      }
-    }
-  }
-
-  .followers {
-    position: relative;
-    margin-bottom: 30px;
-
-    .view-all {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
-
-    .follower {
-      .profile-image {
-        width: 50px;
-        height: 50px;
-      }
-
-      .name {
-        font-weight: 600;
-        margin: 0;
+        a {
+          color: inherit;
+        }
       }
 
       .location {
@@ -226,34 +204,6 @@
 
     .track-list {
       @include track-media(150px, 300px);
-    }
-
-    .remix-list {
-      background-color: #eee;
-      font-size: 13px;
-      margin-left: 200px;
-
-      .remix.media {
-        td.player {
-          width: 20px;
-          img {
-            width: 20px;
-            margin-top: 4px;
-          }
-        }
-        td.remixer {
-          color: #9f9f9f;
-
-          img {
-            width: 30px;
-            margin-right: 10px;
-          }
-        }
-      }
-
-      .table > thead > tr > th {
-        padding: 4px 4px 0 4px;
-      }
     }
   }
 }

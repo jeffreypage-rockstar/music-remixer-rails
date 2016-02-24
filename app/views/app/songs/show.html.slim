@@ -10,7 +10,22 @@
   meta property="og:description" content="Aldo Vanucci aka The Vinyl Pimp takes us back to the 90s one more time, playing some classic tracks by Jodeci, Total, R. Kelly, Boyz 2 Men and others which shaped the sound of R’n’B."
   meta property="og:type" content="8stem:song"
   meta property="og:url" content="#{request.url}"
-#song
+#songPage
+  .header style="display:none; background-color: #fff; xbackground-image: url(#{@song.image_url(:medium)}); background-size: cover;"
+    .container
+      .row.row-eq-height
+        .col-xs-5.col-sm-4
+          img.img-responsive src="#{@song.image_url(:medium)}"
+        .col-xs-7.col-sm-8
+          .content
+            .name
+              span.black #{@song.name}
+            .artist-band
+              span.black #{@song.artist_name}
+            - if current_user == @song.user
+              a.edit-profile.black href="#{edit_artist_song_url}"
+                => fa_icon 'pencil'
+                | Edit Song
   .container
     .row
       .col-sm-6
@@ -37,7 +52,10 @@
       - @song.parts.each do |part|
         div id="part-#{part.id}"
 
-    /= render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
+    h3 Remixes
+    = render partial: "app/songs/remixes", locals: {song: @song}
+    h3 Comments
+    = render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
 
 javascript:
   var mixes = #{raw(@mixes.to_json)};

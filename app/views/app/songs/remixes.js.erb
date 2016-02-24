@@ -1,2 +1,4 @@
 $("#mixes_<%= @song.id %>").html("<%= escape_javascript(render partial: "remixes", locals: {song: @song} ) %>");
-$("a[data-song-id=<%=@song.id%>]").find('.mixes-count').html("<%= html_escape(3 + @song.remixes.count) %>")
+$.each($('#mixes_<%= @song.id %> .mix8-player'), function(index, player) {
+	initializePlayer('#' + $(player).find('.jp-player').prop('id'), '#' + $(player).find('.jp-audio').prop('id'));
+});

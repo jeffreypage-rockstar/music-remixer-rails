@@ -38,13 +38,14 @@
 /                = image_tag 'tracks/share.png'
 /              .like-unlike-song.pull-left
 /                = render partial: 'app/songs/like_unlike_song', locals: {song: song}
+
 - if song.remixes.count > 0
   .remix-list
     table.table
       thead
         tr
           th &nbsp;
-          th Remixer
+          th Remix
           th Plays
           th Downloads
       tbody

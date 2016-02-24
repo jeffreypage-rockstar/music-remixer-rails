@@ -10,7 +10,11 @@
     -moz-box-shadow: 0 4px 4px -2px #dcdcdc;
     box-shadow: 0 4px 4px -2px #dcdcdc;
 
-    .by-artist {
+    .media-heading a {
+      color: inherit;
+    }
+
+    .by-artist a {
       color: #9f9f9f;
       font-size: 14px;
       @media screen and (max-width: $screen-xs-max) {
@@ -208,5 +212,73 @@
   }
   .fa-heart {
     color: #41c7ff;
+  }
+}
+
+@mixin remix-media() {
+  .remix.media {
+    td.player {
+      position: relative;
+      width: 25px;
+      padding: 0;
+      img {
+        width: 20px;
+      }
+      .play, .pause {
+        position: absolute;
+        top: 10px;
+        left: 5px;
+        cursor: pointer;
+      }
+      .mix8-player {
+        .jp-time-holder {
+          width: 100%;
+          font-size: 12px;
+          color: #9f9f9f;
+
+          .jp-current-time {
+            display: inline;
+            float: left;
+          }
+
+          .duration {
+            display: inline;
+            float: right;
+          }
+        }
+
+        .jp-audio .jp-progress {
+          height: 6px;
+          background-color: #f4f4f4;
+          -webkit-border-radius: 3px;
+          -moz-border-radius: 3px;
+          border-radius: 3px;
+
+          .jp-seek-bar {
+            height: 6px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            cursor: pointer;
+
+            .jp-play-bar {
+              height: 6px;
+              -webkit-border-radius: 3px;
+              -moz-border-radius: 3px;
+              border-radius: 3px;
+              background-color: #41c7ff;
+            }
+          }
+        }
+      }
+    }
+    td.remixer {
+      color: #9f9f9f;
+
+      img {
+        width: 30px;
+        margin-right: 10px;
+      }
+    }
   }
 }
