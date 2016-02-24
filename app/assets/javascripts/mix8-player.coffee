@@ -1,20 +1,20 @@
 @initializePlayer = (jpPlayerSelector, jpAudioSelector) ->
   trackElement = $(jpPlayerSelector).closest('.track')
-  mix2Player = trackElement.find('.mix2');
-  mix3Player = trackElement.find('.mix3');
+  mix2Player = trackElement.find('.mix2').first();
+  mix3Player = trackElement.find('.mix3').first();
 
   trackElement.find('.play').click ->
-    trackElement.find('.jp-player').jPlayer('play')
+    trackElement.find('.jp-player').first().jPlayer('play')
     return
 
   trackElement.find('.pause').click ->
-    trackElement.find('.jp-player').jPlayer('pause')
+    trackElement.find('.jp-player').first().jPlayer('pause')
     return
 
   trackElement.find('button.style').click (event) ->
     event.stopPropagation()
     style = $(event.target).data('style')
-    trackElement.find('button.style').removeClass 'selected'
+    trackElement.find('button.style').first().removeClass 'selected'
     $(this).addClass 'selected'
     $.each trackElement.find('.jp-player'), (index, player) ->
       if $(player).hasClass(style)
@@ -29,24 +29,24 @@
 
   $(jpPlayerSelector).jPlayer
     ready: ->
-      trackElement.find('.pause').hide()
-      trackElement.find('.play').show()
+      trackElement.find('.pause').first().hide()
+      trackElement.find('.play').first().show()
 
       audio = trackElement.data('audio')
-      trackElement.find('.jp-player').jPlayer 'setMedia',
+      trackElement.find('.jp-player').first().jPlayer 'setMedia',
         m4a: audio.m4a
       return
 
     play: ->
       if trackElement.find('.mix2').length == 0
         $(this).jPlayer('pauseOthers')
-      trackElement.find('.play').hide()
-      trackElement.find('.pause').show()
+      trackElement.find('.play').first().hide()
+      trackElement.find('.pause').first().show()
       return
 
     pause: ->
-      trackElement.find('.pause').hide()
-      trackElement.find('.play').show()
+      trackElement.find('.pause').first().hide()
+      trackElement.find('.play').first().show()
       return
 
     seeked: (event) ->
