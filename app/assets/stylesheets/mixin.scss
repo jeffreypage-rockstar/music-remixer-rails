@@ -4,7 +4,6 @@
   .track.media {
     background-color: #ffffff;
     border: thin solid #ededed;
-    padding-bottom: 10px;
     border-radius: 3px;
     -webkit-box-shadow: 0 4px 4px -2px #dcdcdc;
     -moz-box-shadow: 0 4px 4px -2px #dcdcdc;
@@ -202,7 +201,9 @@
     }
   }
   .tab-content {
-    margin: 14px 14px 0 14px;
+    .tab-pane {
+      margin: 14px 14px 0 14px;
+    }
   }
 
   .fa-heart, .fa-heart-o {

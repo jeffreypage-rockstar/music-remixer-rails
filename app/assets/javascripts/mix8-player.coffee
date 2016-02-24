@@ -14,7 +14,7 @@
   trackElement.find('button.style').click (event) ->
     event.stopPropagation()
     style = $(event.target).data('style')
-    trackElement.find('button.style').first().removeClass 'selected'
+    trackElement.find('button.style').removeClass 'selected'
     $(this).addClass 'selected'
     $.each trackElement.find('.jp-player'), (index, player) ->
       if $(player).hasClass(style)
@@ -64,7 +64,6 @@
 
   mix2Player.jPlayer
     ready: ->
-
       audio = trackElement.data('audio-mix2')
       mix2Player.jPlayer 'setMedia', m4a: audio.m4a
       mix2Player.jPlayer 'volume', 0
@@ -79,7 +78,6 @@
 
   mix3Player.jPlayer
     ready: ->
-
       audio = trackElement.data('audio-mix3')
       mix3Player.jPlayer 'setMedia', m4a: audio.m4a
       mix3Player.jPlayer 'volume', 0
