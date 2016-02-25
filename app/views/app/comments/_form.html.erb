@@ -2,9 +2,9 @@
 	<%= f.hidden_field :commentable_id, value: new_comment.commentable_id %>
 	<%= f.hidden_field :commentable_type, value: new_comment.commentable_type %>
 	<div class="field form-group">
-		<%= f.text_field :body, class: 'form-control', placeholder: 'Leave your comment' %>
+		<%= f.text_field :body, class: 'form-control' %>
 	</div>
-	<div class="field form-group" style="display:none;">
+	<div class="field form-group">
 		<%= submit_tag "Post comment", class: 'btn btn-primary' %>
 	</div>
 <% end %>

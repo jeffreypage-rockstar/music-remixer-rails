@@ -1,2 +1,9 @@
 $("#comments_<%= @commentable.id %>").html("<%= escape_javascript(render partial: "app/comments/template", locals: {commentable: @commentable, new_comment: @new_comment} ) %>");
-$("a[data-commentable-id=<%=@commentable.id%>]").find('.comments-count').html("<%= html_escape(@commentable.root_comments.count) %>")
+$("a[data-commentable-id=<%=@commentable.id%>]").find('.comments-count').html("<%= html_escape(@commentable.root_comments.count) %>");
+$('.comment-reply').unbind().click(function() {
+	$(this).closest('.comment')
+			.find('.reply-form').toggle()
+			.find('textarea').focus();
+	$('html, body').animate({scrollTop: '+=75px'}, 800);
+	return false;
+});

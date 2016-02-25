@@ -5,14 +5,14 @@
 			<div class="body">
 				<div class="header">
 					<span class="author"><%= comment.user.username %></span>
-					<span class="timestamp">&ndash; <%= comment.created_at.strftime('%H:%M:%S %-d %B %Y') %></span>
+					<span class="timestamp">&ndash; <%= time_ago_in_words(comment.created_at) %> ago</span>
 				</div>
 				<p><%= comment.body %><br></p>
 				<div class="comment-nav"><a href="#" class="comment-reply">reply</a></div>
 				<div class="reply-form">
-					<%= form_for new_comment, url: app_comments_path do |f| %>
-						<%= f.hidden_field :commentable_id, value: new_comment.commentable_id %>
-						<%= f.hidden_field :commentable_type, value: new_comment.commentable_type %>
+					<%= form_for @new_comment, url: app_comments_path, remote: true do |f| %>
+						<%= f.hidden_field :commentable_id, value: @new_comment.commentable_id %>
+						<%= f.hidden_field :commentable_type, value: @new_comment.commentable_type %>
 						<%= f.hidden_field :comment_id, value: comment.id %>
 						<div class="field form-group">
 							<%= f.text_area :body, class: 'form-control', hint: 'Leave your comment' %>

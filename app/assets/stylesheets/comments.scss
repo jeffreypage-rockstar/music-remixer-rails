@@ -35,9 +35,10 @@
           }
         }
 
-        p.timestamp {
+        .timestamp {
           font-weight: normal;
           color: #a3a3a3;
+          font-size: 14px;
         }
       }
 
@@ -58,4 +59,8 @@
 
 .reply-form {
   display: none;
+}
+
+.comments-show {
+  margin-left: 25px;
 }

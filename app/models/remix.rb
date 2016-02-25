@@ -11,8 +11,11 @@ class Remix < ActiveRecord::Base
   end
 
   belongs_to :user
-	belongs_to :song
+  belongs_to :song
+  has_many :remixes,    -> { order 'remixes.plays_count desc'}, dependent: :delete_all
 
   # allow comments on remixes
   acts_as_commentable
+  acts_as_likeable
+
 end

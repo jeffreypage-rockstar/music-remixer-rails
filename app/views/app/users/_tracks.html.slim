@@ -54,13 +54,15 @@
                     .count
                       = song.remixes.count
                 li
-                  a.comments-tab data-toggle="tab" href="#comments_#{song.id}" data-commentable-id="#{song.id}" data-target-url="#{app_comments_url}" role="tab"
+                  a.comments-tab data-toggle="tab" href="#comments_#{song.id}" data-commentable-id="#{song.id}" data-commentable-type="Song" data-target-url="#{app_comments_url}" role="tab"
                     = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
                     .count
                       = song.root_comments.count
           .clearfix
           .tab-content
             div id="mixes_#{song.id}" class="tab-pane fade"
+              / ajaxing this in now
               /= render partial: "remixes", locals: {song: song}
             div id="comments_#{song.id}" class="tab-pane fade"
+              / ajaxing this in now
               /= render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}
