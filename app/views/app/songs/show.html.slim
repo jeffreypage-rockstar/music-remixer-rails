@@ -55,7 +55,8 @@
     h3 Remixes
     = render partial: "app/songs/remixes", locals: {song: @song}
     h3 Comments
-    = render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
+    div id="comments_#{@song.id}"
+      = render partial: "app/comments/template", locals: {commentable: @song, new_comment: @new_comment}
 
 javascript:
   var mixes = #{raw(@mixes.to_json)};
