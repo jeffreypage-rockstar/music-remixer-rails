@@ -3,7 +3,7 @@
 = content_for :id, 'shareSongModal'
 = content_for :title, "Share #{song.name_with_artist}"
 
-.track.media data-id="track_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}'
+.track.media data-id="song_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}'
   .media-left
     img.image src="#{song.image.url(:thumb)}"
     a class="play"

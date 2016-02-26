@@ -1,8 +1,8 @@
 class App::SongsController < App::BaseController
   respond_to :html, :json
 
-  before_action :require_login, only: [:share_modal, :share, :toggle_like_song, :show_remixes]
-  before_action :set_song, only: [:show, :share_modal, :toggle_like_song, :show_remixes]
+  before_action :require_login, only: [:share_modal, :share, :like, :show_remixes]
+  before_action :set_song, only: [:show, :share_modal, :like, :show_remixes]
 
   # GET /songs/1
   # GET /songs/1.json
@@ -39,7 +39,7 @@ class App::SongsController < App::BaseController
     end
   end
 
-  def toggle_like_song
+  def like
     current_user.toggle_like!(@song)
     if current_user.likes?(@song)
       $tracker.track current_user.uuid, "Song: liked", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}

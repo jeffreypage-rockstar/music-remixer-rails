@@ -1,0 +1,10 @@
+- if current_user && current_user.likes?(remix)
+  = link_to like_app_remix_path(remix), class: 'like_unlike_song-song', method: :delete, remote: true do
+    i.fa.fa-heart
+    .count
+      = remix.likers(User).count
+- else
+  = link_to like_app_remix_path(remix), class: 'like-song', method: :post, remote: true do
+    i.fa.fa-heart-o
+    .count
+      = remix.likers(User).count

@@ -1,1 +1,1 @@
-$('[data-id="track_<%= @song.id %>"] .like-unlike-song').html("<%= escape_javascript(render partial: 'like_unlike_song', locals: { song: @song } ) %>");
+$('[data-id="song_<%= @song.id %>"] .like-unlike-song').html("<%= escape_javascript(render partial: 'like_unlike_song', locals: { song: @song } ) %>");

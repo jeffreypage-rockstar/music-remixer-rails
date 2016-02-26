@@ -38,7 +38,7 @@
                       .jp-play-bar
               ul.nav.nav-tabs role="tablist"
                 li.like-unlike-song
-                  = render :partial => 'app/songs/like_unlike_song', :locals => {:song => remix}
+                  = render :partial => 'app/remixes/like_unlike_remix', :locals => {:remix => remix}
                 li
                   a.mixes-tab data-toggle="tab" href="#mixes_#{remix.id}" role="tab" data-remix-id="#{remix.id}" data-target-url="#{show_remixes_app_song_url(remix.id)}"
                     = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')

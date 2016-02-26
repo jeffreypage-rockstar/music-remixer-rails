@@ -1,0 +1,1 @@
+$('[data-id="remix_<%= @remix.id %>"] .like-unlike-song').html("<%= escape_javascript(render partial: 'like_unlike_remix', locals: { remix: @remix } ) %>");

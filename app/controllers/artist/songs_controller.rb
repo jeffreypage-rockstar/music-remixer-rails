@@ -3,7 +3,7 @@ class Artist::SongsController < Artist::BaseController
   helper_method :sort_column, :sort_direction
 
   before_action :require_login
-  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :toggle_like_song, :destroy]
+  before_action :set_song, only: [:show, :edit, :update, :configure, :mixaudio, :share_modal, :destroy]
   before_action :set_configuration, only: [:configure, :mixaudio]
 
   # GET /songs

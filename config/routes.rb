@@ -29,8 +29,6 @@ Rails.application.routes.draw do
 					get :mixaudio
 					get :share_modal
           post :share
-          post :toggle_like_song
-          delete :toggle_like_song
           get :reload_clips
         end
 				resources :parts
@@ -43,7 +41,7 @@ Rails.application.routes.draw do
 						post :state
 					end
 				end
-			end
+      end
     end
 	end
 
@@ -107,9 +105,15 @@ Rails.application.routes.draw do
         member do
           get :share_modal
           post :share
-          post :toggle_like_song
-          delete :toggle_like_song
+          post :like
+          delete :like
           post :show_remixes
+        end
+      end
+      resources :remixes do
+        member do
+          post :like
+          delete :like
         end
       end
 
