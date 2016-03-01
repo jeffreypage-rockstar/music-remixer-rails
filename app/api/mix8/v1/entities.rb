@@ -58,7 +58,7 @@ module Mix8
         expose :bpm
         expose :preview_url
         expose :waveform, as: :waveform_url do |instance|
-          instance.waveform_url
+          instance.waveform_url.blank? ? '' : instance.waveform_url
         end
         expose :image do |instance|
           instance.image_url(:thumb)
