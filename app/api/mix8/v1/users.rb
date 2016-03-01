@@ -76,6 +76,11 @@ module Mix8
         get :profile do
           present current_user, with: Mix8::V1::Entities::User
         end
+
+        desc 'Get user\'s remixes', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
+        get :remixes do
+          present current_user.released_remixes, with: Mix8::V1::Entities::Remix
+        end
       end
     end
   end

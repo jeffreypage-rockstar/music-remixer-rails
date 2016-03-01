@@ -1,6 +1,6 @@
 GrapeSwaggerRails.options.url      = '/swagger_doc'
 GrapeSwaggerRails.options.app_url  = "#{Rails.application.secrets.api_host_url}"
-GrapeSwaggerRails.options.app_name = 'Akashic-nga'
+GrapeSwaggerRails.options.app_name = '8Stem API'
 GrapeSwaggerRails.options.before_filter do |request|
   current_user = request.env[:clearance].current_user
 

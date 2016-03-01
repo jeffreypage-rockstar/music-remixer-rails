@@ -51,7 +51,7 @@ module Mix8
       end
 
       class Song < Grape::Entity
-        expose :id
+        expose :id  # todo: stop exposing this
         expose :uuid
         expose :name
         expose :duration
@@ -69,20 +69,15 @@ module Mix8
         expose :clip_types, using: ClipType, if: lambda { |instance, options| options[:type] == :full }
       end
 
-      class SongWaveform < Grape::Entity
-        expose :id
-        expose :waveform do |instance|
-          instance.waveform_url
-        end
-      end
-
       class Remix < Grape::Entity
         expose :id
+        expose :uuid
         expose :name
         expose :user, using: User, as: :remixer
         expose :audio do |instance|
           instance.audio_url
         end
+        expose :song, using: Song
         expose :automation, if: lambda { |instance, options| options[:type] == :full }
         expose :config, if: lambda { |instance, options| options[:type] == :full }
       end
