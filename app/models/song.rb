@@ -15,11 +15,11 @@ class Song < ActiveRecord::Base
   ACCEPTED_CLIP_FORMATS = %w(m4a mp3 ogg wav als)
   mount_uploader :image, SongImageUploader
   mount_uploader :waveform, SongWaveformUploader
-  mount_uploader :waveform_data, SongWaveformDataUploader
+  # mount_uploader :waveform_data, SongWaveformDataUploader
   mount_uploader :waveform_mix2, SongWaveformMix2Uploader
-  mount_uploader :waveform_data_mix2, SongWaveformDataMix2Uploader
+  # mount_uploader :waveform_data_mix2, SongWaveformDataMix2Uploader
   mount_uploader :waveform_mix3, SongWaveformMix3Uploader
-  mount_uploader :waveform_data_mix3, SongWaveformDataMix3Uploader
+  # mount_uploader :waveform_data_mix3, SongWaveformDataMix3Uploader
   mount_uploader :mixaudio, SongMixaudioUploader
   store_in_background :mixaudio, SongProcessWorker
   mount_uploader :mixaudio_mix2, SongMixaudioMix2Uploader

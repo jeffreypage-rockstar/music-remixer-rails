@@ -57,6 +57,9 @@ module Mix8
         expose :duration
         expose :bpm
         expose :preview_url
+        expose :waveform, as: :waveform_url do |instance|
+          instance.waveform_url
+        end
         expose :image do |instance|
           instance.image_url(:thumb)
         end
@@ -68,11 +71,6 @@ module Mix8
 
       class SongWaveform < Grape::Entity
         expose :id
-        expose :waveform_data do |instance|
-          unless instance.waveform_data_url.blank?
-            open(instance.waveform_data_url).read
-          end
-        end
         expose :waveform do |instance|
           instance.waveform_url
         end
