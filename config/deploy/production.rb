@@ -36,7 +36,7 @@ server '104.130.173.100', user: 'deploy', roles: %w{db}  # migrations are run fr
 # set :rvm_custom_path, '/home/ubuntu/.rvm'  # only needed if not detected
 
 set :application, '8stem'
-set :branch, "8stem_deploy"
+set :branch, "master"
 set :deploy_to, '/home/deploy/8stem'
 
 set :stage, :production
