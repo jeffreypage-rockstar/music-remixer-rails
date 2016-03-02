@@ -18,10 +18,8 @@
     $(this).addClass 'selected'
     $.each trackElement.find('.jp-player'), (index, player) ->
       if $(player).hasClass(style)
-        console.log 'Playing index: ' + index
         $(player).jPlayer('volume', 1)
       else
-        console.log 'Muting index: ' + index
         $(player).jPlayer('volume', 0)
       return
     return
@@ -31,14 +29,11 @@
     ready: ->
       trackElement.find('.pause').hide()
       trackElement.find('.play').show()
-
       audio = trackElement.data('audio')
-      trackElement.find('.jp-player').jPlayer 'setMedia',
-        m4a: audio.m4a
+      trackElement.find('.jp-player').jPlayer 'setMedia', m4a: audio.m4a
       return
 
     play: ->
-      $(this).jPlayer('pauseOthers')
       trackElement.find('.play').hide()
       trackElement.find('.pause').show()
       return
