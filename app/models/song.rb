@@ -148,18 +148,20 @@ class Song < ActiveRecord::Base
         part_audio_paths << part_audio_path
       end
 
+      # combine 8 song part files into a single song file
       digest = Digest::MD5.hexdigest("#{Time.now}")
-      interpolations = {output: File.join(dir_path, "mix-audio-#{digest}.m4a")}
+      interpolations = {output: File.join(dir_path, "mix-audio-#{digest}.wav")}
       input_params = []
       part_audio_paths.each_with_index do |audio_path, index|
         input_params << "-i :input#{index}"
         interpolations[:"input#{index}"] = audio_path
-      end      
-      mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")     
+      end
+
+      mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "#{input_params.join(' ')} -filter_complex :filters -y :output")
       interpolations[:filters] = "concat=n=#{part_audio_paths.length}:v=0:a=1"
       
       begin
-        puts "Generating mix audio for #{source}: #{mixaudio_line.command(interpolations)}"
+        puts "Generating mix audio WAV for #{source}: #{mixaudio_line.command(interpolations)}"
         mixaudio_line.run(interpolations)
         if source == 'original'
           self.mixaudio = File.open(interpolations[:output])
@@ -170,6 +172,27 @@ class Song < ActiveRecord::Base
         end
       rescue Cocaine::ExitStatusError => e
         puts "error while running command #{mixaudio_line.command(interpolations)}: #{e}"
+      end
+
+      # now convert wav to m4a
+      final_interpolations = {
+        output: File.join(dir_path, "mix-audio-#{digest}.m4a"),
+        input: interpolations[:output]
+      }
+      final_mixaudio_line = Cocaine::CommandLine.new('ffmpeg', "-i :input -b:a 192k -af 'compand=attacks=0:points=-80/-80|-.3/-.3|20/-.3' -y :output")
+
+      begin
+        puts "Generating mix audio M4A for #{source}: #{final_mixaudio_line.command(final_interpolations)}"
+        final_mixaudio_line.run(final_interpolations)
+        if source == 'original'
+          self.mixaudio = File.open(final_interpolations[:output])
+        elsif source == 'mix2'
+          self.mixaudio_mix2 = File.open(final_interpolations[:output])
+        else
+          self.mixaudio_mix3 = File.open(final_interpolations[:output])
+        end
+      rescue Cocaine::ExitStatusError => e
+        puts "error while running command #{final_mixaudio_line.command(final_interpolations)}: #{e}"
       end
     end
     self.save
