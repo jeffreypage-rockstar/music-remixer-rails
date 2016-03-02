@@ -2,15 +2,20 @@
 require File.dirname(__FILE__) + '/../config/environment'
 
 accounts = [
-  {:name => "Dirtwire",     :email => "evanjawharp@gmail.com",        :username => 'dirtwire'},
-  {:name => "Lulacruza",    :email => "luis.maurette@gmail.com",      :username => 'lulacruza'},
-  {:name => "Random Rab",   :email => "rab@randomrab.net",            :username => 'rab'},
-  {:name => "Perlo",        :email => "hbredouw@gmail.com",           :username => 'perlo'},
-  {:name => "Yamia",        :email => "yaimamusicproject@gmail.com",  :username => 'yamia'},
-  {:name => "Dogon Lights", :email => "virmccoy@gmail.com",           :username => 'dogon-lights'},
-  {:name => "Fearce Vill",  :email => "beanone76@gmail.com",          :username => 'fearce-vill'},
-  {:name => "Hamsa Lila",   :email => "tmindel@gmail.com",            :username => 'hamsa-lila'}
+  # {:name => "Dirtwire",     :email => "evanjawharp@gmail.com",        :username => 'dirtwire'},
+  # {:name => "Lulacruza",    :email => "luis.maurette@gmail.com",      :username => 'lulacruza'},
+  # {:name => "Random Rab",   :email => "rab@randomrab.net",            :username => 'rab'},
+  # {:name => "Perlo",        :email => "hbredouw@gmail.com",           :username => 'perlo'},
+  # {:name => "Yamia",        :email => "yaimamusicproject@gmail.com",  :username => 'yamia'},
+  # {:name => "Dogon Lights", :email => "virmccoy@gmail.com",           :username => 'dogon-lights'},
+  # {:name => "Fearce Vill",  :email => "beanone76@gmail.com",          :username => 'fearce-vill'},
+  # {:name => "Hamsa Lila",   :email => "tmindel@gmail.com",            :username => 'hamsa-lila'},
+  {:name => "Cabin Games",  :email => "redskin206@gmail.com",         :username => 'cabingames'}
 ]
+
+$tracker = Mixpanel::Tracker.new(Rails.application.secrets.mixpanel_token)
+user = nil
+artist = nil
 
 accounts.each do |account|
   ActiveRecord::Base.transaction do
@@ -21,7 +26,7 @@ accounts.each do |account|
       password: 'asdfasdf',
       is_admin: false,
       is_artist_admin: true,
-      confirmed_at: '2016-02-05 12:00'
+      confirmed_at: '2016-03-02 12:00'
     )
 
     artist = BetaArtist.create!(
@@ -32,4 +37,8 @@ accounts.each do |account|
       user_id: user.id
     )
   end
+
+  $tracker.track user.uuid, 'Signup: script'
+  $tracker.people.set user.uuid, {'$name' => user.name, '$email' => user.email}
+  $tracker.track user.uuid, 'Signup: Account created', {'name' => user.name, 'email' => user.email}
 end
