@@ -1,14 +1,14 @@
 @initializePlayer = (jpPlayerSelector, jpAudioSelector) ->
   trackElement = $(jpPlayerSelector).closest('.track')
-  mix2Player = trackElement.find('.mix2').first();
-  mix3Player = trackElement.find('.mix3').first();
+  mix2Player = trackElement.find('.mix2');
+  mix3Player = trackElement.find('.mix3');
 
   trackElement.find('.play').click ->
-    trackElement.find('.jp-player').first().jPlayer('play')
+    trackElement.find('.jp-player').jPlayer('play')
     return
 
   trackElement.find('.pause').click ->
-    trackElement.find('.jp-player').first().jPlayer('pause')
+    trackElement.find('.jp-player').jPlayer('pause')
     return
 
   trackElement.find('button.style').click (event) ->
@@ -29,24 +29,23 @@
 
   $(jpPlayerSelector).jPlayer
     ready: ->
-      trackElement.find('.pause').first().hide()
-      trackElement.find('.play').first().show()
+      trackElement.find('.pause').hide()
+      trackElement.find('.play').show()
 
       audio = trackElement.data('audio')
-      trackElement.find('.jp-player').first().jPlayer 'setMedia',
+      trackElement.find('.jp-player').jPlayer 'setMedia',
         m4a: audio.m4a
       return
 
     play: ->
-      if trackElement.find('.mix2').length == 0
-        $(this).jPlayer('pauseOthers')
-      trackElement.find('.play').first().hide()
-      trackElement.find('.pause').first().show()
+      $(this).jPlayer('pauseOthers')
+      trackElement.find('.play').hide()
+      trackElement.find('.pause').show()
       return
 
     pause: ->
-      trackElement.find('.pause').first().hide()
-      trackElement.find('.play').first().show()
+      trackElement.find('.pause').hide()
+      trackElement.find('.play').show()
       return
 
     seeked: (event) ->

@@ -6,59 +6,60 @@
 
       - songs.each do |song|
         - new_comment = Comment.build_from(song, current_user ? current_user.id : nil, "")
-        li.media.track data-id="song_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
-          .media-left
-            .wrapper
-              img.image src="#{song.image.url(:thumb)}"
-              a class="play"
-                = image_tag 'tracks/play.png'
-              a class="pause"
-                = image_tag 'tracks/pause.png'
-          .clearfix.hidden-sm.hidden-md.hidden-lg
-          .media-body
-            .media-content
-              .media-description.pull-left
-                h4.media-heading
-                  = link_to song.name, app_song_url(song)
-                .by-artist
-                  = link_to song.artist_name, app_show_profile_url(song.user)
-              .actions.pull-right
-                .tags
-                  button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
-                  button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix 2
-                  button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix 3
-              .clearfix
-              /- if song.genres.any?
-              /  .tags
-              /    - song.genres.each do |genre|
-              /      a.tag.badge href="##{genre.name}" #{genre.name}
+        li.media.track
+          .wrapper.track data-id="song_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
+            .media-left
+              .wrapper
+                img.image src="#{song.image.url(:thumb)}"
+                a class="play"
+                  = image_tag 'tracks/play.png'
+                a class="pause"
+                  = image_tag 'tracks/pause.png'
+            .clearfix.hidden-sm.hidden-md.hidden-lg
+            .media-body
+              .media-content
+                .media-description.pull-left
+                  h4.media-heading
+                    = link_to song.name, app_song_url(song)
+                  .by-artist
+                    = link_to song.artist_name, app_show_profile_url(song.user)
+                .actions.pull-right
+                  .tags
+                    button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
+                    button.style.tag.badge.btn.btn-primary type="button" data-style="mix2" Mix 2
+                    button.style.tag.badge.btn.btn-primary type="button" data-style="mix3" Mix 3
+                .clearfix
+                /- if song.genres.any?
+                /  .tags
+                /    - song.genres.each do |genre|
+                /      a.tag.badge href="##{genre.name}" #{genre.name}
 
-              .mix8-player
-                .jp-player.original id="jquery_jplayer_#{song.id}"
-                .jp-player.mix2
-                .jp-player.mix3
-                .jp-audio id="jp_container_#{song.id}"
-                  .jp-time-holder
-                    .jp-current-time aria-label="time" role="timer"
-                    .duration #{song.duration}
-                  .clearfix
-                  .jp-progress
-                    .jp-seek-bar
-                      .jp-play-bar
-              ul.nav.nav-tabs role="tablist"
-                li.like-unlike-song
-                  = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
-                li
-                  a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab" data-song-id="#{song.id}" data-target-url="#{show_remixes_app_song_url(song.id)}"
-                    = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
-                    .count
-                      = song.remixes.count
-                li
-                  a.comments-tab data-toggle="tab" href="#comments_#{song.id}" data-commentable-id="#{song.id}" data-commentable-type="Song" data-target-url="#{app_comments_url}" role="tab"
-                    = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
-                    .count
-                      = song.root_comments.count
-          .clearfix
+                .mix8-player
+                  .jp-player.original id="jquery_jplayer_#{song.id}"
+                  .jp-player.mix2
+                  .jp-player.mix3
+                  .jp-audio id="jp_container_#{song.id}"
+                    .jp-time-holder
+                      .jp-current-time aria-label="time" role="timer"
+                      .duration #{song.duration}
+                    .clearfix
+                    .jp-progress
+                      .jp-seek-bar
+                        .jp-play-bar
+                ul.nav.nav-tabs role="tablist"
+                  li.like-unlike-song
+                    = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
+                  li
+                    a.mixes-tab data-toggle="tab" href="#mixes_#{song.id}" role="tab" data-song-id="#{song.id}" data-target-url="#{show_remixes_app_song_url(song.id)}"
+                      = image_tag('profile/mixes-tab.png', :class => 'mixes-image-tag')
+                      .count
+                        = song.remixes.count
+                  li
+                    a.comments-tab data-toggle="tab" href="#comments_#{song.id}" data-commentable-id="#{song.id}" data-commentable-type="Song" data-target-url="#{app_comments_url}" role="tab"
+                      = image_tag('profile/comments-tab.png', :class => 'comments-image-tag')
+                      .count
+                        = song.root_comments.count
+            .clearfix
           .tab-content
             div id="mixes_#{song.id}" class="tab-pane fade"
               / ajaxing this in now
