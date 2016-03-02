@@ -4,6 +4,8 @@
   mix3Player = trackElement.find('.mix3');
 
   trackElement.find('.play').click ->
+    $.each $('.mix8-player').find('.jp-player'), (index, player) ->
+      $(player).jPlayer('pause')
     trackElement.find('.jp-player').jPlayer('play')
     return
 
