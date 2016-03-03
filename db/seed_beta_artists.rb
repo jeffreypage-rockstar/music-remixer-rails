@@ -10,7 +10,8 @@ accounts = [
   # {:name => "Dogon Lights", :email => "virmccoy@gmail.com",           :username => 'dogon-lights'},
   # {:name => "Fearce Vill",  :email => "beanone76@gmail.com",          :username => 'fearce-vill'},
   # {:name => "Hamsa Lila",   :email => "tmindel@gmail.com",            :username => 'hamsa-lila'},
-  {:name => "Cabin Games",  :email => "redskin206@gmail.com",         :username => 'cabingames'}
+  # {:name => "Cabin Games",  :email => "redskin206@gmail.com",         :username => 'cabingames'}
+  {:name => "Yaegon", :email => "yaegon@merkabamusic.com", :username => 'yaegon'}
 ]
 
 $tracker = Mixpanel::Tracker.new(Rails.application.secrets.mixpanel_token)
