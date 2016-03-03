@@ -6,7 +6,7 @@
 
       - songs.each do |song|
         - new_comment = Comment.build_from(song, current_user ? current_user.id : nil, "")
-        li.media.track
+        li.media.track id="#{song.id}"
           .wrapper.track data-id="song_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
             .media-left
               .wrapper
@@ -22,7 +22,7 @@
                   h4.media-heading
                     = link_to song.name, app_song_url(song)
                   .by-artist
-                    = link_to song.artist_name, app_show_profile_url(song.user)
+                    = link_to song.artist_name, app_show_profile_url(song.user.username)
                 .actions.pull-right
                   .tags
                     button.style.tag.badge.btn.btn-primary.selected type="button" data-style="original" Original
