@@ -7,6 +7,9 @@ class App::SongsController < App::BaseController
   # GET /songs/1
   # GET /songs/1.json
   def show
+    redirect_to app_show_profile_path(@song.user.username) + "?sid=#{@song.uuid}"
+    return
+
     @new_comment = Comment.build_from(@song, current_user ? current_user.id : nil, "")
     @mixes = []
 
