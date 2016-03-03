@@ -1,4 +1,5 @@
 @artistProfilePageReady = ->
+  # $(location.hash).addClass('highlight')
   $.each $('#artistProfilePage .mix8-player'), (index, player) ->
     initializePlayer '#' + $(player).find('.jp-player').prop('id'), '#' + $(player).find('.jp-audio').prop('id')
     return

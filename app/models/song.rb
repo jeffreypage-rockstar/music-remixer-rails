@@ -48,7 +48,7 @@ class Song < ActiveRecord::Base
   has_many :remixes,    -> { order 'remixes.plays_count desc'}, dependent: :delete_all
 
   default_value_for :uuid do #important, needs to be in a block
-    SecureRandom.hex(12)
+    SecureRandom.hex(6)
   end
   default_value_for :status, Song.statuses[:processing]
 

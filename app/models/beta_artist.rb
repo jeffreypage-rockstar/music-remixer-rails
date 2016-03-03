@@ -5,7 +5,7 @@ class BetaArtist < ActiveRecord::Base
 	validates :artist_url, presence: true
 
   default_value_for :invite_code do
-    SecureRandom.hex(10)
+    SecureRandom.hex(6)
   end
 
   # send an invite email to this beta artist

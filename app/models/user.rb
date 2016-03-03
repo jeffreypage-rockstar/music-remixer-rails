@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
 	mount_uploader :profile_background_image, ProfileBackgroundImageUploader
 
 	default_value_for :uuid do #important, needs to be in a block
-		SecureRandom.hex(12)
+		SecureRandom.hex(6)
 	end
 	default_value_for :status, User.statuses[:beta_waitlisted]
 
