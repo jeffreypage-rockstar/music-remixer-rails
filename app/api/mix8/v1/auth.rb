@@ -1,10 +1,10 @@
 module Mix8
   module V1
-    class Users < Grape::API
+    class Auth < Grape::API
       include Mix8::V1::Defaults
 
-      # TODO: remove everything except profile and remixes, moved to /auth
-      resource :users, desc: 'Users' do
+      resource :auth, desc: 'User Authentication' do
+
         desc 'Return token if valid sign in'
         params do
           requires :login, type: String, desc: 'Username or Email'
@@ -71,16 +71,6 @@ module Mix8
           else
             current_user.authentications.create(declared(params))
           end
-        end
-
-        desc 'Get user profile', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
-        get :profile do
-          present current_user, with: Mix8::V1::Entities::User
-        end
-
-        desc 'Get user\'s remixes', { headers: { 'Authorization' => { description: 'Access Token', required: true } } }
-        get :remixes do
-          present current_user.released_remixes, with: Mix8::V1::Entities::Remix
         end
       end
     end
