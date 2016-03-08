@@ -69,6 +69,22 @@ module Mix8
         expose :clip_types, using: ClipType, if: lambda { |instance, options| options[:type] == :full }
       end
 
+      class SongForRemix < Grape::Entity
+        expose :id  # todo: stop exposing this
+        expose :uuid
+        expose :name
+        expose :duration
+        expose :bpm
+        expose :preview_url
+        expose :waveform, as: :waveform_url do |instance|
+          instance.waveform_url.blank? ? '' : instance.waveform_url
+        end
+        expose :image do |instance|
+          instance.image_url(:thumb)
+        end
+        expose :user, using: User, as: :artist
+      end
+
       class Remix < Grape::Entity
         expose :id
         expose :uuid
@@ -77,9 +93,10 @@ module Mix8
         expose :audio do |instance|
           instance.audio_url
         end
-        expose :song, using: Song
+        expose :song, using: SongForRemix
         expose :automation, if: lambda { |instance, options| options[:type] == :full }
         expose :config, if: lambda { |instance, options| options[:type] == :full }
+        expose :created_at
       end
 
       class Trackable < Grape::Entity
