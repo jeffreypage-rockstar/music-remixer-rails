@@ -84,7 +84,7 @@ class SongMixaudioMix3Uploader < CarrierWave::Uploader::Base
         height: 160,
         output: File.join(directory, 'waveform.png'),
         waveform_color: 'aaaaaa',
-        background_color: 'ffffff00'
+        background_color: 'ffffff00' # weird, but this makes it transparent
     }
 
     begin
