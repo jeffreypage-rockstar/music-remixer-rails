@@ -113,6 +113,9 @@ gem 'koala'
 # ffmpeg
 gem 'streamio-ffmpeg'
 
+# sendgrid
+gem 'sendgrid-rails', '~> 2.0'
+
 # mailkick
 gem 'mailkick'
 
