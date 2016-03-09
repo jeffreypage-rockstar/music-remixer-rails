@@ -3,13 +3,13 @@ class UserNotifier < ApplicationMailer
   layout false, :only => 'beta_migration_email'
 
   # Send the beta migration email
-  def beta_migration_email(beta_user)
-    @beta_user = beta_user
-    substitute '-user_name-', @beta_user.name
-    substitute '-signup_url-', app_referral_invite_url(@beta_user.invite_code)
+  def beta_migration_email(referral)
+    @referral = referral
+    substitute '-user_name-', @referral.name
+    substitute '-signup_url-', app_referral_invite_url(@referral.invite_code)
     add_filter_setting 'templates', 'enable', 1
     add_filter_setting 'templates', 'template_id', '522e97d6-62af-4c0c-bef8-16a31ec5f879'
-    mail(:to => "#{@beta_user.name} <#{@beta_user.email}>", :subject => '8Stem Beta Test')
+    mail(:to => "#{@referral.name} <#{@referral.email}>", :subject => '8Stem Beta Test')
   end
 
   # Send account verification email

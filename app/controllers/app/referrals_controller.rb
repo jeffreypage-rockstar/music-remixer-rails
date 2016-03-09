@@ -32,7 +32,7 @@ class App::ReferralsController < ApplicationController
       referral = Referral.virgin.find_by(invite_code: params[:invite_code])
       if referral
         referral.update_attribute(:clicked_at, Time.now)
-        redirect_to beta_sign_up_path(invite_code: params[:invite_code])
+        redirect_to app_sign_up_path(invite_code: params[:invite_code])
       end
     end
   end
