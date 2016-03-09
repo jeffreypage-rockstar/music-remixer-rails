@@ -33,6 +33,8 @@ class App::ReferralsController < ApplicationController
       if referral
         referral.update_attribute(:clicked_at, Time.now)
         redirect_to app_sign_up_path(invite_code: params[:invite_code])
+      else
+        redirect_to app_home_url
       end
     end
   end
