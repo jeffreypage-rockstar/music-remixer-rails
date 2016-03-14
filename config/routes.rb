@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
     get 'sign_in' => 'pages#redirect_sign_in', as: 'sign_in'
 
-    get '/beta' => redirect('/')
+    get '/beta' => 'pages#beta'
   end
 
 	# Normal site (no subdomain or www)

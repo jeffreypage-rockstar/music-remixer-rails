@@ -5,6 +5,10 @@ class PagesController < ApplicationController
 		render :text => 'ok', :layout => false
 	end
 
+  def beta
+    redirect_to app_sign_up_url
+  end
+
   def splash
     # do we really want to do this?
     # if signed_in? && request.env["HTTP_REFERER"].blank?
