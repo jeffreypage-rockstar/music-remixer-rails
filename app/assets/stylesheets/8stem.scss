@@ -251,6 +251,21 @@ body > .container {
   color: #fff;
 }
 
+.container.sxsw {
+  height: 50px;
+  background-color: #97d700;
+  line-height: 50px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.container.sxsw a {
+  font-size: 22px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+}
+
 img.rackspace {
   margin-top: 20px;
   width: 120px;
