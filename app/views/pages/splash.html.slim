@@ -1,8 +1,9 @@
+- unless signed_in?
+  .container.sxsw.col-xs-12
+    a href="http://8stem.eventbrite.com" target="_blank"
+      | Meet us at SXSW
 .jumbotron.jumbotron-inverse
   - unless signed_in?
-    .container.sxsw.col-xs-12.hidden-sm.hidden-md.hidden-lg
-      a href="http://8stem.eventbrite.com" target="_blank"
-        | Meet us at SXSW
     .container.beta-signup.col-xs-12.hidden-sm.hidden-md.hidden-lg
       = link_to 'Join The Beta Team', app_sign_up_url
   .container
