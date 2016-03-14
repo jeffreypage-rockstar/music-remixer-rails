@@ -2,40 +2,11 @@ class Artist::ArtistController < Artist::BaseController
 	before_action :set_activities, only: [:connect, :activities]
 
 	def index
-		redirect_to artist_profile_path
+		redirect_to artist_music_path
 	end
 
-	def profile
-	end
-
-	def edit_profile
-		@active_tab = params[:tab] || 'profile'
-	end
-
-	def update_profile
-		if @artist.update(profile_params)
-      $tracker.track current_user.uuid, 'Artist: Profile updated'
-			redirect_to artist_profile_path, notice: 'Profile successfully updated'
-		else
-			@active_tab = 'profile'
-			render :edit_profile
-		end
-	end
-
-	def update_account
-		if @artist.update(account_params)
-      $tracker.track current_user.uuid, 'Artist: Account updated'
-			sign_in @artist
-			redirect_to artist_profile_path, notice: 'Account successfully updated'
-		else
-			@active_tab = 'account'
-			render :edit_profile
-		end
-	end
-
-	# TODO: get rid of dashboard?
 	def dashboard
-		redirect_to artist_profile_path
+		redirect_to artist_music_path
 	end
 
 	def music

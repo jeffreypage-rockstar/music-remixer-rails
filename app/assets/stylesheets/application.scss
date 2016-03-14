@@ -70,6 +70,12 @@ body.beta_artists.join #navbar-collapse {
   height: 65px;
 }
 
+@media (max-width: 767px) {
+  .navbar-collapse .nav > .divider-vertical {
+    display: none;
+  }
+}
+
 .navbar-default .far-right {
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;

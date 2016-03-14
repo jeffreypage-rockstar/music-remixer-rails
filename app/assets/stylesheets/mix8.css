@@ -3594,6 +3594,12 @@ tbody.collapse.in {
     overflow: hidden;
     background-color: #e5e5e5;
 }
+@media (max-width: 767px) {
+    .dropdown-menu .divider {
+        margin: 0;
+    }
+}
+
 .dropdown-menu > li > a {
     display: block;
     padding: 3px 20px;
