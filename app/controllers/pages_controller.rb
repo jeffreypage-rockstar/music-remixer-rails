@@ -29,4 +29,9 @@ class PagesController < ApplicationController
   def redirect_sign_in
     redirect_to app_sign_in_url
   end
+
+  def test
+    # action for /_opz/test
+    render template: 'pages/test', layout: false
+  end
 end
