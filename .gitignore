@@ -14,6 +14,7 @@ capybara-*.html
 /spec/tmp
 **.orig
 rerun.txt
+history.log
 pickle-email-*.html
 
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo

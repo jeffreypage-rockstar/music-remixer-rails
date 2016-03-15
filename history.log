@@ -1,7 +1,0 @@
-  743  bundle exec cap production deploy
-  771  rake db:drop db:create db:migrate db:seed
-  773  which audiowaveform
-  774  brew install cmake libmad libsndfile gd
-  775  brew install boost --with-c++11
-  834  rails generate migration AddAutomationToRemixes automation:text
-  856  git reset HEAD~1
