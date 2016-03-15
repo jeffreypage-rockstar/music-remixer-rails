@@ -96,6 +96,9 @@ module Mix8
         expose :song, using: SongForRemix
         expose :automation, if: lambda { |instance, options| options[:type] == :full }
         expose :config, if: lambda { |instance, options| options[:type] == :full }
+        expose :waveform, as: :waveform_url do |instance|
+          instance.waveform_url.blank? ? '' : instance.waveform_url
+        end
         expose :created_at
       end
 

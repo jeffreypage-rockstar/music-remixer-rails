@@ -1,8 +1,10 @@
 class Remix < ActiveRecord::Base
+	include ActiveModel::Dirty
 	include PublicActivity::Common
 
 	mount_uploader :audio, RemixAudioUploader
 	store_in_background :audio, RemixAudioUploadWorker
+	mount_uploader :waveform, RemixWaveformUploader
 
 	enum status: {processing: 0, failed: 1, published: 2, archived: 3, deleted: 4}
 
@@ -12,7 +14,6 @@ class Remix < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :song
-  has_many :remixes,    -> { order 'remixes.plays_count desc'}, dependent: :delete_all
 
   # allow comments on remixes
   acts_as_commentable
