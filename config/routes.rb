@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       get '/sign_in' => 'sessions#new', as: 'sign_in'
       get '/sign_up' => 'users#new', as: 'sign_up'
       get '/sign_out' => 'sessions#destroy', as: 'sign_out'
+      get '/auth/failure' => 'sessions#create_from_omniauth'
       get '/auth/:provider/callback' => 'sessions#create_from_omniauth'
       get '/thanks' => 'users#thanks', as: 'sign_up_thanks'
 

@@ -2,6 +2,10 @@ class App::UsersController < App::BaseController
   before_action :set_referral, except: [:thanks]
   before_action :set_profile_user, only: [:show_profile, :follow, :unfollow]
 
+  def omniauth_failure
+    redirect_to app_sign_in_url
+  end
+
   def show_profile
   end
 
