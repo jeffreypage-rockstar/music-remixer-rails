@@ -1,13 +1,4 @@
 class SongWaveformUploader < CarrierWave::Uploader::Base
-  # include CarrierWave::MiniMagick
-  # process crop: '640x80+0+40!'
-  #
-  # def crop(geometry)
-  #   manipulate! do |img|
-  #     img.crop(geometry)
-  #     img
-  #   end
-  # end
 
   # Override the directory where uploaded files will be stored
   def store_dir
@@ -38,6 +29,7 @@ class SongWaveformUploader < CarrierWave::Uploader::Base
     rescue Fog::Storage::Rackspace::NotFound
     end
   end
+
   protected
   def secure_token(length=16)
     var = :"@#{mounted_as}_secure_token"

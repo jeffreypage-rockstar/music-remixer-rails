@@ -68,6 +68,7 @@ class SongMixaudioUploader < CarrierWave::Uploader::Base
       self.filename[-current_extension.size..-1] = format.to_s
       self.file.file[-current_extension.size..-1] = format.to_s
     end
+
     Rails.logger.info "SongMixaudioUploader::encode_audio(#{format}) ended, tmpfile=#{tmpfile}"
   end
 
@@ -94,18 +95,19 @@ class SongMixaudioUploader < CarrierWave::Uploader::Base
       Rails.logger.info "error while running command #{waveform_line.command(interpolations)}: #{e}"
     end
 
-    waveform_data_line = Cocaine::CommandLine.new('audiowaveform', '-i :input -o :output -z :samples_per_pixel')
-    interpolations = {
-        input: File.join(directory, File.basename(current_path, '.*') + '.mp3'),
-        output: File.join(directory, 'waveform.json'),
-        samples_per_pixel: 128
-    }
-    begin
-      waveform_data_line.run(interpolations)
-      self.model.waveform_data = File.open(interpolations[:output])
-    rescue Cocaine::ExitStatusError => e
-      Rails.logger.info "error while running command #{waveform_data_line.command}: #{e}"
-    end
+    # waveform_data_line = Cocaine::CommandLine.new('audiowaveform', '-i :input -o :output -z :samples_per_pixel')
+    # interpolations = {
+    #     input: File.join(directory, File.basename(current_path, '.*') + '.mp3'),
+    #     output: File.join(directory, 'waveform.json'),
+    #     samples_per_pixel: 128
+    # }
+    # begin
+    #   waveform_data_line.run(interpolations)
+    #   self.model.waveform_data = File.open(interpolations[:output])
+    # rescue Cocaine::ExitStatusError => e
+    #   Rails.logger.info "error while running command #{waveform_data_line.command}: #{e}"
+    # end
+
     Rails.logger.info "SongMixaudioUploader::generate_waveform ended, directory=#{directory}"
   end
 end
