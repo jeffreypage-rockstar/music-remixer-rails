@@ -9,7 +9,7 @@ module Mix8
         paginate per_page: 20, max_per_page: 100, offset: 0
         get do
           authenticate!
-          songs = paginate(Song.released)
+          songs = paginate(Song.released.order('rank, created_at desc'))
           present songs, with: Mix8::V1::Entities::Song
         end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314223539) do
+ActiveRecord::Schema.define(version: 20160316204158) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(version: 20160314223539) do
     t.string   "waveform_data_mix2", limit: 255
     t.string   "waveform_mix3",      limit: 255
     t.string   "waveform_data_mix3", limit: 255
+    t.integer  "rank",               limit: 4
   end
 
   add_index "songs", ["user_id"], name: "index_songs_on_user_id", using: :btree
