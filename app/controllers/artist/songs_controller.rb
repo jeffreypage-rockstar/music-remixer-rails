@@ -132,7 +132,11 @@ class Artist::SongsController < Artist::BaseController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_song
-    @song = current_user.artist_visible_songs.find(params[:id])
+    if current_user.admin?
+      @song = Song.find(params[:id])
+    else
+      @song = current_user.artist_visible_songs.find(params[:id])
+    end
     unless @song
       return redirect_to artist_songs_path
     end
