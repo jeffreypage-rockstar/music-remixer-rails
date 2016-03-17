@@ -28,7 +28,8 @@ class App::SessionsController < Clearance::SessionsController
   end
 
 	def url_after_create
-    MixpanelTracker::track current_user.uuid, 'xxxSignin: via email'
+    track_event 'Signin: via email'
+    mixpanel_people_set({'$name' => current_user.name, '$email' => current_user.email, '$username' => current_user.username})
     unless session[:backto].nil?
       url = session[:backto]
       session[:backto] = nil

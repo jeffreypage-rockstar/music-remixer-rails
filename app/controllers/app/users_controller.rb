@@ -17,6 +17,7 @@ class App::UsersController < App::BaseController
   def update_profile
     if current_user.update(profile_params)
       track_event 'User: Profile updated'
+      mixpanel_people_set({'$name' => current_user.name, '$email' => current_user.email, '$username' => current_user.username})
       redirect_to app_show_profile_path, notice: 'Profile successfully updated'
     else
       @active_tab = 'profile'
@@ -26,6 +27,7 @@ class App::UsersController < App::BaseController
 
   def update_account
     if current_user.update(account_params)
+      mixpanel_people_set({'$name' => current_user.name, '$email' => current_user.email, '$username' => current_user.username})
       track_event 'User: Account updated'
       redirect_to app_show_profile_path(current_user.username), notice: 'Account successfully updated'
     else
@@ -77,7 +79,7 @@ class App::UsersController < App::BaseController
     @user = User.create(user)
     if @user.valid?
       mixpanel_alias @user.uuid
-      mixpanel_people_set({'$name' => @user.name, '$email' => @user.email})
+      mixpanel_people_set({'$name' => @user.name, '$email' => @user.email, '$username' => @user.username})
       track_event 'Signup: Account created'
 
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email

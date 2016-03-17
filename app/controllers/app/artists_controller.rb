@@ -13,7 +13,7 @@ class App::ArtistsController < App::BaseController
       begin
         if @user.save
           mixpanel_alias @user.uuid
-          mixpanel_people_set({'$name' => @user.name, '$email' => @user.email})
+          mixpanel_people_set({'$name' => @user.name, '$email' => @user.email, '$username' => @user.username})
           track_event 'Artist Join: success'
           ArtistNotifier.artist_account_verification_email(@user).deliver_now
           redirect_to "#{app_artists_thanks_url}?ref=join"
