@@ -16,7 +16,7 @@ class App::UsersController < App::BaseController
 
   def update_profile
     if current_user.update(profile_params)
-      $tracker.track current_user.uuid, 'User: Profile updated'
+      track_event 'User: Profile updated'
       redirect_to app_show_profile_path, notice: 'Profile successfully updated'
     else
       @active_tab = 'profile'
@@ -26,7 +26,7 @@ class App::UsersController < App::BaseController
 
   def update_account
     if current_user.update(account_params)
-      $tracker.track current_user.uuid, 'User: Account updated'
+      track_event 'User: Account updated'
       redirect_to app_show_profile_path(current_user.username), notice: 'Account successfully updated'
     else
       @active_tab = 'account'
@@ -36,14 +36,14 @@ class App::UsersController < App::BaseController
 
   def follow
     current_user.follow! @user
-    $tracker.track current_user.uuid, 'User: followed user', {'uuid' => @user.uuid}
+    track_event 'User: followed user', {'uuid' => @user.uuid}
     @user.create_activity :follow, owner: current_user
     redirect_to app_show_profile_path, notice: 'Successfully followed'
   end
 
   def unfollow
     current_user.unfollow! @user
-    $tracker.track current_user.uuid, 'User: unfollowed user', {'uuid' => @user.uuid}
+    track_event 'User: unfollowed user', {'uuid' => @user.uuid}
     # @artist.create_activity :unfollow, owner: current_user
     redirect_to app_show_profile_path, notice: 'Successfully unfollowed'
   end
@@ -53,7 +53,7 @@ class App::UsersController < App::BaseController
     provider = params[:provider]
     if Authentication::PROVIDERS.include? provider
       @user.identity(provider).destroy
-      $tracker.track @user.uuid, 'Social: disconnect', {'provider' => provider}
+      track_event 'Social: disconnect', {'provider' => provider}
       redirect_to app_edit_profile_path(username: current_user.username, tab: 'connections'), notice: "Successfully disconnected from #{provider}"
     end
   end
@@ -66,7 +66,7 @@ class App::UsersController < App::BaseController
       @user.beta_user = BetaUser.new
     end
 
-    $tracker.track session.id, 'Signup: view'
+    track_event 'Signup: view'
 
     # todo, lets get rid of this layout!
     render :new, layout: 'signup'
@@ -76,9 +76,9 @@ class App::UsersController < App::BaseController
     user = user_params.deep_merge({ 'beta_user_attributes' => { 'invite_code' => @referral.invite_code } })
     @user = User.create(user)
     if @user.valid?
-      $tracker.alias @user.uuid, session.id
-      $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
-      $tracker.track @user.uuid, 'Signup: Account created', {'name' => @user.name, 'email' => @user.email}
+      mixpanel_alias @user.uuid
+      mixpanel_people_set({'$name' => @user.name, '$email' => @user.email})
+      track_event 'Signup: Account created'
 
       @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
@@ -95,11 +95,11 @@ class App::UsersController < App::BaseController
       # flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed. Please sign in to continue.'
       sign_in(user) do |status|
         if status.success?
-          $tracker.track user.uuid, 'Signup: Account activated'
+          track_event 'Signup: Account activated'
           # the ref here triggers a modal on the landing page
           redirect_to "#{app_edit_profile_url(user.username)}?ref=confirm"
         else
-          $tracker.track user.uuid, 'Signup: Account activation failed'
+          track_event 'Signup: Account activation failed'
           redirect_to "#{root_url}?ref=confirm_failure"
         end
       end

@@ -3,6 +3,7 @@ class App::PasswordsController < App::BaseController
   layout '8stem'
 
   def new
+    track_event 'PasswordReset: view'
   end
 
   def edit
@@ -11,11 +12,14 @@ class App::PasswordsController < App::BaseController
       flash.now[:notice] = 'You will receive an email within the next few minutes. It contains instructions for changing your password.'
       render template: 'app/passwords/new'
       redirect_to
+    else
+      track_event 'PasswordReset: reset email clicked', {'email' => @user.email}
     end
   end
 
   def create
     if user = User.find_by_email(params[:password][:email])
+      track_event 'PasswordReset: reset attempt', {'email' => user.email}
       user.forgot_password!
       deliver_email(user)
     end
@@ -44,6 +48,7 @@ class App::PasswordsController < App::BaseController
   end
 
   def reset_password_success_modal
+    track_event 'PasswordReset: success'
     render layout: 'modal'
   end
 

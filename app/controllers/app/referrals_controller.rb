@@ -12,7 +12,7 @@ class App::ReferralsController < ApplicationController
       if @referral.valid?
         emails.split(',').uniq.each { |email|
           Referral.create(email: email, message: message, referring: current_user)
-          $tracker.track current_user.uuid, 'Referral: created', {'email' => email}
+          track_event 'Referral: created', {'email' => email}
         }
         format.html { redirect_to referrals_thanks_path }
         format.js { render :thanks }

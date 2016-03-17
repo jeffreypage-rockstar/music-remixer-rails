@@ -42,12 +42,6 @@ module Mix8
               authenticate!
               remix = current_user.remixes.new(declared(params))
               if remix.save
-                $tracker.track current_user.uuid, "Remix: created", {
-                  'uuid' => remix.uuid,
-                  'name' => remix.name,
-                  'song_uuid' => remix.song.uuid,
-                  'song_name' => remix.song.decorate.name_with_artist
-                }
                 User.increment_counter(:remixes_count, remix.user_id)
                 present remix, with: Mix8::V1::Entities::Remix
               else

@@ -18,7 +18,19 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session, :except => 'lbstatus'
 
+  # event_tracker gem
+  around_filter :append_event_tracking_tags
+  def mixpanel_distinct_id
+    current_user ? current_user.uuid : session.id
+  end
+
   before_action :http_basic_auth, :except => 'lbstatus'
+
+  before_filter :beforeFilter
+  def beforeFilter
+    # set request in a global variable (boo-yeah!)
+    $request = request
+  end
 
   def http_basic_auth
     # basic auth only on staging server

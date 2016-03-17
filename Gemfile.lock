@@ -149,6 +149,8 @@ GEM
       activemodel
     equalizer (0.0.11)
     erubis (2.7.0)
+    event_tracker (0.3.0)
+      rails (>= 3.0)
     excon (0.45.4)
     execjs (2.6.0)
     faraday (0.9.2)
@@ -546,6 +548,7 @@ DEPENDENCIES
   draper
   dropzonejs-rails
   dynamic_form
+  event_tracker
   fog
   font-awesome-rails (~> 4.4.0.0)
   grape

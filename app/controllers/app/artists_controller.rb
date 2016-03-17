@@ -12,9 +12,9 @@ class App::ArtistsController < App::BaseController
       @user = User.new(artist_join_params)
       begin
         if @user.save
-          $tracker.alias @user.uuid, session.id
-          $tracker.people.set @user.uuid, {'$name' => @user.name, '$email' => @user.email}
-          $tracker.track @user.uuid, 'Artist Join: success', {'name' => @user.name, 'email' => @user.email}
+          mixpanel_alias @user.uuid
+          mixpanel_people_set({'$name' => @user.name, '$email' => @user.email})
+          track_event 'Artist Join: success'
           ArtistNotifier.artist_account_verification_email(@user).deliver_now
           redirect_to "#{app_artists_thanks_url}?ref=join"
           return
@@ -30,7 +30,7 @@ class App::ArtistsController < App::BaseController
           @user = User.new
           @user.name = beta_artist.artist_name
           @user.email = beta_artist.email
-          $tracker.track session.id, 'Artist Join: view'
+          track_event 'Artist join: view'
           return
         end
       end
@@ -45,7 +45,7 @@ class App::ArtistsController < App::BaseController
       begin
         @beta_artist = BetaArtist.new(artist_apply_params)
         if @beta_artist.save
-          $tracker.track session.id, 'Artist Apply: success', {'name' => @beta_artist.name, 'email' => @beta_artist.email}
+          track_event 'Artist Application: success', {'name' => @beta_artist.name, 'email' => @beta_artist.email}
           redirect_to "#{app_artists_thanks_url}?ref=apply"
           return
         end
@@ -54,7 +54,7 @@ class App::ArtistsController < App::BaseController
         false
       end
     else
-      $tracker.track session.id, 'Artist Apply: view'
+      track_event 'Artist Application: view'
       @beta_artist = BetaArtist.new
     end
   end
@@ -69,11 +69,11 @@ class App::ArtistsController < App::BaseController
       user.email_activate
       sign_in(user) do |status|
         if status.success?
-          $tracker.track user.uuid, 'Artist Signup: account activated'
+          track_event 'Artist Signup: account activated'
           # the ref here triggers a modal on the landing page
           redirect_to "#{app_edit_profile_url(user.username)}?ref=artist_confirm"
         else
-          $tracker.track user.uuid, 'Artist Signup: activation failed'
+          track_event 'Artist Signup: activation failed'
           redirect_to "#{root_url}?ref=artist_confirm_failure"
         end
       end

@@ -32,7 +32,7 @@ class Artist::SongsController < Artist::BaseController
     @song = Song.new(song_params)
     @song.user = current_user
     if @song.save
-      $tracker.track current_user.uuid, 'Song: uploaded', {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
+      track_event 'Artist: song created', {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
       flash[:success] = 'Song was successfully created.'
       flash.keep(:success)
 
@@ -68,16 +68,16 @@ class Artist::SongsController < Artist::BaseController
       end
     
       if @song.update(song_params)
-        $tracker.track current_user.uuid, "Song: updated", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
+        track_event 'Artist: song updated', {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
         format.html { redirect_to configure_artist_song_path(@song), notice: 'Song was successfully updated.' }
         format.json { render json: @song }
         if params[:status]
           if params[:status] == "released"
             MixaudioBuildWorker.perform_async @song.id
-            $tracker.track current_user.uuid, "Song: released", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
+            track_event 'Artist: song released', {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
           elsif params[:status] == 'working'
             User.decrement_counter(:songs_count, @song.user_id)
-            $tracker.track current_user.uuid, "Song: unreleased", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
+            track_event 'Artist: song unreleased', {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
           end
         end
       else
@@ -107,9 +107,9 @@ class Artist::SongsController < Artist::BaseController
   def destroy
     @song.status = Song.statuses[:deleted]
     @song.save
-    $tracker.track current_user.uuid, "Song: deleted", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
+    track_event 'Artist: song marked as deleted', {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
     respond_to do |format|
-      format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
+      format.html { redirect_to songs_url, notice: 'Song was successfully deleted.' }
       format.json { head :no_content }
       format.js
     end
@@ -118,10 +118,10 @@ class Artist::SongsController < Artist::BaseController
   # POST /songs/1/delete
   def delete_song
     if current_user.is_admin?
+      track_event 'Artist: song deleted', {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
       @song.destroy
-      $tracker.track current_user.uuid, "Song: destroyed", {'uuid' => @song.uuid, 'name' => @song.decorate.name_with_artist}
       respond_to do |format|
-        format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
+        format.html { redirect_to songs_url, notice: 'Song was successfully deleted.' }
         format.json { head :no_content }
         format.js
       end

@@ -25,6 +25,7 @@ gem 'rubyzip',  "~> 1.1", require: 'zip'
 gem 'jquery-rails'
 
 # 3rd party gems
+gem 'event_tracker'
 gem 'mixpanel-ruby'
 gem 'rollbar', '~> 2.5.0'
 

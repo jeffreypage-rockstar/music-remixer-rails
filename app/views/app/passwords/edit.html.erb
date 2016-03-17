@@ -1,6 +1,7 @@
+<% content_for :title, 'Change your password' %>
 <div class="well form400">
 	<h3>Change your password</h3>
-    <p>Your password has been reset. Enter a new password below.</p>
+    <p>Enter a new password below.</p>
 
     <%= form_for :password_reset,
             url: app_users_password_path(token: @user.confirmation_token),

@@ -11,13 +11,13 @@ class App::RemixesController < App::BaseController
   end
 
   def share_modal
-    $tracker.track current_user.uuid, "Remix: share modal fired", {'uuid' => @remix.uuid, 'name' => @remix.name}
+    track_event 'Social: remix: share modal fired', {'remix' => @remix.uuid, 'name' => @remix.name}
     respond_modal_with @remix
   end
 
   def share
     if %w(facebook twitter google-plus tumblr pinterest email).include? params[:channel]
-      $tracker.track current_user.uuid, "Remix: shared", {'uuid' => @remix.uuid, 'name' => @remix.name, 'channel' => params[:channel]}
+      track_event 'Social: remix: shared', {'remix' => @remix.uuid, 'name' => @remix.name, 'channel' => params[:channel]}
       @remix.create_activity :share, owner: current_user, parameters: { channel: params[:channel] }
       respond_to do |format|
         format.json { render json: { remix_id: @remix.id, channel: params[:channel] } }
@@ -28,10 +28,10 @@ class App::RemixesController < App::BaseController
   def like
     current_user.toggle_like!(@remix)
     if current_user.likes?(@remix)
-      $tracker.track current_user.uuid, "Remix: liked", {'uuid' => @remix.uuid, 'name' => @remix.name}
+      track_event 'Social: remix: liked', {'remix' => @remix.uuid, 'name' => @remix.name}
       @remix.create_activity :like, owner: current_user
     else
-      $tracker.track current_user.uuid, "Remix: unliked", {'uuid' => @remix.uuid, 'name' => @remix.name}
+      track_event 'Social: remix: unliked', {'remix' => @remix.uuid, 'name' => @remix.name}
     end
     respond_to do |format|
       format.js { render :like_unlike_remix }

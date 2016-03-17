@@ -35,5 +35,9 @@ module Mix8
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
+
+    # event_tracker gem
+    config.event_tracker.mixpanel_key = Rails.application.secrets.mixpanel_token
+    # config.event_tracker.google_analytics_key = Rails.application.secrets.google_analytics_id
   end
 end

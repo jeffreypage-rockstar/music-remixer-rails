@@ -10,6 +10,8 @@ class PagesController < ApplicationController
   end
 
   def splash
+    track_event "Splash Page"
+
     # do we really want to do this?
     # if signed_in? && request.env["HTTP_REFERER"].blank?
     #   redirect_to app_home_url
