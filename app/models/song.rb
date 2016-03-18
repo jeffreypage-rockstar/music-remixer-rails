@@ -3,7 +3,6 @@
 # Description: Artist home page   
 # Author: @Ravi Prakash Singh :: Email - raviprakash.singh@newgenapps.com 
 require 'zip'
-require 'taglib'
 require 'digest/md5'
 
 class Song < ActiveRecord::Base

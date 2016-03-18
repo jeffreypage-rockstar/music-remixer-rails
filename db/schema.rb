@@ -196,16 +196,17 @@ ActiveRecord::Schema.define(version: 20160316204158) do
   add_index "parts", ["song_id"], name: "index_parts_on_song_id", using: :btree
 
   create_table "referrals", force: :cascade do |t|
-    t.string   "email",        limit: 255, null: false
-    t.string   "name",         limit: 255
-    t.string   "invite_code",  limit: 255, null: false
-    t.string   "message",      limit: 255
-    t.integer  "referring_id", limit: 4
-    t.integer  "referred_id",  limit: 4
+    t.string   "email",              limit: 255, null: false
+    t.string   "name",               limit: 255
+    t.string   "invite_code",        limit: 255, null: false
+    t.string   "message",            limit: 255
+    t.boolean  "is_artist_referral"
+    t.integer  "referring_id",       limit: 4
+    t.integer  "referred_id",        limit: 4
     t.datetime "clicked_at"
     t.datetime "signed_up_at"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   add_index "referrals", ["referred_id"], name: "index_referrals_on_referred_id", using: :btree
@@ -223,8 +224,6 @@ ActiveRecord::Schema.define(version: 20160316204158) do
     t.string   "audio_tmp",       limit: 255
     t.integer  "downloads_count", limit: 4,     default: 0
     t.integer  "plays_count",     limit: 4,     default: 0
-    t.integer  "likes_count",     limit: 4
-    t.integer  "comments_count",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "duration",        limit: 24
@@ -235,7 +234,7 @@ ActiveRecord::Schema.define(version: 20160316204158) do
 
   create_table "songs", force: :cascade do |t|
     t.integer  "user_id",            limit: 4
-    t.string   "name",               limit: 255,             null: false
+    t.string   "name",               limit: 255,                  null: false
     t.integer  "status",             limit: 4,   default: 0
     t.float    "duration",           limit: 24
     t.integer  "bpm",                limit: 4
@@ -249,11 +248,9 @@ ActiveRecord::Schema.define(version: 20160316204158) do
     t.string   "uuid",               limit: 24
     t.integer  "downloads_count",    limit: 4,   default: 0
     t.integer  "plays_count",        limit: 4,   default: 0
-    t.integer  "likes_count",        limit: 4
-    t.integer  "comments_count",     limit: 4
     t.integer  "remixes_count",      limit: 4,   default: 0
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "mixaudio_mix2",      limit: 255
     t.string   "mixaudio_mix2_tmp",  limit: 255
     t.string   "mixaudio_mix3",      limit: 255
@@ -262,7 +259,7 @@ ActiveRecord::Schema.define(version: 20160316204158) do
     t.string   "waveform_data_mix2", limit: 255
     t.string   "waveform_mix3",      limit: 255
     t.string   "waveform_data_mix3", limit: 255
-    t.integer  "rank",               limit: 4
+    t.integer  "rank",               limit: 4,   default: 999999
   end
 
   add_index "songs", ["user_id"], name: "index_songs_on_user_id", using: :btree
