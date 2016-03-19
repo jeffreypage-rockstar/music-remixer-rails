@@ -91,6 +91,7 @@ class App::UsersController < App::BaseController
   end
 
   def confirm
+    return
     user = User.find_by_confirmation_token(params[:confirmation_token]) if !params[:confirmation_token].blank?
     if user && user.confirmation_token == params[:confirmation_token]
       user.email_activate

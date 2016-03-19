@@ -1,0 +1,28 @@
+.container
+  .white-section
+    .row
+      .col-md-12
+        h3 Thanks for joining the Beta Team!
+        p Blah blah blah
+    .row
+      .col-md-4
+        .panel.panel-default.panel-lg
+          .panel-body
+            h4
+              = link_to 'Install TestFlight', 'https://itunes.apple.com/us/app/testflight/id899247664?mt=8', {class:'btn btn-primary'}
+            p blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+      .col-md-4
+        .panel.panel-default.panel-lg
+          .panel-body
+            h4
+              a.btn class="#{provider_btn_class('facebook')}" href="/auth/facebook"
+                => fa_icon provider_icon('facebook')
+                | Connect with Facebook
+            p blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+      .col-md-4
+        .panel.panel-default.panel-lg
+          .panel-body
+            h4
+              button class="btn btn-primary" type="button"
+                |Complete Your Profile
+            p blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah

@@ -10,7 +10,7 @@ class PagesController < ApplicationController
   end
 
   def splash
-    track_event "Splash Page"
+    track_event "Homepage"
 
     # do we really want to do this?
     # if signed_in? && request.env["HTTP_REFERER"].blank?
