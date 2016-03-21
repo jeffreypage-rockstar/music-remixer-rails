@@ -4,6 +4,28 @@
 
 #home {
   .container {
+    .artists {
+      margin-top:20px;
+      .artist {
+        .thumbnail {
+          .caption {
+            padding: 5px 0 0 5px;
+            a {
+              font-size: 14px;
+              color: #9f9f9f;
+            }
+          }
+        }
+        @media (max-width: 767px) {
+          .thumbnail {
+            margin-bottom: 1px;
+            .caption {
+              height: 72px;
+            }
+          }
+        }
+      }
+    }
     .songs {
       .song {
         h4 {

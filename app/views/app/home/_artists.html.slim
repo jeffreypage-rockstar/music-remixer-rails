@@ -1,0 +1,8 @@
+.row.artists.no-gutter-xs
+  - @artists.each do |artist|
+    .artist.col-xs-6.col-sm-4.col-md-3
+      .thumbnail
+        = link_to app_show_profile_path(artist.username)
+          img.image src="#{artist.profile_image.url(:medium)}"
+        .caption
+          = link_to artist.name, app_show_profile_path(artist.username)
