@@ -82,7 +82,7 @@ class App::UsersController < App::BaseController
       mixpanel_people_set({'$name' => @user.name, '$email' => @user.email, '$username' => @user.username})
       track_event 'Signup: Account created'
 
-      @referral.update_attribute(:signed_up_at, Time.now) if @referral.email
+      @referral.update_attributes(:signed_up_at => Time.now, :referred_id => @user.id) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
       redirect_to "#{app_sign_up_thanks_url}?ref=signup"
     else

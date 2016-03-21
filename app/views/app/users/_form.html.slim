@@ -4,7 +4,7 @@
       h2.hidden-xs.col-md-3.col-md-offset-1 Join The<br/> Beta Team
       h2.hidden-sm.hidden-md.hidden-lg Join The Beta Team
       p.hidden-xs.col-md-7.col-md-offset-1 By registering, you’ll be one of the first people to remix music on the
-        8Stem platform. We’re counting on your feedback to help shape the user experience. And to thank you, we’ll
+        8Stem platform. We’ll be counting on your feedback to help shape the user experience. And to thank you, we’ll
         always recognize you as a founding Beta Team member, with exclusive access to new releases, promotions, and more!
         To register, fill out the form below:
   = simple_form_for @user, html: { id: 'signUpForm' }, url: app_users_path(invite_code: @referral.invite_code) do |f|
@@ -28,4 +28,4 @@
         | &nbsp;of the 8Stem Beta Team
     .text-center.row
       = f.input :terms_of_service, :as => :boolean, :label => content_for(:the_links), error: false
-      = f.button :submit, 'Sign me Up!', class: 'btn-round'
+      = f.button :submit, 'Sign Me Up!', class: 'btn-round'
