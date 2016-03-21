@@ -1,0 +1,44 @@
+.container
+  .white-section
+    .row
+      .col-xs-12
+        h3 Welcome to the Beta Team!
+        br
+        p We are currently beta testing iOS.  But Android is next!  In the meantime, you can fill out your profile and connect with Facebook.
+        br
+    .row
+      .col-xs-12.col-sm-5.col-sm-offset-1.col-md-4.col.col-md-offset-1
+        .panel.panel-default.panel-lg
+          .panel-body
+            h4.text-center
+              div style="float:left; margin-top:3px; margin-right: 8px; display:none"
+                span.badgeNumber
+                  | 2
+              a.btn id="facebook_connect" class="#{provider_btn_class('facebook')}" href="/auth/facebook"
+                => fa_icon provider_icon('facebook')
+                | Connect with Facebook
+            p 'Cause Facebook makes it super easy to sign in.
+      .col-xs-12.col-sm-5.col-md-4.col.col-md-offset-2
+        .panel.panel-default.panel-lg
+          .panel-body
+            h4.text-center
+              div style="float:left; margin-top:3px; margin-right: 10px; display:none"
+                .badgeNumber
+                  | 3
+              = link_to 'Create Your Profile', app_edit_profile_url(current_user.username), {id:'create_profile', class: 'btn btn-primary'}
+            p Create your member profile page and connect with artists and other members.
+    .row
+      .col-xs-12
+        br
+        p
+          | We'll let you know ASAP when the Android beta test is ready to roll.
+        p
+          | Thanks for being an early supporter!
+
+
+javascript:
+  $(document).ready(function () {
+    mixpanel.track_links("#get_testflight", "Android BetaLanding: TestFlight clicked");
+    mixpanel.track_links("#facebook_connect", "Android BetaLanding: Facebook clicked");
+    mixpanel.track_links("#create_profile", "Android BetaLanding: Profile clicked");
+  });

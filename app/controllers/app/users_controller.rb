@@ -91,20 +91,28 @@ class App::UsersController < App::BaseController
   end
 
   def confirm
-    return
     user = User.find_by_confirmation_token(params[:confirmation_token]) if !params[:confirmation_token].blank?
     if user && user.confirmation_token == params[:confirmation_token]
       user.email_activate
-      # flash[:success] = 'Welcome to the 8Stem! Your email has been confirmed. Please sign in to continue.'
       sign_in(user) do |status|
         if status.success?
           track_event 'Signup: Account activated'
-          # the ref here triggers a modal on the landing page
-          redirect_to "#{app_edit_profile_url(user.username)}?ref=confirm"
+          if user.beta_user.nil? || user.beta_user.phone_type == BetaUser.phone_types[:iPhone]
+            # render default template (ios)
+          else
+            render template: 'app/users/confirm_android'
+          end
         else
           track_event 'Signup: Account activation failed'
           redirect_to "#{root_url}?ref=confirm_failure"
         end
+      end
+    elsif current_user
+      # user pressed refresh after confirming
+      if current_user.beta_user.nil? || current_user.beta_user.phone_type == BetaUser.phone_types[:iPhone]
+        # render default template (ios)
+      else
+        render template: 'app/users/confirm_android'
       end
     else
       redirect_to "#{root_url}?ref=confirm_token_not_found"

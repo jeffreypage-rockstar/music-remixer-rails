@@ -216,7 +216,26 @@
 
   .connections {
     margin-top: 30px;
-    padding: 30px;
+    @media screen and (min-width: 426px) {
+      padding: 30px;
+    }
+  }
+
+  .connection {
+    @media screen and (max-width: 425px) {
+      strong {
+        display: none;
+      }
+    }
+    .connector {
+      @media screen and (max-width: 425px) {
+        width: 100%;
+        text-align: center;
+      }
+      @media screen and (min-width: 426px) {
+        float:right;
+      }
+    }
   }
 
   .account {
@@ -251,6 +270,10 @@
       padding-left: 15px;
       padding-right: 15px;
     }
+
+    #user_profile_image, #user_profile_background_image {
+      max-width: 100%;
+    }
   }
 
   #profileTabs {
@@ -261,7 +284,7 @@
       border: none;
 
       & > li {
-        padding: 0 25px;
+        padding: 0 20px;
 
         & > a {
           padding: 15px 0;

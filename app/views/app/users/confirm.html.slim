@@ -2,27 +2,51 @@
   .white-section
     .row
       .col-md-12
-        h3 Thanks for joining the Beta Team!
-        p Blah blah blah
+        h3.text-center Welcome to the Beta Team!
+        br
+        p Get started by installing TestFlight, then fill out your profile and connect with Facebook.
+        br
     .row
-      .col-md-4
+      .col-xs-12.col-sm-4.col-md-4.col
         .panel.panel-default.panel-lg
           .panel-body
-            h4
-              = link_to 'Install TestFlight', 'https://itunes.apple.com/us/app/testflight/id899247664?mt=8', {class:'btn btn-primary'}
-            p blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
-      .col-md-4
+            h4.text-center
+              div style="float:left; margin-top:3px; margin-right: 10px; display:none"
+                span.badgeNumber
+                  | 1
+              = link_to 'Install TestFlight', 'https://itunes.apple.com/us/app/testflight/id899247664?mt=8', {id:'get_testflight', class:'btn btn-primary', target:'_blank'}
+            p To beta test the 8Stem iOS app, you must first install Apple's TestFlight app on your device.
+      .col-xs-12.col-sm-4.col-md-4.col
         .panel.panel-default.panel-lg
           .panel-body
-            h4
-              a.btn class="#{provider_btn_class('facebook')}" href="/auth/facebook"
+            h4.text-center
+              div style="float:left; margin-top:3px; margin-right: 8px; display:none"
+                span.badgeNumber
+                  | 2
+              a.btn id="facebook_connect" class="#{provider_btn_class('facebook')}" href="/auth/facebook"
                 => fa_icon provider_icon('facebook')
-                | Connect with Facebook
-            p blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
-      .col-md-4
+                | Connect
+                span.hidden-sm
+                  |&nbsp;with
+                |&nbsp;Facebook
+            p 'Cause Facebook makes it super easy to sign in.
+      .col-xs-12.col-sm-4.col-md-4.col
         .panel.panel-default.panel-lg
           .panel-body
-            h4
-              button class="btn btn-primary" type="button"
-                |Complete Your Profile
-            p blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+            h4.text-center
+              div style="float:left; margin-top:3px; margin-right: 10px; display:none"
+                .badgeNumber
+                  | 3
+              = link_to 'Create Your Profile', app_edit_profile_url(current_user.username), {id:'create_profile', class: 'btn btn-primary'}
+            p Create your member profile page and connect with artists and other members.
+    .row
+      .col-md-12
+        br
+        p Thanks for being an early supporter!
+
+javascript:
+  $(document).ready(function () {
+    mixpanel.track_links("#get_testflight", "iOS BetaLanding: TestFlight clicked");
+    mixpanel.track_links("#facebook_connect", "iOS BetaLanding: Facebook clicked");
+    mixpanel.track_links("#create_profile", "iOS BetaLanding: Profile clicked");
+  });

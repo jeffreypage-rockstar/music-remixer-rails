@@ -57,7 +57,7 @@
             hr
             .row
               .col-sm-4
-                = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input, input_html: { class: 'image-input' }
+                = f.input :profile_background_image, as: :file, label: 'Profile Background Image<p class="hint">Must be at least 1600px wide and 400px tall.</p>'.html_safe, wrapper: :vertical_file_input, input_html: { class: 'image-input', style: 'max-width: 100%' }
                 = f.hidden_field :profile_background_image_cache
               .col-sm-8
                 = image_tag current_user.profile_background_image.url, class: 'img-responsive', id: 'user_profile_background_image_preview'
@@ -74,9 +74,9 @@
         .white-section.connections
           ul.list-group
             - %w(facebook twitter soundcloud).each do |provider|
-              li.list-group-item
-                strong #{provider.titleize}
-                .pull-right
+              li.list-group-item.connection
+                strong.hidden-xs #{provider.titleize}
+                .connector
                   - if current_user.identity provider
                     a.btn.btn-grey href="#{app_disconnect_identity_path(provider: provider)}" data-method="delete"
                       => fa_icon 'unlink'
@@ -85,8 +85,8 @@
                     a.btn class="#{provider_btn_class(provider)}" href="/auth/#{provider}"
                       => fa_icon provider_icon(provider)
                       | Connect with #{provider_name(provider)}
+                .clearfix
                 hr
-
     #account.tab-pane role="tabpanel" class=('active' if @active_tab == 'account')
       .container
         .white-section.account
