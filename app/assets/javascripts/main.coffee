@@ -71,7 +71,6 @@ GetURLParameter = (sParam) ->
 
 $ ->
   $(document).on 'submit', 'form#new_comment', ->
-    debugger
     if (!window._8StemGlobals._loggedIn)
       location.href = '/sign_in?backto='+window.location.pathname
       return false
