@@ -35,7 +35,7 @@ class Artist::ArtistController < Artist::BaseController
 												 when 'friends'
 													 activities_query.where(owner_id: current_user.followees(User).map(&:id))
 												 when 'songs'
-													 activities_query.where(key: %w(song.create song.share song.like))
+													 activities_query.where(key: %w(song.create song.share song.like remix.create remix.share remix.like))
 												 when 'remixes'
 													 activities_query.where(key: %w(remix.create remix.share remix.like))
 												 else
