@@ -1,7 +1,11 @@
 @initializePlayer = (jpPlayerSelector, jpAudioSelector) ->
   trackElement = $(jpPlayerSelector).closest('.track')
-  mix2Player = trackElement.find('.mix2');
-  mix3Player = trackElement.find('.mix3');
+  if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+    mix2Player = trackElement.find('.mix2');
+    mix3Player = trackElement.find('.mix3');
+  else
+    $.each trackElement.find('button.style'), (index, button) ->
+      $(button).hide()
 
   trackElement.find('.play').click ->
     $.each $('.mix8-player').find('.jp-player'), (index, player) ->
