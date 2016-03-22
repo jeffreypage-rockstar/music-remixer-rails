@@ -1,8 +1,11 @@
 @initializePlayer = (jpPlayerSelector, jpAudioSelector) ->
   trackElement = $(jpPlayerSelector).closest('.track')
-  mix2Player = trackElement.find('.mix2');
-  mix3Player = trackElement.find('.mix3');
-  if (/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+  if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+    mix2Player = trackElement.find('.mix2');
+    mix3Player = trackElement.find('.mix3');
+  else
+    mix2Player = false
+    mix3Player = false
     $('.tags button.style').hide()
 
   trackElement.find('.play').click ->
@@ -48,9 +51,9 @@
       return
 
     seeked: (event) ->
-      if (mix2Player)
+      if mix2Player
         mix2Player.jPlayer 'play', event.jPlayer.status.currentTime
-      if (mix3Player)
+      if mix3Player
         mix3Player.jPlayer 'play', event.jPlayer.status.currentTime
       return
 
@@ -62,34 +65,37 @@
     keyEnabled: true
     remainingDuration: true
 
-  mix2Player.jPlayer
-    ready: ->
-      if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
-        audio = trackElement.data('audio-mix2')
-        mix2Player.jPlayer 'setMedia', m4a: audio.m4a
-        mix2Player.jPlayer 'volume', 0
-      return
+  if mix2Player
+    mix2Player.jPlayer
+      ready: ->
+        if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+          audio = trackElement.data('audio-mix2')
+          mix2Player.jPlayer 'setMedia', m4a: audio.m4a
+          mix2Player.jPlayer 'volume', 0
+        return
 
-    swfPath: '/swf'
-    supplied: 'm4a'
-    wmode: 'window'
-    smoothPlayBar: true
-    keyEnabled: true
-    remainingDuration: true
+      swfPath: '/swf'
+      supplied: 'm4a'
+      wmode: 'window'
+      smoothPlayBar: true
+      keyEnabled: true
+      remainingDuration: true
 
-  mix3Player.jPlayer
-    ready: ->
-      if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
-        audio = trackElement.data('audio-mix3')
-        mix3Player.jPlayer 'setMedia', m4a: audio.m4a
-        mix3Player.jPlayer 'volume', 0
-      return
+  if mix3Player
+    mix3Player.jPlayer
+      ready: ->
+        if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+          audio = trackElement.data('audio-mix3')
+          mix3Player.jPlayer 'setMedia', m4a: audio.m4a
+          mix3Player.jPlayer 'volume', 0
+        return
 
-    swfPath: '/swf'
-    supplied: 'm4a'
-    wmode: 'window'
-    smoothPlayBar: true
-    keyEnabled: true
-    remainingDuration: true
-  return
+      swfPath: '/swf'
+      supplied: 'm4a'
+      wmode: 'window'
+      smoothPlayBar: true
+      keyEnabled: true
+      remainingDuration: true
+    return
 
+    
