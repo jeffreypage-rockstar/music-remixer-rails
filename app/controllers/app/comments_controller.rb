@@ -1,5 +1,5 @@
 class App::CommentsController < App::BaseController
-  before_action :require_login
+  before_action :require_login, :only => [:create]
 
   def create
     @commentable = commentable_type.constantize.find(commentable_id)
@@ -22,7 +22,7 @@ class App::CommentsController < App::BaseController
 
   def index
     @commentable = params[:commentable_type].constantize.find(params[:commentable_id])
-    @new_comment = Comment.build_from(@commentable, current_user.id, "")
+    @new_comment = Comment.build_from(@commentable, current_user ? current_user.id : nil, "")
     render :comments_template
   end
 
