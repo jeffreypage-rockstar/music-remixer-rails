@@ -10,7 +10,7 @@
           .wrapper.track data-id="song_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
             .media-left
               .wrapper
-                img.image src="#{song.image.url(:thumb)}"
+                img.image src="#{song.image.url(:medium)}"
                 a class="play"
                   = image_tag 'tracks/play.png'
                 a class="pause"
