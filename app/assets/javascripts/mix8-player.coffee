@@ -1,11 +1,9 @@
 @initializePlayer = (jpPlayerSelector, jpAudioSelector) ->
   trackElement = $(jpPlayerSelector).closest('.track')
-  if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
-    mix2Player = trackElement.find('.mix2');
-    mix3Player = trackElement.find('.mix3');
-  else
-    $.each trackElement.find('button.style'), (index, button) ->
-      $(button).hide()
+  mix2Player = trackElement.find('.mix2');
+  mix3Player = trackElement.find('.mix3');
+  if (/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+    $('.tags button.style').hide()
 
   trackElement.find('.play').click ->
     $.each $('.mix8-player').find('.jp-player'), (index, player) ->
@@ -50,8 +48,10 @@
       return
 
     seeked: (event) ->
-      mix2Player.jPlayer 'play', event.jPlayer.status.currentTime
-      mix3Player.jPlayer 'play', event.jPlayer.status.currentTime
+      if (mix2Player)
+        mix2Player.jPlayer 'play', event.jPlayer.status.currentTime
+      if (mix3Player)
+        mix3Player.jPlayer 'play', event.jPlayer.status.currentTime
       return
 
     cssSelectorAncestor: jpAudioSelector
@@ -64,9 +64,10 @@
 
   mix2Player.jPlayer
     ready: ->
-      audio = trackElement.data('audio-mix2')
-      mix2Player.jPlayer 'setMedia', m4a: audio.m4a
-      mix2Player.jPlayer 'volume', 0
+      if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+        audio = trackElement.data('audio-mix2')
+        mix2Player.jPlayer 'setMedia', m4a: audio.m4a
+        mix2Player.jPlayer 'volume', 0
       return
 
     swfPath: '/swf'
@@ -78,9 +79,10 @@
 
   mix3Player.jPlayer
     ready: ->
-      audio = trackElement.data('audio-mix3')
-      mix3Player.jPlayer 'setMedia', m4a: audio.m4a
-      mix3Player.jPlayer 'volume', 0
+      if !(/ipad|iphone|ipod|android(?!.*?mobile)/i.test(navigator.userAgent))
+        audio = trackElement.data('audio-mix3')
+        mix3Player.jPlayer 'setMedia', m4a: audio.m4a
+        mix3Player.jPlayer 'volume', 0
       return
 
     swfPath: '/swf'
