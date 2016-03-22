@@ -37,6 +37,7 @@
       trackElement.find('.pause').hide()
       trackElement.find('.play').show()
       audio = trackElement.data('audio')
+      console.log("Setting audio for player: "+audio.m4a)
       trackElement.find('.jp-player').jPlayer 'setMedia', m4a: audio.m4a
       return
 
@@ -98,4 +99,3 @@
       remainingDuration: true
     return
 
-    
