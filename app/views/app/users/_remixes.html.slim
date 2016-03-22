@@ -25,8 +25,8 @@
               .clearfix
 
               .mix8-player
-                .jp-player.original id="jquery_jplayer_#{remix.id}"
-                .jp-audio id="jp_container_#{remix.id}"
+                .jp-player.original id="jquery_jplayer_#{song.id}_#{remix.id}"
+                .jp-audio id="jp_container_#{song.id}_#{remix.id}"
                   .jp-time-holder
                     .jp-current-time aria-label="time" role="timer"
                     .duration #{song.duration}

@@ -81,8 +81,8 @@
                       = image_tag 'tracks/pause.png'
                   .media-body
                     .mix8-player
-                      .jp-player id="jquery_jplayer_#{remix.id}"
-                      .jp-audio id="jp_container_#{remix.id}"
+                      .jp-player id="jquery_jplayer_#{remix.song.id}_#{remix.id}"
+                      .jp-audio id="jp_container_#{remix.song.id}_#{remix.id}"
                 td
                   = link_to remix.name, artist_song_path(remix.song)
                   / span.hot.badge Hot
