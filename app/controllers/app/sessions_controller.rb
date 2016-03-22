@@ -29,6 +29,7 @@ class App::SessionsController < Clearance::SessionsController
 
 	def url_after_create
     track_event 'Signin: via email'
+    # mixpanel_identify current_user.uuid
     mixpanel_people_set({'$name' => current_user.name, '$email' => current_user.email, '$username' => current_user.username})
     unless session[:backto].nil?
       url = session[:backto]
@@ -48,14 +49,17 @@ class App::SessionsController < Clearance::SessionsController
 		authentication = Authentication.find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"]) || Authentication.create_with_omniauth(auth_hash)
 		if authentication.user
 			authentication.update_token(auth_hash)
-      sign_in authentication.user
-      track_event 'Signin: via facebook connect'
+      user = authentication.user
+      sign_in user
+      # mixpanel_identify user.uuid
+      mixpanel_people_set({'$name' => user.name, '$email' => user.email, '$username' => user.username})
+      track_event 'Signin: via facebook connect', {'name' => user.name, 'email' => user.email}
       @next = app_home_url
     else
       if signed_in?
         # signed in user is connecting to network
         current_user.authentications << authentication
-        track_event 'Social: connect', {'provider' => auth_hash['provider']}
+        track_event 'Social: connect', {'name' => current_user.name, 'email' => current_user.email, 'provider' => auth_hash['provider']}
         @next = app_edit_profile_path(username: current_user.username, tab: 'connections')
         @notice = 'Successfully connected'
       else
@@ -65,12 +69,13 @@ class App::SessionsController < Clearance::SessionsController
           # new user account
           user = User.create_with_auth_hash(auth_hash)
           mixpanel_alias user.uuid
-          track_event 'Signup: via facebook connect'
+          mixpanel_people_set({'$name' => user.name, '$email' => user.email, '$username' => user.username})
+          track_event 'Signup: via facebook connect', {'name' => user.name, 'email' => user.email}
           @next = "#{app_show_profile_path(user.username)}?ref=confirm"
         else
           # user already has account, first time logging in with FB
           user.confirmed_at = Time.now if user.confirmed_at.nil?
-          track_event 'Social: connect', {'provider' => 'facebook'}
+          track_event 'Social: connect', {'name' => current_user.name, 'email' => current_user.email, 'provider' => 'facebook'}
           @next = app_show_profile_path(user.username)
         end
 

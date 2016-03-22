@@ -80,7 +80,7 @@ class App::UsersController < App::BaseController
     if @user.valid?
       mixpanel_alias @user.uuid
       mixpanel_people_set({'$name' => @user.name, '$email' => @user.email, '$username' => @user.username})
-      track_event 'Signup: Account created'
+      track_event 'Signup: Account created', {'name' => @user.name, 'email' => @user.email}
 
       @referral.update_attributes(:signed_up_at => Time.now, :referred_id => @user.id) if @referral.email
       UserNotifier.account_verification_email(@user).deliver_now
@@ -96,7 +96,7 @@ class App::UsersController < App::BaseController
       user.email_activate
       sign_in(user) do |status|
         if status.success?
-          track_event 'Signup: Account activated'
+          track_event 'Signup: Account activated', {'name' => user.name, 'email' => user.email}
           if user.beta_user.nil? || user.beta_user.phone_type == BetaUser.phone_types[:iPhone]
             # render default template (ios)
           else
