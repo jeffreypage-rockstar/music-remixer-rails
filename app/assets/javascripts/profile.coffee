@@ -9,6 +9,9 @@
     $.post target,
       id: $(this).data('song-id')
     return true
+  $('.artist-bio .content').readmore({
+    collapsedHeight: 150
+  })
 
   return
 

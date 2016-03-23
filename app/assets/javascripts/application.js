@@ -23,4 +23,5 @@
 //= require jquery-fileupload/basic
 //= require lobibox
 //= require wavesurfer.min
+//= require readmore.min
 //= require_tree .
