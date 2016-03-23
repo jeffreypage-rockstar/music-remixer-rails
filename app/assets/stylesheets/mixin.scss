@@ -104,21 +104,21 @@
           }
 
           .jp-audio .jp-progress {
-            height: 6px;
+            height: 10px;
             background-color: #f4f4f4;
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px;
 
             .jp-seek-bar {
-              height: 6px;
+              height: 10px;
               -webkit-border-radius: 3px;
               -moz-border-radius: 3px;
               border-radius: 3px;
               cursor: pointer;
 
               .jp-play-bar {
-                height: 6px;
+                height: 10px;
                 -webkit-border-radius: 3px;
                 -moz-border-radius: 3px;
                 border-radius: 3px;
@@ -131,8 +131,9 @@
 
       ul.nav-tabs {
         border: 0;
-        margin-top: 8px;
+        margin-top: 12px;
         font-size: 13px;
+        margin-left: -5px;
 
         li {
           height: 36px;
