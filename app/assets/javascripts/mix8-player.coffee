@@ -64,6 +64,7 @@
     smoothPlayBar: true
     keyEnabled: true
     remainingDuration: true
+    preload: 'none'
 
   if mix2Player
     mix2Player.jPlayer
@@ -80,6 +81,7 @@
       smoothPlayBar: true
       keyEnabled: true
       remainingDuration: true
+      preload: 'none'
 
   if mix3Player
     mix3Player.jPlayer
@@ -96,5 +98,4 @@
       smoothPlayBar: true
       keyEnabled: true
       remainingDuration: true
-    return
-
+      preload: 'none'
