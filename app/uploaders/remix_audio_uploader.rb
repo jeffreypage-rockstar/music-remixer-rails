@@ -3,8 +3,8 @@ class RemixAudioUploader < CarrierWave::Uploader::Base
   before :cache, :save_duration
 
   process encode_audio: [:m4a]
-  # process encode_audio: [:mp3]
-  # process :generate_waveform
+  process encode_audio: [:mp3]
+  process :generate_waveform
 
   def save_duration(file)
     cmd = "ffprobe -i \"#{file.path}\" -show_entries format=duration -of default=nk=1:nw=1 -v warning"

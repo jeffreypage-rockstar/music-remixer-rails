@@ -6,8 +6,8 @@
 
       - songs.each do |song|
         - new_comment = Comment.build_from(song, current_user ? current_user.id : nil, "")
-        li.media.track id="#{song.id}"
-          .wrapper.track data-id="song_#{song.id}" data-audio='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
+        li.media.track id="song-#{song.id}" data-id="song_#{song.id}" data-audio-original='{"m4a": "#{song.mixaudio}"}' data-audio-mix2='{"m4a": "#{song.mixaudio_mix2}"}' data-audio-mix3='{"m4a": "#{song.mixaudio_mix3}"}'
+          .wrapper.track
             .media-left
               .wrapper
                 img.image src="#{song.image.url(:medium)}"
@@ -34,18 +34,10 @@
                 /    - song.genres.each do |genre|
                 /      a.tag.badge href="##{genre.name}" #{genre.name}
 
-                .mix8-player
-                  .jp-player.original id="jquery_jplayer_#{song.id}"
-                  .jp-player.mix2
-                  .jp-player.mix3
-                  .jp-audio id="jp_container_#{song.id}"
-                    .jp-time-holder
-                      .jp-current-time aria-label="time" role="timer"
-                      .duration #{song.duration}
-                    .clearfix
-                    .jp-progress
-                      .jp-seek-bar
-                        .jp-play-bar
+                .wave-original data-style="original"
+                .wave-mix2 data-style="mix2" style="display:none"
+                .wave-mix3 data-style="mix3" style="display:none"
+
                 ul.nav.nav-tabs role="tablist"
                   li.like-unlike-song
                     = render :partial => 'app/songs/like_unlike_song', :locals => {:song => song}
@@ -67,3 +59,4 @@
             div id="comments_#{song.id}" class="tab-pane fade"
               / ajaxing this in now
               /= render partial: "app/comments/template", locals: {commentable: song, new_comment: new_comment}
+

@@ -34,6 +34,6 @@ class PagesController < ApplicationController
 
   def test
     # action for /_opz/test
-    render template: 'pages/test', layout: false
+    render template: 'pages/test'
   end
 end

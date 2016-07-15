@@ -1,7 +1,52 @@
+@initializeWavePlayer = (track) ->
+  track = $(track)
+  track.waveforms = {}
+  track.currentStyle = 'original'
+  for style in ['original', 'mix2', 'mix3']
+    track.waveforms[style] = Object.create(WaveSurfer)
+    track.waveforms[style].init({
+      container: document.querySelector('#' + track.attr('id') + ' .wave-' + style),
+      waveColor: '#999',
+      progressColor: '#41c7ff',
+      normalize: true,
+      pixelRatio: 1
+    })
+    url = track.data('audio-'+style)
+    track.waveforms[style].load(url.m4a)
+    track.waveforms[style].on "ready", (wavesurfer) ->
+      console.log($(wavesurfer.container).data('style') + " is ready")
+      track.find('.pause').hide()
+      track.find('.play').show()
+
+    if style != 'original'
+      track.waveforms[style].toggleMute()
+
+  track.find('.play').click ->
+    for style in ['original', 'mix2', 'mix3']
+      track.waveforms[style].playPause()
+    track.find('.play').hide()
+    track.find('.pause').show()
+
+  track.find('.pause').click ->
+    for style in ['original', 'mix2', 'mix3']
+      track.waveforms[style].playPause()
+    track.find('.pause').hide()
+    track.find('.play').show()
+
+  track.find('button.style').click (event) ->
+    event.stopPropagation()
+    style = $(event.target).data('style')
+    if track.currentStyle != style
+      track.find('button.style').removeClass 'selected'
+      $(this).addClass 'selected'
+      track.waveforms[style].toggleMute()
+      track.waveforms[track.currentStyle].toggleMute()
+      track.currentStyle = style
+
+
 @artistProfilePageReady = ->
-  # $(location.hash).addClass('highlight')
-  $.each $('#artistProfilePage .mix8-player'), (index, player) ->
-    initializePlayer '#' + $(player).find('.jp-player').prop('id'), '#' + $(player).find('.jp-audio').prop('id')
+  $.each $('li.media.track'), (index, track) ->
+    initializeWavePlayer track
     return
 
   $('.mixes-tab').click ->

@@ -1,3 +1,76 @@
+<!--
 <h1>request.env</h1>
-<%= request.env %>
+<%# request.env %>
+-->
+<div class="container">
+  <div id="wave-original"></div>
+  <div id="wave-mix2"></div>
+  <div id="wave-mix3"></div>
+  <div class="controls">
+    <button class="btn btn-primary play" data-action="play">
+      <i class="glyphicon glyphicon-play"></i>
+      Play
+      /
+      <i class="glyphicon glyphicon-pause"></i>
+      Pause
+    </button>
+    <button class="btn btn-primary mixstyle" data-mixstyle="original">
+      Original
+    </button>
+    <button class="btn btn-primary mixstyle" data-mixstyle="mix2">
+      Mix2
+    </button>
+    <button class="btn btn-primary mixstyle" data-mixstyle="mix3">
+      Mix3
+    </button>
+  </div>
+</div>
+<%
+@song = Song.find_by_id(34)
+%>
+<script>
+  var mixUrls = {
+    'original': '<%= @song.mixaudio.url %>',
+    'mix2': '<%= @song.mixaudio_mix2.url %>',
+    'mix3': '<%= @song.mixaudio_mix3.url %>'
+  };
+
+  var waveforms = {};
+
+  for (var style in mixUrls) {
+    waveforms[style] = (Object.create(WaveSurfer));
+    waveforms[style].init({
+      container: document.querySelector('#wave-' + style),
+      waveColor: 'violet',
+      progressColor: 'purple'
+    });
+    waveforms[style].load(mixUrls[style]);
+    waveforms[style].on('ready', function (wavesurfer) {
+      console.log(wavesurfer.container.id + " is ready");
+    });
+    if (style != 'original') {
+      waveforms[style].toggleMute();
+    }
+  }
+
+  var playing = 0;
+
+  $('.play').on('click', function() {
+    // play/pause all
+    for (var style in waveforms) {
+      waveforms[style].playPause();
+    }
+  });
+
+  var currentStyle = 'original';
+  $('button.mixstyle').on('click', function(event) {
+    var style = $(event.target).data('mixstyle');
+    if (currentStyle != style) {
+      waveforms[style].toggleMute();
+      waveforms[currentStyle].toggleMute();
+      currentStyle = style;
+    }
+  });
+
+</script>
 
